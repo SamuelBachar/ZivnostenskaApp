@@ -1,0 +1,13 @@
+﻿
+
+
+
+1.  Otestovat ci nebude pre serializaciu / datumy / orderovanie problem ze nastavujem LanguageResource.Culture = culture; (sk, en, cs) a podobne
+
+CultureInfo = InvariantCulture ?
+
+At a minimum, you'll want to specify CultureInfo to use InvariantCulture whenever you are doing anything internal within your program. 
+For example, using this with Serialization
+forces the data representation to always be the same, so you don't have to worry about internationalization issues with your internal data formats.
+
+2. Vytvorit okno na chybove hlasky s moznostou poslania chyby cez e-mail

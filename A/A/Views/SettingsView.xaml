@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:translate="clr-namespace:A.LanguageTranslateManager"
+             x:Class="A.Views.SettingsView"
+             Title="{translate:TranslateManager PageSettingsTitle}">
+    <Grid RowDefinitions="0.25*, *" ColumnDefinitions="*" Margin="10,0,10,0">
+        <Frame Grid.Row="0" Grid.Column="0">
+            <VerticalStackLayout Spacing="20" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                <Label Text="{translate:TranslateManager ChooseLanguage}" FontAttributes="Bold" />
+                <Picker x:Name="LanguagePicker" Title="{translate:TranslateManager ChooseLanguage}" SelectedIndexChanged="LanguagePicker_SelectedIndexChanged" HorizontalOptions="FillAndExpand">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>English</x:String>
+                            <x:String>Slovakia</x:String>
+                            <x:String>Czech</x:String>
+                            <x:String>Germany</x:String>
+                            <x:String>TestExc</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+</ContentPage>

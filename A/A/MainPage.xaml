@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lang="clr-namespace:A.Resources.LanguageResources"
+             xmlns:translate="clr-namespace:A.LanguageTranslateManager"
+    x:Class="A.MainPage">
+
+    <ScrollView>
+        <Grid RowDefinitions="10, 0.10*, *" ColumnDefinitions="*">
+            <Grid Grid.Row="1" Grid.Column="0" RowDefinitions="Auto" ColumnDefinitions="*, 0.20*" >
+                <SearchBar Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" Placeholder="{translate:TranslateManager ChooseProfServCity}" VerticalOptions="Center" />
+                <ImageButton Grid.Row="0" Grid.Column="1" ToolTipProperties.Text="Filter" HorizontalOptions="Center" VerticalOptions="End" BorderColor="DimGray" BorderWidth="2" Source="filter.svg" BackgroundColor="AliceBlue" HeightRequest="40" WidthRequest="40" Clicked="ImageButton_Clicked" />
+            </Grid>
+            <Frame Grid.Row="2" Grid.Column="0" Margin="10,0,10,0">
+                <VerticalStackLayout>
+                    <!--<Label Text="{Binding LanguageResourceManager[HelloWorld], Mode=OneWay}" />-->
+                    <Label x:Name="TestButton" Text="test" />
+                    <Label Text="{translate:TranslateManager TranslateExt }" />
+                </VerticalStackLayout>
+            </Frame>
+            
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

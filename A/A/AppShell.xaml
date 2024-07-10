@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="A.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:translate="clr-namespace:A.LanguageTranslateManager"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:local="clr-namespace:A"
+    xmlns:Views="clr-namespace:A.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="A">
+
+    <Shell.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource ShellStatusBarBackgroundColor}" />
+    </Shell.Behaviors>
+
+    <TabBar>
+        <Tab Title="{translate:TranslateManager MenuSearchIconText}" Icon="search_icon.svg">
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+        </Tab>
+
+        <Tab Title="{translate:TranslateManager MenuSettingsIconText}" Icon="tapbar_dotnet_bot.png">
+            <ShellContent ContentTemplate="{DataTemplate Views:SettingsView}" Route="SettingsView" />
+        </Tab>
+    </TabBar>
+    
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />-->
+
+    
+</Shell>
