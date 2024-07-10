@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
+using ZivnostAPI.Models;
 using ZivnostAPI.Models.CompanyBaseData;
+using ZivnostAPI.Services.CompanyService;
 
 namespace ZivnostAPI.Controllers
 {
@@ -9,23 +11,75 @@ namespace ZivnostAPI.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
-        private static List<Company> listCompanies = new List<Company>
+        private readonly ICompanyService _companyService;
+
+        public CompanyController(ICompanyService companyService)
         {
-            new Company{ Id = 1, Name = "VABA Solution s.r.o."},
-            new Company{ Id = 2, Name = "Fuseri s.r.o."}
-        };
+            _companyService = companyService;
+        }
 
         [HttpGet]
         public async Task<ActionResult<List<Company>>> GetAllCompanies()
         {
+            List<Company> listCompanies = _companyService.GetAllCompanies();
             return Ok(listCompanies);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Company>>> GetSpecificCompany(int id)
+        public async Task<ActionResult<Company>> GetSpecificCompany(int id)
         {
-            Company? company = listCompanies.Find(company => company.Id == id);
-            return Ok(company);
+            ObjectResult? result = null;
+            Company? company = _companyService.GetSpecificCompany(id);
+
+            if (company == null)
+                result = NotFound("Specific company not found");
+            else
+                result = Ok(company);
+
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Company>>> AddCompany([FromBody]Company reqCompany)
+        {
+            List<Company> listCompanies = _companyService.AddCompany(reqCompany);
+            return Ok(listCompanies);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Company>> UpdateSpecificCompany(int id, Company reqCompany)
+        {
+            ObjectResult? result = null;
+            Company company = _companyService.UpdateSpecificCompany(id, reqCompany);
+
+            if (company == null)
+            {
+                result = NotFound("Company not found");
+            }
+            else
+            {
+                result = Ok(company);
+            }
+
+            return result;
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<List<Company>>> DeleteSpecificCompany(int id)
+        {
+            ObjectResult? result = null;
+            List<Company> listCompany = _companyService.DeleteSpecificCompany(id);
+
+            if (listCompany == null)
+            {
+                result = NotFound("Company not found");
+            }
+            else
+            {
+                result = Ok(listCompany);
+            }
+
+            return result;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ZivnostAPI.Models.Localization;
 
 namespace ZivnostAPI.Models.CompanyBaseData;
 
@@ -15,9 +16,9 @@ public class Company
     [MaxLength(500)]
     public string Description { get; set; } = string.Empty;
 
-    [ForeignKey(nameof(Company))]
+    [ForeignKey(nameof(City))]
     [Required]
-    public string City_Id { get; set; } = string.Empty;
+    public required int City_Id { get; set; }
 
     public string Street { get; set; } = string.Empty;
 

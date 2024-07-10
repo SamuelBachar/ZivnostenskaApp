@@ -1,3 +1,5 @@
+using ZivnostAPI.Services.CompanyService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 
 var app = builder.Build();
 
@@ -26,4 +30,4 @@ app.Run();
 
 
 // tu pozriet
-//https://youtu.be/8pH5Lv4d5-g?t=1525
+https://youtu.be/8pH5Lv4d5-g?t=3551
