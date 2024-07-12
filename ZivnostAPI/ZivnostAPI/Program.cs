@@ -1,3 +1,4 @@
+using ZivnostAPI.Data.DataContext;
 using ZivnostAPI.Services.CompanyService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddDbContext<DataContext>();
 
 var app = builder.Build();
 
@@ -30,4 +32,4 @@ app.Run();
 
 
 // tu pozriet
-https://youtu.be/8pH5Lv4d5-g?t=3551
+//https://youtu.be/8pH5Lv4d5-g?t=4167
