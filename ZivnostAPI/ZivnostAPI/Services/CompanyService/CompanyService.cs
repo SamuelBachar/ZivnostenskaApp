@@ -1,40 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ZivnostAPI.Data.DataContext;
 using ZivnostAPI.Models.CompanyBaseData;
 
 namespace ZivnostAPI.Services.CompanyService;
 
 public class CompanyService : ICompanyService
 {
-    private static List<Company> listCompanies = new List<Company>
+    private readonly DataContext _dataContext;
+
+    public CompanyService(DataContext dataContext)
     {
-        new Company{ Id = 1, Name = "VABA Solution s.r.o.", City_Id = 1},
-        new Company{ Id = 2, Name = "Fuseri s.r.o.", City_Id = 1}
-    };
+        _dataContext = dataContext;
+    }
 
     [HttpGet]
-    public List<Company> GetAllCompanies()
+    public async Task<List<Company>> GetAllCompanies()
     {
-        return listCompanies;
+        return await _dataContext.Company.ToListAsync();
     }
 
     [HttpGet("{id}")]
-    public Company? GetSpecificCompany(int id)
+    public async Task<Company?> GetSpecificCompany(int id)
     {
-        Company? company = listCompanies.Find(company => company.Id == id);
+        Company? company = await _dataContext.Company.FindAsync(id);
         return company;
     }
 
     [HttpPost]
-    public List<Company> AddCompany([FromBody] Company company)
+    public async Task<List<Company>> AddCompany([FromBody] Company company)
     {
-        listCompanies.Add(company);
-        return listCompanies;
+        await _dataContext.Company.AddAsync(company);
+        await _dataContext.SaveChangesAsync();
+        return await _dataContext.Company.ToListAsync();
     }
 
     [HttpPut("{id}")]
-    public Company? UpdateSpecificCompany([FromBody] int id, [FromBody] Company reqCompany)
+    public async Task<Company?> UpdateSpecificCompany([FromBody] int id, [FromBody] Company reqCompany)
     {
-        Company? company = listCompanies.Find(company => company.Id == id);
+        Company? company = await _dataContext.Company.FindAsync(id);
 
         if (company != null)
         {
@@ -56,21 +60,25 @@ public class CompanyService : ICompanyService
             company.RegisteredAt = reqCompany.RegisteredAt;
         }
 
+        await _dataContext.SaveChangesAsync();
+
         return company;
     }
 
     [HttpDelete("{id}")]
-    public List<Company>? DeleteSpecificCompany(int id)
+    public async Task<List<Company>?> DeleteSpecificCompany(int id)
     {
         List<Company>? result = null;
-        Company? company = listCompanies.Find(company => company.Id == id);
+        Company? company = await _dataContext.Company.FindAsync(id);
 
         if (company == null)
             result = null;
         else
         {
-            listCompanies.Remove(company);
-            result = listCompanies;
+            _dataContext.Company.Remove(company);
+            await _dataContext.SaveChangesAsync();
+
+            result = await _dataContext.Company.ToListAsync();
         }
 
         return result;

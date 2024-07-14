@@ -18,10 +18,10 @@ namespace ZivnostAPI.Controllers
             _companyService = companyService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAllCompanies")]
         public async Task<ActionResult<List<Company>>> GetAllCompanies()
         {
-            List<Company> listCompanies = _companyService.GetAllCompanies();
+            List<Company> listCompanies = await _companyService.GetAllCompanies();
             return Ok(listCompanies);
         }
 
@@ -29,7 +29,7 @@ namespace ZivnostAPI.Controllers
         public async Task<ActionResult<Company>> GetSpecificCompany(int id)
         {
             ObjectResult? result = null;
-            Company? company = _companyService.GetSpecificCompany(id);
+            Company? company = await _companyService.GetSpecificCompany(id);
 
             if (company == null)
                 result = NotFound("Specific company not found");
@@ -42,7 +42,7 @@ namespace ZivnostAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Company>>> AddCompany([FromBody]Company reqCompany)
         {
-            List<Company> listCompanies = _companyService.AddCompany(reqCompany);
+            List<Company> listCompanies = await _companyService.AddCompany(reqCompany);
             return Ok(listCompanies);
         }
 
@@ -50,7 +50,7 @@ namespace ZivnostAPI.Controllers
         public async Task<ActionResult<Company>> UpdateSpecificCompany(int id, Company reqCompany)
         {
             ObjectResult? result = null;
-            Company company = _companyService.UpdateSpecificCompany(id, reqCompany);
+            Company? company = await _companyService.UpdateSpecificCompany(id, reqCompany);
 
             if (company == null)
             {
@@ -68,7 +68,7 @@ namespace ZivnostAPI.Controllers
         public async Task<ActionResult<List<Company>>> DeleteSpecificCompany(int id)
         {
             ObjectResult? result = null;
-            List<Company> listCompany = _companyService.DeleteSpecificCompany(id);
+            List<Company>? listCompany = await _companyService.DeleteSpecificCompany(id);
 
             if (listCompany == null)
             {
