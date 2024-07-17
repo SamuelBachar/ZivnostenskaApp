@@ -26,6 +26,7 @@ namespace A
 #endif
 
             builder.Services.AddSingleton<SettingsView>();
+            builder.Services.AddSingleton<LogInView>();
             builder.Services.AddSingleton<SettingsService>();
 
             return builder.Build();

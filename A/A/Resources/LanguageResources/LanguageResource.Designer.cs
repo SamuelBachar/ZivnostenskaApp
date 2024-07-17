@@ -97,6 +97,42 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter e-mail or name.
+        /// </summary>
+        internal static string LoginInView_EnterEMailOrAccName {
+            get {
+                return ResourceManager.GetString("LoginInView_EnterEMailOrAccName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter password.
+        /// </summary>
+        internal static string LoginInView_EnterPassword {
+            get {
+                return ResourceManager.GetString("LoginInView_EnterPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in to your account.
+        /// </summary>
+        internal static string LoginInView_LogIntoAccount {
+            get {
+                return ResourceManager.GetString("LoginInView_LogIntoAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to the app.
+        /// </summary>
+        internal static string LoginInView_WelcomeText {
+            get {
+                return ResourceManager.GetString("LoginInView_WelcomeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         internal static string MenuSearchIconText {

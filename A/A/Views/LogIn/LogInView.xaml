@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="A.Views.LogInView"
+             xmlns:translate="clr-namespace:A.LanguageTranslateManager"
+             Title="">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
+
+    <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+
+        <VerticalStackLayout>
+            <Label Text="{translate:TranslateManager LoginInView_WelcomeText}" FontAttributes="Bold" FontSize="Header"/>
+            <Label Text="{translate:TranslateManager LoginInView_LogIntoAccount}" TextColor="Gray"/>
+        </VerticalStackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                <Image Source="user_login.png" HeightRequest="20" WidthRequest="20" />
+            </Frame>
+            <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                <Entry x:Name="EntryEmail" ToolTipProperties.Text="{translate:TranslateManager LoginInView_EnterEMailOrAccName}" 
+                               TextColor="Black" Margin="20,0,0,0" 
+                               VerticalOptions="Center" Placeholder="{translate:TranslateManager LoginInView_EnterEMailOrAccName}" Keyboard="Email" 
+                               TextChanged="EntryEmail_TextChanged"
+                        />
+            </Frame>
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
+            </Frame>
+            <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager LoginInView_EnterPassword}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager LoginInView_EnterPassword}" IsPassword="True" TextChanged="EntryPassword_TextChanged"
+                        />
+            </Frame>
+        </StackLayout>
+
+        <HorizontalStackLayout>
+            <Button Text="Prihlásiť sa ako užívateľ" />
+            <Button Text="Prihlásiť sa ako firma / živnostník" />
+
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Line/>
+            <Button Text="Nemáte účet ? Registrujte sa tu" />
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout>
+            <Label Text="Prihlásiť sa ako uživateľ pomocou" />
+            <HorizontalStackLayout>
+                <Button Text="Google"/>
+                <Image />
+                <!--Google-->
+                <Button Text="Facebook"/>
+                <Image />
+                <!--Facebook-->
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>

@@ -62,7 +62,7 @@
 
 	<ItemGroup>
 	  <None Remove="Exceptions\UserActionExceptionMessages\ErrorMessages.json" />
-	  <None Remove="Resources\Images\Icons\MainPage\filter.svg" />
+	  <None Remove="Resources\Images\Images\SearchView\filter.svg" />
 	  <None Remove="Resources\Images\Icons\Menu\dotnet_bot.png" />
 	  <None Remove="Resources\Images\Icons\Menu\TapBar\search_icon.svg" />
 	</ItemGroup>
@@ -81,7 +81,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Images\Icons\MainPage\filter.svg" />
+	  <MauiImage Include="Resources\Images\Images\SearchView\filter.svg" />
 	  <MauiImage Include="Resources\Images\Icons\Menu\TapBar\tapbar_dotnet_bot.png">
 	    <Resize>True</Resize>
 	    <BaseSize>300,185</BaseSize>
@@ -98,6 +98,15 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>LanguageResource.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\LogIn\LogInView.xaml.cs">
+	    <DependentUpon>LogInView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Register\RegisterCompanyView.xaml.cs">
+	    <DependentUpon>RegisterCompanyView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Settings\SettingsView.xaml.cs">
+	    <DependentUpon>SettingsView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -108,7 +117,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\SettingsView.xaml">
+	  <MauiXaml Update="Views\LogIn\LogInView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Register\RegisterCompanyView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Settings\SettingsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

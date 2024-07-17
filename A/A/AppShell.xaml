@@ -14,6 +14,11 @@
         <toolkit:StatusBarBehavior StatusBarColor="{StaticResource ShellStatusBarBackgroundColor}" />
     </Shell.Behaviors>
 
+    <ShellContent
+        Title=""
+        ContentTemplate="{DataTemplate Views:LogInView}"
+        Route="FirstStartUpView" />
+
     <TabBar>
         <Tab Title="{translate:TranslateManager MenuSearchIconText}" Icon="search_icon.svg">
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
@@ -23,11 +28,11 @@
             <ShellContent ContentTemplate="{DataTemplate Views:SettingsView}" Route="SettingsView" />
         </Tab>
     </TabBar>
-    
+
     <!--<ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />-->
 
-    
+
 </Shell>

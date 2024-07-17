@@ -129,6 +129,18 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Toto je po cesky kokot</value>
   </data>
+  <data name="LoginInView_EnterEMailOrAccName" xml:space="preserve">
+    <value>Zadejte e-mail nebo jméno</value>
+  </data>
+  <data name="LoginInView_EnterPassword" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="LoginInView_LogIntoAccount" xml:space="preserve">
+    <value>Přihlaste se do vašeho účtu</value>
+  </data>
+  <data name="LoginInView_WelcomeText" xml:space="preserve">
+    <value>Vítejte v aplikaci</value>
+  </data>
   <data name="MenuSearchIconText" xml:space="preserve">
     <value>Hledej</value>
   </data>

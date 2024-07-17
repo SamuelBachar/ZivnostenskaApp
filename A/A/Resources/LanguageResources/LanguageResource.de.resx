@@ -129,6 +129,18 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Das ist im Deutsch sprache</value>
   </data>
+  <data name="LoginInView_EnterEMailOrAccName" xml:space="preserve">
+    <value>E-Mail Adresse oder Benutzername</value>
+  </data>
+  <data name="LoginInView_EnterPassword" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="LoginInView_LogIntoAccount" xml:space="preserve">
+    <value>Melden Sie sich bei Ihrem Konto an</value>
+  </data>
+  <data name="LoginInView_WelcomeText" xml:space="preserve">
+    <value>Willkommen in der App</value>
+  </data>
   <data name="MenuSearchIconText" xml:space="preserve">
     <value>Suchen</value>
   </data>

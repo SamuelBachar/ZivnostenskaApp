@@ -2,6 +2,7 @@
 using A.LanguageResourceManager;
 using A.Services;
 using A.User;
+using A.Views;
 using System.Globalization;
 
 namespace A

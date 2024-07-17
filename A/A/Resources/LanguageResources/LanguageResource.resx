@@ -129,6 +129,18 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>English motherfucker</value>
   </data>
+  <data name="LoginInView_EnterEMailOrAccName" xml:space="preserve">
+    <value>Enter e-mail or name</value>
+  </data>
+  <data name="LoginInView_EnterPassword" xml:space="preserve">
+    <value>Enter password</value>
+  </data>
+  <data name="LoginInView_LogIntoAccount" xml:space="preserve">
+    <value>Sign in to your account</value>
+  </data>
+  <data name="LoginInView_WelcomeText" xml:space="preserve">
+    <value>Welcome to the app</value>
+  </data>
   <data name="MenuSearchIconText" xml:space="preserve">
     <value>Search</value>
   </data>
