@@ -130,7 +130,7 @@
     <value>Das ist im Deutsch sprache</value>
   </data>
   <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
-    <value>Sie haben noch kein Konto? Hier registrieren</value>
+    <value>Sie haben noch kein Konto?</value>
   </data>
   <data name="LogInView_EnterEMailOrAccName" xml:space="preserve">
     <value>E-Mail Adresse oder Benutzername</value>
@@ -140,6 +140,9 @@
   </data>
   <data name="LogInView_LogIntoAccount" xml:space="preserve">
     <value>Melden Sie sich bei Ihrem Konto an</value>
+  </data>
+  <data name="LogInView_RegisterHere" xml:space="preserve">
+    <value>Hier registrieren</value>
   </data>
   <data name="LogInView_SignInAsCompany" xml:space="preserve">
     <value>Login Sie sich als Selbstständiger/Unternehmen</value>

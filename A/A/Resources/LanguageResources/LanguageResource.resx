@@ -130,7 +130,7 @@
     <value>English motherfucker</value>
   </data>
   <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
-    <value>Don't have an account? Register here</value>
+    <value>Don't have an account?</value>
   </data>
   <data name="LogInView_EnterEMailOrAccName" xml:space="preserve">
     <value>Enter e-mail or name</value>
@@ -146,6 +146,9 @@
   </data>
   <data name="LogInView_LoginViaGoogle" xml:space="preserve">
     <value>Log in via Google</value>
+  </data>
+  <data name="LogInView_RegisterHere" xml:space="preserve">
+    <value>Register here</value>
   </data>
   <data name="LogInView_SignInAsCompany" xml:space="preserve">
     <value>Log in as a self-employed freelancer / company</value>
