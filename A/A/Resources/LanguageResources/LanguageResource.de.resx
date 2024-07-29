@@ -129,16 +129,28 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Das ist im Deutsch sprache</value>
   </data>
-  <data name="LoginInView_EnterEMailOrAccName" xml:space="preserve">
+  <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
+    <value>Sie haben noch kein Konto? Hier registrieren</value>
+  </data>
+  <data name="LogInView_EnterEMailOrAccName" xml:space="preserve">
     <value>E-Mail Adresse oder Benutzername</value>
   </data>
-  <data name="LoginInView_EnterPassword" xml:space="preserve">
+  <data name="LogInView_EnterPassword" xml:space="preserve">
     <value>Passwort</value>
   </data>
-  <data name="LoginInView_LogIntoAccount" xml:space="preserve">
+  <data name="LogInView_LogIntoAccount" xml:space="preserve">
     <value>Melden Sie sich bei Ihrem Konto an</value>
   </data>
-  <data name="LoginInView_WelcomeText" xml:space="preserve">
+  <data name="LogInView_SignInAsCompany" xml:space="preserve">
+    <value>Login Sie sich als Selbstständiger/Unternehmen</value>
+  </data>
+  <data name="LogInView_SignInAsUser" xml:space="preserve">
+    <value>Login Sie sich als Benutzer</value>
+  </data>
+  <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
+    <value>Login Sie sich an mit</value>
+  </data>
+  <data name="LogInView_WelcomeText" xml:space="preserve">
     <value>Willkommen in der App</value>
   </data>
   <data name="MenuSearchIconText" xml:space="preserve">

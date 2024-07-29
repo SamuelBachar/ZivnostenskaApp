@@ -97,38 +97,101 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t have an account?.
+        /// </summary>
+        internal static string LogInView_DontHaveAccRegister {
+            get {
+                return ResourceManager.GetString("LogInView_DontHaveAccRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter e-mail or name.
         /// </summary>
-        internal static string LoginInView_EnterEMailOrAccName {
+        internal static string LogInView_EnterEMailOrAccName {
             get {
-                return ResourceManager.GetString("LoginInView_EnterEMailOrAccName", resourceCulture);
+                return ResourceManager.GetString("LogInView_EnterEMailOrAccName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Enter password.
         /// </summary>
-        internal static string LoginInView_EnterPassword {
+        internal static string LogInView_EnterPassword {
             get {
-                return ResourceManager.GetString("LoginInView_EnterPassword", resourceCulture);
+                return ResourceManager.GetString("LogInView_EnterPassword", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Sign in to your account.
         /// </summary>
-        internal static string LoginInView_LogIntoAccount {
+        internal static string LogInView_LogIntoAccount {
             get {
-                return ResourceManager.GetString("LoginInView_LogIntoAccount", resourceCulture);
+                return ResourceManager.GetString("LogInView_LogIntoAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in via Facebook.
+        /// </summary>
+        internal static string LogInView_LoginViaFacebook {
+            get {
+                return ResourceManager.GetString("LogInView_LoginViaFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in via Google.
+        /// </summary>
+        internal static string LogInView_LoginViaGoogle {
+            get {
+                return ResourceManager.GetString("LogInView_LoginViaGoogle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register here.
+        /// </summary>
+        internal static string LogInView_RegisterHere {
+            get {
+                return ResourceManager.GetString("LogInView_RegisterHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in as a self-employed freelancer / company.
+        /// </summary>
+        internal static string LogInView_SignInAsCompany {
+            get {
+                return ResourceManager.GetString("LogInView_SignInAsCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in as a user.
+        /// </summary>
+        internal static string LogInView_SignInAsUser {
+            get {
+                return ResourceManager.GetString("LogInView_SignInAsUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in using.
+        /// </summary>
+        internal static string LogInView_SignInWithHelpOf {
+            get {
+                return ResourceManager.GetString("LogInView_SignInWithHelpOf", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Welcome to the app.
         /// </summary>
-        internal static string LoginInView_WelcomeText {
+        internal static string LogInView_WelcomeText {
             get {
-                return ResourceManager.GetString("LoginInView_WelcomeText", resourceCulture);
+                return ResourceManager.GetString("LogInView_WelcomeText", resourceCulture);
             }
         }
         

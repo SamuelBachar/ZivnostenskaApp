@@ -129,16 +129,34 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>English motherfucker</value>
   </data>
-  <data name="LoginInView_EnterEMailOrAccName" xml:space="preserve">
+  <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
+    <value>Don't have an account? Register here</value>
+  </data>
+  <data name="LogInView_EnterEMailOrAccName" xml:space="preserve">
     <value>Enter e-mail or name</value>
   </data>
-  <data name="LoginInView_EnterPassword" xml:space="preserve">
+  <data name="LogInView_EnterPassword" xml:space="preserve">
     <value>Enter password</value>
   </data>
-  <data name="LoginInView_LogIntoAccount" xml:space="preserve">
+  <data name="LogInView_LogIntoAccount" xml:space="preserve">
     <value>Sign in to your account</value>
   </data>
-  <data name="LoginInView_WelcomeText" xml:space="preserve">
+  <data name="LogInView_LoginViaFacebook" xml:space="preserve">
+    <value>Log in via Facebook</value>
+  </data>
+  <data name="LogInView_LoginViaGoogle" xml:space="preserve">
+    <value>Log in via Google</value>
+  </data>
+  <data name="LogInView_SignInAsCompany" xml:space="preserve">
+    <value>Log in as a self-employed freelancer / company</value>
+  </data>
+  <data name="LogInView_SignInAsUser" xml:space="preserve">
+    <value>Log in as a user</value>
+  </data>
+  <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
+    <value>Log in using</value>
+  </data>
+  <data name="LogInView_WelcomeText" xml:space="preserve">
     <value>Welcome to the app</value>
   </data>
   <data name="MenuSearchIconText" xml:space="preserve">

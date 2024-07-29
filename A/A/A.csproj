@@ -49,7 +49,7 @@
 		<MauiImage Include="Resources\Images\*" />
 
     <!-- Images / Icons-->
-    <MauiImage Update="Resources\Images\Icons\Menu\TapBar\search_icon.svg" BaseSize="20,20" />
+    <!--<MauiImage Update="Resources\Images\Icons\Menu\TapBar\search_icon.svg" BaseSize="20,20" />-->
     
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
@@ -61,10 +61,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Exceptions\UserActionExceptionMessages\ErrorMessages.json" />
-	  <None Remove="Resources\Images\Images\SearchView\filter.svg" />
-	  <None Remove="Resources\Images\Icons\Menu\dotnet_bot.png" />
 	  <None Remove="Resources\Images\Icons\Menu\TapBar\search_icon.svg" />
+	  <None Remove="Resources\Images\Images\LogInView\facebook_login.svg" />
+	  <None Remove="Resources\Images\Images\LogInView\google_login.svg" />
+	  <None Remove="Resources\Images\Images\LogInView\lock_login.png" />
+	  <None Remove="Resources\Images\Images\LogInView\user_login.png" />
+	  <None Remove="Resources\Images\Images\RegisterView\facebook_register.svg" />
+	  <None Remove="Resources\Images\Images\RegisterView\google_register.svg" />
+	  <None Remove="Resources\Images\Images\SearchView\filter.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -80,16 +84,25 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <MauiImage Include="Resources\Images\Images\SearchView\filter.svg" />
+	<ItemGroup>  
 	  <MauiImage Include="Resources\Images\Icons\Menu\TapBar\tapbar_dotnet_bot.png">
 	    <Resize>True</Resize>
 	    <BaseSize>300,185</BaseSize>
 	  </MauiImage>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiImage Include="Resources\Images\Icons\Menu\TapBar\search_icon.svg" />
+	  <MauiImage Include="Resources\Images\Images\LogInView\facebook_login.svg" />
+	  <MauiImage Include="Resources\Images\Images\LogInView\google_login.svg" />
+	  <MauiImage Include="Resources\Images\Images\LogInView\lock_login.png" />
+	  <MauiImage Include="Resources\Images\Images\LogInView\user_login.png" />
+	  <MauiImage Include="Resources\Images\Images\RegisterView\facebook_register.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterView\google_register.svg" />
+	  <MauiImage Include="Resources\Images\Images\SearchView\filter.svg" />
+    <MauiImage Include="Resources\Images\Icons\Menu\TapBar\search_icon.svg" />
+    
+  	<MauiImage Update="Resources\Images\Images\LogInView\facebook_login.svg" BaseSize="40,40" />
+    <MauiImage Update="Resources\Images\Images\RegisterView\facebook_register.svg" BaseSize="40,40" />
+    <MauiImage Update="Resources\Images\Images\LogInView\google_login.svg" BaseSize="40,40" />
+    <MauiImage Update="Resources\Images\Images\RegisterView\google_register.svg" BaseSize="40,40" />
+    <MauiImage Update="Resources\Images\Icons\Menu\TapBar\search_icon.svg" BaseSize="20,20" />
 	</ItemGroup>
 
 	<ItemGroup>

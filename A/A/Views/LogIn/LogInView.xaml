@@ -12,8 +12,8 @@
     <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
 
         <VerticalStackLayout>
-            <Label Text="{translate:TranslateManager LoginInView_WelcomeText}" FontAttributes="Bold" FontSize="Header"/>
-            <Label Text="{translate:TranslateManager LoginInView_LogIntoAccount}" TextColor="Gray"/>
+            <Label FontSize="28" HorizontalOptions="Center" TextColor="Gray" Text="{translate:TranslateManager LogInView_WelcomeText}" FontAttributes="Bold" />
+            <Label FontSize="18" HorizontalOptions="Center" TextColor="Gray" Text="{translate:TranslateManager LogInView_LogIntoAccount}" />
         </VerticalStackLayout>
 
         <StackLayout Orientation="Horizontal">
@@ -21,48 +21,55 @@
                 <Image Source="user_login.png" HeightRequest="20" WidthRequest="20" />
             </Frame>
             <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                <Entry x:Name="EntryEmail" ToolTipProperties.Text="{translate:TranslateManager LoginInView_EnterEMailOrAccName}" 
+                <Entry x:Name="EntryEmail" ToolTipProperties.Text="{translate:TranslateManager LogInView_EnterEMailOrAccName}" 
                                TextColor="Black" Margin="20,0,0,0" 
-                               VerticalOptions="Center" Placeholder="{translate:TranslateManager LoginInView_EnterEMailOrAccName}" Keyboard="Email" 
+                               VerticalOptions="Center" Placeholder="{translate:TranslateManager LogInView_EnterEMailOrAccName}" Keyboard="Email" 
                                TextChanged="EntryEmail_TextChanged"
                         />
             </Frame>
         </StackLayout>
 
         <StackLayout Orientation="Horizontal">
-            <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+            <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                 <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
             </Frame>
             <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager LoginInView_EnterPassword}"
+                <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager LogInView_EnterPassword}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager LoginInView_EnterPassword}" IsPassword="True" TextChanged="EntryPassword_TextChanged"
+                               Placeholder="{translate:TranslateManager LogInView_EnterPassword}" IsPassword="True" TextChanged="EntryPassword_TextChanged"
                         />
             </Frame>
         </StackLayout>
 
-        <HorizontalStackLayout>
-            <Button Text="Prihlásiť sa ako užívateľ" />
-            <Button Text="Prihlásiť sa ako firma / živnostník" />
-
-        </HorizontalStackLayout>
-
-        <HorizontalStackLayout>
-            <Line/>
-            <Button Text="Nemáte účet ? Registrujte sa tu" />
-        </HorizontalStackLayout>
+        <VerticalStackLayout Spacing="20">
+            <Button Text="{translate:TranslateManager LogInView_SignInAsUser}" />
+            <Button Text="{translate:TranslateManager LogInView_SignInAsCompany}" />
+        </VerticalStackLayout>
 
         <VerticalStackLayout>
-            <Label Text="Prihlásiť sa ako uživateľ pomocou" />
-            <HorizontalStackLayout>
-                <Button Text="Google"/>
-                <Image />
-                <!--Google-->
-                <Button Text="Facebook"/>
-                <Image />
-                <!--Facebook-->
+            <Label HorizontalOptions="Center" FontAttributes="Bold" Text="{translate:TranslateManager LogInView_DontHaveAccRegister}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Spacing="20">
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label FontSize="18" TextColor="Gray" Text="{translate:TranslateManager LogInView_SignInWithHelpOf}" />
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
+        <Frame HeightRequest="45" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+            <HorizontalStackLayout HorizontalOptions="Start">
+                <Image Source="google_login.svg" HorizontalOptions="Start" VerticalOptions="Center" Margin="40,0,0,0"/>
+                <Label Text="{translate:TranslateManager LogInView_LoginViaGoogle}" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" Margin="40,0,0,0" />
+            </HorizontalStackLayout>
+        </Frame>
+
+        <Frame HeightRequest="45" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+            <HorizontalStackLayout HorizontalOptions="Start">
+                <Image Source="facebook_login.svg" HorizontalOptions="Start" VerticalOptions="Center" Margin="40,0,0,0"/>
+                <Label Text="{translate:TranslateManager LogInView_LoginViaFacebook}" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" Margin="40,0,0,0" />
+            </HorizontalStackLayout>
+        </Frame>
+        
     </VerticalStackLayout>
+
 </ContentPage>

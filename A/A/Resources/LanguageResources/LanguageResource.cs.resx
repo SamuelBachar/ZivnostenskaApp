@@ -129,16 +129,31 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Toto je po cesky kokot</value>
   </data>
-  <data name="LoginInView_EnterEMailOrAccName" xml:space="preserve">
+  <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
+    <value>Nemáte účet?</value>
+  </data>
+  <data name="LogInView_EnterEMailOrAccName" xml:space="preserve">
     <value>Zadejte e-mail nebo jméno</value>
   </data>
-  <data name="LoginInView_EnterPassword" xml:space="preserve">
+  <data name="LogInView_EnterPassword" xml:space="preserve">
     <value>Heslo</value>
   </data>
-  <data name="LoginInView_LogIntoAccount" xml:space="preserve">
+  <data name="LogInView_LogIntoAccount" xml:space="preserve">
     <value>Přihlaste se do vašeho účtu</value>
   </data>
-  <data name="LoginInView_WelcomeText" xml:space="preserve">
+  <data name="LogInView_RegisterHere" xml:space="preserve">
+    <value>Registrujte se zde</value>
+  </data>
+  <data name="LogInView_SignInAsCompany" xml:space="preserve">
+    <value>Přihlásit se jako živnostník / firma</value>
+  </data>
+  <data name="LogInView_SignInAsUser" xml:space="preserve">
+    <value>Přihlásit se jako uživatel</value>
+  </data>
+  <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
+    <value>Přihlásit se pomocí</value>
+  </data>
+  <data name="LogInView_WelcomeText" xml:space="preserve">
     <value>Vítejte v aplikaci</value>
   </data>
   <data name="MenuSearchIconText" xml:space="preserve">
