@@ -4,6 +4,7 @@ using A.Views;
 using Microsoft.Extensions.Logging;
 
 using CommunityToolkit.Maui;
+using System.Net.Http;
 
 namespace A
 {
@@ -22,8 +23,37 @@ namespace A
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
+            // HTTPS client
+            builder.Services.AddSingleton<IPlatformHttpMessageHandler>(sp =>
+            { 
+                return new A.Services.HttpClientService(); 
+            });
+
+            builder.Services.AddHttpClient(Constants.AppConstants.HttpsClientName, httpsClient =>
+            {
+                var baseUrl = DeviceInfo.Platform == DevicePlatform.Android
+                    ? "https://10.0.2.2:7279"
+                    : "https://localhost:7279";
+
+                baseUrl = "https://inflastoreapi.azurewebsites.net/"; // TODO change
+
+                httpsClient.BaseAddress = new Uri(baseUrl);
+            }).ConfigurePrimaryHttpMessageHandler(configPrimary =>
+            {
+                IPlatformHttpMessageHandler? handler = configPrimary.GetService<IPlatformHttpMessageHandler>();
+                return handler?.GetPlatformSpecificHttpMessageHandler();
+            });
+
+            //}).ConfigureHttpMessageHandlerBuilder(configBuilder =>
+            //{
+            //    var platformHttMessageHandler = configBuilder.Services.GetRequiredService<IPlatformHttpsMessageHandler>();
+            //    configBuilder.PrimaryHandler = platformHttMessageHandler.GetPlatformSpecificHttpMessageHandler();
+            //});
+
+            // Services
+            builder.Services.AddSingleton<ILoginService, LoginService>();
 
             builder.Services.AddSingleton<SettingsView>();
             builder.Services.AddSingleton<LogInView>();

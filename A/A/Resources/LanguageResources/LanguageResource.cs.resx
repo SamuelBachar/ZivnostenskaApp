@@ -147,8 +147,14 @@
   <data name="LogInView_SignInAsCompany" xml:space="preserve">
     <value>Přihlásit se jako živnostník / firma</value>
   </data>
+  <data name="LogInView_SignInAsCompanyShort" xml:space="preserve">
+    <value>jako živnostník / firma</value>
+  </data>
   <data name="LogInView_SignInAsUser" xml:space="preserve">
     <value>Přihlásit se jako uživatel</value>
+  </data>
+  <data name="LogInView_SignInAsUserShort" xml:space="preserve">
+    <value>jako uživatel</value>
   </data>
   <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
     <value>Přihlásit se pomocí</value>

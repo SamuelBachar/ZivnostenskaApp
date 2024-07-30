@@ -9,7 +9,7 @@
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
 
-    <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+    <VerticalStackLayout Spacing="10" Padding="10,0,10,0" VerticalOptions="Center">
 
         <VerticalStackLayout>
             <Label FontSize="28" HorizontalOptions="Center" TextColor="Gray" Text="{translate:TranslateManager LogInView_WelcomeText}" FontAttributes="Bold" />
@@ -41,35 +41,49 @@
             </Frame>
         </StackLayout>
 
-        <VerticalStackLayout Spacing="20">
-            <Button Text="{translate:TranslateManager LogInView_SignInAsUser}" />
-            <Button Text="{translate:TranslateManager LogInView_SignInAsCompany}" />
+        <VerticalStackLayout Spacing="5">
+            <Button x:Name="BtnSignInAsUser" Text="{translate:TranslateManager LogInView_SignInAsUser}" Clicked="BtnSignInAsUser_Clicked" />
+            <Button x:Name="BtnSignInAsCompany" Text="{translate:TranslateManager LogInView_SignInAsCompany}" Clicked="BtnSignInAsCompany_Clicked" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout>
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
             <Label HorizontalOptions="Center" FontAttributes="Bold" Text="{translate:TranslateManager LogInView_DontHaveAccRegister}" />
+            <Label HorizontalOptions="Center" FontAttributes="Bold" TextColor="CornflowerBlue" Text="{translate:TranslateManager LogInView_RegisterHere}" />
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout Padding="0,25,0,0" Spacing="10">
+            <VerticalStackLayout Spacing="5">
+                <HorizontalStackLayout HorizontalOptions="Center">
+                    <Label FontSize="15" TextColor="Gray" Text="{translate:TranslateManager LogInView_SignInWithHelpOf}" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*,*" ColumnSpacing="10" RowSpacing="15" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
+                    <VerticalStackLayout Spacing="10">
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" Margin="0,5,0,0">
+                            <Image Source="google_login.svg" HorizontalOptions="Start" VerticalOptions="Center" MaximumHeightRequest="25" MaximumWidthRequest="25"/>
+                            <Label Text="{translate:TranslateManager LogInView_LoginViaGoogle}" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+
+                        <Button Grid.Row="1" Grid.Column="1" Text="{translate:TranslateManager LogInView_SignInAsUserShort}" Margin="10,0,10,0" />
+                        <Button Grid.Row="2" Grid.Column="1" Text="{translate:TranslateManager LogInView_SignInAsCompanyShort}" Margin="10,0,10,10" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
+                    <VerticalStackLayout Spacing="10">
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" Margin="0,5,0,0">
+                            <Image Source="facebook_login.svg" HorizontalOptions="Start" VerticalOptions="Center" MaximumHeightRequest="25" MaximumWidthRequest="25"/>
+                            <Label Text="{translate:TranslateManager LogInView_LoginViaFacebook}" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+
+                        <Button Grid.Row="1" Grid.Column="1" Text="{translate:TranslateManager LogInView_SignInAsUserShort}" Margin="10,0,10,0" />
+                        <Button Grid.Row="2" Grid.Column="1" Text="{translate:TranslateManager LogInView_SignInAsCompanyShort}" Margin="10,0,10,10" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
         </VerticalStackLayout>
-
-        <VerticalStackLayout Spacing="20">
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Label FontSize="18" TextColor="Gray" Text="{translate:TranslateManager LogInView_SignInWithHelpOf}" />
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
-
-        <Frame HeightRequest="45" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-            <HorizontalStackLayout HorizontalOptions="Start">
-                <Image Source="google_login.svg" HorizontalOptions="Start" VerticalOptions="Center" Margin="40,0,0,0"/>
-                <Label Text="{translate:TranslateManager LogInView_LoginViaGoogle}" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" Margin="40,0,0,0" />
-            </HorizontalStackLayout>
-        </Frame>
-
-        <Frame HeightRequest="45" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-            <HorizontalStackLayout HorizontalOptions="Start">
-                <Image Source="facebook_login.svg" HorizontalOptions="Start" VerticalOptions="Center" Margin="40,0,0,0"/>
-                <Label Text="{translate:TranslateManager LogInView_LoginViaFacebook}" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" Margin="40,0,0,0" />
-            </HorizontalStackLayout>
-        </Frame>
-        
     </VerticalStackLayout>
 
 </ContentPage>

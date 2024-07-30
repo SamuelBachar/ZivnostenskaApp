@@ -160,11 +160,20 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log in as a self-employed freelancer / company.
+        ///   Looks up a localized string similar to Log in as a self-employed / company.
         /// </summary>
         internal static string LogInView_SignInAsCompany {
             get {
                 return ResourceManager.GetString("LogInView_SignInAsCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as a self-employed / company.
+        /// </summary>
+        internal static string LogInView_SignInAsCompanyShort {
+            get {
+                return ResourceManager.GetString("LogInView_SignInAsCompanyShort", resourceCulture);
             }
         }
         
@@ -174,6 +183,15 @@ namespace A.Resources.LanguageResources {
         internal static string LogInView_SignInAsUser {
             get {
                 return ResourceManager.GetString("LogInView_SignInAsUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as a user.
+        /// </summary>
+        internal static string LogInView_SignInAsUserShort {
+            get {
+                return ResourceManager.GetString("LogInView_SignInAsUserShort", resourceCulture);
             }
         }
         

@@ -6,7 +6,7 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Primary">#2D9AEA</Color>
     <Color x:Key="PrimaryDark">#ac99ea</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
@@ -31,6 +31,9 @@
     <Color x:Key="ShellStatusBarBackgroundColor">#2D9AEA</Color> <!-- Color of bar where WIFI, time and another info of mobile is shown -->
     <Color x:Key="ShellTabBarForegroundColor">#2D9AEA</Color>  <!-- Color of icon when pressed -->
     <Color x:Key="ShellTabBarTabBarTitleColor">#2D9AEA</Color> <!-- Color of text under icon when pressed -->
+
+    <Color x:Key="ButtonLightModeColor">#2D9AEA</Color>
+    <Color x:Key="ButtonDarkModeColor">#2D9AEA</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

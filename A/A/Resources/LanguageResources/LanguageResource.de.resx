@@ -145,10 +145,16 @@
     <value>Hier registrieren</value>
   </data>
   <data name="LogInView_SignInAsCompany" xml:space="preserve">
-    <value>Login Sie sich als Selbstständiger/Unternehmen</value>
+    <value>Login als Selbstständiger / Unternehmen</value>
+  </data>
+  <data name="LogInView_SignInAsCompanyShort" xml:space="preserve">
+    <value>als Selbstständiger / Unternehmen</value>
   </data>
   <data name="LogInView_SignInAsUser" xml:space="preserve">
-    <value>Login Sie sich als Benutzer</value>
+    <value>Login als Benutzer</value>
+  </data>
+  <data name="LogInView_SignInAsUserShort" xml:space="preserve">
+    <value>als Benutzer</value>
   </data>
   <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
     <value>Login Sie sich an mit</value>

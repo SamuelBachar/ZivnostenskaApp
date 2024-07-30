@@ -151,10 +151,16 @@
     <value>Register here</value>
   </data>
   <data name="LogInView_SignInAsCompany" xml:space="preserve">
-    <value>Log in as a self-employed freelancer / company</value>
+    <value>Log in as a self-employed / company</value>
+  </data>
+  <data name="LogInView_SignInAsCompanyShort" xml:space="preserve">
+    <value>as a self-employed / company</value>
   </data>
   <data name="LogInView_SignInAsUser" xml:space="preserve">
     <value>Log in as a user</value>
+  </data>
+  <data name="LogInView_SignInAsUserShort" xml:space="preserve">
+    <value>as a user</value>
   </data>
   <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
     <value>Log in using</value>
