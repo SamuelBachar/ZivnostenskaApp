@@ -1,5 +1,6 @@
 using A.Exceptions.UserActionException;
 using A.Interfaces;
+using ExceptionsHandling;
 using SharedTypesLibrary.DTOs.Response;
 using static A.Enums.Enums;
 
