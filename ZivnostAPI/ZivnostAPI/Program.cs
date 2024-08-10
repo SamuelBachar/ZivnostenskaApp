@@ -1,3 +1,6 @@
+using Microsoft.VisualBasic;
+using System.Text.Json;
+using ZivnostAPI.Constants;
 using ZivnostAPI.Data.DataContext;
 using ZivnostAPI.Services.CompanyService;
 
@@ -12,6 +15,17 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddDbContext<DataContext>();
+
+var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), APIConstants.JsonExceptionFilePath);
+if (File.Exists(jsonFilePath))
+{
+    string jsonContent = File.ReadAllText(jsonFilePath);
+
+    if (jsonContent != string.Empty)
+    {
+        ExceptionsHandling.ExceptionHandler.DeserializeJsonExceptionFile(jsonContent);
+    }
+}
 
 var app = builder.Build();
 

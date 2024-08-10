@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Google.Crypto.Tink.Signature;
 
 namespace A.User
 {
@@ -15,6 +16,7 @@ namespace A.User
         public string ChoosenUICulture = ""; // not used currently, only assigned
 
         public string CurrentCulture => ((ChoosenCulture == string.Empty) ? DefaultCulture : ChoosenCulture);
+        public string JWT = "";
 
         static UserData? _instance = null;
 

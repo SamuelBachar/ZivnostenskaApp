@@ -1,9 +1,12 @@
 ﻿using A.AppPreferences;
+using A.Constants;
+using A.EmbeddedResourceManager;
 using A.LanguageResourceManager;
 using A.Services;
 using A.User;
 using A.Views;
 using System.Globalization;
+using static A.Enums.Enums;
 
 namespace A
 {
@@ -13,11 +16,20 @@ namespace A
 
         public static UserData UserData => UserData.Instance;
 
+        public static AppMode AppMode;
+
         public App()
         {
             InitializeComponent();
 
             this.LoadSettings();
+
+            string jsonContent = EmbeddedResource.GetEmbeddedJSONFileContent(AppConstants.JsonExceptionFilePath);
+
+            if (jsonContent != string.Empty)
+            {
+                ExceptionsHandling.ExceptionHandler.DeserializeJsonExceptionFile(EmbeddedResource.GetEmbeddedJSONFileContent(AppConstants.JsonExceptionFilePath));
+            }
 
             MainPage = new AppShell();
         }

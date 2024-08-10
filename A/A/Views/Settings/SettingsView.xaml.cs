@@ -5,7 +5,7 @@ using A.Services;
 using A.User;
 using Microsoft.Maui.Platform;
 using System.Globalization;
-using A.Exceptions.UserActionException;
+using ExceptionsHandling;
 
 
 namespace A.Views;
@@ -48,23 +48,22 @@ public partial class SettingsView : ContentPage
                     }
                     else
                     {
-                        throw new UserActException("UAE_001");
+                        throw new ExceptionHandler("UAE_001", App.UserData.CurrentCulture);
                     }
                 }
                 else
                 {
-                    throw new UserActException("UAE_002");
+                    throw new ExceptionHandler("UAE_002", App.UserData.CurrentCulture);
                 }
             }
         }
-        catch (Exception ex) when (ex is UserActException uae)
+        catch (Exception ex) when (ex is ExceptionHandler uae)
         {
             string test = uae.GetMessage;
         }
         catch (Exception ex)
         {
-            UserActException uae = new UserActException(ex.Message, ex.InnerException);
-
+            ExceptionHandler uae = new ExceptionHandler(ex.Message, App.UserData.CurrentCulture, ex.InnerException);
         }
     }
 

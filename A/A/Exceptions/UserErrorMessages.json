@@ -1,0 +1,56 @@
+{
+  "sk": {
+    // SettingsView
+    "UAE_001": "UAE_001: Jazyk zvolený ale nepodarilo sa nájsť príslušnu kultúru",
+    "UAE_002": "UAE_002: Jazyk zvolený ale interne v kóde == null",
+    // LogInView
+    "UAE_003": "Nie je možné sa prihlásiť\r\n. Zariadenie nemá pripojenie k internetu",
+    "UAE_004": "Chyba prihlásenia\r\n. Chyba:",
+    // Generic USER SIDE
+    "UAE_900": "Neočakavaná odpoveď od servera, neznáma chyba",
+    "UAE_901": "Nastala chyba pri komunikácií so serverom. Chyba: "
+  },
+  "sk-SK": {
+    // SettingsView
+    "UAE_001": "UAE_001: Jazyk zvolený ale nepodarilo sa nájsť príslušnu kultúru",
+    "UAE_002": "UAE_002: Jazyk zvolený ale interne v kóde == null",
+    // LogInView
+    "UAE_003": "Nie je možné sa prihlásiť\r\n. Zariadenie nemá pripojenie k internetu",
+    "UAE_004": "Chyba prihlásenia\r\n. Chyba:",
+    // Generic USER SIDE
+    "UAE_900": "Neočakavaná odpoveď od servera, neznáma chyba",
+    "UAE_901": "Nastala chyba pri komunikácií so serverom. Chyba: "
+  },
+  "cs": {
+    // SettingsView
+    "UAE_001": "UAE_001: Jazyk zvolený ale nepodařilo se najít příslušní kultúru",
+    "UAE_002": "UAE_002: Jazyk zvolený ale interně v kódu == null",
+    // LogInView
+    "UAE_003": "Nelze se přihlásit\r\n. Zařízení nemá připojení k internetu",
+    "UAE_004": "Chyba přihlášení\r\n. Chyba:",
+    // Generic
+    "UAE_900": "Neočekávaná odpověď od serveru, neznámá chyba",
+    "UAE_901": "Nastala chyba při komunikaci se serverem. Chyba: "
+  },
+  "de": {
+    "UAE_001": "UAE_001: Sprache ausgewählt, aber die entsprechende Kultur konnte nicht gefunden werden",
+    "UAE_002": "UAE_002: Sprache ausgewählt, aber intern im Code == null",
+    // LogInView
+    "UAE_003": "Anmeldung nicht möglich\r\n. Das Gerät hat keine Internetverbindung",
+    "UAE_004": "Anmeldefehler\r\n. Fehler:",
+    //Generic
+    "UAE_900": "Unerwartete Antwort vom Server, unbekannter Fehler",
+    "UAE_901": "Bei der Kommunikation mit dem Server ist ein Fehler aufgetreten. Fehler:"
+  },
+  "en": {
+    // SettingsView
+    "UAE_001": "UAE_001: Language selected but the corresponding culture could not be found",
+    "UAE_002": "UAE_002: Language selected but internally in the code == null",
+    // LogInView
+    "UAE_003": "Unable to log in\r\n. The device does not have an internet connection",
+    "UAE_004": "Login error\r\n. Error:",
+    // Generic USER SIDE
+    "UAE_900": "Unexpected response from server, unknown error",
+    "UAE_901": "An error occurred while communicating with the server. Error:"
+  }
+}

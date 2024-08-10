@@ -1,4 +1,5 @@
-﻿using SharedTypesLibrary.DTOs.Response;
+﻿using A.Exceptions.UserActionException;
+using SharedTypesLibrary.DTOs.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,5 @@ namespace A.Interfaces;
 
 public interface ILoginService
 {
-    Task<(UserLoginDataDTO UserInfo, string ResultMessage)> LoginHTTPS(string email, string passWord);
+    Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginHTTPS(string email, string passWord);
 }

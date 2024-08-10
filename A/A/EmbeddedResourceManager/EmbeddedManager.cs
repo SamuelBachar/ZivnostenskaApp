@@ -17,16 +17,20 @@ public static class EmbeddedResource
     {
         string jsonContent = string.Empty;
 
-        using (Stream? stream = Assembly.GetManifestResourceStream(filePath))
+        try
         {
-            if (stream != null)
+            using (Stream? stream = Assembly.GetManifestResourceStream(filePath))
             {
-                using (StreamReader reader = new StreamReader(stream))
+                if (stream != null)
                 {
-                    jsonContent = reader.ReadToEnd();
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        jsonContent = reader.ReadToEnd();
+                    }
                 }
             }
         }
+        catch (Exception ex) { }
 
         return jsonContent;
     }
