@@ -11,3 +11,10 @@ For example, using this with Serialization
 forces the data representation to always be the same, so you don't have to worry about internationalization issues with your internal data formats.
 
 2. Vytvorit okno na chybove hlasky s moznostou poslania chyby cez e-mail
+
+3.  Firebase authentication
+// https://www.youtube.com/watch?v=IEcm8X9Ukiw
+// https://www.youtube.com/watch?v=3DQMQ9Vuk0c&t=1163s
+3.1 Web Authenticator
+// https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-8.0&tabs=android
+// https://blog.jhonatanoliveira.dev/google-login-integration-with-net-maui
