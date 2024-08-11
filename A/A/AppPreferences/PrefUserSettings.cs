@@ -10,4 +10,6 @@ public static class PrefUserSettings
 {
     public const string PrefLanguage = "PrefLanguage";
     public const string PrefLanguageDefault = "en";
+
+    public const string PrefRememberLogIn = "RememberLogin";
 }

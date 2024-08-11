@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,6 +46,14 @@ class SettingsService : ISettingsService
         await Task.Run(() =>
         {
             Preferences.Default.Set<T>(key, value);
+        });
+    }
+
+    public static async Task RemoveStaticAsync(string key)
+    {
+        await Task.Run(() =>
+        {
+            Preferences.Default.Remove(key);
         });
     }
 

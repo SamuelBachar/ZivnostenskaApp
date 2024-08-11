@@ -97,6 +97,15 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string LogInView_Close {
+            get {
+                return ResourceManager.GetString("LogInView_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Don&apos;t have an account?.
         /// </summary>
         internal static string LogInView_DontHaveAccRegister {
@@ -120,6 +129,24 @@ namespace A.Resources.LanguageResources {
         internal static string LogInView_EnterPassword {
             get {
                 return ResourceManager.GetString("LogInView_EnterPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot password.
+        /// </summary>
+        internal static string LogInView_ForgotPassword {
+            get {
+                return ResourceManager.GetString("LogInView_ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log in error.
+        /// </summary>
+        internal static string LogInView_LogInError {
+            get {
+                return ResourceManager.GetString("LogInView_LogInError", resourceCulture);
             }
         }
         
@@ -156,6 +183,15 @@ namespace A.Resources.LanguageResources {
         internal static string LogInView_RegisterHere {
             get {
                 return ResourceManager.GetString("LogInView_RegisterHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember me.
+        /// </summary>
+        internal static string LogInView_RememberLogIn {
+            get {
+                return ResourceManager.GetString("LogInView_RememberLogIn", resourceCulture);
             }
         }
         

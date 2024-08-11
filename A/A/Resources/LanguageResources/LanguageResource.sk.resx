@@ -129,6 +129,9 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Toto je po slovensky kokot</value>
   </data>
+  <data name="LogInView_Close" xml:space="preserve">
+    <value>Zavrieť</value>
+  </data>
   <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
     <value>Nemáte účet ?</value>
   </data>
@@ -138,11 +141,20 @@
   <data name="LogInView_EnterPassword" xml:space="preserve">
     <value>Heslo</value>
   </data>
+  <data name="LogInView_ForgotPassword" xml:space="preserve">
+    <value>Zabudnuté heslo</value>
+  </data>
+  <data name="LogInView_LogInError" xml:space="preserve">
+    <value>Chyba prihlásenia</value>
+  </data>
   <data name="LogInView_LogIntoAccount" xml:space="preserve">
     <value>Prihláste sa do vášho účtu</value>
   </data>
   <data name="LogInView_RegisterHere" xml:space="preserve">
     <value>Registrujte sa tu</value>
+  </data>
+  <data name="LogInView_RememberLogIn" xml:space="preserve">
+    <value>Zapamätať prihlasovacie údaje</value>
   </data>
   <data name="LogInView_SignInAsCompany" xml:space="preserve">
     <value>Prihlásiť sa ako živnostník / firma</value>

@@ -129,6 +129,9 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>English motherfucker</value>
   </data>
+  <data name="LogInView_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
     <value>Don't have an account?</value>
   </data>
@@ -137,6 +140,12 @@
   </data>
   <data name="LogInView_EnterPassword" xml:space="preserve">
     <value>Enter password</value>
+  </data>
+  <data name="LogInView_ForgotPassword" xml:space="preserve">
+    <value>Forgot password</value>
+  </data>
+  <data name="LogInView_LogInError" xml:space="preserve">
+    <value>Log in error</value>
   </data>
   <data name="LogInView_LogIntoAccount" xml:space="preserve">
     <value>Sign in to your account</value>
@@ -149,6 +158,9 @@
   </data>
   <data name="LogInView_RegisterHere" xml:space="preserve">
     <value>Register here</value>
+  </data>
+  <data name="LogInView_RememberLogIn" xml:space="preserve">
+    <value>Remember me</value>
   </data>
   <data name="LogInView_SignInAsCompany" xml:space="preserve">
     <value>Log in as a self-employed / company</value>
