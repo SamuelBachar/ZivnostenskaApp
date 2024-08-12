@@ -1,7 +1,9 @@
 ﻿using A.Constants;
 using A.Interfaces;
+using A.Models;
 using A.Utils;
 using ExceptionsHandling;
+using Newtonsoft.Json;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.Request;
 using SharedTypesLibrary.ServiceResponseModel;
@@ -12,6 +14,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using static A.Enums.Enums;
 
 namespace A.Services;
 
@@ -23,9 +26,8 @@ public class LoginService : ILoginService
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginHTTPS(string email, string passWord)
+    public async Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
     {
-        //HTTPS
         try
         {
             if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
@@ -79,6 +81,124 @@ public class LoginService : ILoginService
         catch (Exception ex)
         {
             return (null, new ExceptionHandler("UAE_901", extraErrors: ex.Message, App.UserData.CurrentCulture));
+        }
+    }
+
+    public async Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(AuthProvider provider)
+    {
+        try
+        {
+            if (provider == AuthProvider.Apple)
+            {
+                await AppleAuthenticate();
+            }
+            else if (provider == AuthProvider.Google || provider == AuthProvider.Facebook)
+            {
+                await GoogleFacebookAuthenticate();
+            }
+        }
+        catch (Exception ex)
+        {
+            return (null, new ExceptionHandler("UAE_901", extraErrors: ex.Message, App.UserData.CurrentCulture));
+        }
+
+        return (null, new ExceptionHandler("UAE_901", "tmp", App.UserData.CurrentCulture));
+    }
+
+    private async Task AppleAuthenticate()
+    {
+        var scheme = "..."; // Apple, Microsoft, Google, Facebook, etc.
+        var authUrlRoot = "https://mysite.com/mobileauth/";
+        WebAuthenticatorResult result = null;
+
+        if ( DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
+        {
+            // Use Native Apple Sign In API's
+            result = await AppleSignInAuthenticator.AuthenticateAsync();
+        }
+        else
+        {
+            // Web Authentication flow
+            var authUrl = new Uri($"{authUrlRoot}{scheme}");
+            var callbackUrl = new Uri("myapp://");
+
+            result = await WebAuthenticator.Default.AuthenticateAsync(authUrl, callbackUrl);
+        }
+
+        var authToken = string.Empty;
+
+        if (result.Properties.TryGetValue("name", out string name) && !string.IsNullOrEmpty(name))
+            authToken += $"Name: {name}{Environment.NewLine}";
+
+        if (result.Properties.TryGetValue("email", out string email) && !string.IsNullOrEmpty(email))
+            authToken += $"Email: {email}{Environment.NewLine}";
+
+        // Note that Apple Sign In has an IdToken and not an AccessToken
+        authToken += result?.AccessToken ?? result?.IdToken;
+    }
+
+    private async Task GoogleFacebookAuthenticate()
+    {
+        // TODO tu je len jedno konkretne client_id a to pre debug apk cize not real signed a pre Android a GoogleAuth..
+        // treba dalsie aj pre Apple, Facebook atd.. takze treba tu vymysliet lepsi sposob rozoznat na akej som platforme a vytihanut na zaklade
+        // toho z configu spravne OAuth Client Id
+        var authUrl = $"https://accounts.google.com/o/oauth2/auth?response_type=code" +
+                    $"&redirect_uri=com.majster.majster_app.login://" +
+                    $"&client_id=478494221197-sohbnoje2ve5ak0aik1jovaostffl4jb.apps.googleusercontent.com" +
+                    $"&scope=https://www.googleapis.com/auth/userinfo.email" +
+                    $"&include_granted_scopes=true" +
+                    $"&state=state_parameter_passthrough_value";
+
+
+        var callbackUrl = "com.majster.majster_app.login://";
+
+        try
+        {
+            WebAuthenticatorResult authResult = null;
+            authResult = await WebAuthenticator.Default.AuthenticateAsync(
+                new WebAuthenticatorOptions()
+                {
+                    Url = new Uri(authUrl),
+                    CallbackUrl = new Uri(callbackUrl),
+                    PrefersEphemeralWebBrowserSession = true
+                });
+
+            if (authResult != null)
+            {
+                string accessToken = authResult.AccessToken;
+
+                var parameters = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string,string>("grant_type","authorization_code"),
+                    new KeyValuePair<string,string>("client_id","478494221197-sohbnoje2ve5ak0aik1jovaostffl4jb.apps.googleusercontent.com"),
+                    new KeyValuePair<string,string>("redirect_uri",callbackUrl),
+                    new KeyValuePair<string,string>("code", accessToken)
+                });
+
+
+                HttpClient client = new HttpClient();
+                HttpResponseMessage? accessTokenResponse = await client.PostAsync("https://oauth2.googleapis.com/token", parameters);
+
+                LoginResponse loginResponse;
+
+                if (accessTokenResponse.IsSuccessStatusCode)
+                {
+                    var data = await accessTokenResponse.Content.ReadAsStringAsync();
+
+                    loginResponse = JsonConvert.DeserializeObject<LoginResponse>(data);
+                }
+                else
+                {
+
+                }
+            }
+
+            // Do something with the token
+        }
+        catch (TaskCanceledException e)
+        {
+            int a = 2;
+            int b =+ a;
         }
     }
 }

@@ -10,5 +10,5 @@ namespace A.Interfaces;
 
 public interface ILoginService
 {
-    Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginHTTPS(string email, string passWord);
+    Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord);
 }

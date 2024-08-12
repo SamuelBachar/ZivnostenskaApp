@@ -106,7 +106,7 @@ public partial class LogInView : ContentPage
     {
         // this.Content = this._popUpIndic;
 
-        (UserLoginDataDTO UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginHTTPS(EntryEmail.Text, EntryPassword.Text);
+        (UserLoginDataDTO UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginGeneric(EntryEmail.Text, EntryPassword.Text);
 
         if (response.UserLoginDTO != null)
         {
@@ -139,5 +139,10 @@ public partial class LogInView : ContentPage
             //this.Content = this.MainControlWrapper;
             await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.GetMessage, App.LanguageResourceManager["LogInView_Close"].ToString());
         }
+    }
+
+    private async Task LogInWithAuthProvider(AuthProvider provider)
+    {
+        (UserLoginDataDTO UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider)
     }
 }

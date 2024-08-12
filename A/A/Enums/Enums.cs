@@ -9,4 +9,5 @@ namespace A.Enums;
 public static class Enums
 {
     public enum AppMode { Customer = 0, Company = 1};
+    public enum AuthProvider { Apple = 0, Google = 1, Facebook = 2 };
 }
