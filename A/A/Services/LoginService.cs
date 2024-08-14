@@ -21,9 +21,11 @@ namespace A.Services;
 public class LoginService : ILoginService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    public LoginService(IHttpClientFactory httpClientFactory)
+    private readonly IWebAuthenticator _webAuthenticator;
+    public LoginService(IHttpClientFactory httpClientFactory, IWebAuthenticator webAuthenticator)
     {
         _httpClientFactory = httpClientFactory;
+        _webAuthenticator = webAuthenticator;
     }
 
     public async Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
@@ -142,23 +144,16 @@ public class LoginService : ILoginService
         // TODO tu je len jedno konkretne client_id a to pre debug apk cize not real signed a pre Android a GoogleAuth..
         // treba dalsie aj pre Apple, Facebook atd.. takze treba tu vymysliet lepsi sposob rozoznat na akej som platforme a vytihanut na zaklade
         // toho z configu spravne OAuth Client Id
-        var authUrl = $"https://accounts.google.com/o/oauth2/auth?response_type=code" +
-                    $"&redirect_uri=com.majster.majster_app://" +
-                    $"&client_id=478494221197-sohbnoje2ve5ak0aik1jovaostffl4jb.apps.googleusercontent.com" +
-                    $"&scope=https://www.googleapis.com/auth/userinfo.email" +
-                    $"&include_granted_scopes=true" +
-                    $"&state=state_parameter_passthrough_value";
-
 
         var callbackUrl = "com.majster.majster_app://"; // "myapp://"
 
         try
         {
-            WebAuthenticatorResult authResult = null;
-            authResult = await WebAuthenticator.Default.AuthenticateAsync(
+            Uri Url1 = new Uri(new Uri("https://localhost:7162/"), "mobileauth/signingoogle");
+                WebAuthenticatorResult authResult = await _webAuthenticator.AuthenticateAsync(
                 new WebAuthenticatorOptions()
                 {
-                    Url = new Uri(authUrl),
+                    Url = Url1,
                     CallbackUrl = new Uri(callbackUrl),
                     PrefersEphemeralWebBrowserSession = true
                 });

@@ -1,5 +1,7 @@
 using AvantiPoint.MobileAuth;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
+using System.Reflection;
 using System.Text.Json;
 using ZivnostAPI.Constants;
 using ZivnostAPI.Data.DataContext;
@@ -8,7 +10,7 @@ using ZivnostAPI.Services.CompanyService;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add Mobile Auth to builder
-builder.AddMobileAuth();
+//builder.AddMobileAuth();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -18,6 +20,16 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddDbContext<DataContext>();
+
+var dbContextTypes = Assembly.GetExecutingAssembly()
+                             .GetTypes()
+                             .Where(t => t.IsSubclassOf(typeof(DbContext)));
+
+Console.WriteLine("Found DbContext classes:");
+foreach (var dbContextType in dbContextTypes)
+{
+    Console.WriteLine(dbContextType.Name);
+}
 
 var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), APIConstants.JsonExceptionFilePath);
 if (File.Exists(jsonFilePath))
@@ -45,7 +57,7 @@ app.UseAuthentication();
 
 // maps https://{host}/mobileauth/{Apple|Google|Microsoft}
 
-app.MapMobileAuthRoute();
+//app.MapMobileAuthRoute();
 
 app.MapControllers();
 

@@ -2,5 +2,5 @@
 
 public static class APIConstants
 {
-    public const string JsonExceptionFilePath = "Exceptions.ApiErrorMessages.json";
+    public const string JsonExceptionFilePath = "Exceptions\\ApiErrorMessages.json";
 }

@@ -37,7 +37,7 @@ namespace A
                     ? "https://10.0.2.2:7279"
                     : "https://localhost:7279";
 
-                baseUrl = "https://inflastoreapi.azurewebsites.net/"; // TODO change
+                //baseUrl = "https://inflastoreapi.azurewebsites.net/"; // TODO change
 
                 httpsClient.BaseAddress = new Uri(baseUrl);
             }).ConfigurePrimaryHttpMessageHandler(configPrimary =>
@@ -58,6 +58,7 @@ namespace A
             builder.Services.AddSingleton<SettingsView>();
             builder.Services.AddSingleton<LogInView>();
             builder.Services.AddSingleton<SettingsService>();
+            builder.Services.AddSingleton(WebAuthenticator.Default);
 
             return builder.Build();
         }
