@@ -18,3 +18,9 @@ forces the data representation to always be the same, so you don't have to worry
 3.1 Web Authenticator
 // https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-8.0&tabs=android
 // https://blog.jhonatanoliveira.dev/google-login-integration-with-net-maui
+
+4. video kde sa riesi WebAuthentificator
+https://www.youtube.com/watch?v=kjRCDzd27oQ&feature=youtu.be
+https://www.youtube.com/watch?v=kjRCDzd27oQ
+
+5. https://github.com/AvantiPoint/mobileauth-lib

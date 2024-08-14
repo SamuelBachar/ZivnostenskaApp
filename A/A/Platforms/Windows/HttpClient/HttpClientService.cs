@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace A.Platforms.Windows.HttpClient;
+namespace A.Services;
 
 public partial class HttpClientService : IPlatformHttpMessageHandler
 {

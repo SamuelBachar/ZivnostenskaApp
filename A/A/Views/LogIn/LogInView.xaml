@@ -82,7 +82,7 @@
                             <Label Text="{translate:TranslateManager LogInView_LoginViaGoogle}" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center"/>
                         </HorizontalStackLayout>
 
-                        <Button Grid.Row="1" Grid.Column="1" Text="{translate:TranslateManager LogInView_SignInAsUserShort}" Margin="10,0,10,0" />
+                        <Button x:Name="BtnGoogleSignInAsUser" Grid.Row="1" Grid.Column="1" Text="{translate:TranslateManager LogInView_SignInAsUserShort}" Margin="10,0,10,0" Clicked="BtnGoogleSignInAsUser_Clicked" />
                         <Button Grid.Row="2" Grid.Column="1" Text="{translate:TranslateManager LogInView_SignInAsCompanyShort}" Margin="10,0,10,10" />
                     </VerticalStackLayout>
                 </Frame>

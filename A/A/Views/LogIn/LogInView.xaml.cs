@@ -143,6 +143,21 @@ public partial class LogInView : ContentPage
 
     private async Task LogInWithAuthProvider(AuthProvider provider)
     {
-        (UserLoginDataDTO UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider)
+
+        (UserLoginDataDTO UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
+
+        if (response.UserLoginDTO != null)
+        {
+
+        }
+        else
+        {
+            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.GetMessage, App.LanguageResourceManager["LogInView_Close"].ToString());
+        }
+    }
+
+    private async void BtnGoogleSignInAsUser_Clicked(object sender, EventArgs e)
+    {
+        await LogInWithAuthProvider(AuthProvider.Google);
     }
 }

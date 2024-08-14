@@ -143,14 +143,14 @@ public class LoginService : ILoginService
         // treba dalsie aj pre Apple, Facebook atd.. takze treba tu vymysliet lepsi sposob rozoznat na akej som platforme a vytihanut na zaklade
         // toho z configu spravne OAuth Client Id
         var authUrl = $"https://accounts.google.com/o/oauth2/auth?response_type=code" +
-                    $"&redirect_uri=com.majster.majster_app.login://" +
+                    $"&redirect_uri=com.majster.majster_app://" +
                     $"&client_id=478494221197-sohbnoje2ve5ak0aik1jovaostffl4jb.apps.googleusercontent.com" +
                     $"&scope=https://www.googleapis.com/auth/userinfo.email" +
                     $"&include_granted_scopes=true" +
                     $"&state=state_parameter_passthrough_value";
 
 
-        var callbackUrl = "com.majster.majster_app.login://";
+        var callbackUrl = "com.majster.majster_app://"; // "myapp://"
 
         try
         {
@@ -199,6 +199,10 @@ public class LoginService : ILoginService
         {
             int a = 2;
             int b =+ a;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
         }
     }
 }

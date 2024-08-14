@@ -1,3 +1,4 @@
+using AvantiPoint.MobileAuth;
 using Microsoft.VisualBasic;
 using System.Text.Json;
 using ZivnostAPI.Constants;
@@ -6,8 +7,10 @@ using ZivnostAPI.Services.CompanyService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add Mobile Auth to builder
+builder.AddMobileAuth();
 
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -37,8 +40,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
+app.UseAuthentication();
+
+// maps https://{host}/mobileauth/{Apple|Google|Microsoft}
+
+app.MapMobileAuthRoute();
 
 app.MapControllers();
 

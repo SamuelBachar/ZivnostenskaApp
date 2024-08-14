@@ -9,5 +9,5 @@ namespace A.Constants;
 public static class AppConstants
 {
     public const string HttpsClientName = "zivnostenska-app-client";
-    public const string JsonExceptionFilePath = @"A.Exceptions.UserActionExceptionMessages.UserErrorMessages.json";
+    public const string JsonExceptionFilePath = @"A.Exceptions.UserErrorMessages.json";
 }
