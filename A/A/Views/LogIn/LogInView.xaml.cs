@@ -106,7 +106,7 @@ public partial class LogInView : ContentPage
     {
         // this.Content = this._popUpIndic;
 
-        (UserLoginDataDTO UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginGeneric(EntryEmail.Text, EntryPassword.Text);
+        (UserLoginGenericResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginGeneric(EntryEmail.Text, EntryPassword.Text);
 
         if (response.UserLoginDTO != null)
         {
@@ -144,7 +144,7 @@ public partial class LogInView : ContentPage
     private async Task LogInWithAuthProvider(AuthProvider provider)
     {
 
-        (UserLoginDataDTO UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
+        (UserLoginGenericResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
 
         if (response.UserLoginDTO != null)
         {

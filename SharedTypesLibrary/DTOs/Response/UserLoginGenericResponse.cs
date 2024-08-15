@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharedTypesLibrary.DTOs.Response;
 
-public class UserLoginDataDTO
+public class UserLoginGenericResponse
 {
     public string Email { get; set; } = string.Empty;
 

@@ -28,7 +28,7 @@ public class LoginService : ILoginService
         _webAuthenticator = webAuthenticator;
     }
 
-    public async Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
+    public async Task<(UserLoginGenericResponse UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
     {
         try
         {
@@ -41,12 +41,12 @@ public class LoginService : ILoginService
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var serializedResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<UserLoginDataDTO>>();
-                    return (new UserLoginDataDTO { Email = serializedResponse.Data.Email, JWT = serializedResponse.Data.JWT }, null);
+                    var serializedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginGenericResponse>>();
+                    return (new UserLoginGenericResponse { Email = serializedResponse.Data.Email, JWT = serializedResponse.Data.JWT }, null);
                 }
                 else if ((response.StatusCode == System.Net.HttpStatusCode.BadRequest) && (!response.IsSuccessStatusCode))
                 {
-                    var serializedResponse = await response.Content.ReadFromJsonAsync<ServiceResponse<UserLoginDataDTO>>();
+                    var serializedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginGenericResponse>>();
                     return (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
                 }
                 else if (!response.IsSuccessStatusCode)
@@ -86,7 +86,7 @@ public class LoginService : ILoginService
         }
     }
 
-    public async Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(AuthProvider provider)
+    public async Task<(UserLoginGenericResponse UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(AuthProvider provider)
     {
         try
         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharedTypesLibrary.ServiceResponseModel;
 
-public class ServiceResponse<T>
+public class ApiResponse<T>
 {
     public T? Data { get; set; }
     public bool Success { get; set; } = true;

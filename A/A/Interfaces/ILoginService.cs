@@ -11,6 +11,6 @@ namespace A.Interfaces;
 
 public interface ILoginService
 {
-    Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord);
-    Task<(UserLoginDataDTO UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(AuthProvider provider);
+    Task<(UserLoginGenericResponse UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord);
+    Task<(UserLoginGenericResponse UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(AuthProvider provider);
 }
