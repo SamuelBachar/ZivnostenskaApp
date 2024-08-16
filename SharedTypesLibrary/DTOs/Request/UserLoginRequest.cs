@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedTypesLibrary.Request;
+namespace SharedTypesLibrary.DTOs.Request;
 
 public class UserLoginRequest
 {

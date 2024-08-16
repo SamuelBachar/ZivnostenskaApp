@@ -8,9 +8,9 @@ namespace SharedTypesLibrary.DTOs.Response;
 
 public class UserLoginAuthProviderResponse
 {
-    string Email { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
 
-    string Token { get; set; } = string.Empty;
+    public string Token { get; set; } = string.Empty;
 
-    string JWT { get; set; } = string.Empty;
+    public string JWT { get; set; } = string.Empty;
 }

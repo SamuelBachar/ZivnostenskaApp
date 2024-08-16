@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
-using SharedTypesLibrary.Request;
 using SharedTypesLibrary.ServiceResponseModel;
 using ZivnostAPI.Services.LogInService;
 
@@ -9,7 +8,7 @@ namespace ZivnostAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class LogInController : Controller
+public class LogInController : ControllerBase
 {
     ILogInService _loginService;
     public LogInController(ILogInService loginService)
