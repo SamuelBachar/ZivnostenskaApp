@@ -24,3 +24,6 @@ https://www.youtube.com/watch?v=kjRCDzd27oQ&feature=youtu.be
 https://www.youtube.com/watch?v=kjRCDzd27oQ
 
 5. https://github.com/AvantiPoint/mobileauth-lib
+
+6. IHttpClientFactory https://youtu.be/Z6Y2adsMnAA?t=516
+   https://www.youtube.com/watch?v=ZF9-TEzkj5c nejake dodatocne ifno ku IHttpClientFactory
