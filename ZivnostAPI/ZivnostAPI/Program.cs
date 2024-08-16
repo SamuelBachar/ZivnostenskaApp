@@ -21,15 +21,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddDbContext<DataContext>();
 
-var dbContextTypes = Assembly.GetExecutingAssembly()
-                             .GetTypes()
-                             .Where(t => t.IsSubclassOf(typeof(DbContext)));
+builder.Services.AddHttpClient();
 
-Console.WriteLine("Found DbContext classes:");
-foreach (var dbContextType in dbContextTypes)
-{
-    Console.WriteLine(dbContextType.Name);
-}
 
 var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), APIConstants.JsonExceptionFilePath);
 if (File.Exists(jsonFilePath))
