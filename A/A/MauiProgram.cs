@@ -34,7 +34,7 @@ namespace A
             builder.Services.AddHttpClient(Constants.AppConstants.HttpsClientName, httpsClient =>
             {
                 var baseUrl = DeviceInfo.Platform == DevicePlatform.Android
-                    ? "https://10.0.2.2:7279"
+                    ? "https://10.0.2.2:7279" //7279
                     : "https://localhost:7279";
 
                 //baseUrl = "https://inflastoreapi.azurewebsites.net/"; // TODO change

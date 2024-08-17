@@ -1,12 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.majster.majster_app">
-	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="Majster"></application>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-sdk />
-	<queries>
-		<intent>
-			<action android:name="android.support.customtabs.action.CustomTabsService" />
-		</intent>
-	</queries>
+  <application
+        android:allowBackup="true"
+        android:icon="@mipmap/appicon"
+        android:supportsRtl="true"
+        android:label="Majster">
+    <activity
+            android:name=".WebAuthenticationCallbackActivity"
+            android:exported="true"
+            android:label="WebAuthenticationCallbackActivity"
+            android:launchMode="singleTop"
+            android:noHistory="true">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" android:host="18745623496987751" android:path="/majster_app/auth" />
+      </intent-filter>
+    </activity>
+  </application>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-sdk />
+  <queries>
+    <intent>
+      <action android:name=".WebAuthenticationCallbackActivity" />
+    </intent>
+  </queries>
 </manifest>

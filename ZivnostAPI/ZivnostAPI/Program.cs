@@ -25,8 +25,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ZivnostAPI.Services.CompanyService.ICompanyService, LoginService>();
-builder.Services.AddScoped<ZivnostAPI.Services.LogInService.ILogInService, LoginService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<ILogInService, LogInService>();
 builder.Services.AddDbContext<DataContext>();
 
 builder.Services.Configure<OAuth>(builder.Configuration.GetSection("OAuth"));

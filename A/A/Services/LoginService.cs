@@ -10,6 +10,7 @@ using SharedTypesLibrary.ServiceResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -64,7 +65,7 @@ public class LoginService : ILoginService
                             foreach (var errorInfo in error.Value)
                                 temp += errorInfo + "\r\n";
                         }
-                        
+
                         return (null, new ExceptionHandler("UAE_901", extraErrors: temp, App.UserData.CurrentCulture));
                     }
                     else
@@ -113,7 +114,7 @@ public class LoginService : ILoginService
         var authUrlRoot = "https://mysite.com/mobileauth/";
         WebAuthenticatorResult result = null;
 
-        if ( DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
+        if (DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
         {
             // Use Native Apple Sign In API's
             result = await AppleSignInAuthenticator.AuthenticateAsync();
@@ -145,59 +146,74 @@ public class LoginService : ILoginService
         // treba dalsie aj pre Apple, Facebook atd.. takze treba tu vymysliet lepsi sposob rozoznat na akej som platforme a vytihanut na zaklade
         // toho z configu spravne OAuth Client Id
 
-        var callbackUrl = "com.majster.majster_app://"; // "myapp://"
+        var callbackUrl = "com.majster.majster_app://"; // com.yourapp:/oauth2redirect
+
+        string clientId = "478494221197-4joqsrropbu79cpb2vdphqjucm5buabg.apps.googleusercontent.com";
+        string redirectUri = "https://18745623496987751/majster_app/auth"; // Scheme should be registered in your app
+        string scope = "openid email profile";
+        string state = "random_state_string"; // Protect against CSRF attacks
+        string authUri = "https://accounts.google.com/o/oauth2/auth";
+
+        string authorizationUrl = $"{authUri}?response_type=code&client_id={clientId}&redirect_uri={Uri.EscapeDataString(redirectUri)}&scope={Uri.EscapeDataString(scope)}&state={state}&access_type=offline&prompt=consent";
 
         try
         {
-            Uri Url1 = new Uri(new Uri("https://localhost:7162/"), "mobileauth/signingoogle");
-                WebAuthenticatorResult authResult = await _webAuthenticator.AuthenticateAsync(
-                new WebAuthenticatorOptions()
-                {
-                    Url = Url1,
-                    CallbackUrl = new Uri(callbackUrl),
-                    PrefersEphemeralWebBrowserSession = true
-                });
+            WebAuthenticatorResult authResult = await _webAuthenticator.AuthenticateAsync(
+            new WebAuthenticatorOptions()
+            {
+                Url = new Uri(authorizationUrl),
+                CallbackUrl = new Uri(redirectUri),
+                PrefersEphemeralWebBrowserSession = true
+            });
 
             if (authResult != null)
             {
-                string accessToken = authResult.AccessToken;
-
-                var parameters = new FormUrlEncodedContent(new[]
+                using (var httpClient = new HttpClient())
                 {
-                    new KeyValuePair<string,string>("grant_type","authorization_code"),
-                    new KeyValuePair<string,string>("client_id","478494221197-sohbnoje2ve5ak0aik1jovaostffl4jb.apps.googleusercontent.com"),
-                    new KeyValuePair<string,string>("redirect_uri",callbackUrl),
-                    new KeyValuePair<string,string>("code", accessToken)
-                });
-
-
-                HttpClient client = new HttpClient();
-                HttpResponseMessage? accessTokenResponse = await client.PostAsync("https://oauth2.googleapis.com/token", parameters);
-
-                LoginResponse loginResponse;
-
-                if (accessTokenResponse.IsSuccessStatusCode)
+                    var tokenRequestParams = new Dictionary<string, string>
                 {
-                    var data = await accessTokenResponse.Content.ReadAsStringAsync();
+                    { "code", authResult.Properties["code"] },
+                    { "client_id", clientId },
+                    { "redirect_uri", redirectUri },
+                    { "grant_type", "authorization_code" }
+                };
 
-                    loginResponse = JsonConvert.DeserializeObject<LoginResponse>(data);
-                }
-                else
-                {
+                    var response = await httpClient.PostAsync("https://oauth2.googleapis.com/token", new FormUrlEncodedContent(tokenRequestParams));
+                    var content = await response.Content.ReadAsStringAsync();
 
+                    // The content contains the access_token, refresh_token, etc.
+                    var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(content);
                 }
             }
-
-            // Do something with the token
         }
+
+        // Do something with the token
         catch (TaskCanceledException e)
         {
             int a = 2;
-            int b =+ a;
+            int b = +a;
         }
         catch (Exception ex)
         {
             throw ex;
         }
+    }
+
+    public class TokenResponse
+    {
+        [JsonProperty("access_token")]
+        public string AccessToken { get; set; }
+
+        [JsonProperty("refresh_token")]
+        public string RefreshToken { get; set; }
+
+        [JsonProperty("expires_in")]
+        public int ExpiresIn { get; set; }
+
+        [JsonProperty("token_type")]
+        public string TokenType { get; set; }
+
+        [JsonProperty("id_token")]
+        public string IdToken { get; set; }
     }
 }
