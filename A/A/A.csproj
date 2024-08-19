@@ -143,4 +143,8 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Platforms\Android\Resources\NewFolder\" />
+	</ItemGroup>
+
 </Project>

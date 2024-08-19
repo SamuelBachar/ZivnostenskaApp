@@ -35,7 +35,7 @@ namespace A
             {
                 var baseUrl = DeviceInfo.Platform == DevicePlatform.Android
                     ? "https://10.0.2.2:7162" //7279
-                    : "https://localhost:7162";
+                    : "http://localhost:7162";
 
                 //baseUrl = "https://inflastoreapi.azurewebsites.net/"; // TODO change
 

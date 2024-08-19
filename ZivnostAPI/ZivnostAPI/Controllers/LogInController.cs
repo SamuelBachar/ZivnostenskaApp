@@ -57,7 +57,24 @@ public class LogInController : ControllerBase
     [HttpGet("RedirectUri")]
     public ActionResult RedirectUri()
     {
-        return Ok();
+        // Get the query parameters
+        var queryParams = HttpContext.Request.Query;
+
+        // Extract only the parameters you're interested in
+        var code = queryParams["code"].ToString();
+        var state = queryParams["state"].ToString();
+
+        // You can add checks for the presence of these parameters
+        if (string.IsNullOrEmpty(code))
+        {
+            return BadRequest("Authorization code is missing");
+        }
+
+        // Use the parameters for your logic
+        // For example, redirecting to the app with the code
+        var redirectUri = $"myapp://auth?code={code}&state={state}";
+
+        return Redirect(redirectUri);
     }
 
 }
