@@ -27,3 +27,11 @@ https://www.youtube.com/watch?v=kjRCDzd27oQ
 
 6. IHttpClientFactory https://youtu.be/Z6Y2adsMnAA?t=516
    https://www.youtube.com/watch?v=ZF9-TEzkj5c nejake dodatocne ifno ku IHttpClientFactory
+
+
+http://mkumaran.net/posts/2023/use-localhost-android-emulator/
+
+
+adb reverse tcp:7162 tcp:7162
+adb reverse --list
+adb reverse --remove tcp:7162

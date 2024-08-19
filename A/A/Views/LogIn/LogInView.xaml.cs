@@ -7,6 +7,7 @@ using SharedTypesLibrary.Constants;
 using SharedTypesLibrary.DTOs.Response;
 using System;
 using static A.Enums.Enums;
+using static System.Net.WebRequestMethods;
 
 namespace A.Views;
 
@@ -16,11 +17,11 @@ public partial class LogInView : ContentPage
     WebView _webView = null;
 
     public LogInView(ILoginService loginService)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         _loginService = loginService;
-	}
+    }
 
     private async void ChkRememberLogin_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
@@ -149,19 +150,23 @@ public partial class LogInView : ContentPage
 
         (UserLoginAuthProviderResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
 
+        WebAuthenticatorResult? result = null;
         if (response.UserLoginDTO != null)
         {
-            _webView = new WebView
+            try
             {
-                UserAgent = "Mozilla/5.0 (Linux; Android 4.1.1; Galaxy Nexus Build/JRO03C) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19",
-                Source = new UrlWebViewSource 
-                { 
-                    Url = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=478494221197-lgnhi5pme4ia4mcj3cah5a2h0vip9st5.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Flocalhost%3A7162%2Fapi%2FLogIn%2FRedirectUri&scope=openid%20email%20profile&state=abc123&access_type=offline&prompt=consent\r\n"
-                    //response.UserLoginDTO.WebPage 
-                }
-            };
+                //await Browser.OpenAsync(response.UserLoginDTO.WebPage.Replace(" ", "%20"), BrowserLaunchMode.SystemPreferred);
+                result = await WebAuthenticator.AuthenticateAsync(new Uri(response.UserLoginDTO.WebPage.Replace(" ", "%20")), new Uri("myapp://"));
 
-            await Navigation.PushAsync(new ContentPage { Content = _webView });
+                string accessToken = result?.AccessToken;
+            }
+            catch (Exception ex)
+            {
+                int a = 2;
+            }
+
+            var code = result?.Properties["code"];
+            int b = 2;
         }
         else
         {
