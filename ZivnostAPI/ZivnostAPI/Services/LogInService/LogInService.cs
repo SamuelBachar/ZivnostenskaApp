@@ -1,4 +1,6 @@
-﻿using SharedTypesLibrary.Constants;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
+using SharedTypesLibrary.Constants;
 using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
@@ -17,7 +19,7 @@ public class LogInService : ILogInService
         _dataContext = dataContext;
     }
 
-    public async Task<ApiResponse<UserLoginAuthProviderResponse?>> LogInWithAuthProvider(UserLoginAuthProviderRequest request)
+    public async Task<ApiResponse<UserLoginAuthProviderResponse?>> GetAuthProviderLandingPage(UserLoginAuthProviderRequest request)
     {
         ApiResponse<UserLoginAuthProviderResponse?> response = new ApiResponse<UserLoginAuthProviderResponse?>();
 
@@ -39,7 +41,7 @@ public class LogInService : ILogInService
                 // For demonstration, just set the raw response data to your ApiResponse
                 response.Data = new UserLoginAuthProviderResponse
                 {
-                    Token = responseData
+                    WebPage = client.BaseAddress.ToString()//responseData
                 };
 
                 response.Success = true;
@@ -57,6 +59,55 @@ public class LogInService : ILogInService
         }
 
         return response;
+    }
+
+    public async Task<ApiResponse<UserLoginAuthProviderResponse?>> AuthenticateWithAuthProvider(UserLoginAuthProviderRequest request)
+    {
+        ApiResponse<UserLoginAuthProviderResponse?> response = new ApiResponse<UserLoginAuthProviderResponse?>();
+
+        if (request.Provider == AuthProviders.Google)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var tokenRequest = new HttpRequestMessage(HttpMethod.Post, "https://oauth2.googleapis.com/token");
+
+            var tokenRequestData = new Dictionary<string, string>
+            {
+                { "code", request.Code },
+                { "client_id", "YOUR_GOOGLE_CLIENT_ID" },
+                { "client_secret", "YOUR_GOOGLE_CLIENT_SECRET" },
+                { "redirect_uri", "YOUR_REDIRECT_URI" },
+                { "grant_type", "authorization_code" }
+            };
+
+            tokenRequest.Content = new FormUrlEncodedContent(tokenRequestData);
+            var tokenResponse = await client.SendAsync(tokenRequest);
+
+            if (tokenResponse.IsSuccessStatusCode)
+            {
+                var tokenResponseData = await tokenResponse.Content.ReadAsStringAsync();
+                // Process token, save user, etc.
+                response.Success = true;
+                response.Data = new UserLoginAuthProviderResponse { Token = tokenResponseData };
+            }
+            else
+            {
+                response.Success = false;
+                response.Data = null;
+            }
+        }
+        else
+        {
+            response.Success = false;
+            response.Data = null;
+        }
+
+        return response;
+    }
+
+    public void RedirectUri()
+    {
+        int a;
+        int b =+ 2;
     }
 
 }

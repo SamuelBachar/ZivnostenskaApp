@@ -12,7 +12,6 @@ using ZivnostAPI.Data.DataContext;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Services.CompanyService;
 using ZivnostAPI.Services.LogInService;
-using static System.Net.WebRequestMethods;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +38,7 @@ builder.Services.AddHttpClient(AuthProviders.Google, (serviceProvider, authProvi
         "https://accounts.google.com/o/oauth2/auth" +
         "?response_type=code" +
         $"&client_id={oauthOptions.Google.ClientId}" +
-        $"&redirect_uri={Uri.EscapeDataString(oauthOptions.CallBackScheme + "/api/" + nameof(LogInController) + "/AuthProviderCodeResponse")}" +
+        $"&redirect_uri=https://localhost:7162/api/LogIn/RedirectUri" +
         $"&scope={Uri.EscapeDataString("openid email profile")}" +
         "&state=abc123&access_type=offline&prompt=consent");
 });

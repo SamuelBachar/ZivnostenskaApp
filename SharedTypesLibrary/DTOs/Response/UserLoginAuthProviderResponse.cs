@@ -13,4 +13,7 @@ public class UserLoginAuthProviderResponse
     public string Token { get; set; } = string.Empty;
 
     public string JWT { get; set; } = string.Empty;
+
+    public string WebPage { get; set; } = string.Empty;
+
 }

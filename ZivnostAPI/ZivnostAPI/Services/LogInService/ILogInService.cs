@@ -8,5 +8,7 @@ namespace ZivnostAPI.Services.LogInService;
 
 public interface ILogInService
 {
-    Task<ApiResponse<UserLoginAuthProviderResponse?>> LogInWithAuthProvider(UserLoginAuthProviderRequest request);
+    Task<ApiResponse<UserLoginAuthProviderResponse?>> GetAuthProviderLandingPage(UserLoginAuthProviderRequest request);
+
+    Task<ApiResponse<UserLoginAuthProviderResponse?>> AuthenticateWithAuthProvider(UserLoginAuthProviderRequest request);
 }

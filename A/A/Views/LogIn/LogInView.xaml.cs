@@ -3,6 +3,7 @@ using A.Interfaces;
 using A.Services;
 using ExceptionsHandling;
 using Newtonsoft.Json;
+using SharedTypesLibrary.Constants;
 using SharedTypesLibrary.DTOs.Response;
 using System;
 using static A.Enums.Enums;
@@ -12,6 +13,8 @@ namespace A.Views;
 public partial class LogInView : ContentPage
 {
     readonly ILoginService _loginService = null;
+    WebView _webView = null;
+
     public LogInView(ILoginService loginService)
 	{
 		InitializeComponent();
@@ -141,14 +144,24 @@ public partial class LogInView : ContentPage
         }
     }
 
-    private async Task LogInWithAuthProvider(AuthProvider provider)
+    private async Task LogInWithAuthProvider(string provider)
     {
 
-        (UserLoginGenericResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
+        (UserLoginAuthProviderResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
 
         if (response.UserLoginDTO != null)
         {
+            _webView = new WebView
+            {
+                UserAgent = "Mozilla/5.0 (Linux; Android 4.1.1; Galaxy Nexus Build/JRO03C) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19",
+                Source = new UrlWebViewSource 
+                { 
+                    Url = "https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=478494221197-lgnhi5pme4ia4mcj3cah5a2h0vip9st5.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Flocalhost%3A7162%2Fapi%2FLogIn%2FRedirectUri&scope=openid%20email%20profile&state=abc123&access_type=offline&prompt=consent\r\n"
+                    //response.UserLoginDTO.WebPage 
+                }
+            };
 
+            await Navigation.PushAsync(new ContentPage { Content = _webView });
         }
         else
         {
@@ -158,6 +171,6 @@ public partial class LogInView : ContentPage
 
     private async void BtnGoogleSignInAsUser_Clicked(object sender, EventArgs e)
     {
-        await LogInWithAuthProvider(AuthProvider.Google);
+        await LogInWithAuthProvider(AuthProviders.Google);
     }
 }

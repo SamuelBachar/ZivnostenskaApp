@@ -18,12 +18,46 @@ public class LogInController : ControllerBase
 
     }
 
-    [HttpPost("login")]
-    public async Task<ActionResult<ApiResponse<UserLoginAuthProviderResponse>>> LogInWithAuthProvider(UserLoginAuthProviderRequest request)
+    [HttpPost("GetAuthProviderLandingPage")]
+    public async Task<ActionResult<ApiResponse<UserLoginAuthProviderResponse>>> GetAuthProviderLandingPage(UserLoginAuthProviderRequest request)
     {
-        ApiResponse<UserLoginAuthProviderResponse> response = await _loginService.LogInWithAuthProvider(request);
+        ObjectResult result;
+        ApiResponse<UserLoginAuthProviderResponse?> response = await _loginService.GetAuthProviderLandingPage(request);
 
-        return Ok(response);
+        if (response.Success)
+        {
+            result = Ok(response);
+        }
+        else
+        {
+            result = BadRequest(response);
+        }
+
+        return result;
+    }
+
+    [HttpPost("AuthenticateWithAuthProvider")]
+    public async Task<ActionResult<ApiResponse<UserLoginAuthProviderResponse>>> AuthenticateWithAuthProvider(UserLoginAuthProviderRequest request)
+    {
+        ObjectResult result;
+        ApiResponse<UserLoginAuthProviderResponse?> response = await _loginService.AuthenticateWithAuthProvider(request);
+
+        if (response.Success)
+        {
+            result = Ok(response);
+        }
+        else
+        {
+            result = BadRequest(response);
+        }
+
+        return result;
+    }
+
+    [HttpGet("RedirectUri")]
+    public ActionResult RedirectUri()
+    {
+        return Ok();
     }
 
 }

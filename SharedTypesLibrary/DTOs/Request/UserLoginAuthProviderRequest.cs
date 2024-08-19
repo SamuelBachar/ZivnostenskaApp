@@ -9,6 +9,6 @@ namespace SharedTypesLibrary.DTOs.Request
     public class UserLoginAuthProviderRequest
     {
         public string Provider { get; set; } = string.Empty;
-        public string Token { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;        
     }
 }
