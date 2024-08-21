@@ -33,14 +33,22 @@ builder.Services.AddHttpClient(AuthProviders.Google, (serviceProvider, authProvi
 {
     // Resolve the configured OAuth options
     var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
+    var queryParams = new Dictionary<string, string>
+    {
+        { "response_type", "code" },
+        { "client_id", $"{oauthOptions.Google.ClientId}" },
+        { "redirect_uri",  $"{oauthOptions.RedirectUri}" },
+        { "scope", "openid email profile" },
+        { "state", $"{AuthProviders.Google}" },
+        { "access_type", "offline" },
+        { "prompt", "consent" }
+    };
 
-    authProvider.BaseAddress = new Uri(
-        "https://accounts.google.com/o/oauth2/auth" +
-        "?response_type=code" +
-        $"&client_id={oauthOptions.Google.ClientId}" +
-        $"&redirect_uri=https://localhost:7162/api/LogIn/RedirectUri" +
-        $"&scope={Uri.EscapeDataString("openid email profile")}" +
-        "&state=abc123&access_type=offline&prompt=consent");
+    var queryString = string.Join("&", queryParams.Select(
+        kvp => $"{Uri.EscapeDataString(kvp.Key)}={kvp.Value}"
+    ));
+
+    authProvider.BaseAddress = new Uri($"{oauthOptions.Google.BaseUrl}/auth?{queryString}");
 });
 
 

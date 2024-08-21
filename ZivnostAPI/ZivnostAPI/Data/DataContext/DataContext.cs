@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ZivnostAPI.Models.Account;
 using ZivnostAPI.Models.CompanyBaseData;
 
 namespace ZivnostAPI.Data.DataContext;
@@ -21,8 +22,9 @@ public class DataContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=ZivnostAppDB;Trusted_Connection=true;TrustServerCertificate=true;");
+        optionsBuilder.UseSqlServer("Server=.\\SQLSERVER;Database=ZivnostAppDB;Trusted_Connection=true;TrustServerCertificate=true;");
     }
 
     public DbSet<Company> Company { get; set; }
+    public DbSet<Account> Account { get; set; }
 }

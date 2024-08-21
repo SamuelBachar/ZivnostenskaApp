@@ -147,26 +147,35 @@ public partial class LogInView : ContentPage
 
     private async Task LogInWithAuthProvider(string provider)
     {
-
         (UserLoginAuthProviderResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
 
         WebAuthenticatorResult? result = null;
+
         if (response.UserLoginDTO != null)
         {
             try
             {
-                //await Browser.OpenAsync(response.UserLoginDTO.WebPage.Replace(" ", "%20"), BrowserLaunchMode.SystemPreferred);
-                result = await WebAuthenticator.AuthenticateAsync(new Uri(response.UserLoginDTO.WebPage.Replace(" ", "%20")), new Uri("myapp://"));
+                result = await WebAuthenticator.AuthenticateAsync
+                (
+                    new Uri(response.UserLoginDTO.OAuthUrl.Replace(" ", "%20")),
+                    new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}")
+                );
 
                 string accessToken = result?.AccessToken;
+
+                if (result.Properties["success"] == "true")
+                {
+                    await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+                }
+                else
+                {
+                    await DisplayAlert("Error Login via provider", result.Properties["exception"], App.LanguageResourceManager["LogInView_Close"].ToString());
+                }
             }
             catch (Exception ex)
             {
                 int a = 2;
             }
-
-            var code = result?.Properties["code"];
-            int b = 2;
         }
         else
         {

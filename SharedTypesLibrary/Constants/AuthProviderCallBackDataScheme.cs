@@ -8,6 +8,6 @@ namespace SharedTypesLibrary.Constants;
 
 public static class AuthProviderCallBackDataSchemes
 {
-    public const string MobileCallBackDataScheme = "com.majster.majster_app";
+    public const string MobileCallBackDataScheme = "myapp://";
     public const string ApiCallBackDataScheme = "https://localhost:7162";
 }

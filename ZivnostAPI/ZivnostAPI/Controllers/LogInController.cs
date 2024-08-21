@@ -1,7 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
+using System.Net.Http;
+using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Services.LogInService;
 
 namespace ZivnostAPI.Controllers;
@@ -11,11 +18,12 @@ namespace ZivnostAPI.Controllers;
 public class LogInController : ControllerBase
 {
     ILogInService _loginService;
-    public LogInController(ILogInService loginService)
+    IServiceProvider _serviceProvider;
+    public LogInController(ILogInService loginService, IServiceProvider serviceProvider)
     {
 
         _loginService = loginService;
-
+        _serviceProvider = serviceProvider;
     }
 
     [HttpPost("GetAuthProviderLandingPage")]
@@ -55,24 +63,10 @@ public class LogInController : ControllerBase
     }
 
     [HttpGet("RedirectUri")]
-    public ActionResult RedirectUri()
+    public async Task<ActionResult<string>> RedirectUri()
     {
-        // Get the query parameters
-        var queryParams = HttpContext.Request.Query;
-
-        // Extract only the parameters you're interested in
-        var code = queryParams["code"].ToString();
-        var state = queryParams["state"].ToString();
-
-        // You can add checks for the presence of these parameters
-        if (string.IsNullOrEmpty(code))
-        {
-            return BadRequest("Authorization code is missing");
-        }
-
-        // Use the parameters for your logic
-        // For example, redirecting to the app with the code
-        var redirectUri = $"myapp://auth?code={code}&state={state}";
+        IQueryCollection queryParams = HttpContext.Request.Query;
+        string redirectUri = await _loginService.RedirectUri(queryParams);
 
         return Redirect(redirectUri);
     }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZivnostAPI.Models.CompanyBaseData;
 using ZivnostAPI.Models.Localization;
@@ -11,15 +12,16 @@ public class Account
     [Key]
     public int Id { get; set; }
 
+    public string CommonId { get; set; } = string.Empty; // Common field used for login and register check in case of OAuth authentication
+
+    [EmailAddress]
+    public string Email { get; set; } = string.Empty;
+
     [Required]
     public required bool IsCompany { get; set; } = false;
 
     [ForeignKey(nameof(Company))]
     public int? Company_Id { get; set; }
-
-    [Required]
-    [EmailAddress]
-    public required string Email { get; set; } = string.Empty;
 
     public string PasswordHashWithSalt { get; set; } = string.Empty;
 
