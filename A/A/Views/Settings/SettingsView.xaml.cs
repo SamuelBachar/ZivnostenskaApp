@@ -59,7 +59,7 @@ public partial class SettingsView : ContentPage
         }
         catch (Exception ex) when (ex is ExceptionHandler uae)
         {
-            string test = uae.GetMessage;
+            string test = uae.CustomMessage;
         }
         catch (Exception ex)
         {

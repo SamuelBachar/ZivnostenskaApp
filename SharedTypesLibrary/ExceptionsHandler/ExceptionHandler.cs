@@ -7,6 +7,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SharedTypesLibrary.ExceptionsHandler;
 using static SharedTypesLibrary.Enums.Enums;
 
 namespace ExceptionsHandling
@@ -20,19 +21,19 @@ namespace ExceptionsHandling
             dicJsonContent = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(jsonContent);
         }
 
-        private string Message { get; set; } = string.Empty;
+        private string MessageCustom { get; set; } = string.Empty;
 
-        private string InnerMessage { get; set; } = string.Empty;
+        private string InnerMessageCustom { get; set; } = string.Empty;
 
         private string ErrorCode { get; set; }
 
         private bool ErrorCodeFounded { get; set; } = false;
 
-        public string GetMessage => Message;
+        public string CustomMessage => MessageCustom;
 
-        public string GetInnerMessage => InnerMessage;
+        public string CustomInnerMesage => InnerMessageCustom;
 
-        public string GetCompleteMessage => $"Exception: {Message} \n Inner Exception: {InnerMessage}";
+        public string CustomCompleteMessage => $"Exception: {MessageCustom} \n Inner Exception: {InnerMessageCustom}";
 
         public bool GetErrorCodeFounded => ErrorCodeFounded;
 
@@ -54,8 +55,8 @@ namespace ExceptionsHandling
         public ExceptionHandler(string message, string culture, Exception? innerExc) : base(message, innerExc)
         {
             this.ErrorCodeFounded = false;
-            this.Message = message;
-            this.InnerMessage = ((innerExc != null) ? innerExc.Message : string.Empty);
+            this.MessageCustom = message;
+            this.InnerMessageCustom = ((innerExc != null) ? innerExc.Message : string.Empty);
         }
 
         private void SetErrorCodeMessage(string errorCode, string extraErrors, string culture)
@@ -73,27 +74,47 @@ namespace ExceptionsHandling
 
                 if (dicLocalErrMsgs.ContainsKey(errorCode))
                 {
-                    this.Message = dicLocalErrMsgs[errorCode];
+                    this.MessageCustom = dicLocalErrMsgs[errorCode];
                     this.ErrorCodeFounded = true;
 
                     if (extraErrors != string.Empty)
                     {
-                        this.Message += extraErrors;
+                        this.MessageCustom += extraErrors;
                     }
                 }
                 else
                 {
-                    this.Message = "Error code not defined.";
+                    this.MessageCustom = "Error code not defined.";
                     this.ErrorCodeFounded = false;
                 }
             }
             else
             {
-                this.Message = "Embedded UAE JSON file could not be read";
+                this.MessageCustom = "Embedded UAE JSON file could not be read";
                 this.ErrorCodeFounded = false;
             }
         }
 
+        public static (T? type, ExceptionHandler exception) ReadGenericHttpErrors<T>(T? type, string responseString, string culture)
+        {
+            if (responseString.Contains("errors"))
+            {
+                Dictionary<string, List<string>> dicGenericErrors = GenericHttpErrorReader.ExtractErrorsFromWebAPIResponse(responseString);
 
+                var temp = string.Empty;
+
+                foreach (var error in dicGenericErrors)
+                {
+                    foreach (var errorInfo in error.Value)
+                        temp += errorInfo + "\r\n";
+                }
+
+                return (default(T), new ExceptionHandler("UAE_901", extraErrors: temp, culture));
+            }
+            else
+            {
+                return (default(T), new ExceptionHandler("UAE_900", culture));
+            }
+        }
     }
 }

@@ -108,8 +108,6 @@ public partial class LogInView : ContentPage
 
     private async Task LoginGeneric(string email, string password)
     {
-        // this.Content = this._popUpIndic;
-
         (UserLoginGenericResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginGeneric(EntryEmail.Text, EntryPassword.Text);
 
         if (response.UserLoginDTO != null)
@@ -134,14 +132,12 @@ public partial class LogInView : ContentPage
                 }
             }
 
-            // navigate to main view of certian AppMode
-            //this.Content = this.MainControlWrapper;
-            //await Shell.Current.GoToAsync($"//{nameof(CategoryPickerView)}");
+            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
         }
         else
         {
             //this.Content = this.MainControlWrapper;
-            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.GetMessage, App.LanguageResourceManager["LogInView_Close"].ToString());
+            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["LogInView_Close"].ToString());
         }
     }
 
@@ -169,17 +165,17 @@ public partial class LogInView : ContentPage
                 }
                 else
                 {
-                    await DisplayAlert("Error Login via provider", result.Properties["exception"], App.LanguageResourceManager["LogInView_Close"].ToString());
+                    await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), result.Properties["exception"], App.LanguageResourceManager["LogInView_Close"].ToString());
                 }
             }
             catch (Exception ex)
             {
-                int a = 2;
+                await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), result.Properties["exception"], App.LanguageResourceManager["LogInView_Close"].ToString());
             }
         }
         else
         {
-            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.GetMessage, App.LanguageResourceManager["LogInView_Close"].ToString());
+            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["LogInView_Close"].ToString());
         }
     }
 

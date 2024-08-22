@@ -1,9 +1,9 @@
 ﻿using A.Constants;
 using A.Interfaces;
 using A.Models;
-using A.Utils;
 using ExceptionsHandling;
 using Newtonsoft.Json;
+using SharedTypesLibrary.Constants;
 using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
@@ -29,7 +29,7 @@ public class LoginService : ILoginService
         _webAuthenticator = webAuthenticator;
     }
 
-    public async Task<(UserLoginGenericResponse UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
+    public async Task<(UserLoginGenericResponse? UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
     {
         try
         {
@@ -43,12 +43,30 @@ public class LoginService : ILoginService
                 if (response.IsSuccessStatusCode)
                 {
                     var serializedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginGenericResponse>>();
-                    return (new UserLoginGenericResponse { Email = serializedResponse.Data.Email, JWT = serializedResponse.Data.JWT }, null);
+
+                    if (serializedResponse?.Data == null)
+                    {
+                        string serErrorMsg = new ExceptionHandler("UAE_902", App.UserData.CurrentCulture).CustomMessage;
+                        throw new Exception(serErrorMsg);
+                    }
+                    else
+                    {
+                        return (new UserLoginGenericResponse { Email = serializedResponse.Data.Email, JWT = serializedResponse.Data.JWT }, null);
+                    }
                 }
                 else if ((response.StatusCode == System.Net.HttpStatusCode.BadRequest) && (!response.IsSuccessStatusCode))
                 {
                     var serializedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginGenericResponse>>();
-                    return (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
+
+                    if (serializedResponse?.Data == null)
+                    {
+                        string serErrorMsg = new ExceptionHandler("UAE_902", App.UserData.CurrentCulture).CustomMessage;
+                        throw new Exception(serErrorMsg);
+                    }
+                    else
+                    {
+                        return (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
+                    }
                 }
                 else if (!response.IsSuccessStatusCode)
                 {
@@ -56,17 +74,7 @@ public class LoginService : ILoginService
 
                     if (responseString.Contains("errors"))
                     {
-                        Dictionary<string, List<string>> dicGenericErrors = GenericHttpErrorReader.ExtractErrorsFromWebAPIResponse(responseString);
-
-                        var temp = string.Empty;
-
-                        foreach (var error in dicGenericErrors)
-                        {
-                            foreach (var errorInfo in error.Value)
-                                temp += errorInfo + "\r\n";
-                        }
-
-                        return (null, new ExceptionHandler("UAE_901", extraErrors: temp, App.UserData.CurrentCulture));
+                        return ExceptionHandler.ReadGenericHttpErrors<UserLoginGenericResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
                     }
                     else
                     {
@@ -91,17 +99,40 @@ public class LoginService : ILoginService
     {
         try
         {
-            var httpClient = _httpClientFactory.CreateClient(AppConstants.HttpsClientName);
+            HttpClient httpClient = _httpClientFactory.CreateClient(AppConstants.HttpsClientName);
 
             UserLoginAuthProviderRequest userAuthLoginRequest = new UserLoginAuthProviderRequest { Provider = provider };
-            var response = await httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            HttpResponseMessage response = await httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             if (response.IsSuccessStatusCode)
             {
-                var result = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginAuthProviderResponse>>();
-                 
-                // Display webView in your page
-                return (result.Data, null);
+                ApiResponse<UserLoginAuthProviderResponse> urlResult = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginAuthProviderResponse>>();
+
+                WebAuthenticatorResult result = await WebAuthenticator.AuthenticateAsync
+                (
+                    new Uri(urlResult.Data.OAuthUrl.Replace(" ", "%20")),
+                    new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}")
+                );
+
+                string accessToken = result?.AccessToken;
+
+                if (result.Properties["success"] == "true")
+                {
+                    await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+                }
+                else if ((response.StatusCode == System.Net.HttpStatusCode.BadRequest) && (!response.IsSuccessStatusCode))
+                {
+                    var serializedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginGenericResponse>>();
+                    return (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
+                }
+                else if (!response.IsSuccessStatusCode)
+                {
+
+                }
+            }
+            else
+            {
+                return (null, new ExceptionHandler("UAE_005", extraErrors: response.Content.Properties["exception"], App.UserData.CurrentCulture));
             }
         }
         catch (Exception ex)
@@ -109,6 +140,6 @@ public class LoginService : ILoginService
             return (null, new ExceptionHandler("UAE_901", extraErrors: ex.Message, App.UserData.CurrentCulture));
         }
 
-        return (null, new ExceptionHandler("UAE_901", "tmp", App.UserData.CurrentCulture));
+        return 
     }
 }
