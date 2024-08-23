@@ -12,6 +12,11 @@ using static SharedTypesLibrary.Enums.Enums;
 
 namespace ExceptionsHandling
 {
+    public class ReplacePlaceHolders
+    {
+        public static List<string> _listMarks = new List<string>{ "#provider" };
+    }
+
     public class ExceptionHandler : Exception
     {
         public static Dictionary<string, Dictionary<string, string>>? dicJsonContent { get; set; } = null;
@@ -42,13 +47,19 @@ namespace ExceptionsHandling
         public ExceptionHandler(string errorCode, string culture) : base(errorCode)
         {
             this.ErrorCode = errorCode;
-            SetErrorCodeMessage(this.ErrorCode, "", culture);
+            SetErrorCodeMessage(this.ErrorCode, "", null, culture);
         }
 
         public ExceptionHandler(string errorCode, string extraErrors, string culture) : base(errorCode)
         {
             this.ErrorCode = errorCode;
-            SetErrorCodeMessage(this.ErrorCode, extraErrors, culture);
+            SetErrorCodeMessage(this.ErrorCode, extraErrors, null, culture);
+        }
+
+        public ExceptionHandler(string errorCode, string extraErrors, Dictionary<string, string>? dicReplaceParams, string culture) : base(errorCode)
+        {
+            this.ErrorCode = errorCode;
+            SetErrorCodeMessage(this.ErrorCode, extraErrors, dicReplaceParams, culture);
         }
 
         /* CASE: Not throwed ExceptionHandler but catched System Exception (based on user action) out of which ExceptionHandler was created */
@@ -59,7 +70,7 @@ namespace ExceptionsHandling
             this.InnerMessageCustom = ((innerExc != null) ? innerExc.Message : string.Empty);
         }
 
-        private void SetErrorCodeMessage(string errorCode, string extraErrors, string culture)
+        private void SetErrorCodeMessage(string errorCode, string extraErrors, Dictionary<string,string>? dicReplaceParams, string culture)
         {
             string currentLanguage = culture;
 
@@ -80,6 +91,14 @@ namespace ExceptionsHandling
                     if (extraErrors != string.Empty)
                     {
                         this.MessageCustom += extraErrors;
+                    }
+
+                    if (dicReplaceParams != null)
+                    {
+                        foreach (KeyValuePair<string,string> item in dicReplaceParams)
+                        {
+                            this.MessageCustom.Replace(item.Key, item.Value);
+                        }
                     }
                 }
                 else

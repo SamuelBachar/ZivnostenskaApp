@@ -32,7 +32,7 @@
     // LogInView
     "UAE_003": "Nelze se přihlásit\r\n. Zařízení nemá připojení k internetu",
     "UAE_004": "Chyba přihlášení\r\n. Chyba: ",
-    "UAE_005": "Došlo k chybě při ověřování identity pomocí poskytovatele #provider \r\nChyba: ",
+    "UAE_005": "Došlo k chybě při ověřování identity pomocí poskytovatele #provider\r\nChyba: ",
     // Generic
     "UAE_900": "Neočekávaná odpověď od serveru, neznámá chyba",
     "UAE_901": "Nastala chyba při komunikaci se serverem.\r\nChyba: ",
@@ -44,7 +44,7 @@
     // LogInView
     "UAE_003": "Anmeldung nicht möglich\r\n. Das Gerät hat keine Internetverbindung",
     "UAE_004": "Anmeldefehler\r\n. Fehler: ",
-    "UAE_005": "Ein Fehler trat bei der Identitätsüberprüfung mit dem Anbieter #provider auf \r\nFehler: ",
+    "UAE_005": "Ein Fehler trat bei der Identitätsüberprüfung mit dem Anbieter #provider auf\r\nFehler: ",
     //Generic
     "UAE_900": "Unerwartete Antwort vom Server, unbekannter Fehler",
     "UAE_901": "Bei der Kommunikation mit dem Server ist ein Fehler aufgetreten.\r\nFehler: ",
@@ -57,7 +57,7 @@
     // LogInView
     "UAE_003": "Unable to log in\r\n. The device does not have an internet connection",
     "UAE_004": "Login error\r\n. Error: ",
-    "UAE_005": "An error occurred during identity verification with the provider #provider \r\nError: ",
+    "UAE_005": "An error occurred during identity verification with the provider #provider\r\nError: ",
     // Generic USER SIDE
     "UAE_900": "Unexpected response from server, unknown error",
     "UAE_901": "An error occurred while communicating with the server.\r\nError: ",

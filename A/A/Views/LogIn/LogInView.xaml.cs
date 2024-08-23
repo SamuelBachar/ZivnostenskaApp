@@ -145,33 +145,9 @@ public partial class LogInView : ContentPage
     {
         (UserLoginAuthProviderResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
 
-        WebAuthenticatorResult? result = null;
-
         if (response.UserLoginDTO != null)
         {
-            try
-            {
-                result = await WebAuthenticator.AuthenticateAsync
-                (
-                    new Uri(response.UserLoginDTO.OAuthUrl.Replace(" ", "%20")),
-                    new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}")
-                );
-
-                string accessToken = result?.AccessToken;
-
-                if (result.Properties["success"] == "true")
-                {
-                    await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
-                }
-                else
-                {
-                    await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), result.Properties["exception"], App.LanguageResourceManager["LogInView_Close"].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), result.Properties["exception"], App.LanguageResourceManager["LogInView_Close"].ToString());
-            }
+            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
         }
         else
         {
