@@ -155,8 +155,13 @@ public partial class LogInView : ContentPage
         }
     }
 
-    private async void BtnGoogleSignInAsUser_Clicked(object sender, EventArgs e)
+    private async void BtnGoogleSignInUp_Clicked(object sender, EventArgs e)
     {
         await LogInWithAuthProvider(AuthProviders.Google);
+    }
+
+    private async void BtnFacebookSignInUp_Clicked(object sender, EventArgs e)
+    {
+        await LogInWithAuthProvider(AuthProviders.Facebook);
     }
 }
