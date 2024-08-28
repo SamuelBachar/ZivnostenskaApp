@@ -135,12 +135,24 @@ public class LoginService : ILoginService
                     }
                     else
                     {
-                        WebAuthenticatorResult resultWA = await WebAuthenticator.AuthenticateAsync
-                        (
-                            new Uri(urlResult.Data.OAuthUrl.Replace(" ", "%20")),
-                            new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}")
-                        );
+                        WebAuthenticatorResult resultWA = null;
 
+                        if (provider == AuthProviders.Apple && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
+                        {
+                            resultWA = await AppleSignInAuthenticator.AuthenticateAsync();
+                        }
+                        else
+                        {
+                            resultWA = await WebAuthenticator.AuthenticateAsync
+                            (
+                                new WebAuthenticatorOptions()
+                                {
+                                    Url = new Uri(urlResult.Data.OAuthUrl.Replace(" ", "%20")),
+                                    CallbackUrl = new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}"),
+                                    PrefersEphemeralWebBrowserSession = true // effective only on iOS
+                                }
+                            );
+                        }
 
                         if (resultWA.Properties["success"] == "true")
                         {

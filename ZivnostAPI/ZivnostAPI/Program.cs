@@ -44,11 +44,27 @@ builder.Services.AddHttpClient(AuthProviders.Google, (serviceProvider, authProvi
         { "prompt", "consent" }
     };
 
-    var queryString = string.Join("&", queryParams.Select(
-        kvp => $"{Uri.EscapeDataString(kvp.Key)}={kvp.Value}"
-    ));
+    var queryString = string.Join("&", queryParams.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={kvp.Value}"));
 
     authProvider.BaseAddress = new Uri($"{oauthOptions.Google.BaseUrl}/auth?{queryString}");
+});
+
+builder.Services.AddHttpClient(AuthProviders.Facebook, (serviceProvider, authProvider) =>
+{
+    // Resolve the configured OAuth options
+    var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
+    var queryParams = new Dictionary<string, string>
+    {
+        { "response_type", "token" },
+        { "client_id", $"{oauthOptions.Facebook.ClientId}" },
+        { "redirect_uri",  $"{oauthOptions.RedirectUri}" },
+        { "scope", "openid email profile" },
+        { "state", $"{AuthProviders.Facebook}" }
+    };
+
+    var queryString = string.Join("&", queryParams.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={kvp.Value}"));
+
+    authProvider.BaseAddress = new Uri($"{oauthOptions.Facebook.BaseUrl}/dialog/oauth?{queryString}");
 });
 
 

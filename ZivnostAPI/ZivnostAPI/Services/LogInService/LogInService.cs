@@ -19,6 +19,7 @@ using System.Text;
 using ZivnostAPI.Data.DataContext;
 using ZivnostAPI.Models.Account;
 using ZivnostAPI.Models.AuthProvidersData;
+using ZivnostAPI.Models.AuthProvidersData.Facebook;
 using ZivnostAPI.Models.AuthProvidersData.Google;
 
 namespace ZivnostAPI.Services.LogInService;
@@ -129,8 +130,6 @@ public class LogInService : ILogInService
     {
         string responseString = AuthProviderCallBackDataSchemes.MobileCallBackDataScheme;
 
-        GoogleTokenResponse? tokenData = null;
-
         string code = query["code"].ToString();
         string provider = query["state"].ToString();
 
@@ -138,6 +137,7 @@ public class LogInService : ILogInService
         {
             if (provider == AuthProviders.Google)
             {
+                HttpClient client = _httpClientFactory.CreateClient(AuthProviders.Google);
                 OAuth oauthGoogle = _serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
 
                 var tokenRequestData = new Dictionary<string, string>
@@ -151,83 +151,162 @@ public class LogInService : ILogInService
 
                 FormUrlEncodedContent requestContent = new FormUrlEncodedContent(tokenRequestData);
 
-                HttpClient client = _httpClientFactory.CreateClient(AuthProviders.Google);
                 HttpResponseMessage tokenResponse = await client.PostAsync($"{oauthGoogle.Google.BaseUrl}/token", requestContent);
 
                 if (!tokenResponse.IsSuccessStatusCode)
                 {
                     responseString += "?success=false";
-                    responseString += "&exception=test123";
+                    responseString += $"&exception=Failed to retrieve token data from provider: {provider}";
                 }
                 else
                 {
+                    GoogleTokenResponse? tokenData = null;
                     string responseContent = await tokenResponse.Content.ReadAsStringAsync();
                     tokenData = JsonConvert.DeserializeObject<GoogleTokenResponse?>(responseContent);
-                    responseString = await ProcessUserAuthentication(client, tokenData, responseString);
+                    responseString = await ProcessUserAuthentication(client, tokenGoogle: tokenData, tokenFacebook: null, AuthProviders.Google, responseString);
+                }
+            }
+            else if (provider == AuthProviders.Facebook)
+            {
+                HttpClient client = _httpClientFactory.CreateClient(AuthProviders.Facebook);
+                OAuth oauthFacebook = _serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
+
+                var requestParams = new Dictionary<string, string>
+                {
+                    { "client_id", oauthFacebook.Facebook.ClientId },
+                    { "redirect_uri", oauthFacebook.RedirectUri },
+                    { "client_secret", oauthFacebook.Facebook.ClientSecret },
+                    { "code", code }
+                };
+
+                FormUrlEncodedContent requestContent = new FormUrlEncodedContent(requestParams);
+                HttpResponseMessage tokenResponse = await client.PostAsync($"{oauthFacebook.Facebook.BaseUrl}/oauth/access_token", requestContent);
+
+                if (!tokenResponse.IsSuccessStatusCode)
+                {
+                    responseString += "?success=false";
+                    responseString += $"&exception=Failed to retrieve token data from provider: {provider}";
+                }
+                else
+                {
+                    FacebookTokenResponse? tokenData = null;
+                    string responseContent = await tokenResponse.Content.ReadAsStringAsync();
+                    tokenData = JsonConvert.DeserializeObject<FacebookTokenResponse?>(responseContent);
+                    responseString = await ProcessUserAuthentication(client, tokenGoogle: null, tokenFacebook: tokenData, AuthProviders.Facebook, responseString);
                 }
             }
             else
             {
                 responseString += "?success=false";
-                responseString += "&exception=test1234";
+                responseString += $"&exception=Provider {provider} not supported";
             }
 
         }
         else
         {
             responseString += "?success=false";
-            responseString += $"&exception=Provider not {provider} supported";
+            responseString += $"&exception=Authorization code from {provider} not received";
         }
 
         return responseString;
     }
 
-    public async Task<string> ProcessUserAuthentication(HttpClient httpClient, GoogleTokenResponse? tokenData, string responseString)
+    public async Task<string> ProcessUserAuthentication(HttpClient httpClient, GoogleTokenResponse? tokenGoogle, FacebookTokenResponse? tokenFacebook, string provider, string responseString)
     {
         try
         {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenData.AccessToken); // TODO replace
-            HttpResponseMessage userInfoResponse = await httpClient.GetAsync("https://www.googleapis.com/oauth2/v2/userinfo");
-
-            if (userInfoResponse.IsSuccessStatusCode)
+            if (provider == AuthProviders.Google)
             {
-                string userInfoResString = await userInfoResponse.Content.ReadAsStringAsync();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenGoogle.AccessToken); // TODO replace
+                HttpResponseMessage userInfoResponse = await httpClient.GetAsync("https://www.googleapis.com/oauth2/v2/userinfo");
 
-                if (!userInfoResString.IsNullOrEmpty())
+                if (userInfoResponse.IsSuccessStatusCode)
                 {
-                    GoogleUserInfo userInfo = JsonConvert.DeserializeObject<GoogleUserInfo>(userInfoResString);
+                    string userInfoResString = await userInfoResponse.Content.ReadAsStringAsync();
 
-                    // User not present in DB yet
-                    Account? account = await _dataContext.Account.FirstOrDefaultAsync(account => account.CommonId == userInfo.Id);
-
-                    if (account == null)
+                    if (!userInfoResString.IsNullOrEmpty())
                     {
-                        account = new Account
+                        GoogleUserInfo userInfo = JsonConvert.DeserializeObject<GoogleUserInfo>(userInfoResString);
+
+                        // User not present in DB yet
+                        Account? account = await _dataContext.Account.FirstOrDefaultAsync(account => account.CommonId == userInfo.Id);
+
+                        if (account == null)
                         {
-                            CommonId = userInfo.Id,
-                            Email = userInfo.Email,
-                            IsCompany = false, // Pre-set that account is not company
-                        };
+                            account = new Account
+                            {
+                                CommonId = userInfo.Id,
+                                Email = userInfo.Email,
+                                IsCompany = false, // Pre-set that account is not company
+                            };
 
-                        _dataContext.Account.Add(account);
-                        await _dataContext.SaveChangesAsync();
+                            _dataContext.Account.Add(account);
+                            await _dataContext.SaveChangesAsync();
+                        }
+
+                        responseString += $"?success=true";
+                        responseString += $"&access_token={tokenGoogle.AccessToken}";
+                        responseString += $"&user_id={account.CommonId}";
                     }
-
-                    responseString += $"?success=true";
-                    responseString += $"&access_token={tokenData.AccessToken}";
-                    responseString += $"&user_id={account.CommonId}";
+                    else
+                    {
+                        responseString += "?success=false";
+                        responseString += $"&exception=User info data were not correctly retrieved from provider: {provider}";
+                    }
                 }
                 else
                 {
                     responseString += "?success=false";
-                    responseString += "&exception=test12345";
+                    responseString += "&exception=An unexpected error happend during retrieving user info";
                 }
             }
-            else
+
+            if (provider == AuthProviders.Facebook)
             {
-                responseString += "?success=false";
-                responseString += "&exception=test123456";
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenFacebook.AccessToken); // TODO replace
+                HttpResponseMessage userInfoResponse = await httpClient.GetAsync($"https://graph.facebook.com/me?fields=id,name,email&access_token={tokenFacebook.AccessToken}");
+
+                if (userInfoResponse.IsSuccessStatusCode)
+                {
+                    string userInfoResString = await userInfoResponse.Content.ReadAsStringAsync();
+
+                    if (!userInfoResString.IsNullOrEmpty())
+                    {
+                        FacebookUserInfo userInfo = JsonConvert.DeserializeObject<FacebookUserInfo>(userInfoResString);
+
+                        // User not present in DB yet
+                        Account? account = await _dataContext.Account.FirstOrDefaultAsync(account => account.CommonId == userInfo.Id);
+
+                        if (account == null)
+                        {
+                            account = new Account
+                            {
+                                CommonId = userInfo.Id,
+                                Email = userInfo.Email,
+                                IsCompany = false, // Pre-set that account is not company
+                            };
+
+                            _dataContext.Account.Add(account);
+                            await _dataContext.SaveChangesAsync();
+                        }
+
+                        responseString += $"?success=true";
+                        responseString += $"&access_token={tokenFacebook.AccessToken}";
+                        responseString += $"&user_id={account.CommonId}";
+                    }
+                    else
+                    {
+                        responseString += "?success=false";
+                        responseString += $"&exception=User info data were not correctly retrieved from provider: {provider}";
+                    }
+                }
+                else
+                {
+                    responseString += "?success=false";
+                    responseString += "&exception=An unexpected error happend during retrieving user info";
+                }
             }
+
         }
         catch (Exception ex)
         {

@@ -2,6 +2,7 @@
 using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
+using ZivnostAPI.Models.AuthProvidersData.Facebook;
 using ZivnostAPI.Models.AuthProvidersData.Google;
 using ZivnostAPI.Models.CompanyBaseData;
 
@@ -15,5 +16,5 @@ public interface ILogInService
 
     Task<string> RedirectUri(IQueryCollection query);
 
-    Task<string> ProcessUserAuthentication(HttpClient httpClient, GoogleTokenResponse? tokenData, string responseString);
+    Task<string> ProcessUserAuthentication(HttpClient httpClient, GoogleTokenResponse? tokenGoogle, FacebookTokenResponse? tokenFacebook, string provider, string responseString);
 }

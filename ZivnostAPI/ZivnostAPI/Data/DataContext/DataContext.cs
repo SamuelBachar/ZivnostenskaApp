@@ -22,7 +22,10 @@ public class DataContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseSqlServer("Server=.\\SQLSERVER;Database=ZivnostAppDB;Trusted_Connection=true;TrustServerCertificate=true;");
+        if (System.Net.Dns.GetHostName() == "DESKTOP-DTI7TH4") // home
+            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=ZivnostAppDB;Trusted_Connection=true;TrustServerCertificate=true;");
+        else // office
+            optionsBuilder.UseSqlServer("Server=.\\SQLSERVER;Database=ZivnostAppDB;Trusted_Connection=true;TrustServerCertificate=true;");
     }
 
     public DbSet<Company> Company { get; set; }
