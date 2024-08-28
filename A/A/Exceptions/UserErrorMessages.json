@@ -10,7 +10,8 @@
     // Generic USER SIDE
     "UAE_900": "Neočakavaná odpoveď od servera, neznáma chyba",
     "UAE_901": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
-    "UAE_902": "Problém počas serializácie dát"
+    "UAE_902": "Problém počas serializácie dát",
+    "UAE_903": "Odpoveď zo servera neobsahuje dáta"
   },
   "sk-SK": {
     // SettingsView
@@ -23,7 +24,8 @@
     // Generic USER SIDE
     "UAE_900": "Neočakavaná odpoveď od servera, neznáma chyba",
     "UAE_901": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
-    "UAE_902": "Problém počas serializácie dát"
+    "UAE_902": "Problém počas serializácie dát",
+    "UAE_903": "Odpoveď zo servera neobsahuje dáta"
   },
   "cs": {
     // SettingsView
@@ -36,7 +38,8 @@
     // Generic
     "UAE_900": "Neočekávaná odpověď od serveru, neznámá chyba",
     "UAE_901": "Nastala chyba při komunikaci se serverem.\r\nChyba: ",
-    "UAE_902": "Problém během serializace dat"
+    "UAE_902": "Problém během serializace dat",
+    "UAE_903": "Odpověď ze serveru neobsahuje data"
   },
   "de": {
     "UAE_001": "UAE_001: Sprache ausgewählt, aber die entsprechende Kultur konnte nicht gefunden werden",
@@ -48,7 +51,8 @@
     //Generic
     "UAE_900": "Unerwartete Antwort vom Server, unbekannter Fehler",
     "UAE_901": "Bei der Kommunikation mit dem Server ist ein Fehler aufgetreten.\r\nFehler: ",
-    "UAE_902": "Problem bei der Datenserialisierung"
+    "UAE_902": "Problem bei der Datenserialisierung",
+    "UAE_903": "Die Antwort vom Server enthält keine Daten"
   },
   "en": {
     // SettingsView
@@ -61,6 +65,7 @@
     // Generic USER SIDE
     "UAE_900": "Unexpected response from server, unknown error",
     "UAE_901": "An error occurred while communicating with the server.\r\nError: ",
-    "UAE_902": "Problem during data serialization"
+    "UAE_902": "Problem during data serialization",
+    "UAE_903": "The response from the server contains no data"
   }
 }

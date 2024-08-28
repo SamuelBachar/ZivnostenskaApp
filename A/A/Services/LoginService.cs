@@ -44,7 +44,8 @@ public class LoginService : ILoginService
 
                 if (response == null || response.Content == null)
                 {
-                    // todo tu throw exception s hlaskou ze odpoved nie je ziadna
+                    string serErrorMsg = new ExceptionHandler("UAE_903", App.UserData.CurrentCulture).CustomMessage;
+                    throw new Exception(serErrorMsg);
                 }
 
                 if (response.IsSuccessStatusCode)
@@ -119,7 +120,8 @@ public class LoginService : ILoginService
 
                 if (response == null || response.Content == null)
                 {
-                    // todo tu throw exception s hlaskou ze odpoved nie je ziadna
+                    string serErrorMsg = new ExceptionHandler("UAE_903", App.UserData.CurrentCulture).CustomMessage;
+                    throw new Exception(serErrorMsg);
                 }
 
                 if (response.IsSuccessStatusCode)
