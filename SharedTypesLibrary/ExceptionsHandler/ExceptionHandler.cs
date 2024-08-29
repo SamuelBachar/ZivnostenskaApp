@@ -97,7 +97,7 @@ namespace ExceptionsHandling
                     {
                         foreach (KeyValuePair<string,string> item in dicReplaceParams)
                         {
-                            this.MessageCustom.Replace(item.Key, item.Value);
+                            this.MessageCustom = this.MessageCustom.Replace(item.Key, item.Value);
                         }
                     }
                 }

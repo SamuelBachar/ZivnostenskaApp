@@ -55,10 +55,10 @@ builder.Services.AddHttpClient(AuthProviders.Facebook, (serviceProvider, authPro
     var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
     var queryParams = new Dictionary<string, string>
     {
-        { "response_type", "token" },
+        { "response_type", "code" },
         { "client_id", $"{oauthOptions.Facebook.ClientId}" },
         { "redirect_uri",  $"{oauthOptions.RedirectUri}" },
-        { "scope", "openid email profile" },
+        { "scope", "email,public_profile" },
         { "state", $"{AuthProviders.Facebook}" }
     };
 

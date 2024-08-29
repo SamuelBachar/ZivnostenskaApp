@@ -1,8 +1,4 @@
-﻿
-
-
-
-1.  Otestovat ci nebude pre serializaciu / datumy / orderovanie problem ze nastavujem LanguageResource.Culture = culture; (sk, en, cs) a podobne
+﻿1.  Otestovat ci nebude pre serializaciu / datumy / orderovanie problem ze nastavujem LanguageResource.Culture = culture; (sk, en, cs) a podobne
 
 CultureInfo = InvariantCulture ?
 
@@ -12,23 +8,18 @@ forces the data representation to always be the same, so you don't have to worry
 
 2. Vytvorit okno na chybove hlasky s moznostou poslania chyby cez e-mail
 
-3.  Firebase authentication
-// https://www.youtube.com/watch?v=IEcm8X9Ukiw
-// https://www.youtube.com/watch?v=3DQMQ9Vuk0c&t=1163s
-3.1 Web Authenticator
-// https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/communication/authentication?view=net-maui-8.0&tabs=android
-// https://blog.jhonatanoliveira.dev/google-login-integration-with-net-maui
 
-4. video kde sa riesi WebAuthentificator
+3. video kde sa riesi WebAuthentificator
 https://www.youtube.com/watch?v=kjRCDzd27oQ&feature=youtu.be
 https://www.youtube.com/watch?v=kjRCDzd27oQ
 
-5. https://github.com/AvantiPoint/mobileauth-lib
 
 6. IHttpClientFactory https://youtu.be/Z6Y2adsMnAA?t=516
    https://www.youtube.com/watch?v=ZF9-TEzkj5c nejake dodatocne ifno ku IHttpClientFactory
+   
+   pozor spravit HttpClientFactory viac reliable 
 
-
+7.
 http://mkumaran.net/posts/2023/use-localhost-android-emulator/
 
 

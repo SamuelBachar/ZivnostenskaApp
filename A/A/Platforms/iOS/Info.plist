@@ -28,7 +28,11 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
-  <key>UIViewControllerBasedStatusBarAppearance</key>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+	<key>com.apple.developer.applesignin</key>
+	<array>
+		<string>Default</string>
+	</array>
   <false/>
 </dict>
 </plist>

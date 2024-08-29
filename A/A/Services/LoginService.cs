@@ -149,7 +149,7 @@ public class LoginService : ILoginService
                                 {
                                     Url = new Uri(urlResult.Data.OAuthUrl.Replace(" ", "%20")),
                                     CallbackUrl = new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}"),
-                                    PrefersEphemeralWebBrowserSession = true // effective only on iOS
+                                    //PrefersEphemeralWebBrowserSession = true // effective only on iOS
                                 }
                             );
                         }

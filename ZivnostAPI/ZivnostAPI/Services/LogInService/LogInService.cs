@@ -180,7 +180,7 @@ public class LogInService : ILogInService
                 };
 
                 FormUrlEncodedContent requestContent = new FormUrlEncodedContent(requestParams);
-                HttpResponseMessage tokenResponse = await client.PostAsync($"{oauthFacebook.Facebook.BaseUrl}/oauth/access_token", requestContent);
+                HttpResponseMessage tokenResponse = await client.PostAsync($"https://graph.facebook.com/v12.0/oauth/access_token", requestContent);
 
                 if (!tokenResponse.IsSuccessStatusCode)
                 {
@@ -314,7 +314,6 @@ public class LogInService : ILogInService
             responseString += $"&exception={ex.Message}";
         }
 
-        // Redirect to your app with the relevant information
         return responseString;
     }
 }
