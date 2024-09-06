@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 
 using CommunityToolkit.Maui;
 using System.Net.Http;
+using A.Views.LogIn;
 
 namespace A
 {
@@ -57,8 +58,9 @@ namespace A
 
             builder.Services.AddSingleton<SettingsView>();
             builder.Services.AddSingleton<LogInView>();
+            builder.Services.AddSingleton<LogInChooseView>();
+
             builder.Services.AddSingleton<SettingsService>();
-            builder.Services.AddSingleton(WebAuthenticator.Default);
 
             return builder.Build();
         }

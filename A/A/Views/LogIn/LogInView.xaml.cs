@@ -1,6 +1,7 @@
 ﻿using A.AppPreferences;
 using A.Interfaces;
 using A.Services;
+using A.Views.LogIn;
 using ExceptionsHandling;
 using Newtonsoft.Json;
 using SharedTypesLibrary.Constants;
@@ -147,7 +148,7 @@ public partial class LogInView : ContentPage
 
         if (response.UserLoginDTO != null)
         {
-            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(LogInChooseView)}?newuser={response.UserLoginDTO.NewUser}");
         }
         else
         {

@@ -242,9 +242,15 @@ public class LogInService : ILogInService
 
                             _dataContext.Account.Add(account);
                             await _dataContext.SaveChangesAsync();
+
+                            responseString += $"?new_user=true";
+                        }
+                        else
+                        {
+                            responseString += $"?new_user=false";
                         }
 
-                        responseString += $"?success=true";
+                        responseString += $"&success=true";
                         responseString += $"&access_token={tokenGoogle.AccessToken}";
                         responseString += $"&user_id={account.CommonId}";
                     }
@@ -288,9 +294,15 @@ public class LogInService : ILogInService
 
                             _dataContext.Account.Add(account);
                             await _dataContext.SaveChangesAsync();
+
+                            responseString += $"?new_user=true";
+                        }
+                        else
+                        {
+                            responseString += $"?new_user=false";
                         }
 
-                        responseString += $"?success=true";
+                        responseString += $"&success=true";
                         responseString += $"&access_token={tokenFacebook.AccessToken}";
                         responseString += $"&user_id={account.CommonId}";
                     }

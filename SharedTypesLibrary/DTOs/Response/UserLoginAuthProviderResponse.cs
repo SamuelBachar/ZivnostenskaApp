@@ -20,4 +20,6 @@ public class UserLoginAuthProviderResponse
     public string RefreshToken { get; set; } = string.Empty; // Generic Refresh token handled by API
 
     public string OAuthUrl { get; set; } = string.Empty;
+
+    public bool NewUser { get; set; } = false;
 }

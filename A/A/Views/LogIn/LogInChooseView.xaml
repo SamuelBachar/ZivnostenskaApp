@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="A.Views.LogIn.LogInChooseView"
+             xmlns:translate="clr-namespace:A.LanguageTranslateManager"
+             Title="{translate:TranslateManager LogInChooseView_Title}">
+    <ScrollView>
+        <Grid RowDefinitions="0.5*,*,*, 0.1*" ColumnDefinitions="*">
+            
+            <Label x:Name="LblInfo" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" LineBreakMode="WordWrap" />
+
+            <Frame Grid.Row="1" Grid.Column="0"  Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
+                <HorizontalStackLayout>
+                    <Image></Image>
+                    <Label Text="{translate:TranslateManager LogInChooseView_SignInAsUserShort}"/>
+
+                </HorizontalStackLayout>
+            </Frame>
+
+            <Frame Grid.Row="2" Grid.Column="0"  Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
+                <HorizontalStackLayout>
+                    <Image></Image>
+                    <Label Text="{translate:TranslateManager LogInChooseView_SignInAsCompanyShort}"/>
+                </HorizontalStackLayout>
+            </Frame>
+
+            <HorizontalStackLayout Grid.Row="3" Spacing="2" HorizontalOptions="Center">
+                <CheckBox x:Name="CheckDontAsk"/>
+                <Label Text="{translate:TranslateManager LogInChooseView_DoNotAskMore}" />
+            </HorizontalStackLayout>
+
+        </Grid>
+        
+    </ScrollView>
+</ContentPage>

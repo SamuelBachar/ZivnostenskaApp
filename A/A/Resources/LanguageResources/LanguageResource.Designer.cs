@@ -97,6 +97,60 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t ask again (Mode switching is still possible after logging in via Settings).
+        /// </summary>
+        internal static string LogInChooseView_DoNotAskMore {
+            get {
+                return ResourceManager.GetString("LogInChooseView_DoNotAskMore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully logged in, continue as.
+        /// </summary>
+        internal static string LogInChooseView_KnownUserContinueAs {
+            get {
+                return ResourceManager.GetString("LogInChooseView_KnownUserContinueAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successful registration, continue as.
+        /// </summary>
+        internal static string LogInChooseView_NewUserContinueAs {
+            get {
+                return ResourceManager.GetString("LogInChooseView_NewUserContinueAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as a self-employed / company.
+        /// </summary>
+        internal static string LogInChooseView_SignInAsCompanyShort {
+            get {
+                return ResourceManager.GetString("LogInChooseView_SignInAsCompanyShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as a user.
+        /// </summary>
+        internal static string LogInChooseView_SignInAsUserShort {
+            get {
+                return ResourceManager.GetString("LogInChooseView_SignInAsUserShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Continue as.
+        /// </summary>
+        internal static string LogInChooseView_Title {
+            get {
+                return ResourceManager.GetString("LogInChooseView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         internal static string LogInView_Close {
@@ -205,29 +259,11 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to as a self-employed / company.
-        /// </summary>
-        internal static string LogInView_SignInAsCompanyShort {
-            get {
-                return ResourceManager.GetString("LogInView_SignInAsCompanyShort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Log in as a user.
         /// </summary>
         internal static string LogInView_SignInAsUser {
             get {
                 return ResourceManager.GetString("LogInView_SignInAsUser", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to as a user.
-        /// </summary>
-        internal static string LogInView_SignInAsUserShort {
-            get {
-                return ResourceManager.GetString("LogInView_SignInAsUserShort", resourceCulture);
             }
         }
         

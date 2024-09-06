@@ -129,6 +129,24 @@
   <data name="HelloWorld" xml:space="preserve">
     <value>Das ist im Deutsch sprache</value>
   </data>
+  <data name="LogInChooseView_DoNotAskMore" xml:space="preserve">
+    <value>Frag nicht mehr (Das Umschalten des Modus ist weiterhin nach der Anmeldung in den Einstellungen möglich)</value>
+  </data>
+  <data name="LogInChooseView_KnownUserContinueAs" xml:space="preserve">
+    <value>Erfolgreich eingeloggt, fortfahren als</value>
+  </data>
+  <data name="LogInChooseView_NewUserContinueAs" xml:space="preserve">
+    <value>Erfolgreiche Registrierung, fortfahren als</value>
+  </data>
+  <data name="LogInChooseView_SignInAsCompanyShort" xml:space="preserve">
+    <value>als Selbstständiger / Unternehmen</value>
+  </data>
+  <data name="LogInChooseView_SignInAsUserShort" xml:space="preserve">
+    <value>als Benutzer</value>
+  </data>
+  <data name="LogInChooseView_Title" xml:space="preserve">
+    <value>Fortfahren als</value>
+  </data>
   <data name="LogInView_Close" xml:space="preserve">
     <value>Schließen</value>
   </data>
@@ -159,14 +177,8 @@
   <data name="LogInView_SignInAsCompany" xml:space="preserve">
     <value>Login als Selbstständiger / Unternehmen</value>
   </data>
-  <data name="LogInView_SignInAsCompanyShort" xml:space="preserve">
-    <value>als Selbstständiger / Unternehmen</value>
-  </data>
   <data name="LogInView_SignInAsUser" xml:space="preserve">
     <value>Login als Benutzer</value>
-  </data>
-  <data name="LogInView_SignInAsUserShort" xml:space="preserve">
-    <value>als Benutzer</value>
   </data>
   <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
     <value>Login Sie sich an mit</value>

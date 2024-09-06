@@ -22,11 +22,9 @@ namespace A.Services;
 public class LoginService : ILoginService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IWebAuthenticator _webAuthenticator; // todo ? co to tu robi ?
-    public LoginService(IHttpClientFactory httpClientFactory, IWebAuthenticator webAuthenticator)
+    public LoginService(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _webAuthenticator = webAuthenticator;
     }
 
     public async Task<(UserLoginGenericResponse? UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
@@ -149,17 +147,17 @@ public class LoginService : ILoginService
                                 {
                                     Url = new Uri(urlResult.Data.OAuthUrl.Replace(" ", "%20")),
                                     CallbackUrl = new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}"),
-                                    //PrefersEphemeralWebBrowserSession = true // effective only on iOS
+                                    PrefersEphemeralWebBrowserSession = true // effective only on iOS
                                 }
                             );
                         }
 
                         if (resultWA.Properties["success"] == "true")
                         {
-                            result = (
-                                        new UserLoginAuthProviderResponse { Token = resultWA.AccessToken },
-                                        null
-                                     );
+                            bool newUser = (resultWA.Properties["new_user"] == "true");
+                            string token = resultWA.AccessToken;
+
+                            result = (new UserLoginAuthProviderResponse { Token = token, NewUser = newUser }, null);
                         }
                         else
                         {

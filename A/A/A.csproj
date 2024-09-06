@@ -62,6 +62,8 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\Icons\Menu\TapBar\search_icon.svg" />
+	  <None Remove="Resources\Images\Images\LogInChooseView\loginchoose_freelancer.png" />
+	  <None Remove="Resources\Images\Images\LogInChooseView\loginchoose_user.png" />
 	  <None Remove="Resources\Images\Images\LogInView\facebook_login.svg" />
 	  <None Remove="Resources\Images\Images\LogInView\google_login.svg" />
 	  <None Remove="Resources\Images\Images\LogInView\lock_login.png" />
@@ -89,7 +91,8 @@
 	  <MauiImage Include="Resources\Images\Icons\Menu\TapBar\tapbar_dotnet_bot.png">
 	    <Resize>True</Resize>
 	    <BaseSize>300,185</BaseSize>
-	  </MauiImage>
+	  </MauiImage>  
+	  <MauiImage Include="Resources\Images\Images\LogInChooseView\loginchoose_user.png" />
 	  <MauiImage Include="Resources\Images\Images\LogInView\facebook_login.svg" />
 	  <MauiImage Include="Resources\Images\Images\LogInView\google_login.svg" />
 	  <MauiImage Include="Resources\Images\Images\LogInView\lock_login.png" />
@@ -99,12 +102,15 @@
 	  <MauiImage Include="Resources\Images\Images\SearchView\filter.svg" />
     <MauiImage Include="Resources\Images\Icons\Menu\TapBar\search_icon.svg" />
     <ProjectReference Include="..\..\SharedTypesLibrary\SharedTypesLibrary.csproj" />
+    <MauiImage Include="Resources\Images\Images\LogInChooseView\loginchoose_freelancer.png" />
     
   	<MauiImage Update="Resources\Images\Images\LogInView\facebook_login.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\Images\RegisterView\facebook_register.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\Images\LogInView\google_login.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\Images\RegisterView\google_register.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\Icons\Menu\TapBar\search_icon.svg" BaseSize="20,20" />
+    <MauiImage Update="Resources\Images\Icons\Menu\TapBar\loginchoose_freelancer.png" BaseSize="128,128" />
+    <MauiImage Update="Resources\Images\Icons\Menu\TapBar\loginchoose_user.png" BaseSize="128,128" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -115,6 +121,9 @@
 	  </Compile>
 	  <Compile Update="Views\LogIn\LogInView.xaml.cs">
 	    <DependentUpon>LogInView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\LogIn\LogInChooseView.xaml.cs">
+	    <DependentUpon>LogInChooseView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Register\RegisterCompanyView.xaml.cs">
 	    <DependentUpon>RegisterCompanyView.xaml</DependentUpon>
@@ -133,6 +142,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\LogIn\LogInView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LogIn\LogInChooseView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Register\RegisterCompanyView.xaml">
