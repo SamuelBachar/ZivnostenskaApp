@@ -75,7 +75,7 @@
 
                 <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="Center" HeightRequest="64">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnAuthProviderLogInRegister_Tapped" CommandParameter="google"/>
+                        <TapGestureRecognizer Tapped="OnAuthProviderLogInRegister_Tapped" CommandParameter="Google"/>
                     </Frame.GestureRecognizers>
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" Margin="0,5,0,0">
                         <Image Source="google_login.svg" HorizontalOptions="Start" VerticalOptions="Center" MaximumHeightRequest="48" MaximumWidthRequest="48"/>
@@ -85,7 +85,7 @@
 
                 <Frame Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="Center" HeightRequest="64">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnAuthProviderLogInRegister_Tapped" CommandParameter="facebook" />
+                        <TapGestureRecognizer Tapped="OnAuthProviderLogInRegister_Tapped" CommandParameter="Facebook" />
                     </Frame.GestureRecognizers>
                     <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" Margin="0,5,0,0">
                         <Image Source="facebook_login.svg" HorizontalOptions="Start" VerticalOptions="Center" MaximumHeightRequest="48" MaximumWidthRequest="48"/>
