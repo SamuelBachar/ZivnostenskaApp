@@ -204,4 +204,34 @@
   <data name="TranslateExt" xml:space="preserve">
     <value>Das is ein translate ext</value>
   </data>
+  <data name="RegisterCompanyView_RegisterTitle" xml:space="preserve">
+    <value>Anmeldung</value>
+  </data>
+  <data name="RegisterCompanyView_CompanyName" xml:space="preserve">
+    <value>Gewerbename / Firmenname</value>
+  </data>
+  <data name="RegisterCompanyView_CIN" xml:space="preserve">
+    <value>Unternehmens-Identifikationsnummer</value>
+  </data>
+  <data name="RegisterCompanyView_Phone" xml:space="preserve">
+    <value>Telefon</value>
+  </data>
+  <data name="RegisterCompanyView_EMail" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="RegisterCompanyView_City" xml:space="preserve">
+    <value>Stadt</value>
+  </data>
+  <data name="RegisterCompanyView_Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="RegisterCompanyView_PostalCode" xml:space="preserve">
+    <value>Postleitzahl</value>
+  </data>
+  <data name="RegisterCompanyView_Image" xml:space="preserve">
+    <value>Logo Gewerbe / Firma</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseImage" xml:space="preserve">
+    <value>Bild wählen</value>
+  </data>
 </root>

@@ -204,4 +204,34 @@
   <data name="TranslateExt" xml:space="preserve">
     <value>Toto je translate text test</value>
   </data>
+  <data name="RegisterCompanyView_RegisterTitle" xml:space="preserve">
+    <value>Registrácia</value>
+  </data>
+  <data name="RegisterCompanyView_CompanyName" xml:space="preserve">
+    <value>Názov živnosti / spoločnosti</value>
+  </data>
+  <data name="RegisterCompanyView_CIN" xml:space="preserve">
+    <value>Identifikačné číslo organizácie</value>
+  </data>
+  <data name="RegisterCompanyView_Phone" xml:space="preserve">
+    <value>Telefón</value>
+  </data>
+  <data name="RegisterCompanyView_EMail" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="RegisterCompanyView_City" xml:space="preserve">
+    <value>Mesto</value>
+  </data>
+  <data name="RegisterCompanyView_Address" xml:space="preserve">
+    <value>Adresa</value>
+  </data>
+  <data name="RegisterCompanyView_PostalCode" xml:space="preserve">
+    <value>PSČ</value>
+  </data>
+  <data name="RegisterCompanyView_Image" xml:space="preserve">
+    <value>Logo živnosti / spoločnosti</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseImage" xml:space="preserve">
+    <value>Vyberte obrázok</value>
+  </data>
 </root>

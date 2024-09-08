@@ -313,6 +313,96 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        internal static string RegisterCompanyView_Address {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select image.
+        /// </summary>
+        internal static string RegisterCompanyView_ChooseImage {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_ChooseImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Company identification number.
+        /// </summary>
+        internal static string RegisterCompanyView_CIN {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_CIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to City.
+        /// </summary>
+        internal static string RegisterCompanyView_City {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_City", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of trade / company.
+        /// </summary>
+        internal static string RegisterCompanyView_CompanyName {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_CompanyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-Mail.
+        /// </summary>
+        internal static string RegisterCompanyView_EMail {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_EMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logo of Trade / Company.
+        /// </summary>
+        internal static string RegisterCompanyView_Image {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        internal static string RegisterCompanyView_Phone {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Postal code / ZIP code.
+        /// </summary>
+        internal static string RegisterCompanyView_PostalCode {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_PostalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration.
+        /// </summary>
+        internal static string RegisterCompanyView_RegisterTitle {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_RegisterTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is an translate text test.
         /// </summary>
         internal static string TranslateExt {

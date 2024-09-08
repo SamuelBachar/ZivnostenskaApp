@@ -204,4 +204,34 @@
   <data name="TranslateExt" xml:space="preserve">
     <value>This is an translate text test</value>
   </data>
+  <data name="RegisterCompanyView_RegisterTitle" xml:space="preserve">
+    <value>Registration</value>
+  </data>
+  <data name="RegisterCompanyView_CompanyName" xml:space="preserve">
+    <value>Name of trade / company</value>
+  </data>
+  <data name="RegisterCompanyView_CIN" xml:space="preserve">
+    <value>Company identification number</value>
+  </data>
+  <data name="RegisterCompanyView_Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="RegisterCompanyView_EMail" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
+  <data name="RegisterCompanyView_City" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="RegisterCompanyView_Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="RegisterCompanyView_PostalCode" xml:space="preserve">
+    <value>Postal code / ZIP code</value>
+  </data>
+  <data name="RegisterCompanyView_Image" xml:space="preserve">
+    <value>Logo of Trade / Company</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseImage" xml:space="preserve">
+    <value>Select image</value>
+  </data>
 </root>
