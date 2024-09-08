@@ -168,6 +168,12 @@
   <data name="LogInView_LogIntoAccount" xml:space="preserve">
     <value>Přihlaste se do vašeho účtu</value>
   </data>
+  <data name="LogInView_LoginRegisterViaFacebook" xml:space="preserve">
+    <value>Facebook účet</value>
+  </data>
+  <data name="LogInView_LoginRegisterViaGoogle" xml:space="preserve">
+    <value>Google účet</value>
+  </data>
   <data name="LogInView_RegisterHere" xml:space="preserve">
     <value>Registrujte se zde</value>
   </data>
@@ -181,7 +187,7 @@
     <value>Přihlásit se jako uživatel</value>
   </data>
   <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
-    <value>Přihlásit se pomocí</value>
+    <value>Přihlásit / zaregistrovat se pomocí</value>
   </data>
   <data name="LogInView_WelcomeText" xml:space="preserve">
     <value>Vítejte v aplikaci</value>

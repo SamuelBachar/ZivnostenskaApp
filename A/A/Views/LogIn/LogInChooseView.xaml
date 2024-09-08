@@ -11,7 +11,7 @@
 
             <Frame Grid.Row="1" Grid.Column="0"  Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
                 <HorizontalStackLayout>
-                    <Image></Image>
+                    <Image Source="loginchoose_user.png"/>
                     <Label Text="{translate:TranslateManager LogInChooseView_SignInAsUserShort}"/>
 
                 </HorizontalStackLayout>
@@ -19,7 +19,7 @@
 
             <Frame Grid.Row="2" Grid.Column="0"  Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
                 <HorizontalStackLayout>
-                    <Image></Image>
+                    <Image Source="loginchoose_freelancer.png"/>
                     <Label Text="{translate:TranslateManager LogInChooseView_SignInAsCompanyShort}"/>
                 </HorizontalStackLayout>
             </Frame>

@@ -205,29 +205,29 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Facebook account.
+        /// </summary>
+        internal static string LogInView_LoginRegisterViaFacebook {
+            get {
+                return ResourceManager.GetString("LogInView_LoginRegisterViaFacebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Google account.
+        /// </summary>
+        internal static string LogInView_LoginRegisterViaGoogle {
+            get {
+                return ResourceManager.GetString("LogInView_LoginRegisterViaGoogle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign in to your account.
         /// </summary>
         internal static string LogInView_LogIntoAccount {
             get {
                 return ResourceManager.GetString("LogInView_LogIntoAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Log in via Facebook.
-        /// </summary>
-        internal static string LogInView_LoginViaFacebook {
-            get {
-                return ResourceManager.GetString("LogInView_LoginViaFacebook", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Log in via Google.
-        /// </summary>
-        internal static string LogInView_LoginViaGoogle {
-            get {
-                return ResourceManager.GetString("LogInView_LoginViaGoogle", resourceCulture);
             }
         }
         
@@ -268,7 +268,7 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log in using.
+        ///   Looks up a localized string similar to Log in / register using.
         /// </summary>
         internal static string LogInView_SignInWithHelpOf {
             get {

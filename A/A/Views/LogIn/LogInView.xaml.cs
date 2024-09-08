@@ -156,6 +156,14 @@ public partial class LogInView : ContentPage
         }
     }
 
+    private async void OnAuthProviderLogInRegister_Tapped(object sender, EventArgs e)
+    {
+        TapGestureRecognizer tapGestureRecognizer = (TapGestureRecognizer)sender;
+        string? commandParameter = tapGestureRecognizer.CommandParameter as string;
+
+        await LogInWithAuthProvider(commandParameter);
+    }
+
     private async void BtnGoogleSignInUp_Clicked(object sender, EventArgs e)
     {
         await LogInWithAuthProvider(AuthProviders.Google);

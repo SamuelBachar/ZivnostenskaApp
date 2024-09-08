@@ -168,11 +168,11 @@
   <data name="LogInView_LogIntoAccount" xml:space="preserve">
     <value>Sign in to your account</value>
   </data>
-  <data name="LogInView_LoginViaFacebook" xml:space="preserve">
-    <value>Log in via Facebook</value>
+  <data name="LogInView_LoginRegisterViaFacebook" xml:space="preserve">
+    <value>Facebook account</value>
   </data>
-  <data name="LogInView_LoginViaGoogle" xml:space="preserve">
-    <value>Log in via Google</value>
+  <data name="LogInView_LoginRegisterViaGoogle" xml:space="preserve">
+    <value>Google account</value>
   </data>
   <data name="LogInView_RegisterHere" xml:space="preserve">
     <value>Register here</value>
@@ -187,7 +187,7 @@
     <value>Log in as a user</value>
   </data>
   <data name="LogInView_SignInWithHelpOf" xml:space="preserve">
-    <value>Log in using</value>
+    <value>Log in / register using</value>
   </data>
   <data name="LogInView_WelcomeText" xml:space="preserve">
     <value>Welcome to the app</value>
