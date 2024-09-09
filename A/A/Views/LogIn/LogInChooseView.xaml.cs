@@ -1,3 +1,5 @@
+using A.Enums;
+
 namespace A.Views.LogIn;
 
 [QueryProperty(nameof(NewUser), "newuser")]
@@ -35,11 +37,25 @@ public partial class LogInChooseView : ContentPage
 
     private async void OnChooseAppMode_Tapped(object sender, TappedEventArgs args)
     {
-        string? appMode = args.Parameter as string;
+        // Retrieve the CommandParameter, which will be of type Enums.AppMode
+        var appMode = (Enums.Enums.AppMode)((TappedEventArgs)args).Parameter;
 
-        // navigate to corret home page based on certain app Mode
-        // or if user is new and Company was choosed than proceed with registration
+        // Use appMode as needed
+        if (appMode == Enums.Enums.AppMode.Company)
+        {
+            if (_newUser)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(RegisterCompanyView)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            }
+        }
 
-        await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+        if (appMode == Enums.Enums.AppMode.Customer)
+        {
+            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+        }
     }
 }
