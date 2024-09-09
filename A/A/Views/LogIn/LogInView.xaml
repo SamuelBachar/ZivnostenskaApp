@@ -55,12 +55,10 @@
             </Label>
         </HorizontalStackLayout>
 
-        <Grid RowDefinitions="*" ColumnDefinitions="*,*" HorizontalOptions="FillAndExpand">
-            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" HorizontalOptions="Start">
-                <CheckBox x:Name="chkRememberLogin" IsChecked="False" CheckedChanged="ChkRememberLogin_CheckedChanged" HorizontalOptions="Start"/>
-                <Label Text="{translate:TranslateManager LogInView_RememberLogIn}" TextColor="DarkGrey" FontSize="Small" HorizontalOptions="Start" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
-            </HorizontalStackLayout>
-            <Label Grid.Row="0" Grid.Column="1" x:Name="txtForgotPassword" Text="{translate:TranslateManager LogInView_ForgotPassword}" TextColor="CornflowerBlue" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Start">
+        <Grid RowDefinitions="*" ColumnDefinitions="25,*,*" ColumnSpacing="5" HorizontalOptions="FillAndExpand">
+            <CheckBox  Grid.Row="0" Grid.Column="0" x:Name="chkRememberLogin" IsChecked="False" CheckedChanged="ChkRememberLogin_CheckedChanged" HorizontalOptions="Start"/>
+            <Label  Grid.Row="0" Grid.Column="1" Text="{translate:TranslateManager LogInView_RememberLogIn}" TextColor="DarkGrey" FontSize="Small" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"  LineBreakMode="WordWrap" />
+            <Label Grid.Row="0" Grid.Column="2" x:Name="txtForgotPassword" Text="{translate:TranslateManager LogInView_ForgotPassword}" TextColor="CornflowerBlue" FontAttributes="Bold" HorizontalOptions="Center" VerticalTextAlignment="Center" HorizontalTextAlignment="Start">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="txtForgotPassword_Tapped"/>
                 </Label.GestureRecognizers>
@@ -70,7 +68,7 @@
         <VerticalStackLayout Padding="0,50,0,0" Spacing="10">
 
             <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*,*" ColumnSpacing="10" RowSpacing="15" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-                
+
                 <Label Grid.Row="0" Grid.ColumnSpan="3" FontSize="15" TextColor="Gray" Text="{translate:TranslateManager LogInView_SignInWithHelpOf}" HorizontalOptions="Center" />
 
                 <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="Center" HeightRequest="64">
@@ -92,9 +90,9 @@
                         <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" Text="{translate:TranslateManager LogInView_LoginRegisterViaFacebook}" Margin="10,0,10,0" />
                     </HorizontalStackLayout>
                 </Frame>
-                
+
             </Grid>
-            
+
         </VerticalStackLayout>
     </VerticalStackLayout>
 

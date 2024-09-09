@@ -5,31 +5,53 @@
              xmlns:translate="clr-namespace:A.LanguageTranslateManager"
              Title="{translate:TranslateManager LogInChooseView_Title}">
     <ScrollView>
-        <Grid RowDefinitions="0.5*,*,*, 0.1*" ColumnDefinitions="*">
-            
-            <Label x:Name="LblInfo" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" LineBreakMode="WordWrap" />
+        <Grid RowDefinitions="0.5*,*, 0.5*" ColumnDefinitions="*,*" Padding="20,0,20,0">
 
-            <Frame Grid.Row="1" Grid.Column="0"  Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
-                <HorizontalStackLayout>
-                    <Image Source="loginchoose_user.png"/>
-                    <Label Text="{translate:TranslateManager LogInChooseView_SignInAsUserShort}"/>
+            <Label x:Name="LblInfo" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontAttributes="Bold" LineBreakMode="WordWrap" />
 
-                </HorizontalStackLayout>
-            </Frame>
+            <VerticalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="20,0,20,0" Spacing="100">
+                
+                <Frame  Padding="20,0,20,0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="User"/>
+                    </Frame.GestureRecognizers>
+                    <Grid RowDefinitions="*" ColumnDefinitions="*,*" >
+                        <Image Grid.Row="0" Grid.Column="0" Source="loginchoose_user.png"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{translate:TranslateManager LogInChooseView_SignInAsUserShort}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"
+                           FontSize="Large"
+                           LineBreakMode="WordWrap"
+                           FontAttributes="Bold"/>
+                    </Grid>
+                </Frame>
 
-            <Frame Grid.Row="2" Grid.Column="0"  Padding="0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
-                <HorizontalStackLayout>
-                    <Image Source="loginchoose_freelancer.png"/>
-                    <Label Text="{translate:TranslateManager LogInChooseView_SignInAsCompanyShort}"/>
-                </HorizontalStackLayout>
-            </Frame>
+                <Frame Padding="20,0,20,0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="Company"/>
+                    </Frame.GestureRecognizers>
+                    <Grid RowDefinitions="*" ColumnDefinitions="*,*" >
+                        <Image Grid.Row="0" Grid.Column="0" Source="loginchoose_freelancer.png"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{translate:TranslateManager LogInChooseView_SignInAsCompanyShort}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"
+                           FontSize="Large"
+                           LineBreakMode="WordWrap"
+                           FontAttributes="Bold"/>
+                    </Grid>
+                </Frame>
 
-            <HorizontalStackLayout Grid.Row="3" Spacing="2" HorizontalOptions="Center">
-                <CheckBox x:Name="CheckDontAsk"/>
-                <Label Text="{translate:TranslateManager LogInChooseView_DoNotAskMore}" />
-            </HorizontalStackLayout>
+            </VerticalStackLayout>
 
+            <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" RowDefinitions="*" ColumnDefinitions="40, *" Padding="0,0,0,0" HorizontalOptions="Center">
+                <CheckBox x:Name="CheckDontAsk" Grid.Column="0" Grid.Row="0"/>
+                <Label Grid.Column="1" Grid.Row="0" Text="{translate:TranslateManager LogInChooseView_DoNotAskMore}" LineBreakMode="WordWrap" VerticalTextAlignment="Center" />
+            </Grid>
         </Grid>
-        
+
     </ScrollView>
 </ContentPage>

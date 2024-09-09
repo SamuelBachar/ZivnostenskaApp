@@ -148,7 +148,7 @@ public partial class LogInView : ContentPage
 
         if (response.UserLoginDTO != null)
         {
-            await Shell.Current.GoToAsync($"//{nameof(LogInChooseView)}?newuser={response.UserLoginDTO.NewUser}");
+            await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?newuser={response.UserLoginDTO.NewUser}");
         }
         else
         {

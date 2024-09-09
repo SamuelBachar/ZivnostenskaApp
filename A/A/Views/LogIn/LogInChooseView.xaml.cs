@@ -13,15 +13,14 @@ public partial class LogInChooseView : ContentPage
         }
     }
 
-	public LogInChooseView(bool newUser)
+	public LogInChooseView()
 	{
-        _newUser = newUser;
 		InitializeComponent();
 	}
 
-    protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        base.OnNavigatingFrom(args);
+        base.OnNavigatedTo(args);
 
         if (_newUser)
         {
@@ -33,4 +32,14 @@ public partial class LogInChooseView : ContentPage
         }
     }
 
+
+    private async void OnChooseAppMode_Tapped(object sender, TappedEventArgs args)
+    {
+        string? appMode = args.Parameter as string;
+
+        // navigate to corret home page based on certain app Mode
+        // or if user is new and Company was choosed than proceed with registration
+
+        await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+    }
 }

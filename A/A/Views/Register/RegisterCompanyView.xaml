@@ -13,7 +13,7 @@
                     <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
+                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_CompanyName}"
                         />
@@ -26,7 +26,7 @@
                     <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CIN}"
+                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CIN}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_CIN}"
                         />
@@ -40,7 +40,7 @@
                     <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
+                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
                         />
@@ -53,7 +53,7 @@
                     <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
+                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}" Keyboard="Email"
                         />
@@ -66,7 +66,7 @@
                     <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
+                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
                         />
@@ -79,7 +79,7 @@
                     <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Address}"
+                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Address}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_Address}"
                         />
@@ -92,7 +92,7 @@
                     <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry x:Name="EntryPassword" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_PostalCode}"
+                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_PostalCode}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_PostalCode}"
                         />

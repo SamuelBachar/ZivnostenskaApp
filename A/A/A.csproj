@@ -109,8 +109,8 @@
     <MauiImage Update="Resources\Images\Images\LogInView\google_login.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\Images\RegisterView\google_register.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\Icons\Menu\TapBar\search_icon.svg" BaseSize="20,20" />
-    <MauiImage Update="Resources\Images\Icons\Menu\TapBar\loginchoose_freelancer.png" BaseSize="128,128" />
-    <MauiImage Update="Resources\Images\Icons\Menu\TapBar\loginchoose_user.png" BaseSize="128,128" />
+    <MauiImage Update="Resources\Images\Images\LogInChooseView\loginchoose_freelancer.png" BaseSize="128,128" />
+    <MauiImage Update="Resources\Images\Images\LogInChooseView\loginchoose_user.png" BaseSize="128,128" />
 	</ItemGroup>
 
 	<ItemGroup>
