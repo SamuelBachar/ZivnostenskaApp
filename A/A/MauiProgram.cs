@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
 using System.Net.Http;
 using A.Views.LogIn;
+using A.Views.Register;
 
 namespace A
 {
@@ -62,6 +63,7 @@ namespace A
 
             builder.Services.AddSingleton<SettingsService>();
             builder.Services.AddSingleton<RegisterCompanyView>();
+            builder.Services.AddSingleton<RegisterChooseView>();
 
             return builder.Build();
         }

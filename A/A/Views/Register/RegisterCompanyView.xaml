@@ -6,11 +6,11 @@
              Title="{translate:TranslateManager RegisterCompanyView_RegisterTitle}">
     <ScrollView>
         <!-- First CarouselView Item -->
-        <Grid RowDefinitions="*,*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*" Padding="20,0,20,10" RowSpacing="10">
+        <Grid RowDefinitions="*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*,*" Padding="20,0,20,10" RowSpacing="10">
             <!-- Company name -->
-            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3">
+            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
                 <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
+                    <Image Source="company.svg" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                     <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
@@ -21,9 +21,9 @@
             </StackLayout>
 
             <!-- CIN / ICO-->
-            <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3">
+            <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
                 <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
+                    <Image Source="cin.svg" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                     <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CIN}"
@@ -34,7 +34,7 @@
             </StackLayout>
 
             <!-- Phone -->
-            <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3">
+            <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
                 <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                     <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                 </Frame>
@@ -47,9 +47,9 @@
             </StackLayout>
 
             <!-- E-Mail -->
-            <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3">
+            <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
                 <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
+                    <Image Source="email.svg" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                     <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
@@ -59,23 +59,10 @@
                 </Frame>
             </StackLayout>
 
-            <!-- City -->
-            <StackLayout Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3">
-                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
-                </Frame>
-                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
-                        />
-                </Frame>
-            </StackLayout>
-
             <!-- Address -->
-            <StackLayout Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3">
+            <StackLayout Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
                 <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
+                    <Image Source="address.svg" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                     <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Address}"
@@ -85,10 +72,23 @@
                 </Frame>
             </StackLayout>
 
-            <!-- Postal code -->
-            <StackLayout Grid.Row="6" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="3">
+            <!-- City -->
+            <StackLayout Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="2">
                 <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
+                    <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
+                </Frame>
+                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
+                        />
+                </Frame>
+            </StackLayout>
+
+            <!-- Postal code -->
+            <StackLayout Grid.Row="5" Grid.Column="2" Orientation="Horizontal" Grid.ColumnSpan="2">
+                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                    <Image Source="postal_code.svg" HeightRequest="20" WidthRequest="20" />
                 </Frame>
                 <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                     <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_PostalCode}"
@@ -99,19 +99,23 @@
             </StackLayout>
 
             <!-- Company picture -->
-            <VerticalStackLayout Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" HorizontalOptions="Center" Spacing="5">
+            <VerticalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" HorizontalOptions="Center" Spacing="5">
                 <Label Text="{translate:TranslateManager RegisterCompanyView_Image}" FontAttributes="Bold"/>
-                <Border HeightRequest="104" WidthRequest="104">
-                    <Image MaximumHeightRequest="96" MaximumWidthRequest="96" Aspect="AspectFit"/>
+                <Border HeightRequest="104" WidthRequest="104" StrokeThickness="2">
+                    <Image x:Name="ImgCompanyLogo" MaximumHeightRequest="104" MaximumWidthRequest="104" Aspect="AspectFit"/>
                 </Border>
                 <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
             </VerticalStackLayout>
 
-            <Button Grid.Row="8" Grid.Column="1" x:Name="BtnNext" Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
+            <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="BtnNext" Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
 
-            <Frame Grid.Row="8" Grid.Column="2" HorizontalOptions="End" BackgroundColor="#2D9AEA" VerticalOptions="Center">
-                <Label Text="1/2" FontAttributes="Bold" TextColor="White" />
-            </Frame>
+            <Border Grid.Row="7" Grid.Column="3" HorizontalOptions="End" BackgroundColor="#2D9AEA" 
+                    VerticalOptions="Center" 
+                    StrokeThickness="4" 
+                    StrokeShape="RoundRectangle 40,0,0,40"
+                    Stroke="#878787">
+                <Label Text="1/2" FontSize="Medium" FontAttributes="Bold" TextColor="White" />
+            </Border>
         </Grid>
     </ScrollView>
 </ContentPage>

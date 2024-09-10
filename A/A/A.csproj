@@ -62,12 +62,21 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\Icons\Menu\TapBar\search_icon.svg" />
+	  <None Remove="Resources\Images\Images\ChooseRegisterView\register_company.png" />
+	  <None Remove="Resources\Images\Images\ChooseRegisterView\register_user.png" />
 	  <None Remove="Resources\Images\Images\LogInChooseView\loginchoose_freelancer.png" />
 	  <None Remove="Resources\Images\Images\LogInChooseView\loginchoose_user.png" />
 	  <None Remove="Resources\Images\Images\LogInView\facebook_login.svg" />
 	  <None Remove="Resources\Images\Images\LogInView\google_login.svg" />
 	  <None Remove="Resources\Images\Images\LogInView\lock_login.png" />
 	  <None Remove="Resources\Images\Images\LogInView\user_login.png" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\address.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\cin.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\city.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\company.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\email.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\phone.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\postal_code.svg" />
 	  <None Remove="Resources\Images\Images\RegisterView\facebook_register.svg" />
 	  <None Remove="Resources\Images\Images\RegisterView\google_register.svg" />
 	  <None Remove="Resources\Images\Images\SearchView\filter.svg" />
@@ -92,11 +101,24 @@
 	    <Resize>True</Resize>
 	    <BaseSize>300,185</BaseSize>
 	  </MauiImage>  
+	  <MauiImage Include="Resources\Images\Images\ChooseRegisterView\register_company.png">
+	    <BaseSize>128,128</BaseSize>
+	  </MauiImage>  
+	  <MauiImage Include="Resources\Images\Images\ChooseRegisterView\register_user.png">
+	    <BaseSize>128,128</BaseSize>
+	  </MauiImage>  
 	  <MauiImage Include="Resources\Images\Images\LogInChooseView\loginchoose_user.png" />
 	  <MauiImage Include="Resources\Images\Images\LogInView\facebook_login.svg" />
 	  <MauiImage Include="Resources\Images\Images\LogInView\google_login.svg" />
 	  <MauiImage Include="Resources\Images\Images\LogInView\lock_login.png" />
 	  <MauiImage Include="Resources\Images\Images\LogInView\user_login.png" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\address.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\cin.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\city.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\company.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\email.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\phone.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\postal_code.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterView\facebook_register.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterView\google_register.svg" />
 	  <MauiImage Include="Resources\Images\Images\SearchView\filter.svg" />
@@ -111,6 +133,17 @@
     <MauiImage Update="Resources\Images\Icons\Menu\TapBar\search_icon.svg" BaseSize="20,20" />
     <MauiImage Update="Resources\Images\Images\LogInChooseView\loginchoose_freelancer.png" BaseSize="128,128" />
     <MauiImage Update="Resources\Images\Images\LogInChooseView\loginchoose_user.png" BaseSize="128,128" />
+
+	<MauiImage Update="Resources\Images\Images\LogInChooseView\register_company.png" BaseSize="128,128" />
+    <MauiImage Update="Resources\Images\Images\LogInChooseView\register_user.png" BaseSize="128,128" />
+		
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\postal_code.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\city.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\address.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\email.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\phone.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\cin.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\company.svg" BaseSize="40,40" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -145,6 +178,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\LogIn\LogInChooseView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Register\RegisterChooseView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Register\RegisterCompanyView.xaml">

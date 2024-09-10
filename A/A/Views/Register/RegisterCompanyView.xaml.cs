@@ -2,6 +2,7 @@ namespace A.Views;
 
 public partial class RegisterCompanyView : ContentPage
 {
+    ImageSource _imageSource { get; set; } = null;
 	public RegisterCompanyView()
 	{
 		InitializeComponent();
@@ -23,7 +24,9 @@ public partial class RegisterCompanyView : ContentPage
                     result.FileName.EndsWith("png", StringComparison.OrdinalIgnoreCase))
                 {
                     using var stream = await result.OpenReadAsync();
-                    var image = ImageSource.FromStream(() => stream);
+                    _imageSource = ImageSource.FromStream(() => stream);
+
+                    this.ImgCompanyLogo.Source = _imageSource;
                 }
             }
         }

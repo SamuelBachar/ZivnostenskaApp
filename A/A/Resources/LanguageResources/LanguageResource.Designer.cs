@@ -142,7 +142,7 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Continue as.
+        ///   Looks up a localized string similar to Select the application mode.
         /// </summary>
         internal static string LogInChooseView_Title {
             get {
@@ -309,6 +309,42 @@ namespace A.Resources.LanguageResources {
         internal static string PageSettingsTitle {
             get {
                 return ResourceManager.GetString("PageSettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        internal static string RegisterChooseView_RegisterAs {
+            get {
+                return ResourceManager.GetString("RegisterChooseView_RegisterAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as a self-employed / company.
+        /// </summary>
+        internal static string RegisterChooseView_RegisterAsCompanyShort {
+            get {
+                return ResourceManager.GetString("RegisterChooseView_RegisterAsCompanyShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to as a user.
+        /// </summary>
+        internal static string RegisterChooseView_RegisterAsUserShort {
+            get {
+                return ResourceManager.GetString("RegisterChooseView_RegisterAsUserShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the registration method.
+        /// </summary>
+        internal static string RegisterChooseView_Title {
+            get {
+                return ResourceManager.GetString("RegisterChooseView_Title", resourceCulture);
             }
         }
         

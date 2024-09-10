@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="A.Views.LogIn.LogInChooseView"
+             x:Class="A.Views.Register.RegisterChooseView"
              xmlns:translate="clr-namespace:A.LanguageTranslateManager"
-             xmlns:appmode="clr-namespace:A.Enumerations"
-             Title="{translate:TranslateManager LogInChooseView_Title}">
+             Title="{translate:TranslateManager RegisterChooseView_Title}">
     <ScrollView>
         <Grid RowDefinitions="0.5*,*, 0.5*" ColumnDefinitions="*,*" Padding="20,0,20,0">
 
-            <Label x:Name="LblInfo" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontAttributes="Bold" LineBreakMode="WordWrap" />
+            <Label Text="{translate:TranslateManager RegisterChooseView_RegisterAs}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontAttributes="Bold" LineBreakMode="WordWrap" />
 
             <VerticalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="20,0,20,0" Spacing="100">
-                
+
                 <Frame  Padding="20,0,20,0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="User" />
+                        <TapGestureRecognizer Tapped="OnRegisterMode_Tapped" CommandParameter="User" />
                     </Frame.GestureRecognizers>
                     <Grid RowDefinitions="*" ColumnDefinitions="*,*" >
-                        <Image Grid.Row="0" Grid.Column="0" Source="loginchoose_user.png"/>
-                        <Label Grid.Row="0" Grid.Column="1" Text="{translate:TranslateManager LogInChooseView_SignInAsUserShort}"
+                        <Image Grid.Row="0" Grid.Column="0" Source="register_user.png"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{translate:TranslateManager RegisterChooseView_RegisterAsUserShort}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            VerticalTextAlignment="Center"
@@ -31,11 +30,11 @@
 
                 <Frame Padding="20,0,20,0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="Company" />
+                        <TapGestureRecognizer Tapped="OnRegisterMode_Tapped" CommandParameter="Company" />
                     </Frame.GestureRecognizers>
                     <Grid RowDefinitions="*" ColumnDefinitions="*,*" >
-                        <Image Grid.Row="0" Grid.Column="0" Source="loginchoose_freelancer.png"/>
-                        <Label Grid.Row="0" Grid.Column="1" Text="{translate:TranslateManager LogInChooseView_SignInAsCompanyShort}"
+                        <Image Grid.Row="0" Grid.Column="0" Source="register_company.png"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{translate:TranslateManager RegisterChooseView_RegisterAsCompanyShort}"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            VerticalTextAlignment="Center"
@@ -47,11 +46,6 @@
                 </Frame>
 
             </VerticalStackLayout>
-
-            <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" RowDefinitions="*" ColumnDefinitions="40, *" Padding="0,0,0,0" HorizontalOptions="Center">
-                <CheckBox x:Name="chkDontAsk" Grid.Column="0" Grid.Row="0" CheckedChanged="chkDontAsk_CheckedChanged"/>
-                <Label Grid.Column="1" Grid.Row="0" Text="{translate:TranslateManager LogInChooseView_DoNotAskMore}" LineBreakMode="WordWrap" VerticalTextAlignment="Center" />
-            </Grid>
         </Grid>
 
     </ScrollView>

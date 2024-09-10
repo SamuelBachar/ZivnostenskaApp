@@ -12,4 +12,8 @@ public static class PrefUserSettings
     public const string PrefLanguageDefault = "en";
 
     public const string PrefRememberLogIn = "RememberLogin";
+
+    public const string PrefRememberAppModeChoice = "RememberAppModeChoice";
+    public const string AppModeChoice = "AppModeChoice";
+
 }

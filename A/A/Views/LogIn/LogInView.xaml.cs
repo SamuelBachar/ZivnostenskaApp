@@ -2,6 +2,7 @@
 using A.Interfaces;
 using A.Services;
 using A.Views.LogIn;
+using A.Views.Register;
 using ExceptionsHandling;
 using Newtonsoft.Json;
 using SharedTypesLibrary.Constants;
@@ -43,7 +44,7 @@ public partial class LogInView : ContentPage
 
     private async void TxtRegisterHere_Tapped(object sender, TappedEventArgs e)
     {
-        //await Shell.Current.GoToAsync(nameof(RegisterView));
+        await Shell.Current.GoToAsync($"{nameof(RegisterChooseView)}");
     }
 
     private void EntryPassword_TextChanged(object sender, TextChangedEventArgs e)
@@ -148,7 +149,25 @@ public partial class LogInView : ContentPage
 
         if (response.UserLoginDTO != null)
         {
-            await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?newuser={response.UserLoginDTO.NewUser}");
+            // Skiping choosing of Application Mode since user already choosed prefered Application Mode
+            if (await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberAppModeChoice, false))
+            {
+                AppMode appMode = await SettingsService.GetStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Customer);
+
+                if (appMode == AppMode.Customer)
+                {
+                    await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+                }
+                else
+                {
+                    await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+                }
+            }
+            else
+            {
+                // Navigate to LogInChooseView where application mode is choosen
+                await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?newuser={response.UserLoginDTO.NewUser}");
+            }
         }
         else
         {
