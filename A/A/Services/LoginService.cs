@@ -15,7 +15,6 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using static A.Enums.Enums;
 
 namespace A.Services;
 

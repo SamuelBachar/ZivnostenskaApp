@@ -39,4 +39,9 @@ public partial class RegisterCompanyView : ContentPage
     {
         await PickAndShow(PickOptions.Images);
     }
+
+    private void BtnNext_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

@@ -61,6 +61,7 @@ namespace A
             builder.Services.AddSingleton<LogInChooseView>();
 
             builder.Services.AddSingleton<SettingsService>();
+            builder.Services.AddSingleton<RegisterCompanyView>();
 
             return builder.Build();
         }

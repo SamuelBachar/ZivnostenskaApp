@@ -6,7 +6,7 @@ using A.Services;
 using A.User;
 using A.Views;
 using System.Globalization;
-using static A.Enums.Enums;
+using static A.Enumerations.Enums;
 
 namespace A
 {

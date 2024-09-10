@@ -234,4 +234,7 @@
   <data name="RegisterCompanyView_ChooseImage" xml:space="preserve">
     <value>Select image</value>
   </data>
+  <data name="RegisterCompanyView_NextView" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>

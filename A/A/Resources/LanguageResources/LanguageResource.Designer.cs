@@ -376,6 +376,15 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string RegisterCompanyView_NextView {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_NextView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         internal static string RegisterCompanyView_Phone {

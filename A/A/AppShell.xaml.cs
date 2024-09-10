@@ -1,4 +1,5 @@
-﻿using A.Views.LogIn;
+﻿using A.Views;
+using A.Views.LogIn;
 
 namespace A
 {
@@ -9,6 +10,7 @@ namespace A
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(LogInChooseView), typeof(LogInChooseView));
+            Routing.RegisterRoute(nameof(RegisterCompanyView), typeof(RegisterCompanyView));
         }
     }
 }

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using SharedTypesLibrary.Constants;
 using SharedTypesLibrary.DTOs.Response;
 using System;
-using static A.Enums.Enums;
+using static A.Enumerations.Enums;
 using static System.Net.WebRequestMethods;
 
 namespace A.Views;
@@ -133,7 +133,7 @@ public partial class LogInView : ContentPage
                 }
             }
 
-            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            await Shell.Current.GoToAsync($"{nameof(MainPage)}");
         }
         else
         {

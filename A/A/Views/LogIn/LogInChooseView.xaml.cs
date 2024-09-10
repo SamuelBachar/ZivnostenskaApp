@@ -1,4 +1,5 @@
-using A.Enums;
+using A.Enumerations;
+using static A.Enumerations.Enums;
 
 namespace A.Views.LogIn;
 
@@ -34,28 +35,28 @@ public partial class LogInChooseView : ContentPage
         }
     }
 
-
     private async void OnChooseAppMode_Tapped(object sender, TappedEventArgs args)
     {
         // Retrieve the CommandParameter, which will be of type Enums.AppMode
-        var appMode = (Enums.Enums.AppMode)((TappedEventArgs)args).Parameter;
+        string? appMode = (string)((TappedEventArgs)args).Parameter;
 
         // Use appMode as needed
-        if (appMode == Enums.Enums.AppMode.Company)
+        if (appMode == "Company")
         {
+            _newUser = true;
             if (_newUser)
             {
-                await Shell.Current.GoToAsync($"//{nameof(RegisterCompanyView)}");
+                await Shell.Current.GoToAsync($"{nameof(RegisterCompanyView)}");
             }
             else
             {
-                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+                await Shell.Current.GoToAsync($"{nameof(MainPage)}");
             }
         }
 
-        if (appMode == Enums.Enums.AppMode.Customer)
+        if (appMode == "Customer")
         {
-            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            await Shell.Current.GoToAsync($"{nameof(MainPage)}");
         }
     }
 }
