@@ -1,12 +1,25 @@
 namespace A.Views;
 
+
+[QueryProperty(nameof(GenericRegistration), "genericRegistration")]
 public partial class RegisterCompanyView : ContentPage
 {
-    ImageSource _imageSource { get; set; } = null;
-	public RegisterCompanyView()
-	{
-		InitializeComponent();
-	}
+    int _viewIndex = 0;
+    ImageSource? _imageSource { get; set; } = null;
+    bool _genericRegistration { get; set; } = false;
+
+    public bool GenericRegistration
+    {
+        set
+        {
+            _genericRegistration = value;
+        }
+    }
+
+    public RegisterCompanyView()
+    {
+        InitializeComponent();
+    }
 
     //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/file-picker?view=net-maui-8.0&tabs=android
     public async Task<(FileResult?, string)> PickAndShow(PickOptions options)
@@ -45,6 +58,11 @@ public partial class RegisterCompanyView : ContentPage
 
     private void BtnNext_Clicked(object sender, EventArgs e)
     {
+        _viewIndex++;
+    }
 
+    private void BtnPrev_Clicked(object sender, EventArgs e)
+    {
+        _viewIndex--;
     }
 }
