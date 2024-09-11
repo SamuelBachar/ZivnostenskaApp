@@ -3,133 +3,203 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="A.Views.RegisterCompanyView"
              xmlns:translate="clr-namespace:A.LanguageTranslateManager"
-             Title="{translate:TranslateManager RegisterCompanyView_RegisterTitle}">
-    <ScrollView>
-        <!-- First CarouselView Item -->
-        <Grid RowDefinitions="*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*,*" Padding="20,0,20,10" RowSpacing="10">
-            <!-- Company name -->
-            <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
-                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="company.svg" HeightRequest="20" WidthRequest="20" />
-                </Frame>
-                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_CompanyName}"
-                        />
-                </Frame>
-            </StackLayout>
-
-            <!-- CIN / ICO-->
-            <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
-                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="cin.svg" HeightRequest="20" WidthRequest="20" />
-                </Frame>
-                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CIN}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_CIN}"
-                        />
-                </Frame>
-            </StackLayout>
-
-            <!-- Phone -->
-            <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
-                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
-                </Frame>
-                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
-                        />
-                </Frame>
-            </StackLayout>
-
-            <!-- E-Mail -->
-            <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
-                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="email.svg" HeightRequest="20" WidthRequest="20" />
-                </Frame>
-                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}" Keyboard="Email"
-                        />
-                </Frame>
-            </StackLayout>
-
-            <!-- Address -->
-            <StackLayout Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
-                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="address.svg" HeightRequest="20" WidthRequest="20" />
-                </Frame>
-                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Address}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_Address}"
-                        />
-                </Frame>
-            </StackLayout>
-
-            <!-- City -->
-            <StackLayout Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="2">
-                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
-                </Frame>
-                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
-                        />
-                </Frame>
-            </StackLayout>
-
-            <!-- Postal code -->
-            <StackLayout Grid.Row="5" Grid.Column="2" Orientation="Horizontal" Grid.ColumnSpan="2">
-                <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                    <Image Source="postal_code.svg" HeightRequest="20" WidthRequest="20" />
-                </Frame>
-                <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_PostalCode}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_PostalCode}"
-                        />
-                </Frame>
-            </StackLayout>
-
-            <!-- Company picture -->
-            <VerticalStackLayout Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" HorizontalOptions="Center" Spacing="5">
-                <Label Text="{translate:TranslateManager RegisterCompanyView_Image}" FontAttributes="Bold"/>
-                <Border HeightRequest="104" WidthRequest="104" StrokeThickness="2">
-                    <Image x:Name="ImgCompanyLogo" MaximumHeightRequest="104" MaximumWidthRequest="104" Aspect="AspectFit"/>
-                </Border>
-                <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
-            </VerticalStackLayout>
-
-            <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" x:Name="BtnNext" Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
-
-            <Border Grid.Row="7" Grid.Column="3" HorizontalOptions="End" BackgroundColor="#2D9AEA" 
+             xmlns:converters="clr-namespace:A.Converters">
+    
+    <Shell.TitleView>
+        <Grid RowDefinitions="*" ColumnDefinitions="*,*,*">
+            <Label Grid.Row="0" Grid.Column="0" Text="{translate:TranslateManager RegisterCompanyView_RegisterTitle}"/>
+            <Border Grid.Row="0" Grid.Column="2" HorizontalOptions="End" BackgroundColor="#2D9AEA" 
                     VerticalOptions="Center" 
                     StrokeThickness="4" 
                     StrokeShape="RoundRectangle 40,0,0,40"
                     Stroke="#878787">
-                <Label Text="1/2" FontSize="Medium" FontAttributes="Bold" TextColor="White" />
+            <Label x:Name="lblTitleViewStep" Text="1/2" FontSize="Medium" FontAttributes="Bold" TextColor="White" />
             </Border>
         </Grid>
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StepVisibilityConverter x:Key="StepVisibilityConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid Padding="10,0,10,10">
+            <!-- First CarouselView Item -->
+            <Grid x:Name="FirstStepView" Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*,*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='0'}">
+                
+                <!-- Company name -->
+                <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                    <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="company.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_CompanyName}"
+                        />
+                    </Frame>
+                </StackLayout>
+
+                <!-- CIN / ICO-->
+                <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                    <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="cin.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CIN}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_CIN}"
+                        />
+                    </Frame>
+                </StackLayout>
+
+                <!-- Phone -->
+                <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                    <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="phone.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
+                        />
+                    </Frame>
+                </StackLayout>
+
+                <!-- E-Mail -->
+                <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                    <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="email.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}" Keyboard="Email"
+                        />
+                    </Frame>
+                </StackLayout>
+
+                <!-- City -->
+                <StackLayout Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
+                    <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
+                        />
+                    </Frame>
+                </StackLayout>
+
+                <!-- Postal code -->
+                <StackLayout Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5,0,0,0">
+                    <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="postal_code.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_PostalCode}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_PostalCode}"
+                        />
+                    </Frame>
+                </StackLayout>
+
+
+                <!-- Address -->
+                <StackLayout Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                    <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="address.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Address}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_Address}"
+                        />
+                    </Frame>
+                </StackLayout>
+
+                <!-- Company picture -->
+                <VerticalStackLayout Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" HorizontalOptions="Center" Spacing="5">
+                    <Label Text="{translate:TranslateManager RegisterCompanyView_Image}" FontAttributes="Bold"/>
+                    <Border HeightRequest="104" WidthRequest="104" StrokeThickness="2">
+                        <Image x:Name="ImgCompanyLogo" MaximumHeightRequest="104" MaximumWidthRequest="104" Aspect="AspectFit"/>
+                    </Border>
+                    <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
+                </VerticalStackLayout>
+
+                <Button Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2" MaximumHeightRequest="50" x:Name="BtnNext" Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
+            </Grid>
+
+            <Grid x:Name="SecondStepView"  RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
+
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Vyberte si kategorie" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Header"/>
+
+                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+                    <SearchBar>
+
+                    </SearchBar>
+                    <ListView>
+
+                    </ListView>
+                </VerticalStackLayout>
+
+                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Popis zivnosti, firmy, cinnosti" FontAttributes="Bold" FontSize="Medium"/>
+
+                <Button x:Name="BtnPrev2" Grid.Row="3" Grid.Column="0" Text="Prev" HorizontalOptions="Start" Clicked="BtnPrev_Clicked"/>
+                <Button x:Name="BtnRegister2" Grid.Row="3" Grid.Column="1" Text="Prev" HorizontalOptions="Center" Clicked="BtnRegister_Clicked" />
+                <Button x:Name="BtnNext2" Grid.Row="3" Grid.Column="2" Text="Next" HorizontalOptions="End" Clicked="BtnNext_Clicked"/>
+
+            </Grid>
+
+            <Grid x:Name="ThirdStepView" RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
+
+                <Label Grid.Row="0" Text="Zadajte údaje pre prihlasovanie"/>
+
+                <StackLayout Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="user_login.png" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry x:Name="EntryEmail" ToolTipProperties.Text="Zadajte e-mail" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="E-Mail" Keyboard="Email" TextChanged="EntryEmail_TextChanged"/>
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry x:Name="EntryPassword" ToolTipProperties.Text="Zadajte heslo" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Heslo" IsPassword="True" TextChanged="EntryPassword_TextChanged"/>
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Entry x:Name="EntryPasswordConfirm" ToolTipProperties.Text="Zadajte heslo" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Potvrdenie hesla" IsPassword="True" TextChanged="EntryPasswordConfirm_TextChanged"/>
+                    </Frame>
+                </StackLayout>
+
+                <!--<StackLayout Grid.Row="4" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="slovakia_map.png" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Picker x:Name="RegionPicker" Title="Zvoľte región" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
+                    </Frame>
+                </StackLayout>-->
+
+                <Button x:Name="BtnPrev3" Grid.Row="4" Grid.Column="0" Text="Späť" CornerRadius="20" HorizontalOptions="Start" Clicked="BtnPrev_Clicked" />
+                <Button Grid.Row="4" Grid.Column="1" x:Name="BtnRegister3" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" Clicked="BtnRegister_Clicked" />
+
+            </Grid>
+
+        </Grid>
+
     </ScrollView>
 </ContentPage>
-
-
-<!--Second CarouselView Item
-<Grid RowDefinitions="*,*,*,*">
-    -->
-<!--Label Choose Categories-->
-
-<!--Enroled categories with search bar-->
-
-<!--Description of company-->
-
-<!--Finish button || Step frame wit label-->
-<!--
-</Grid>-->
