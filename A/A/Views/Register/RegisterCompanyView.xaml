@@ -36,7 +36,7 @@
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="company.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame x:Name="EntryCompany" HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame x:Name="EntryCompany" HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_CompanyName}"
@@ -49,7 +49,7 @@
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="cin.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <Entry x:Name="EntryCIN"  ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CIN}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_CIN}"
@@ -62,7 +62,7 @@
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="phone.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame x:Name="EntryPhone" HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame x:Name="EntryPhone" HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
@@ -75,7 +75,7 @@
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="email.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <controls:CustomEntry x:Name="EntryEMail" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}" Keyboard="Email"
@@ -87,7 +87,7 @@
                     <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="region.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <Picker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
                     </Frame>
                 </StackLayout>
@@ -96,7 +96,7 @@
                     <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="district.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <Picker x:Name="DistrictPicker" Title="Zvoľte okres" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="District_SelectedIndexChanged" />
                     </Frame>
                 </StackLayout>
@@ -106,7 +106,7 @@
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <Entry x:Name="EntryCity" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
@@ -119,7 +119,7 @@
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="postal_code.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <Entry x:Name="EntryPostalCode" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_PostalCode}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_PostalCode}"
@@ -132,7 +132,7 @@
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="address.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <Entry x:Name="entryAddress" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Address}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_Address}"

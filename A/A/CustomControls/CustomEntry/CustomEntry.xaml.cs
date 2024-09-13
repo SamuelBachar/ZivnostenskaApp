@@ -1,24 +1,68 @@
 using Microsoft.Maui.Graphics.Text;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace A.CustomControls.CustomEntry;
 
-public partial class CustomEntry : ContentView
+public partial class CustomEntry : ContentView, INotifyPropertyChanged
 {
+    public new event PropertyChangedEventHandler? PropertyChanged;
+
+    protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
     public CustomEntry()
     {
         InitializeComponent();
+        this.BindingContext = this;
 
         // Bind the Entry and Label to properties of this CustomEntry
         this.MainEntry.SetBinding(Entry.PlaceholderProperty, new Binding(nameof(Placeholder), source: this));
         this.MainEntry.SetBinding(Entry.TextColorProperty, new Binding(nameof(TextColor), source: this));
         this.MainEntry.SetBinding(Entry.KeyboardProperty, new Binding(nameof(Keyboard), source: this));
+        this.MainEntry.SetBinding(Entry.TextProperty, new Binding(nameof(Text), source: this));
+
+    }
+
+    private bool _isFocusHandled = false;
+    private DateTime _lastFocusEventTime;
+    private readonly TimeSpan _debounceTime = TimeSpan.FromMilliseconds(300);
+
+    private bool _isErrorVisible = false;
+    public bool IsErrorVisible
+    {
+        get => _isErrorVisible;
+        set
+        {
+            if (_isErrorVisible != value)
+            {
+                _isErrorVisible = value;
+                OnPropertyChanged(nameof(IsErrorVisible)); // Notify UI about the change
+            }
+        }
+    }
+
+    private string _errorMessage = string.Empty;
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set
+        {
+            if (_errorMessage != value)
+            {
+                _errorMessage = value;
+                OnPropertyChanged(nameof(ErrorMessage)); // Notify UI about the change
+            }
+        }
     }
 
     // Expose Properties so they will be reachable from XAML file of Page / View
     #region Bindings of Properties
-    public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(CustomEntry), string.Empty, propertyChanged: OnTextChanged);
+    public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(CustomEntry), string.Empty);
 
     public string Text
     {
@@ -82,25 +126,25 @@ public partial class CustomEntry : ContentView
 
             if (!isValid)
             {
-                LblError.Text = this.EntryValidationType == ValidationType.Email ?
+                this.ErrorMessage = this.EntryValidationType == ValidationType.Email ?
                     "Bad E-mail" :
                     "Bad Phone number";
 
-                LblError.IsVisible = true;
+                this.IsErrorVisible = true;
             }
             else
             {
-                LblError.IsVisible = false;
+                this.IsErrorVisible = false;
             }
         }
         else
         {
             if (this.IsMandatory)
             {
-                isValid = string.IsNullOrWhiteSpace(text);
-                LblError.Text = "Cannot be empty";
+                isValid = !string.IsNullOrWhiteSpace(text);
+                ErrorMessage = "Cannot be empty";
 
-                this.LblError.IsVisible = !isValid;
+                this.IsErrorVisible = !isValid;
             }
         }
 
@@ -119,25 +163,38 @@ public partial class CustomEntry : ContentView
         return Regex.IsMatch(phoneNumber, phonePattern);
     }
 
-    private void MainEntry_TextAdded(object sender, EventArgs e)
+    private async void MainEntry_TextAdded(object sender, EventArgs e)
     {
-        if (((Entry)(sender)).Text?.Length != 0)
+        Entry? entry = sender as Entry;
+        string? text = entry?.Text;
+        int length = text?.Length ?? 0;
+
+        if (length > 0)
         {
             if ((e is FocusEventArgs focArg))
-            {
-                Validate();
-            }
+            {  
+                _lastFocusEventTime = DateTime.Now;
+                _isFocusHandled = true;
 
-            if ((e is EventArgs comArg))
+                await Task.Delay(_debounceTime);
+
+                if (_isFocusHandled && (DateTime.Now - _lastFocusEventTime) >= _debounceTime)
+                {
+                    Validate();
+                }
+
+                _isFocusHandled = false;
+            }
+            else
             {
                 Validate();
             }
         }
-    }
 
-    // Needed due to Compilation
-    private static void OnTextChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        var control = (CustomEntry)bindable;
+        if ((length == 0) && this.IsErrorVisible)
+        {
+            this.IsErrorVisible = false;
+            this.ErrorMessage = string.Empty;
+        }
     }
 }

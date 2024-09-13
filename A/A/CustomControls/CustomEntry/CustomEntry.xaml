@@ -10,7 +10,9 @@
                Keyboard="{Binding Keyboard, Source={x:Reference CustomEntry}}"
         />
 
-        <Label x:Name="LblError" HorizontalOptions="Start" TextColor="Red" FontSize="Small" IsVisible="False" />
+        <Label x:Name="LblError" HorizontalOptions="Start" TextColor="Red" FontSize="Small"
+               IsVisible="{Binding IsErrorVisible}"
+               Text="{Binding ErrorMessage}" />
         
     </VerticalStackLayout>
 </ContentView>
