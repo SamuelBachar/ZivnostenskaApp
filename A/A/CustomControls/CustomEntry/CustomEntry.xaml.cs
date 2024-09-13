@@ -99,6 +99,8 @@ public partial class CustomEntry : ContentView
             {
                 isValid = string.IsNullOrWhiteSpace(text);
                 LblError.Text = "Cannot be empty";
+
+                this.LblError.IsVisible = !isValid;
             }
         }
 
