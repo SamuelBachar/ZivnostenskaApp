@@ -2,6 +2,7 @@ using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
 using District = SharedTypesLibrary.DTOs.Bidirectional.Localization.District;
 using System.Globalization;
 using A.Interfaces;
+using SharedTypesLibrary.DTOs.Request;
 
 namespace A.Views
 {
@@ -35,18 +36,18 @@ namespace A.Views
 
         public Tuple<int, bool> ViewIndexAndRegistration => new Tuple<int, bool>(ViewIndex, _genericRegistration);
 
-        readonly ISettingsService _settingsService;
+
         ImageSource? _imageSource { get; set; } = null;
 
         Dictionary<int, List<District>> _dicDistrict = new Dictionary<int, List<District>>();
         Dictionary<int, List<Region>> _dicRegion = new Dictionary<int, List<Region>>();
 
-        public RegisterCompanyView(ISettingsService settingsService)
+        RegistrationCompanyDataRequest _regCompData = new RegistrationCompanyDataRequest();
+
+        public RegisterCompanyView()
         {
             InitializeComponent();
             this.BindingContext = this;
-
-            this._settingsService = settingsService;
         }
 
         private void UpdateViewIndexAndRegistration()
@@ -119,6 +120,58 @@ namespace A.Views
             }
         }
 
+        private void RegionPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker regionPicker = (Picker)sender;
+
+            int selectedIndex = regionPicker.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                this.DistrictPicker.ItemsSource = _dicDistrict[selectedIndex];
+
+                Region choosenRegion = (Region)this.RegionPicker.SelectedItem;
+                _regCompData.RegionCompany = choosenRegion;
+            }
+        }
+
+        private void District_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker districtPicker = (Picker)sender;
+
+            int selectedIndex = districtPicker.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                District choosenDistrict = (District)this.DistrictPicker.SelectedItem;
+                _regCompData.DistrictCompany = choosenDistrict;
+            }
+        }
+
+        private void EntryAddress_Completed(object sender, EventArgs e)
+        {
+            var entry = (Entry)sender;
+            _regCompData.Address = entry.Text;
+        }
+
+        private void EntryAddress_Unfocused(object sender, FocusEventArgs e)
+        {
+            var entry = (Entry)sender;
+            _regCompData.Address = entry.Text;
+        }
+
+        private void EntryPostalCode_Unfocused(object sender, FocusEventArgs e)
+        {
+            var entry = (Entry)sender;
+            _regCompData.PostalCode = entry.Text;
+        }
+
+        private void EntryPostalCode_Completed(object sender, EventArgs e)
+        {
+            var entry = (Entry)sender;
+            _regCompData.PostalCode = entry.Text;
+        }
+
         private void BtnRegister_Clicked(object sender, EventArgs e)
         {
 
@@ -137,33 +190,6 @@ namespace A.Views
         private void EntryPasswordConfirm_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-        }
-
-        private async void RegionPicker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Picker regionPicker = (Picker)sender;
-
-            int selectedIndex = regionPicker.SelectedIndex;
-
-            if (selectedIndex != -1)
-            {
-                this.DistrictPicker.ItemsSource = _dicDistrict[selectedIndex];
-            }
-        }
-
-        private async void District_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Picker districtPicker = (Picker)sender;
-
-            int selectedIndex = districtPicker.SelectedIndex;
-
-            if (selectedIndex != -1)
-            {
-                District choosenDistrict = (District)this.DistrictPicker.SelectedItem;
-
-                // District Index Save
-                await _settingsService.SaveAsync(nameof(District), choosenDistrict.Name);
-            }
         }
     }
 }

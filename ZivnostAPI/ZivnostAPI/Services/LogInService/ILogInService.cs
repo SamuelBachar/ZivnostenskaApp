@@ -4,7 +4,6 @@ using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
 using ZivnostAPI.Models.AuthProvidersData.Facebook;
 using ZivnostAPI.Models.AuthProvidersData.Google;
-using ZivnostAPI.Models.CompanyBaseData;
 
 namespace ZivnostAPI.Services.LogInService;
 
