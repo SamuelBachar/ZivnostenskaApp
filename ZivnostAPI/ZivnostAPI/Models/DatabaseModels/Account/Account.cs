@@ -1,10 +1,9 @@
 ﻿using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ZivnostAPI.Models.CompanyBaseData;
-using ZivnostAPI.Models.Localization;
+using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
 
-namespace ZivnostAPI.Models.Account;
+namespace ZivnostAPI.Models.DatabaseModels.Account;
 
 [Table(nameof(Account))]
 public class Account

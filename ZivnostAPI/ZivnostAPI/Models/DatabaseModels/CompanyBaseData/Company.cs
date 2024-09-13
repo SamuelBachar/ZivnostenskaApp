@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ZivnostAPI.Models.Localization;
+using ZivnostAPI.Models.DatabaseModels.Localization;
 
-namespace ZivnostAPI.Models.CompanyBaseData;
+namespace ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
 
 [Table(nameof(Company))]
 public class Company

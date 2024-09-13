@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ZivnostAPI.Models.Localization;
+namespace ZivnostAPI.Models.DatabaseModels.Categories;
 
-[Table(nameof(District))]
-public class District
+[Table(nameof(Category))]
+public class Category
 {
     [Key]
     public int Id { get; set; }
 
-    [ForeignKey(nameof(Region))]
-    [Required]
-    public required int Region_Id { get; set; }
+    [ForeignKey(nameof(Category))]
+    public int? Parrent_Category_Id { get; set; }
 
-    [Required]
     public required string Name { get; set; } = string.Empty;
 }

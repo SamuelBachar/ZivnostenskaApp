@@ -4,16 +4,17 @@
              x:Class="A.Views.RegisterCompanyView"
              xmlns:translate="clr-namespace:A.LanguageTranslateManager"
              xmlns:converters="clr-namespace:A.Converters">
-    
+
     <Shell.TitleView>
-        <Grid RowDefinitions="*" ColumnDefinitions="*,*,*">
+        <Grid RowDefinitions="*" ColumnDefinitions="*,*,*" Padding="0,0,10,0">
             <Label Grid.Row="0" Grid.Column="0" Text="{translate:TranslateManager RegisterCompanyView_RegisterTitle}"/>
             <Border Grid.Row="0" Grid.Column="2" HorizontalOptions="End" BackgroundColor="#2D9AEA" 
                     VerticalOptions="Center" 
                     StrokeThickness="4" 
                     StrokeShape="RoundRectangle 40,0,0,40"
-                    Stroke="#878787">
-            <Label x:Name="lblTitleViewStep" Text="1/2" FontSize="Medium" FontAttributes="Bold" TextColor="White" />
+                    Stroke="#878787"
+                    Padding="5,5,5,5">
+                <Label x:Name="lblTitleViewStep" FontSize="Medium" FontAttributes="Bold" TextColor="White" />
             </Border>
         </Grid>
     </Shell.TitleView>
@@ -27,8 +28,8 @@
     <ScrollView>
         <Grid Padding="10,0,10,10">
             <!-- First CarouselView Item -->
-            <Grid x:Name="FirstStepView" Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*,*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='0'}">
-                
+            <Grid x:Name="FirstStepView" Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*,*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='0'}">
+
                 <!-- Company name -->
                 <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
@@ -69,7 +70,7 @@
                 </StackLayout>
 
                 <!-- E-Mail -->
-                <StackLayout Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" Orientation="Horizontal" >
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="email.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
@@ -81,8 +82,26 @@
                     </Frame>
                 </StackLayout>
 
+                <StackLayout Grid.Row="4" Grid.ColumnSpan="6" Orientation="Horizontal">
+                    <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="region.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Picker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Row="5" Grid.ColumnSpan="6" Orientation="Horizontal">
+                    <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                        <Image Source="district.svg" HeightRequest="20" WidthRequest="20" />
+                    </Frame>
+                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Picker x:Name="DistrictPicker" Title="Zvoľte okres" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="District_SelectedIndexChanged" />
+                    </Frame>
+                </StackLayout>
+
                 <!-- City -->
-                <StackLayout Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
+                <StackLayout Grid.Row="6" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
@@ -95,7 +114,7 @@
                 </StackLayout>
 
                 <!-- Postal code -->
-                <StackLayout Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5,0,0,0">
+                <StackLayout Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5,0,0,0">
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="postal_code.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
@@ -107,9 +126,8 @@
                     </Frame>
                 </StackLayout>
 
-
                 <!-- Address -->
-                <StackLayout Grid.Row="5" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                <StackLayout Grid.Row="7" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="address.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
@@ -121,40 +139,43 @@
                     </Frame>
                 </StackLayout>
 
+                <Button Grid.Row="8" Grid.Column="4" Grid.ColumnSpan="2" MaximumHeightRequest="50" x:Name="BtnNext" Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
+            </Grid>
+
+            <Grid x:Name="SecondStepView"  RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
+
+                <Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
+                    <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                    <Label Text="Vyberte si kategorie" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Header"/>
+                    <SearchBar HorizontalOptions="FillAndExpand">
+
+                    </SearchBar>
+                    <ListView>
+
+                    </ListView>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <VerticalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" >
+                    <Label Text="Popis zivnosti, firmy, cinnosti" FontAttributes="Bold" FontSize="Small"/>
+                </VerticalStackLayout>
+            
                 <!-- Company picture -->
-                <VerticalStackLayout Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="6" HorizontalOptions="Center" Spacing="5">
+                <VerticalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" HorizontalOptions="Center" Spacing="5">
                     <Label Text="{translate:TranslateManager RegisterCompanyView_Image}" FontAttributes="Bold"/>
                     <Border HeightRequest="104" WidthRequest="104" StrokeThickness="2">
                         <Image x:Name="ImgCompanyLogo" MaximumHeightRequest="104" MaximumWidthRequest="104" Aspect="AspectFit"/>
                     </Border>
                     <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
                 </VerticalStackLayout>
-
-                <Button Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2" MaximumHeightRequest="50" x:Name="BtnNext" Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
-            </Grid>
-
-            <Grid x:Name="SecondStepView"  RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
-
-                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Vyberte si kategorie" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Header"/>
-
-                <VerticalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-                    <SearchBar>
-
-                    </SearchBar>
-                    <ListView>
-
-                    </ListView>
-                </VerticalStackLayout>
-
-                <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Popis zivnosti, firmy, cinnosti" FontAttributes="Bold" FontSize="Medium"/>
-
+                
                 <Button x:Name="BtnPrev2" Grid.Row="3" Grid.Column="0" Text="Prev" HorizontalOptions="Start" Clicked="BtnPrev_Clicked"/>
                 <Button x:Name="BtnRegister2" Grid.Row="3" Grid.Column="1" Text="Prev" HorizontalOptions="Center" Clicked="BtnRegister_Clicked" />
                 <Button x:Name="BtnNext2" Grid.Row="3" Grid.Column="2" Text="Next" HorizontalOptions="End" Clicked="BtnNext_Clicked"/>
 
             </Grid>
 
-            <Grid x:Name="ThirdStepView" RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
+            <Grid x:Name="ThirdStepView" RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
 
                 <Label Grid.Row="0" Text="Zadajte údaje pre prihlasovanie"/>
 
@@ -185,19 +206,11 @@
                     </Frame>
                 </StackLayout>
 
-                <!--<StackLayout Grid.Row="4" Grid.ColumnSpan="3" Orientation="Horizontal">
-                    <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
-                        <Image Source="slovakia_map.png" HeightRequest="20" WidthRequest="20" />
-                    </Frame>
-                    <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <Picker x:Name="RegionPicker" Title="Zvoľte región" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
-                    </Frame>
-                </StackLayout>-->
-
                 <Button x:Name="BtnPrev3" Grid.Row="4" Grid.Column="0" Text="Späť" CornerRadius="20" HorizontalOptions="Start" Clicked="BtnPrev_Clicked" />
                 <Button Grid.Row="4" Grid.Column="1" x:Name="BtnRegister3" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" Clicked="BtnRegister_Clicked" />
 
             </Grid>
+
 
         </Grid>
 

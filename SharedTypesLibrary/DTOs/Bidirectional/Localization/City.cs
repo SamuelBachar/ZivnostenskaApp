@@ -1,19 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using ZivnostAPI.Models.CompanyBaseData;
 
-namespace ZivnostAPI.Models.Localization;
-
-[Table(nameof(City))]
+namespace SharedTypesLibrary.DTOs.Bidirectional.Localization;
 public class City
 {
-    [Key]
     public int Id { get; set; }
 
-    [ForeignKey(nameof(District))]
-    [Required]
     public required int District_Id { get; set; }
 
-    [Required]
     public required string Name { get; set; } = string.Empty;
 }

@@ -1,4 +1,7 @@
+using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
+using District = SharedTypesLibrary.DTOs.Bidirectional.Localization.District;
 using System.Globalization;
+using A.Interfaces;
 
 namespace A.Views
 {
@@ -6,6 +9,7 @@ namespace A.Views
     [QueryProperty(nameof(GenericRegistration), "genericRegistration")]
     public partial class RegisterCompanyView : ContentPage
     {
+
         private int _viewIndex = 0;
         public int ViewIndex
         {
@@ -14,42 +18,40 @@ namespace A.Views
             {
                 _viewIndex = value;
                 OnPropertyChanged(nameof(ViewIndex)); // Notify the UI about the change
+                UpdateViewIndexAndRegistration();
             }
         }
 
-        ImageSource? _imageSource { get; set; } = null;
         bool _genericRegistration { get; set; } = false;
-
-        Grid[] _arrGridViews = new Grid[3];
 
         public bool GenericRegistration
         {
             set
             {
                 _genericRegistration = value;
+                UpdateViewIndexAndRegistration();
             }
         }
 
-        public RegisterCompanyView()
+        public Tuple<int, bool> ViewIndexAndRegistration => new Tuple<int, bool>(ViewIndex, _genericRegistration);
+
+        readonly ISettingsService _settingsService;
+        ImageSource? _imageSource { get; set; } = null;
+
+        Dictionary<int, List<District>> _dicDistrict = new Dictionary<int, List<District>>();
+        Dictionary<int, List<Region>> _dicRegion = new Dictionary<int, List<Region>>();
+
+        public RegisterCompanyView(ISettingsService settingsService)
         {
             InitializeComponent();
             this.BindingContext = this;
 
-            //_arrGridViews[0] = this.FirstStepView;
-            //_arrGridViews[1] = this.SecondStepView;
-            //_arrGridViews[2] = this.ThirdStepView;
+            this._settingsService = settingsService;
+        }
 
-            //_arrGridViews[_viewIndex].IsVisible = true;
-
-            if (this._genericRegistration)
-            {
-                this.lblTitleViewStep.Text = "1/3";
-            }
-            else
-            {
-                this.lblTitleViewStep.Text = "1/2";
-            }
-
+        private void UpdateViewIndexAndRegistration()
+        {
+            OnPropertyChanged(nameof(ViewIndexAndRegistration));
         }
 
         //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/file-picker?view=net-maui-8.0&tabs=android
@@ -80,6 +82,18 @@ namespace A.Views
             }
 
             return (result, msg);
+        }
+
+        protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            if (this._genericRegistration)
+            {
+                this.lblTitleViewStep.Text = "1/3";
+            }
+            else
+            {
+                this.lblTitleViewStep.Text = "1/2";
+            }
         }
 
         private async void BtnChooseImage_Clicked(object sender, EventArgs e)
@@ -124,6 +138,33 @@ namespace A.Views
         {
 
         }
+
+        private async void RegionPicker_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker regionPicker = (Picker)sender;
+
+            int selectedIndex = regionPicker.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                this.DistrictPicker.ItemsSource = _dicDistrict[selectedIndex];
+            }
+        }
+
+        private async void District_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Picker districtPicker = (Picker)sender;
+
+            int selectedIndex = districtPicker.SelectedIndex;
+
+            if (selectedIndex != -1)
+            {
+                District choosenDistrict = (District)this.DistrictPicker.SelectedItem;
+
+                // District Index Save
+                await _settingsService.SaveAsync(nameof(District), choosenDistrict.Name);
+            }
+        }
     }
 }
 
@@ -133,9 +174,17 @@ namespace A.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int viewIndex && parameter is string gridIndex)
+            if (value is Tuple<int, bool> viewIndexAndRegistration && parameter is string gridIndex)
             {
-                // Parse the gridIndex passed as a parameter in XAML and compare it with _viewIndex
+                int viewIndex = viewIndexAndRegistration.Item1;
+                bool genericRegistration = viewIndexAndRegistration.Item2;
+
+                if (gridIndex == "2")
+                {
+                    // Only show the third grid if ViewIndex is 2 and GenericRegistration is true
+                    return viewIndex == 2 && genericRegistration;
+                }
+                // For other grids, only compare with viewIndex
                 return viewIndex == int.Parse(gridIndex);
             }
             return false;

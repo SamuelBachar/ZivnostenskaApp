@@ -74,9 +74,11 @@
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\cin.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\city.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\company.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\district.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\email.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\phone.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\postal_code.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\region.svg" />
 	  <None Remove="Resources\Images\Images\RegisterView\facebook_register.svg" />
 	  <None Remove="Resources\Images\Images\RegisterView\google_register.svg" />
 	  <None Remove="Resources\Images\Images\SearchView\filter.svg" />
@@ -116,9 +118,11 @@
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\cin.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\city.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\company.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\district.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\email.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\phone.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\postal_code.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\region.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterView\facebook_register.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterView\google_register.svg" />
 	  <MauiImage Include="Resources\Images\Images\SearchView\filter.svg" />
@@ -144,6 +148,8 @@
 	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\phone.svg" BaseSize="40,40" />
 	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\cin.svg" BaseSize="40,40" />
 	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\company.svg" BaseSize="40,40" />
+  <MauiImage Update="Resources\Images\Images\RegisterCompanyView\region.svg" BaseSize="40,40" />
+  <MauiImage Update="Resources\Images\Images\RegisterCompanyView\district.svg" BaseSize="40,40" />
 	</ItemGroup>
 
 	<ItemGroup>

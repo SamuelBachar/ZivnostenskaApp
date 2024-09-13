@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ZivnostAPI.Models.Account;
-using ZivnostAPI.Models.CompanyBaseData;
+using ZivnostAPI.Models.DatabaseModels.Account;
+using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
 
 namespace ZivnostAPI.Data.DataContext;
 

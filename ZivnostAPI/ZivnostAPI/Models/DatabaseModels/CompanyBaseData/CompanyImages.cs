@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ZivnostAPI.Models.CompanyBaseData;
+namespace ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
 
 [Table(nameof(CompanyImages))]
 public class CompanyImages

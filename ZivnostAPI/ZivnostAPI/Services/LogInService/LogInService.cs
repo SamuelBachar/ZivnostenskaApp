@@ -17,10 +17,10 @@ using System.Diagnostics.Eventing.Reader;
 using System.Net.Http.Headers;
 using System.Text;
 using ZivnostAPI.Data.DataContext;
-using ZivnostAPI.Models.Account;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Models.AuthProvidersData.Facebook;
 using ZivnostAPI.Models.AuthProvidersData.Google;
+using ZivnostAPI.Models.DatabaseModels.Account;
 
 namespace ZivnostAPI.Services.LogInService;
 
