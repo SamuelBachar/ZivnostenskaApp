@@ -29,7 +29,7 @@
     <ScrollView>
         <Grid Padding="10,0,10,10">
             <!-- First CarouselView Item -->
-            <Grid x:Name="FirstStepView" Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*,*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='0'}">
+            <Grid x:Name="FirstStepView" Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*,*,*,*,*,*,*" ColumnDefinitions="*,*,*,*,*,*" RowSpacing="5" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='0'}">
 
                 <!-- Company name -->
                 <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
@@ -62,8 +62,8 @@
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="phone.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
-                    <Frame x:Name="EntryPhone" HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <Entry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
+                    <Frame x:Name="EntryPhone" HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <controls:CustomEntry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
                         />
@@ -82,7 +82,8 @@
                         />
                     </Frame>
                 </StackLayout>
-
+                
+                <!-- Region -->
                 <StackLayout Grid.Row="4" Grid.ColumnSpan="6" Orientation="Horizontal">
                     <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="region.svg" HeightRequest="20" WidthRequest="20" />
@@ -92,6 +93,7 @@
                     </Frame>
                 </StackLayout>
 
+                <!-- District -->
                 <StackLayout Grid.Row="5" Grid.ColumnSpan="6" Orientation="Horizontal">
                     <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="district.svg" HeightRequest="20" WidthRequest="20" />
@@ -102,7 +104,7 @@
                 </StackLayout>
 
                 <!-- City -->
-                <StackLayout Grid.Row="6" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="4">
+                <StackLayout Grid.Row="6" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
@@ -115,7 +117,7 @@
                 </StackLayout>
 
                 <!-- Postal code -->
-                <StackLayout Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5,0,0,0">
+                <StackLayout Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="5,0,0,0">
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="postal_code.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
@@ -128,7 +130,7 @@
                 </StackLayout>
 
                 <!-- Address -->
-                <StackLayout Grid.Row="7" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                <StackLayout Grid.Row="8" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
                     <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                         <Image Source="address.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
@@ -140,10 +142,10 @@
                     </Frame>
                 </StackLayout>
 
-                <Button Grid.Row="8" Grid.Column="4" Grid.ColumnSpan="2" MaximumHeightRequest="50" x:Name="BtnNext" Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
+                <Button Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2" MaximumHeightRequest="50" x:Name="BtnNext" Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
             </Grid>
 
-            <Grid x:Name="SecondStepView"  RowDefinitions="*,*,*,*" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
+            <Grid x:Name="SecondStepView"  RowDefinitions="*,Auto,Auto,Auto,Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
 
                 <Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
                     <VerticalStackLayout HorizontalOptions="FillAndExpand">
@@ -162,7 +164,7 @@
                 </VerticalStackLayout>
             
                 <!-- Company picture -->
-                <VerticalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="6" HorizontalOptions="Center" Spacing="5">
+                <VerticalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="6" HorizontalOptions="Center" Spacing="5">
                     <Label Text="{translate:TranslateManager RegisterCompanyView_Image}" FontAttributes="Bold"/>
                     <Border HeightRequest="104" WidthRequest="104" StrokeThickness="2">
                         <Image x:Name="ImgCompanyLogo" MaximumHeightRequest="104" MaximumWidthRequest="104" Aspect="AspectFit"/>
@@ -170,13 +172,14 @@
                     <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
                 </VerticalStackLayout>
                 
-                <Button x:Name="BtnPrev2" Grid.Row="3" Grid.Column="0" Text="Prev" HorizontalOptions="Start" Clicked="BtnPrev_Clicked"/>
-                <Button x:Name="BtnRegister2" Grid.Row="3" Grid.Column="1" Text="Prev" HorizontalOptions="Center" Clicked="BtnRegister_Clicked" />
-                <Button x:Name="BtnNext2" Grid.Row="3" Grid.Column="2" Text="Next" HorizontalOptions="End" Clicked="BtnNext_Clicked"/>
+                <Button x:Name="BtnPrev2" Grid.Row="4" Grid.Column="0" Text="Prev" HorizontalOptions="Start" Clicked="BtnPrev_Clicked"/>
+                <Button x:Name="BtnRegister2" Grid.Row="4" Grid.Column="1" Text="Prev" HorizontalOptions="Center" Clicked="BtnRegister_Clicked" 
+                        IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}"/>
+                <Button x:Name="BtnNext2" Grid.Row="4" Grid.Column="2" Text="Next" HorizontalOptions="End" Clicked="BtnNext_Clicked"/>
 
             </Grid>
 
-            <Grid x:Name="ThirdStepView" RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
+            <Grid x:Name="ThirdStepView" RowDefinitions="Auto,60,60,60, *" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
 
                 <Label Grid.Row="0" Text="Zadajte údaje pre prihlasovanie"/>
 
@@ -207,8 +210,8 @@
                     </Frame>
                 </StackLayout>
 
-                <Button x:Name="BtnPrev3" Grid.Row="4" Grid.Column="0" Text="Späť" CornerRadius="20" HorizontalOptions="Start" Clicked="BtnPrev_Clicked" />
-                <Button Grid.Row="4" Grid.Column="1" x:Name="BtnRegister3" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" Clicked="BtnRegister_Clicked" />
+                <Button x:Name="BtnPrev3" Grid.Row="4" Grid.Column="0" Text="Späť" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="End" Clicked="BtnPrev_Clicked" />
+                <Button Grid.Row="4" Grid.Column="1" x:Name="BtnRegister3" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
 
             </Grid>
 
