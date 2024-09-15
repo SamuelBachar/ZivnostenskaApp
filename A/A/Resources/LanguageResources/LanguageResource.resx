@@ -220,7 +220,7 @@
     <value>E-Mail</value>
   </data>
   <data name="RegisterCompanyView_City" xml:space="preserve">
-    <value>City</value>
+    <value>City / Town / Village</value>
   </data>
   <data name="RegisterCompanyView_Address" xml:space="preserve">
     <value>Address</value>

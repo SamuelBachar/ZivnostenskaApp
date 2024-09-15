@@ -220,7 +220,7 @@
     <value>E-mail</value>
   </data>
   <data name="RegisterCompanyView_City" xml:space="preserve">
-    <value>Město</value>
+    <value>Město / Obec / Vesnice</value>
   </data>
   <data name="RegisterCompanyView_Address" xml:space="preserve">
     <value>Adresa</value>

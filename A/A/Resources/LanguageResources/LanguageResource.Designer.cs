@@ -268,7 +268,7 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log in / register using.
+        ///   Looks up a localized string similar to s.
         /// </summary>
         internal static string LogInView_SignInWithHelpOf {
             get {
@@ -376,7 +376,7 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to City.
+        ///   Looks up a localized string similar to City / Town / Village.
         /// </summary>
         internal static string RegisterCompanyView_City {
             get {
