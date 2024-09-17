@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ZivnostAPI.Data.DataContext;
+using ZivnostAPI.Data.CusDbContext;
 
 #nullable disable
 
 namespace ZivnostAPI.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(CusDbContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -2,7 +2,7 @@
 using ZivnostAPI.Models.DatabaseModels.Account;
 using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
 
-namespace ZivnostAPI.Data.DataContext;
+namespace ZivnostAPI.Data.CusDbContext;
 
 /* TODO */
 
@@ -12,9 +12,9 @@ namespace ZivnostAPI.Data.DataContext;
 //     await async calls immediately, or use separate DbContext instances for operations
 //     that execute in parallel. See Avoiding DbContext threading issues for more information
 //     and examples -> https://aka.ms/efcore-docs-threading
-public class DataContext : DbContext
+public class CusDbContext : DbContext
 {
-    public DataContext(DbContextOptions<DataContext> options) : base(options)
+    public CusDbContext(DbContextOptions<CusDbContext> options) : base(options)
     {
         
     }

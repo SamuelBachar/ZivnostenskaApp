@@ -16,7 +16,7 @@ using SharedTypesLibrary.ServiceResponseModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Net.Http.Headers;
 using System.Text;
-using ZivnostAPI.Data.DataContext;
+using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Models.AuthProvidersData.Facebook;
 using ZivnostAPI.Models.AuthProvidersData.Google;
@@ -26,11 +26,11 @@ namespace ZivnostAPI.Services.LogInService;
 
 public class LogInService : ILogInService
 {
-    private readonly DataContext _dataContext;
+    private readonly CusDbContext _dataContext;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IServiceProvider _serviceProvider;
 
-    public LogInService(IHttpClientFactory httpClientFactory, IServiceProvider serviceProvider, DataContext dataContext)
+    public LogInService(IHttpClientFactory httpClientFactory, IServiceProvider serviceProvider, CusDbContext dataContext)
     {
         _httpClientFactory = httpClientFactory;
         _dataContext = dataContext;

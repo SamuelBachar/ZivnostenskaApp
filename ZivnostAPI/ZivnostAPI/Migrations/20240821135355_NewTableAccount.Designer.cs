@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ZivnostAPI.Data.DataContext;
+using ZivnostAPI.Data.CusDbContext;
 
 #nullable disable
 
 namespace ZivnostAPI.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(CusDbContext))]
     [Migration("20240821135355_NewTableAccount")]
     partial class NewTableAccount
     {

@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ZivnostAPI.Data.DataContext;
+using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
 
 namespace ZivnostAPI.Services.CompanyService;
 
 public class CompanyService : ICompanyService
 {
-    private readonly DataContext _dataContext;
+    private readonly CusDbContext _dataContext;
 
-    public CompanyService(DataContext dataContext)
+    public CompanyService(CusDbContext dataContext)
     {
         _dataContext = dataContext;
     }

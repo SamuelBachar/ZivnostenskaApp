@@ -1,5 +1,6 @@
 using AvantiPoint.MobileAuth;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
@@ -8,9 +9,10 @@ using System.Reflection;
 using System.Text.Json;
 using ZivnostAPI.Constants;
 using ZivnostAPI.Controllers;
-using ZivnostAPI.Data.DataContext;
+using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Services.CompanyService;
+using ZivnostAPI.Services.Generic;
 using ZivnostAPI.Services.LogInService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,9 +26,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped(typeof(IReadOnlyService<>), typeof(GenericReadOnlyService<>));
+builder.Services.AddScoped(typeof(IWriteService<>), typeof(GenericWriteService<>));
+builder.Services.AddScoped(typeof(ICrudService<>), typeof(GenericCrudService<>));
+
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ILogInService, LogInService>();
-builder.Services.AddDbContext<DataContext>();
+builder.Services.AddDbContext<CusDbContext>();
 
 builder.Services.Configure<OAuth>(builder.Configuration.GetSection("OAuth"));
 builder.Services.AddHttpClient(AuthProviders.Google, (serviceProvider, authProvider) =>
