@@ -44,10 +44,22 @@ namespace A.Views
 
         RegistrationCompanyDataRequest _regCompData = new RegistrationCompanyDataRequest();
 
-        public RegisterCompanyView()
+        private readonly HttpClient _httpClient;
+
+        public RegisterCompanyView(HttpClient httpClient)
         {
             InitializeComponent();
             this.BindingContext = this;
+
+            _httpClient = httpClient;
+
+            this.Loaded += async (s, e) => { await LoadData(); };
+        }
+
+        private async Task LoadData()
+        {
+            var resRegion = await _httpClient.GetAsync("/api/Region/GetAllRegions");
+            var resDistrict = await _httpClient.GetAsync("/api/Region/GetAllDistricts");
         }
 
         private void UpdateViewIndexAndRegistration()

@@ -20,10 +20,11 @@ namespace A.Services;
 
 public class LoginService : ILoginService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-    public LoginService(IHttpClientFactory httpClientFactory)
+    private readonly HttpClient _httpClient;
+
+    public LoginService(HttpClient httpClient)
     {
-        _httpClientFactory = httpClientFactory;
+        _httpClient = httpClient;
     }
 
     public async Task<(UserLoginGenericResponse? UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
@@ -34,10 +35,8 @@ public class LoginService : ILoginService
         {
             if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
             {
-                var httpClient = _httpClientFactory.CreateClient(AppConstants.HttpsClientName);
-
                 UserLoginRequest userLoginRequest = new UserLoginRequest { Email = email, Password = passWord };
-                var response = await httpClient.PostAsJsonAsync($"/api/User/login", userLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                var response = await _httpClient.PostAsJsonAsync($"/api/User/login", userLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
                 if (response == null || response.Content == null)
                 {
@@ -110,10 +109,8 @@ public class LoginService : ILoginService
         {
             if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
             {
-                HttpClient httpClient = _httpClientFactory.CreateClient(AppConstants.HttpsClientName);
-
                 UserLoginAuthProviderRequest userAuthLoginRequest = new UserLoginAuthProviderRequest { Provider = provider };
-                HttpResponseMessage response = await httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
                 if (response == null || response.Content == null)
                 {
