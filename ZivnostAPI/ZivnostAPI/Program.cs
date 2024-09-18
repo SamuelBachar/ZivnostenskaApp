@@ -7,6 +7,8 @@ using Microsoft.VisualBasic;
 using SharedTypesLibrary.Constants;
 using System.Reflection;
 using System.Text.Json;
+using ZivnostAPI.ApiConfigClasses;
+using ZivnostAPI.ApiConfigExtensions;
 using ZivnostAPI.Constants;
 using ZivnostAPI.Controllers;
 using ZivnostAPI.Data.CusDbContext;
@@ -17,95 +19,27 @@ using ZivnostAPI.Services.LogInService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Mobile Auth to builder
-//builder.AddMobileAuth();
-
-// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddScoped(typeof(IReadOnlyService<>), typeof(GenericReadOnlyService<>));
-builder.Services.AddScoped(typeof(IWriteService<>), typeof(GenericWriteService<>));
-builder.Services.AddScoped(typeof(ICrudService<>), typeof(GenericCrudService<>));
-
-builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<ILogInService, LogInService>();
-builder.Services.AddDbContext<CusDbContext>();
-
-builder.Services.Configure<OAuth>(builder.Configuration.GetSection("OAuth"));
-builder.Services.AddHttpClient(AuthProviders.Google, (serviceProvider, authProvider) =>
-{
-    // Resolve the configured OAuth options
-    var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
-    var queryParams = new Dictionary<string, string>
-    {
-        { "response_type", "code" },
-        { "client_id", $"{oauthOptions.Google.ClientId}" },
-        { "redirect_uri",  $"{oauthOptions.RedirectUri}" },
-        { "scope", "openid email profile" },
-        { "state", $"{AuthProviders.Google}" },
-        { "access_type", "offline" },
-        { "prompt", "consent" }
-    };
-
-    var queryString = string.Join("&", queryParams.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={kvp.Value}"));
-
-    authProvider.BaseAddress = new Uri($"{oauthOptions.Google.BaseUrl}/auth?{queryString}");
-});
-
-builder.Services.AddHttpClient(AuthProviders.Facebook, (serviceProvider, authProvider) =>
-{
-    // Resolve the configured OAuth options
-    var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
-    var queryParams = new Dictionary<string, string>
-    {
-        { "response_type", "code" },
-        { "client_id", $"{oauthOptions.Facebook.ClientId}" },
-        { "redirect_uri",  $"{oauthOptions.RedirectUri}" },
-        { "scope", "email,public_profile" },
-        { "state", $"{AuthProviders.Facebook}" }
-    };
-
-    var queryString = string.Join("&", queryParams.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={kvp.Value}"));
-
-    authProvider.BaseAddress = new Uri($"{oauthOptions.Facebook.BaseUrl}/dialog/oauth?{queryString}");
-});
-
-
-var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), APIConstants.JsonExceptionFilePath);
-if (System.IO.File.Exists(jsonFilePath))
-{
-    string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
-
-    if (jsonContent != string.Empty)
-    {
-        ExceptionsHandling.ExceptionHandler.DeserializeJsonExceptionFile(jsonContent);
-    }
-}
+builder.Services.AddEndpointsApiExplorer(); // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.ConfigureSwagger();
+builder.Services.AddCustomServices();
+builder.Services.AddOAuthClients(builder.Configuration);
+builder.Services.AddDatabaseServices(builder.Configuration);
 
 var app = builder.Build();
+
+var jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), APIConstants.JsonExceptionFilePath);
+app.LoadJsonExceptions(jsonFilePath);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseCustomSwagger();
 }
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();
-
-// maps https://{host}/mobileauth/{Apple|Google|Microsoft}
-
-//app.MapMobileAuthRoute();
-
 app.MapControllers();
 
 app.Run();
-
-
-// tu pozriet
-//https://youtu.be/8pH5Lv4d5-g?t=4167

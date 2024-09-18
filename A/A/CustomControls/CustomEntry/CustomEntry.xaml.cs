@@ -25,7 +25,6 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
         this.MainEntry.SetBinding(Entry.TextColorProperty, new Binding(nameof(TextColor), source: this));
         this.MainEntry.SetBinding(Entry.KeyboardProperty, new Binding(nameof(Keyboard), source: this));
         this.MainEntry.SetBinding(Entry.TextProperty, new Binding(nameof(Text), source: this));
-
     }
 
     private bool _isFocusHandled = false;

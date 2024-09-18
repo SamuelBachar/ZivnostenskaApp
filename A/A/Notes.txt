@@ -1,0 +1,6 @@
+﻿adb reverse tcp:7162 tcp:7162
+adb reverse --list
+adb reverse --remove tcp:7162
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update

@@ -21,8 +21,3 @@ https://www.youtube.com/watch?v=kjRCDzd27oQ
 
 7.
 http://mkumaran.net/posts/2023/use-localhost-android-emulator/
-
-
-adb reverse tcp:7162 tcp:7162
-adb reverse --list
-adb reverse --remove tcp:7162

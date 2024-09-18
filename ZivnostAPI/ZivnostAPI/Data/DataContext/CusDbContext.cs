@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 using ZivnostAPI.Models.DatabaseModels.Account;
 using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
+
+using Region = ZivnostAPI.Models.DatabaseModels.Localization.Region;
 
 namespace ZivnostAPI.Data.CusDbContext;
 
@@ -19,15 +22,7 @@ public class CusDbContext : DbContext
         
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        if (System.Net.Dns.GetHostName() == "DESKTOP-DTI7TH4") // home
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=ZivnostAppDB;Trusted_Connection=true;TrustServerCertificate=true;");
-        else // office
-            optionsBuilder.UseSqlServer("Server=.\\SQLSERVER;Database=ZivnostAppDB;Trusted_Connection=true;TrustServerCertificate=true;");
-    }
-
     public DbSet<Company> Company { get; set; }
     public DbSet<Account> Account { get; set; }
+    public DbSet<Region> Region { get; set; }
 }
