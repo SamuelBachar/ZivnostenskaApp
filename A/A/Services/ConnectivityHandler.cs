@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExceptionsHandling;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,13 +11,19 @@ public class ConnectivityHandler : DelegatingHandler
 {
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        // Skontroluj, či je dostupné internetové pripojenie
         if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
         {
             throw new InvalidOperationException("No internet connection.");
         }
 
-        // Ak je pripojenie v poriadku, pokračuj s odoslaním požiadavky
-        return await base.SendAsync(request, cancellationToken);
+        var response = await base.SendAsync(request, cancellationToken);
+
+        if (response == null || response.Content == null)
+        {
+            string serErrorMsg = new ExceptionHandler("UAE_903", App.UserData.CurrentCulture).CustomMessage;
+            throw new Exception(serErrorMsg);
+        }
+
+        return response;
     }
 }

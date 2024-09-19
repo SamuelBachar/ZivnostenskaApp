@@ -1,4 +1,5 @@
 ﻿using A.Constants;
+using A.Extensions;
 using A.Interfaces;
 using A.Models;
 using ExceptionsHandling;
@@ -33,64 +34,27 @@ public class LoginService : ILoginService
 
         try
         {
-            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            UserLoginRequest userLoginRequest = new UserLoginRequest { Email = email, Password = passWord };
+            var response = await _httpClient.PostAsJsonAsync($"/api/User/login", userLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+            if (response.IsSuccessStatusCode)
             {
-                UserLoginRequest userLoginRequest = new UserLoginRequest { Email = email, Password = passWord };
-                var response = await _httpClient.PostAsJsonAsync($"/api/User/login", userLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
-                if (response == null || response.Content == null)
-                {
-                    string serErrorMsg = new ExceptionHandler("UAE_903", App.UserData.CurrentCulture).CustomMessage;
-                    throw new Exception(serErrorMsg);
-                }
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var serializedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginGenericResponse>>();
-
-                    if (serializedResponse?.Data == null)
-                    {
-                        string serErrorMsg = new ExceptionHandler("UAE_902", App.UserData.CurrentCulture).CustomMessage;
-                        throw new Exception(serErrorMsg);
-                    }
-                    else
-                    {
-                        result = (new UserLoginGenericResponse { Email = serializedResponse.Data.Email, JWT = serializedResponse.Data.JWT }, null);
-                    }
-                }
-                else if ((response.StatusCode == System.Net.HttpStatusCode.BadRequest) && (!response.IsSuccessStatusCode))
-                {
-                    var serializedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginGenericResponse>>();
-
-                    if (serializedResponse?.Data == null)
-                    {
-                        string serErrorMsg = new ExceptionHandler("UAE_902", App.UserData.CurrentCulture).CustomMessage;
-                        throw new Exception(serErrorMsg);
-                    }
-                    else
-                    {
-                        result = (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
-                    }
-                }
-                else if (!response.IsSuccessStatusCode)
-                {
-                    var responseString = await response.Content.ReadAsStringAsync();
-
-                    if (responseString.Contains("errors"))
-                    {
-                        result = ExceptionHandler.ReadGenericHttpErrors<UserLoginGenericResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
-                    }
-                    else
-                    {
-                        result = (null, new ExceptionHandler("UAE_900", App.UserData.CurrentCulture));
-                    }
-                }
-
-                result = (null, new ExceptionHandler("UAE_900", App.UserData.CurrentCulture));
+                ApiResponse<UserLoginGenericResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<UserLoginGenericResponse>();
+                result = (new UserLoginGenericResponse { Email = serializedResponse.Data.Email, JWT = serializedResponse.Data.JWT }, null);
+            }
+            else if ((!response.IsSuccessStatusCode) && (response.StatusCode == System.Net.HttpStatusCode.BadRequest))
+            {
+                ApiResponse<UserLoginGenericResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<UserLoginGenericResponse>();
+                result = (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
+            }
+            else if (!response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ExtReadAsStringAsync();
+                result = ExceptionHandler.ReadGenericHttpErrors<UserLoginGenericResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
             }
             else
             {
-                result = (null, new ExceptionHandler("UAE_003", App.UserData.CurrentCulture));
+                result = (null, new ExceptionHandler("UAE_900", App.UserData.CurrentCulture));
             }
         }
         catch (Exception ex)
@@ -107,93 +71,59 @@ public class LoginService : ILoginService
 
         try
         {
-            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            UserLoginAuthProviderRequest userAuthLoginRequest = new UserLoginAuthProviderRequest { Provider = provider };
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+            if (response.IsSuccessStatusCode)
             {
-                UserLoginAuthProviderRequest userAuthLoginRequest = new UserLoginAuthProviderRequest { Provider = provider };
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                ApiResponse<UserLoginAuthProviderResponse>? urlResult = await response.Content.ExtReadFromJsonAsync<UserLoginAuthProviderResponse>();
 
-                if (response == null || response.Content == null)
+                WebAuthenticatorResult? resultWA = null;
+
+                if (provider == AuthProviders.Apple && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
                 {
-                    string serErrorMsg = new ExceptionHandler("UAE_903", App.UserData.CurrentCulture).CustomMessage;
-                    throw new Exception(serErrorMsg);
+                    resultWA = await AppleSignInAuthenticator.AuthenticateAsync();
+                }
+                else
+                {
+                    resultWA = await WebAuthenticator.AuthenticateAsync
+                    (
+                        new WebAuthenticatorOptions()
+                        {
+                            Url = new Uri(urlResult.Data.OAuthUrl.Replace(" ", "%20")),
+                            CallbackUrl = new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}"),
+                            PrefersEphemeralWebBrowserSession = true // effective only on iOS
+                        }
+                    );
                 }
 
-                if (response.IsSuccessStatusCode)
+                if (resultWA.Properties["success"] == "true")
                 {
-                    ApiResponse<UserLoginAuthProviderResponse>? urlResult = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginAuthProviderResponse>>();
+                    bool newUser = (resultWA.Properties["new_user"] == "true");
+                    string token = resultWA.AccessToken;
 
-                    if (urlResult == null)
-                    {
-                        string serErrorMsg = new ExceptionHandler("UAE_902", App.UserData.CurrentCulture).CustomMessage;
-                        throw new Exception(serErrorMsg);
-                    }
-                    else
-                    {
-                        WebAuthenticatorResult resultWA = null;
-
-                        if (provider == AuthProviders.Apple && DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Version.Major >= 13)
-                        {
-                            resultWA = await AppleSignInAuthenticator.AuthenticateAsync();
-                        }
-                        else
-                        {
-                            resultWA = await WebAuthenticator.AuthenticateAsync
-                            (
-                                new WebAuthenticatorOptions()
-                                {
-                                    Url = new Uri(urlResult.Data.OAuthUrl.Replace(" ", "%20")),
-                                    CallbackUrl = new Uri($"{AuthProviderCallBackDataSchemes.MobileCallBackDataScheme}"),
-                                    PrefersEphemeralWebBrowserSession = true // effective only on iOS
-                                }
-                            );
-                        }
-
-                        if (resultWA.Properties["success"] == "true")
-                        {
-                            bool newUser = (resultWA.Properties["new_user"] == "true");
-                            string token = resultWA.AccessToken;
-
-                            result = (new UserLoginAuthProviderResponse { Token = token, NewUser = newUser }, null);
-                        }
-                        else
-                        {
-                            result = (null, new ExceptionHandler("UAE_005", extraErrors: resultWA.Properties["exception"],
-                                    new Dictionary<string, string> { { "#provider", provider } }, App.UserData.CurrentCulture));
-                        }
-
-                    }
+                    result = (new UserLoginAuthProviderResponse { Token = token, NewUser = newUser }, null);
                 }
-                else if ((response.StatusCode == System.Net.HttpStatusCode.BadRequest) && (!response.IsSuccessStatusCode))
+                else
                 {
-                    var serializedResponse = await response.Content.ReadFromJsonAsync<ApiResponse<UserLoginGenericResponse>>();
-
-                    if (serializedResponse?.Data == null)
-                    {
-                        string serErrorMsg = new ExceptionHandler("UAE_902", App.UserData.CurrentCulture).CustomMessage;
-                        throw new Exception(serErrorMsg);
-                    }
-                    else
-                    {
-                        result = (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
-                    }
+                    result = (null, new ExceptionHandler("UAE_005", extraErrors: resultWA.Properties["exception"],
+                            new Dictionary<string, string> { { "#provider", provider } }, App.UserData.CurrentCulture));
                 }
-                else if (!response.IsSuccessStatusCode)
-                {
-                    var responseString = await response.Content.ReadAsStringAsync();
 
-                    if (responseString.Contains("errors"))
-                    {
-                        result = ExceptionHandler.ReadGenericHttpErrors<UserLoginAuthProviderResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
-                    }
-                    else
-                    {
-                        result = (null, new ExceptionHandler("UAE_900", App.UserData.CurrentCulture));
-                    }
-                }
+            }
+            else if ((!response.IsSuccessStatusCode) && (response.StatusCode == System.Net.HttpStatusCode.BadRequest))
+            {
+                var serializedResponse = await response.Content.ExtReadFromJsonAsync<ApiResponse<UserLoginAuthProviderResponse>>();
+                result = (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
+            }
+            else if (!response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ExtReadAsStringAsync();
+                result = ExceptionHandler.ReadGenericHttpErrors<UserLoginAuthProviderResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
             }
             else
             {
-                result = (null, new ExceptionHandler("UAE_003", App.UserData.CurrentCulture));
+                result = (null, new ExceptionHandler("UAE_900", App.UserData.CurrentCulture));
             }
 
         }

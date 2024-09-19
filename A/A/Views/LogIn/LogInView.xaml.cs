@@ -15,8 +15,7 @@ namespace A.Views;
 
 public partial class LogInView : ContentPage
 {
-    readonly ILoginService _loginService = null;
-    WebView _webView = null;
+    private readonly ILoginService _loginService;
 
     public LogInView(ILoginService loginService)
     {

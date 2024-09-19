@@ -9,6 +9,8 @@ namespace SharedTypesLibrary.ServiceResponseModel;
 public class ApiResponse<T>
 {
     public T? Data { get; set; }
+
+    public List<T>? ListData { get; set; }
     public bool Success { get; set; } = true;
     public string Message { get; set; } = string.Empty;
     public string ExceptionMessage { get; set; } = string.Empty;
