@@ -4,7 +4,7 @@ using ZivnostAPI.Data.CusDbContext;
 
 namespace ZivnostAPI.Services.Generic
 {
-    public class GenericReadOnlyService<T> : IReadOnlyService<T> where T: class
+    public class GenericReadOnlyService<T> : IReadOnlyService<T> where T : class
     {
         private readonly CusDbContext _dbContext;
 

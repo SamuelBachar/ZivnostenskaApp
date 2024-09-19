@@ -2,7 +2,7 @@
 using System.Drawing;
 using ZivnostAPI.Models.DatabaseModels.Account;
 using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
-
+using ZivnostAPI.Models.DatabaseModels.Localization;
 using Region = ZivnostAPI.Models.DatabaseModels.Localization.Region;
 
 namespace ZivnostAPI.Data.CusDbContext;
@@ -25,4 +25,5 @@ public class CusDbContext : DbContext
     public DbSet<Company> Company { get; set; }
     public DbSet<Account> Account { get; set; }
     public DbSet<Region> Region { get; set; }
+    public DbSet<District> District { get; set; }
 }

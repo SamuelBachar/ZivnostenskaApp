@@ -58,8 +58,8 @@ namespace A.Views
 
         private async Task LoadData()
         {
-            var resRegion = await _httpClient.GetAsync("/api/Region/GetAllRegions");
-            var resDistrict = await _httpClient.GetAsync("/api/Region/GetAllDistricts");
+            var resRegion = await _httpClient.GetAsync("/api/Region/GetAll");
+            var resDistrict = await _httpClient.GetAsync("/api/District/GetAll");
         }
 
         private void UpdateViewIndexAndRegistration()
