@@ -1,4 +1,6 @@
-﻿using A.Extensions;
+﻿using A.CustomControls.ApiEndpoints;
+using A.Enumerations;
+using A.Extensions;
 using Microsoft.Maui;
 using Newtonsoft.Json;
 using SharedTypesLibrary.DTOs.Bidirectional.Localization;
@@ -24,7 +26,7 @@ public class CustomPicker<T> : Picker
         set => SetValue(DataModelProperty, value);
     }
 
-    public ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
+    public new ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
 
     private readonly HttpClient _httpClient;
 
@@ -45,7 +47,7 @@ public class CustomPicker<T> : Picker
         if (DataModel == null)
             return;
 
-        string endpoint = GetEndpointForDataModel(typeof(T));
+        string endpoint = ApiConfig.GetEndpoint<T>(ApiAction.GetAll);
 
         try
         {
@@ -68,12 +70,5 @@ public class CustomPicker<T> : Picker
         {
             // Handle error (e.g., log or notify user)  --> forward somehow smart
         }
-    }
-
-    private string GetEndpointForDataModel(Type dataModelType)
-    {
-        return dataModelType == typeof(Region) ? "/api/Region/GetAll" :
-               dataModelType == typeof(District) ? "/api/District/GetAll" :
-               string.Empty;
     }
 }

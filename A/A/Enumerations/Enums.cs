@@ -11,4 +11,10 @@ namespace A.Enumerations
         public enum AppMode { Customer = 0, Company = 1};
         public enum AuthProvider { Apple = 0, Google = 1, Facebook = 2 };
     }
+
+    public enum ApiAction
+    {
+        GetAll = 0,
+        GetById = 1
+    }
 }
