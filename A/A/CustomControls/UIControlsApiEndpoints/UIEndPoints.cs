@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
 
-namespace A.CustomControls.ApiEndpoints;
+namespace A.CustomControls.UIControlsApiEndpoints;
 
-public static class ApiConfig
+public static class UIEndPoints
 {
 
-    private static readonly Dictionary<Type, Dictionary<ApiAction, string>> ApiEndpoints = new Dictionary<Type, Dictionary<ApiAction, string>>()
+    private static readonly Dictionary<Type, Dictionary<ApiAction, string>> Endpoints = new Dictionary<Type, Dictionary<ApiAction, string>>()
     {
         {
             typeof(Region), new Dictionary<ApiAction, string>()
@@ -34,7 +34,7 @@ public static class ApiConfig
     public static string GetEndpoint<T>(ApiAction action)
     {
         var type = typeof(T);
-        if (ApiEndpoints.TryGetValue(type, out var actions) && actions.TryGetValue(action, out var endpoint))
+        if (Endpoints.TryGetValue(type, out var actions) && actions.TryGetValue(action, out var endpoint))
         {
             return endpoint;
         }
