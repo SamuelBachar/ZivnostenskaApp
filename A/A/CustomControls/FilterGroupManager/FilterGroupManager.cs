@@ -1,5 +1,4 @@
-﻿using A.CustomControls.CustomPicker;
-using SharedTypesLibrary.DTOs.Bidirectional.Localization;
+﻿using SharedTypesLibrary.DTOs.Bidirectional.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;

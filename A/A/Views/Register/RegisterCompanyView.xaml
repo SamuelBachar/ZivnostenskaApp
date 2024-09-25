@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="A.Views.RegisterCompanyView"
-             xmlns:controls="clr-namespace:A.CustomControls.CustomEntry"
+             xmlns:controls="clr-namespace:A.CustomControls"
              xmlns:translate="clr-namespace:A.LanguageTranslateManager"
              xmlns:converters="clr-namespace:A.Converters">
 
@@ -94,7 +94,8 @@
                         <Image Source="region.svg" HeightRequest="40" WidthRequest="40" />
                     </Frame>
                     <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <Picker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
+                        <!--<Picker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />-->
+                        <controls:CustomPicker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
                     </Frame>
                 </StackLayout>
 

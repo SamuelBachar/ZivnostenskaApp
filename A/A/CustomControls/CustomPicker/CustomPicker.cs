@@ -16,7 +16,7 @@ using A.CustomControls.FilterGroupManager;
 
 using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
 
-namespace A.CustomControls.CustomPicker;
+namespace A.CustomControls;
 
 public class CustomPicker<T> : Picker, IFilterable<T>
 {
@@ -28,12 +28,22 @@ public class CustomPicker<T> : Picker, IFilterable<T>
         set => SetValue(DataModelProperty, value);
     }
 
+    public static readonly BindableProperty FilterGroupProperty = BindableProperty.Create(nameof(FilterGroup), typeof(string), typeof(CustomPicker<T>), string.Empty, propertyChanged: OnFilterGroupChanged);
+
+    public string FilterGroup
+    {
+        get => (string)GetValue(FilterGroupProperty);
+        set => SetValue(FilterGroupProperty, value);
+    }
+
     public new ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
 
     private readonly HttpClient _httpClient;
 
-    public string FilterGroup { get; set; }
-    private List<T> _originalItems;
+    //public CustomPicker()
+    //{
+        
+    //}
 
     public CustomPicker(HttpClient httpClient)
     {
@@ -90,10 +100,23 @@ public class CustomPicker<T> : Picker, IFilterable<T>
         }
     }
 
-    private void OnSelectedIndexChanged(object sender, EventArgs e)
+    private void OnSelectedIndexChanged(object? sender, EventArgs e)
     {
         var selectedItem = (T)this.SelectedItem;
         // Inform other pickers in the same FilterGroup about the change
         FilterGroupManager.FilterGroupManager.Instance.NotifyPickerChanged(this, selectedItem);
+    }
+
+    // Automatically called when FilterGroup changes or is set in XAML
+    private static void OnFilterGroupChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        if (bindable is CustomPicker<T> picker && newValue is string filterGroup)
+        {
+            if (!string.IsNullOrWhiteSpace(filterGroup))
+            {
+                // Automatically register the picker in the FilterGroupManager
+                FilterGroupManager.FilterGroupManager.Instance.RegisterPicker(picker, filterGroup);
+            }
+        }
     }
 }
