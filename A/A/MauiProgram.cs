@@ -7,6 +7,9 @@ using CommunityToolkit.Maui;
 using System.Net.Http;
 using A.Views.LogIn;
 using A.Views.Register;
+using CustomUIControls.Interfaces;
+using A.CustomControls.CustomControlsDefines.EndpointDefines;
+using A.CustomControls.CustomControlsDefines.RelationshipDefines;
 
 namespace A
 {
@@ -54,6 +57,8 @@ namespace A
             // RegisterCompanyView
             builder.Services.AddHttpClient<RegisterCompanyView>(Constants.AppConstants.HttpsClientName);
             builder.Services.AddSingleton<RegisterCompanyView>();
+            builder.Services.AddSingleton<IEndpointResolver, CustomEndpointDefines>();
+            builder.Services.AddSingleton<IRelationshipResolver, CustomRelationshipDefines>();
 
             builder.Services.AddSingleton<SettingsView>();
             builder.Services.AddSingleton<LogInView>();

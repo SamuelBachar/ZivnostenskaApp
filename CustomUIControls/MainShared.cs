@@ -1,7 +1,8 @@
-﻿namespace CustomUIControls
+﻿using CustomUIControls.Generics;
+
+namespace CustomUIControls;
+
+// All the code in this file is included in all platforms.
+public class MainShared
 {
-    // All the code in this file is included in all platforms.
-    public class MainShared
-    {
-    }
 }

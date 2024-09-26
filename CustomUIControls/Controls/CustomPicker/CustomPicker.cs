@@ -37,13 +37,19 @@ public class CustomPicker<T> : Picker, IFilterable<T>
 
     public new ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
 
-    private readonly HttpClient _httpClient;
-    private readonly IEndpointResolver _endpointResolver;
+    private readonly HttpClient? _httpClient;
+    private readonly IEndpointResolver? _endpointResolver;
+    private readonly IRelationshipResolver? _relationshipResolver;
 
-    public CustomPicker(HttpClient httpClient, IEndpointResolver endpointResolver)
+    public CustomPicker() { }
+
+    public CustomPicker(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver)
     {
         _httpClient = httpClient;
         _endpointResolver = endpointResolver;
+        _relationshipResolver = relationshipResolver;
+
+        FilterGroupManager.Instance.Initialize(_relationshipResolver);
 
         this.ItemsSource = Items;
 
@@ -58,7 +64,7 @@ public class CustomPicker<T> : Picker, IFilterable<T>
 
     private async Task LoadData()
     {
-        if (DataModel == null)
+        if (_httpClient == null || _endpointResolver == null || DataModel == null)
             return;
 
         string endpoint = _endpointResolver.GetEndpoint<T>(ApiAction.GetAll);

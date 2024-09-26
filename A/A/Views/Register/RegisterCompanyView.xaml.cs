@@ -3,6 +3,8 @@ using District = SharedTypesLibrary.DTOs.Bidirectional.Localization.District;
 using System.Globalization;
 using A.Interfaces;
 using SharedTypesLibrary.DTOs.Request;
+using A.CustomControls.Controls;
+using CustomUIControls.Interfaces;
 
 namespace A.Views
 {
@@ -45,21 +47,28 @@ namespace A.Views
         RegistrationCompanyDataRequest _regCompData = new RegistrationCompanyDataRequest();
 
         private readonly HttpClient _httpClient;
+        private readonly IEndpointResolver _endpointResolver;
+        private readonly IRelationshipResolver _relationshipResolver;
 
-        public RegisterCompanyView(HttpClient httpClient)
+        public RegisterCompanyView(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver)
         {
             InitializeComponent();
             this.BindingContext = this;
 
             _httpClient = httpClient;
+            _endpointResolver = endpointResolver;
+            _relationshipResolver = relationshipResolver;
+
+            this.RegionPicker = new RegionCustomPicker(_httpClient, _endpointResolver, _relationshipResolver);
+            this.DistrictPicker = new DistrictCustomPicker(_httpClient, _endpointResolver, relationshipResolver);
 
             this.Loaded += async (s, e) => { await LoadData(); };
         }
 
         private async Task LoadData()
         {
-            var resRegion = await _httpClient.GetAsync("/api/Region/GetAll");
-            var resDistrict = await _httpClient.GetAsync("/api/District/GetAll");
+            //var resRegion = await _httpClient.GetAsync("/api/Region/GetAll");
+            //var resDistrict = await _httpClient.GetAsync("/api/District/GetAll");
         }
 
         private void UpdateViewIndexAndRegistration()
@@ -134,30 +143,30 @@ namespace A.Views
 
         private void RegionPicker_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Picker regionPicker = (Picker)sender;
+            //Picker regionPicker = (Picker)sender;
 
-            int selectedIndex = regionPicker.SelectedIndex;
+            //int selectedIndex = regionPicker.SelectedIndex;
 
-            if (selectedIndex != -1)
-            {
-                this.DistrictPicker.ItemsSource = _dicDistrict[selectedIndex];
+            //if (selectedIndex != -1)
+            //{
+            //    this.DistrictPicker.ItemsSource = _dicDistrict[selectedIndex];
 
-                Region choosenRegion = (Region)this.RegionPicker.SelectedItem;
-                _regCompData.RegionCompany = choosenRegion;
-            }
+            //    Region choosenRegion = (Region)this.RegionPicker.SelectedItem;
+            //    _regCompData.RegionCompany = choosenRegion;
+            //}
         }
 
         private void District_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Picker districtPicker = (Picker)sender;
+            //Picker districtPicker = (Picker)sender;
 
-            int selectedIndex = districtPicker.SelectedIndex;
+            //int selectedIndex = districtPicker.SelectedIndex;
 
-            if (selectedIndex != -1)
-            {
-                District choosenDistrict = (District)this.DistrictPicker.SelectedItem;
-                _regCompData.DistrictCompany = choosenDistrict;
-            }
+            //if (selectedIndex != -1)
+            //{
+            //    District choosenDistrict = (District)this.DistrictPicker.SelectedItem;
+            //    _regCompData.DistrictCompany = choosenDistrict;
+            //}
         }
 
         private void EntryAddress_Completed(object sender, EventArgs e)

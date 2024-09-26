@@ -11,13 +11,15 @@ namespace CustomUIControls.Generics;
 public class FilterGroupManager
 {
     private static FilterGroupManager _instance;
-
     public static FilterGroupManager Instance => _instance ??= new FilterGroupManager();
 
-    private readonly Dictionary<string, List<object>> _filterGroups = new Dictionary<string, List<object>>();
-    private readonly IRelationshipResolver _relationshipResolver;
+    private IRelationshipResolver? _relationshipResolver;
 
-    public FilterGroupManager(IRelationshipResolver relationshipResolver)
+    private readonly Dictionary<string, List<object>> _filterGroups = new Dictionary<string, List<object>>();
+
+    public FilterGroupManager() { }
+
+    public void Initialize(IRelationshipResolver relationshipResolver)
     {
         _relationshipResolver = relationshipResolver;
     }
