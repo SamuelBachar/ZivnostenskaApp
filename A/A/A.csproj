@@ -127,6 +127,7 @@
 	  <MauiImage Include="Resources\Images\Images\RegisterView\google_register.svg" />
 	  <MauiImage Include="Resources\Images\Images\SearchView\filter.svg" />
     <MauiImage Include="Resources\Images\Icons\Menu\TapBar\search_icon.svg" />
+    <ProjectReference Include="..\..\CustomUIControls\CustomControlsLibrary.csproj" />
     <ProjectReference Include="..\..\SharedTypesLibrary\SharedTypesLibrary.csproj" />
     <MauiImage Include="Resources\Images\Images\LogInChooseView\loginchoose_freelancer.png" />
     
@@ -180,9 +181,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="CustomControls\CustomEntry\CustomEntry.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\LogIn\LogInView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

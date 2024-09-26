@@ -1,7 +1,7 @@
 ﻿namespace CustomUIControls
 {
     // All the code in this file is included in all platforms.
-    public class Class1
+    public class MainShared
     {
     }
 }
