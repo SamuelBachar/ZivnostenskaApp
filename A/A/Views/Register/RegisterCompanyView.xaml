@@ -28,16 +28,8 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            
+
             <converters:StepVisibilityConverter x:Key="StepVisibilityConverter" />
-
-            <DataTemplate x:Key="RegionTemplate">
-                <cusControls:CustomPicker DataModel="{StaticResource dataModels:Region}" Title="Select Region" />
-            </DataTemplate>
-
-            <DataTemplate x:Key="DistrictTemplate">
-                <cusControls:CustomPicker DataModel="{StaticResource dataModels:District}" Title="Select District" />
-            </DataTemplate>
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -105,9 +97,7 @@
                         <Image Source="region.svg" HeightRequest="40" WidthRequest="40" />
                     </Frame>
                     <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <!--<Picker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />-->
-                        
-                        <cusControls:CustomPicker x:Name="RegionPicker" DataModel="{x:Type dataModels:Region}" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
+                        <Picker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
                     </Frame>
                 </StackLayout>
 
@@ -117,9 +107,7 @@
                         <Image Source="district.svg" HeightRequest="40" WidthRequest="40" />
                     </Frame>
                     <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <!--<Picker x:Name="DistrictPicker" Title="Zvoľte okres" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="District_SelectedIndexChanged" />-->
-
-                        <cusControls:CustomPicker x:Name="DistrictPicker" DataModel="{x:Type dataModels:Region}" Title="Zvoľte okres" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="District_SelectedIndexChanged" />
+                        <Picker x:Name="DistrictPicker" Title="Zvoľte okres" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="District_SelectedIndexChanged" />
                     </Frame>
                 </StackLayout>
 
