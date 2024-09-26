@@ -1,5 +1,4 @@
 ﻿using A.Constants;
-using A.Extensions;
 using A.Interfaces;
 using A.Models;
 using ExceptionsHandling;
@@ -16,6 +15,8 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+
+using ExtensionsLibrary.Http;
 
 namespace A.Services;
 

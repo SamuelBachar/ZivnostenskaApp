@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="A.Views.RegisterCompanyView"
-             xmlns:controls="clr-namespace:A.CustomControls"
+             xmlns:cusControls="clr-namespace:CustomControlsLibrary.Controls;assembly=CustomControlsLibrary"
+             xmlns:picTempSelector="clr-namespace:A.CustomControls.TemplateSelectors"
              xmlns:translate="clr-namespace:A.LanguageTranslateManager"
              xmlns:converters="clr-namespace:A.Converters">
 
@@ -27,7 +28,19 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            
             <converters:StepVisibilityConverter x:Key="StepVisibilityConverter" />
+
+            <DataTemplate x:Key="RegionTemplate">
+                <cusControls:CustomPicker Title="Select Region" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="DistrictTemplate">
+                <cusControls:CustomPicker Title="Select District" />
+            </DataTemplate>
+
+            <picTempSelector:PickerTemplateSelector x:Key="PickerTemplateSelector" RegionTemplate="{StaticResource RegionTemplate}" DistrictTemplate="{StaticResource DistrictTemplate}" />
+            
         </ResourceDictionary>
     </ContentPage.Resources>
 
@@ -68,7 +81,7 @@
                         <Image Source="phone.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
                     <Frame x:Name="EntryPhone" HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <controls:CustomEntry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
+                        <cusControls:CustomEntry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="PhoneNumber"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
                         />
@@ -81,7 +94,7 @@
                         <Image Source="email.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
                     <Frame HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <controls:CustomEntry x:Name="EntryEMail" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
+                        <cusControls:CustomEntry x:Name="EntryEMail" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="Email"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}" Keyboard="Email"
                         />
@@ -95,7 +108,7 @@
                     </Frame>
                     <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                         <!--<Picker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />-->
-                        <controls:CustomPicker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
+                        <cusControls:CustomPicker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
                     </Frame>
                 </StackLayout>
 

@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
+using District = SharedTypesLibrary.DTOs.Bidirectional.Localization.District;
 
-namespace A.CustomControls.FilterGroupManager;
+namespace A.CustomControls.CustomControlsDefines.RelationshipDefines;
 
 public static class FilterRelations
 {

@@ -1,22 +1,21 @@
-﻿using A.CustomControls.UIControlsApiEndpoints;
-using A.Enumerations;
-using A.Extensions;
-using A.Interfaces;
-using Microsoft.Maui;
+﻿using Microsoft.Maui;
 using Newtonsoft.Json;
-using SharedTypesLibrary.DTOs.Bidirectional.Localization;
-using SharedTypesLibrary.ServiceResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using A.CustomControls.FilterGroupManager;
 
-using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
+using CustomUIControls.Interfaces;
+using CustomUIControls.Generics;
+using static CustomUIControls.Enumerations.Enums;
 
-namespace A.CustomControls;
+
+using SharedTypesLibrary.ServiceResponseModel;
+using ExtensionsLibrary.Http;
+
+namespace CustomControlsLibrary.Controls;
 
 public class CustomPicker<T> : Picker, IFilterable<T>
 {
@@ -39,15 +38,13 @@ public class CustomPicker<T> : Picker, IFilterable<T>
     public new ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
 
     private readonly HttpClient _httpClient;
+    private readonly IEndpointResolver _endpointResolver;
 
-    //public CustomPicker()
-    //{
-        
-    //}
-
-    public CustomPicker(HttpClient httpClient)
+    public CustomPicker(HttpClient httpClient, IEndpointResolver endpointResolver)
     {
         _httpClient = httpClient;
+        _endpointResolver = endpointResolver;
+
         this.ItemsSource = Items;
 
         this.SelectedIndexChanged += OnSelectedIndexChanged;
@@ -64,12 +61,13 @@ public class CustomPicker<T> : Picker, IFilterable<T>
         if (DataModel == null)
             return;
 
-        string endpoint = UIEndPoints.GetEndpoint<T>(ApiAction.GetAll);
+        string endpoint = _endpointResolver.GetEndpoint<T>(ApiAction.GetAll);
 
         try
         {
             var response = await _httpClient.GetAsync(endpoint);
             response.EnsureSuccessStatusCode(); // todo throw an exception
+
             ApiResponse<T> apiResponse = await response.Content.ExtReadFromJsonAsync<T>();
             var items = apiResponse.ListData;
 
@@ -103,11 +101,12 @@ public class CustomPicker<T> : Picker, IFilterable<T>
     private void OnSelectedIndexChanged(object? sender, EventArgs e)
     {
         var selectedItem = (T)this.SelectedItem;
+
         // Inform other pickers in the same FilterGroup about the change
-        FilterGroupManager.FilterGroupManager.Instance.NotifyPickerChanged(this, selectedItem);
+        FilterGroupManager.Instance.NotifyPickerChanged(this, selectedItem);
     }
 
-    // Automatically called when FilterGroup changes or is set in XAML
+    // Automatically called during InitializeComponent() of View
     private static void OnFilterGroupChanged(BindableObject bindable, object oldValue, object newValue)
     {
         if (bindable is CustomPicker<T> picker && newValue is string filterGroup)
@@ -115,7 +114,7 @@ public class CustomPicker<T> : Picker, IFilterable<T>
             if (!string.IsNullOrWhiteSpace(filterGroup))
             {
                 // Automatically register the picker in the FilterGroupManager
-                FilterGroupManager.FilterGroupManager.Instance.RegisterPicker(picker, filterGroup);
+                FilterGroupManager.Instance.RegisterPicker(picker, filterGroup);
             }
         }
     }

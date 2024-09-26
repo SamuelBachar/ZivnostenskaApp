@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace A.CustomControls;
+namespace CustomControlsLibrary.Controls;
 
 public partial class CustomEntry : ContentView, INotifyPropertyChanged
 {

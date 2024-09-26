@@ -1,14 +1,9 @@
 ﻿using ExceptionsHandling;
 using SharedTypesLibrary.ServiceResponseModel;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace A.Extensions;
+
+namespace ExtensionsLibrary.Http;
 
 public static class HttpContentExtensions
 {
@@ -18,8 +13,7 @@ public static class HttpContentExtensions
 
         if (result == null)
         {
-            string serErrorMsg = new ExceptionHandler("UAE_902", App.UserData.CurrentCulture).CustomMessage;
-            throw new Exception(serErrorMsg);
+            throw new Exception("UAE_902");
         }
 
         return result;
@@ -31,8 +25,7 @@ public static class HttpContentExtensions
 
         if (result == null || result.Length == 0)
         {
-            string serErrorMsg = new ExceptionHandler("UAE_902", App.UserData.CurrentCulture).CustomMessage;
-            throw new Exception(serErrorMsg);
+            throw new Exception("UAE_902");
         }
 
         return result;

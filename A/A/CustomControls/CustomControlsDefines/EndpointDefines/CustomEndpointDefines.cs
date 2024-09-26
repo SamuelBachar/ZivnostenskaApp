@@ -1,16 +1,20 @@
 ﻿using A.Enumerations;
-using SharedTypesLibrary.DTOs.Bidirectional.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using CustomUIControls.Interfaces;
+
 using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
+using SharedTypesLibrary.DTOs.Bidirectional.Localization;
+using static CustomUIControls.Enumerations.Enums;
 
-namespace A.CustomControls.UIControlsApiEndpoints;
 
-public static class UIEndPoints
+namespace A.CustomControls.CustomControlsDefines.EndpointDefines;
+
+public class CustomEndpointDefines : IEndpointResolver
 {
 
     private static readonly Dictionary<Type, Dictionary<ApiAction, string>> Endpoints = new Dictionary<Type, Dictionary<ApiAction, string>>()
@@ -31,7 +35,7 @@ public static class UIEndPoints
         }
     };
 
-    public static string GetEndpoint<T>(ApiAction action)
+    public string GetEndpoint<T>(ApiAction action)
     {
         var type = typeof(T);
         if (Endpoints.TryGetValue(type, out var actions) && actions.TryGetValue(action, out var endpoint))
