@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<local:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:A"
              x:Class="A.Views.RegisterCompanyView"
-             xmlns:cusControls="clr-namespace:CustomControlsLibrary.Controls;assembly=CustomControlsLibrary"
+             xmlns:ccLib="clr-namespace:CustomControlsLibrary.Controls;assembly=CustomControlsLibrary"
+             xmlns:ccProj="clr-namespace:A.CustomControls.Controls"
              xmlns:translate="clr-namespace:A.LanguageTranslateManager"
              xmlns:converters="clr-namespace:A.Converters"
              xmlns:dataModels="clr-namespace:SharedTypesLibrary.DTOs.Bidirectional.Localization;assembly=SharedTypesLibrary">
@@ -34,7 +36,8 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ScrollView>
+    <local:BasePage.ContentPlaceHolder>
+        <ScrollView>
         <Grid Padding="10,0,10,10">
             <!-- First CarouselView Item -->
             <Grid x:Name="FirstStepView" Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*,*,*,*,*,*,Auto" ColumnDefinitions="*,*,*,*,*,*" RowSpacing="5" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='0'}">
@@ -71,7 +74,7 @@
                         <Image Source="phone.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
                     <Frame x:Name="EntryPhone" HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <cusControls:CustomEntry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
+                        <ccLib:CustomEntry ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="PhoneNumber"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
                         />
@@ -84,7 +87,7 @@
                         <Image Source="email.svg" HeightRequest="20" WidthRequest="20" />
                     </Frame>
                     <Frame HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <cusControls:CustomEntry x:Name="EntryEMail" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
+                        <ccLib:CustomEntry x:Name="EntryEMail" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="Email"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}" Keyboard="Email"
                         />
@@ -97,7 +100,9 @@
                         <Image Source="region.svg" HeightRequest="40" WidthRequest="40" />
                     </Frame>
                     <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <Picker x:Name="RegionPicker" Title="Zvoľte kraj" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="RegionPicker_SelectedIndexChanged" />
+                        <ccProj:RegionCustomPicker x:Name="RegionPicker" Title="Zvoľte kraj" 
+                                                   Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" 
+                                                   SelectedIndexChanged="RegionPicker_SelectedIndexChanged"/>
                     </Frame>
                 </StackLayout>
 
@@ -107,7 +112,9 @@
                         <Image Source="district.svg" HeightRequest="40" WidthRequest="40" />
                     </Frame>
                     <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                        <Picker x:Name="DistrictPicker" Title="Zvoľte okres" Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" SelectedIndexChanged="District_SelectedIndexChanged" />
+                        <ccProj:DistrictCustomPicker x:Name="DistrictPicker" Title="Zvoľte okres"
+                                                     Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center" 
+                                                     SelectedIndexChanged="District_SelectedIndexChanged"/>
                     </Frame>
                 </StackLayout>
 
@@ -231,4 +238,6 @@
         </Grid>
 
     </ScrollView>
-</ContentPage>
+    </local:BasePage.ContentPlaceHolder>
+    
+</local:BasePage>

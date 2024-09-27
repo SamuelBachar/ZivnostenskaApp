@@ -12,8 +12,5 @@ namespace A.CustomControls.Controls;
 
 public class RegionCustomPicker : CustomPicker<Region>
 {
-    public RegionCustomPicker(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver) : base(httpClient, endpointResolver, relationshipResolver)
-    {
-        
-    }
+    public RegionCustomPicker() { }
 }

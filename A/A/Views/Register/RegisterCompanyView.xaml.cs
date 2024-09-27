@@ -10,7 +10,7 @@ namespace A.Views
 {
 
     [QueryProperty(nameof(GenericRegistration), "genericRegistration")]
-    public partial class RegisterCompanyView : ContentPage
+    public partial class RegisterCompanyView : BasePage
     {
 
         private int _viewIndex = 0;
@@ -41,9 +41,6 @@ namespace A.Views
 
         ImageSource? _imageSource { get; set; } = null;
 
-        Dictionary<int, List<District>> _dicDistrict = new Dictionary<int, List<District>>();
-        Dictionary<int, List<Region>> _dicRegion = new Dictionary<int, List<Region>>();
-
         RegistrationCompanyDataRequest _regCompData = new RegistrationCompanyDataRequest();
 
         private readonly HttpClient _httpClient;
@@ -53,22 +50,28 @@ namespace A.Views
         public RegisterCompanyView(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver)
         {
             InitializeComponent();
-            this.BindingContext = this;
+            //this.BindingContext = this;
 
             _httpClient = httpClient;
             _endpointResolver = endpointResolver;
             _relationshipResolver = relationshipResolver;
-
-            this.RegionPicker = new RegionCustomPicker(_httpClient, _endpointResolver, _relationshipResolver);
-            this.DistrictPicker = new DistrictCustomPicker(_httpClient, _endpointResolver, relationshipResolver);
 
             this.Loaded += async (s, e) => { await LoadData(); };
         }
 
         private async Task LoadData()
         {
-            //var resRegion = await _httpClient.GetAsync("/api/Region/GetAll");
-            //var resDistrict = await _httpClient.GetAsync("/api/District/GetAll");
+            try
+            {
+                base.SetIsBusy(true);
+                await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(Region));
+                await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(District));
+                await Task.Delay(2000); // Replace with actual data loading
+            }
+            finally
+            {
+                base.SetIsBusy(false);
+            }
         }
 
         private void UpdateViewIndexAndRegistration()

@@ -13,7 +13,7 @@ public class FilterGroupManager
     private static FilterGroupManager _instance;
     public static FilterGroupManager Instance => _instance ??= new FilterGroupManager();
 
-    private IRelationshipResolver? _relationshipResolver;
+    private IRelationshipResolver? _relationshipResolver = null;
 
     private readonly Dictionary<string, List<object>> _filterGroups = new Dictionary<string, List<object>>();
 
@@ -21,7 +21,10 @@ public class FilterGroupManager
 
     public void Initialize(IRelationshipResolver relationshipResolver)
     {
-        _relationshipResolver = relationshipResolver;
+        if (relationshipResolver == null)
+        {
+            _relationshipResolver = relationshipResolver;
+        }
     }
 
     public void RegisterPicker<T>(CustomPicker<T> picker, string filterGroup)

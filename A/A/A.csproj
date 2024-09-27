@@ -181,6 +181,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="BasePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\LogIn\LogInView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

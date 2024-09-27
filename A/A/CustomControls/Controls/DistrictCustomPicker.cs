@@ -11,8 +11,5 @@ namespace A.CustomControls.Controls;
 
 public class DistrictCustomPicker : CustomPicker<District>
 {
-    public DistrictCustomPicker(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver) : base(httpClient, endpointResolver, relationshipResolver)
-    {
-
-    }
+    public DistrictCustomPicker() { }
 }

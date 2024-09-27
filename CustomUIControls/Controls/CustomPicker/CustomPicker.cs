@@ -19,14 +19,6 @@ namespace CustomControlsLibrary.Controls;
 
 public class CustomPicker<T> : Picker, IFilterable<T>
 {
-    public static readonly BindableProperty DataModelProperty = BindableProperty.Create(nameof(DataModel), typeof(T), typeof(CustomPicker<T>), default(T));
-
-    public T DataModel
-    {
-        get => (T)GetValue(DataModelProperty);
-        set => SetValue(DataModelProperty, value);
-    }
-
     public static readonly BindableProperty FilterGroupProperty = BindableProperty.Create(nameof(FilterGroup), typeof(string), typeof(CustomPicker<T>), string.Empty, propertyChanged: OnFilterGroupChanged);
 
     public string FilterGroup
@@ -37,34 +29,38 @@ public class CustomPicker<T> : Picker, IFilterable<T>
 
     public new ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
 
-    private readonly HttpClient? _httpClient;
-    private readonly IEndpointResolver? _endpointResolver;
-    private readonly IRelationshipResolver? _relationshipResolver;
+    private HttpClient? _httpClient;
+    private IEndpointResolver? _endpointResolver;
+    private IRelationshipResolver? _relationshipResolver;
+    private Type? _dataModel;
 
-    public CustomPicker() { }
+    public CustomPicker() 
+    {
+        this.ItemsSource = Items;
+        this.SelectedIndexChanged += OnSelectedIndexChanged;
+    }
 
-    public CustomPicker(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver)
+    public async Task Initialize(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver, Type dataModel)
     {
         _httpClient = httpClient;
         _endpointResolver = endpointResolver;
         _relationshipResolver = relationshipResolver;
+        _dataModel = dataModel;
 
         FilterGroupManager.Instance.Initialize(_relationshipResolver);
 
-        this.ItemsSource = Items;
-
-        this.SelectedIndexChanged += OnSelectedIndexChanged;
-    }
-
-    protected override async void OnParentSet()
-    {
-        base.OnParentSet();
         await LoadData();
     }
 
+    //protected override async void OnParentSet()
+    //{
+    //    base.OnParentSet();
+    //    await LoadData();
+    //}
+
     private async Task LoadData()
     {
-        if (_httpClient == null || _endpointResolver == null || DataModel == null)
+        if (_httpClient == null || _endpointResolver == null || _dataModel == null)
             return;
 
         string endpoint = _endpointResolver.GetEndpoint<T>(ApiAction.GetAll);
