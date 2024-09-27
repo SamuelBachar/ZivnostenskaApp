@@ -5,6 +5,7 @@ using A.Interfaces;
 using SharedTypesLibrary.DTOs.Request;
 using A.CustomControls.Controls;
 using CustomUIControls.Interfaces;
+using ExceptionsHandling;
 
 namespace A.Views
 {
@@ -47,14 +48,16 @@ namespace A.Views
         private readonly IEndpointResolver _endpointResolver;
         private readonly IRelationshipResolver _relationshipResolver;
 
-        public RegisterCompanyView(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver)
+        public RegisterCompanyView(IHttpClientFactory httpClientFactory, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver)
         {
             InitializeComponent();
             //this.BindingContext = this;
 
-            _httpClient = httpClient;
             _endpointResolver = endpointResolver;
             _relationshipResolver = relationshipResolver;
+
+
+            _httpClient = httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
 
             this.Loaded += async (s, e) => { await LoadData(); };
         }
@@ -66,7 +69,11 @@ namespace A.Views
                 base.SetIsBusy(true);
                 await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(Region));
                 await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(District));
-                await Task.Delay(2000); // Replace with actual data loading
+            }
+            catch (Exception ex)
+            {
+                string errMsg = new ExceptionHandler("UAE_901", extraErrors: ex.Message, App.UserData.CurrentCulture).CustomMessage;
+                await DisplayAlert(App.LanguageResourceManager["RegisterCompanyView_RegisterError"].ToString(), errMsg, App.LanguageResourceManager["AllView_Close"].ToString());
             }
             finally
             {

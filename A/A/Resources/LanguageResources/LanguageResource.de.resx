@@ -147,7 +147,7 @@
   <data name="LogInChooseView_Title" xml:space="preserve">
     <value>Wählen Sie den Anwendungsmodus</value>
   </data>
-  <data name="LogInView_Close" xml:space="preserve">
+  <data name="AllView_Close" xml:space="preserve">
     <value>Schließen</value>
   </data>
   <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
@@ -248,5 +248,8 @@
   </data>
   <data name="RegisterChooseView_RegisterAs" xml:space="preserve">
     <value>Registrieren</value>
+  </data>
+  <data name="RegisterCompanyView_RegisterError" xml:space="preserve">
+    <value>Fehler bei der Registrierung des Unternehmens</value>
   </data>
 </root>

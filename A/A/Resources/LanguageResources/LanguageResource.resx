@@ -124,7 +124,7 @@
     <value>Choose profession, service or city</value>
   </data>
   <data name="Counter" xml:space="preserve">
-    <value>Clicked {0} times</value>
+    <value>You clicked {0} times</value>
   </data>
   <data name="HelloWorld" xml:space="preserve">
     <value>English motherfucker</value>
@@ -147,7 +147,7 @@
   <data name="LogInChooseView_Title" xml:space="preserve">
     <value>Select the application mode</value>
   </data>
-  <data name="LogInView_Close" xml:space="preserve">
+  <data name="AllView_Close" xml:space="preserve">
     <value>Close</value>
   </data>
   <data name="LogInView_DontHaveAccRegister" xml:space="preserve">
@@ -248,5 +248,8 @@
   </data>
   <data name="RegisterChooseView_RegisterAs" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="RegisterCompanyView_RegisterError" xml:space="preserve">
+    <value>Register company error</value>
   </data>
 </root>

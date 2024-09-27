@@ -21,7 +21,7 @@ public class FilterGroupManager
 
     public void Initialize(IRelationshipResolver relationshipResolver)
     {
-        if (relationshipResolver == null)
+        if (_relationshipResolver == null)
         {
             _relationshipResolver = relationshipResolver;
         }

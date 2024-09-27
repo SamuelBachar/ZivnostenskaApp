@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZivnostAPI.Data.CusDbContext;
 
@@ -11,9 +12,11 @@ using ZivnostAPI.Data.CusDbContext;
 namespace ZivnostAPI.Migrations
 {
     [DbContext(typeof(CusDbContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240927201103_HomeMigration1")]
+    partial class HomeMigration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -124,23 +127,6 @@ namespace ZivnostAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Company");
-                });
-
-            modelBuilder.Entity("ZivnostAPI.Models.DatabaseModels.Localization.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("ZivnostAPI.Models.DatabaseModels.Localization.District", b =>

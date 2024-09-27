@@ -138,7 +138,7 @@ public partial class LogInView : ContentPage
         else
         {
             //this.Content = this.MainControlWrapper;
-            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["LogInView_Close"].ToString());
+            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["AllView_Close"].ToString());
         }
     }
 
@@ -170,7 +170,7 @@ public partial class LogInView : ContentPage
         }
         else
         {
-            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["LogInView_Close"].ToString());
+            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["AllView_Close"].ToString());
         }
     }
 

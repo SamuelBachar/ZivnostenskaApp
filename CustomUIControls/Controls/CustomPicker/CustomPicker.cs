@@ -34,7 +34,7 @@ public class CustomPicker<T> : Picker, IFilterable<T>
     private IRelationshipResolver? _relationshipResolver;
     private Type? _dataModel;
 
-    public CustomPicker() 
+    public CustomPicker()
     {
         this.ItemsSource = Items;
         this.SelectedIndexChanged += OnSelectedIndexChanged;
@@ -52,40 +52,27 @@ public class CustomPicker<T> : Picker, IFilterable<T>
         await LoadData();
     }
 
-    //protected override async void OnParentSet()
-    //{
-    //    base.OnParentSet();
-    //    await LoadData();
-    //}
-
     private async Task LoadData()
     {
         if (_httpClient == null || _endpointResolver == null || _dataModel == null)
             return;
 
         string endpoint = _endpointResolver.GetEndpoint<T>(ApiAction.GetAll);
+        var response = await _httpClient.GetAsync(endpoint);
 
-        try
+        response.EnsureSuccessStatusCode(); // Not HTTP Code in range <200-299>
+
+        ApiResponse<T> apiResponse = await response.Content.ExtReadFromJsonAsync<T>();
+        var items = apiResponse.ListData;
+
+        Items.Clear();
+
+        if (items is List<T> validItems)
         {
-            var response = await _httpClient.GetAsync(endpoint);
-            response.EnsureSuccessStatusCode(); // todo throw an exception
-
-            ApiResponse<T> apiResponse = await response.Content.ExtReadFromJsonAsync<T>();
-            var items = apiResponse.ListData;
-
-            Items.Clear();
-
-            if (items is List<T> validItems)
+            foreach (var item in validItems)
             {
-                foreach (var item in validItems)
-                {
-                    Items.Add(item);
-                }
+                Items.Add(item);
             }
-        }
-        catch (Exception ex)
-        {
-            // Handle error (e.g., log or notify user)  --> forward somehow smart
         }
     }
 

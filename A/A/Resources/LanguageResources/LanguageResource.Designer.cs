@@ -61,6 +61,15 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        internal static string AllView_Close {
+            get {
+                return ResourceManager.GetString("AllView_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose your language.
         /// </summary>
         internal static string ChooseLanguage {
@@ -79,7 +88,7 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Clicked {0} times.
+        ///   Looks up a localized string similar to You clicked {0} times.
         /// </summary>
         internal static string Counter {
             get {
@@ -147,15 +156,6 @@ namespace A.Resources.LanguageResources {
         internal static string LogInChooseView_Title {
             get {
                 return ResourceManager.GetString("LogInChooseView_Title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Close.
-        /// </summary>
-        internal static string LogInView_Close {
-            get {
-                return ResourceManager.GetString("LogInView_Close", resourceCulture);
             }
         }
         
@@ -268,7 +268,7 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to s.
+        ///   Looks up a localized string similar to Log in / register using.
         /// </summary>
         internal static string LogInView_SignInWithHelpOf {
             get {
@@ -435,6 +435,15 @@ namespace A.Resources.LanguageResources {
         internal static string RegisterCompanyView_PostalCode {
             get {
                 return ResourceManager.GetString("RegisterCompanyView_PostalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register company error.
+        /// </summary>
+        internal static string RegisterCompanyView_RegisterError {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_RegisterError", resourceCulture);
             }
         }
         

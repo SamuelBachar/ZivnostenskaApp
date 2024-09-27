@@ -22,15 +22,15 @@ public class CustomEndpointDefines : IEndpointResolver
         {
             typeof(Region), new Dictionary<ApiAction, string>()
             {
-                { ApiAction.GetAll, $"/api/{nameof(Region)}/GetAll" },
-                { ApiAction.GetById,$"/api/{nameof(Region)}/GetById/{{id}}" }
+                { ApiAction.GetAll, $"/api/RegionController/GetAll" },
+                { ApiAction.GetById,$"/api/RegionController/GetById/{{id}}" }
             }
         },
         {
             typeof(District), new Dictionary<ApiAction, string>()
             {
-                { ApiAction.GetAll, $"/api/{nameof(District)}/GetAll" },
-                { ApiAction.GetById, $"/api/{nameof(District)}/GetById/{{id}}" }
+                { ApiAction.GetAll, $"/api/DistrictController/GetAll" },
+                { ApiAction.GetById, $"/api/DistrictController/GetById/{{id}}" }
             }
         }
     };
