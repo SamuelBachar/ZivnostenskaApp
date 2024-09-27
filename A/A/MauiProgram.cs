@@ -51,11 +51,9 @@ namespace A
             .AddHttpMessageHandler<ConnectivityHandler>(); // Pridanie ConnectivityHandler do reťazca
 
             // LogInView
-            builder.Services.AddHttpClient<ILoginService>(Constants.AppConstants.HttpsClientName);
             builder.Services.AddSingleton<ILoginService, LoginService>();
 
             // RegisterCompanyView
-            builder.Services.AddHttpClient<RegisterCompanyView>(Constants.AppConstants.HttpsClientName);
             builder.Services.AddSingleton<RegisterCompanyView>();
             builder.Services.AddSingleton<IEndpointResolver, CustomEndpointDefines>();
             builder.Services.AddSingleton<IRelationshipResolver, CustomRelationshipDefines>();

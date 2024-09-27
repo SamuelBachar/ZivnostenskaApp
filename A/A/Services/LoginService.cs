@@ -24,9 +24,9 @@ public class LoginService : ILoginService
 {
     private readonly HttpClient _httpClient;
 
-    public LoginService(HttpClient httpClient)
+    public LoginService(IHttpClientFactory httpClientFactory)
     {
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
     }
 
     public async Task<(UserLoginGenericResponse? UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord)
