@@ -62,8 +62,9 @@ public class CustomPicker<T> : Picker, IFilterable<T>
 
         response.EnsureSuccessStatusCode(); // Not HTTP Code in range <200-299>
 
-        ApiResponse<T> apiResponse = await response.Content.ExtReadFromJsonAsync<T>();
-        var items = apiResponse.ListData;
+        string test = await response.Content.ReadAsStringAsync();
+        ApiResponse <T> apiResponse = await response.Content.ExtReadFromJsonAsync<T>();
+        var items = apiResponse.Data;
 
         Items.Clear();
 

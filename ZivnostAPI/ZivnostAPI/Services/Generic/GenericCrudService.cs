@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SharedTypesLibrary.ServiceResponseModel;
 using ZivnostAPI.Data.CusDbContext;
 
 namespace ZivnostAPI.Services.Generic;
@@ -14,12 +15,12 @@ public class GenericCrudService<T> : ICrudService<T> where T : class
         _readOnlyService = readOnlyService;
     }
     
-    public async Task<List<T>> GetAll()
+    public async Task<ApiResponse<List<T>>> GetAll()
     {
         return await _readOnlyService.GetAll();
     }
 
-    public async Task<T?> GetById(int id)
+    public async Task<ApiResponse<T?>> GetById(int id)
     {
         return await _readOnlyService.GetById(id);
     }

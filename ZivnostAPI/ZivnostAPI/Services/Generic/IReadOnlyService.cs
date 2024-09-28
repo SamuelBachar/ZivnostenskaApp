@@ -1,7 +1,9 @@
-﻿namespace ZivnostAPI.Services.Generic;
+﻿using SharedTypesLibrary.ServiceResponseModel;
+
+namespace ZivnostAPI.Services.Generic;
 
 public interface IReadOnlyService<T>
 {
-    Task<List<T>> GetAll();
-    Task<T?> GetById(int id);
+    Task<ApiResponse<List<T>>> GetAll();
+    Task<ApiResponse<T?>> GetById(int id);
 }

@@ -6,6 +6,7 @@ using SharedTypesLibrary.DTOs.Request;
 using A.CustomControls.Controls;
 using CustomUIControls.Interfaces;
 using ExceptionsHandling;
+using System.Net.Http;
 
 namespace A.Views
 {
@@ -45,6 +46,7 @@ namespace A.Views
         RegistrationCompanyDataRequest _regCompData = new RegistrationCompanyDataRequest();
 
         private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IEndpointResolver _endpointResolver;
         private readonly IRelationshipResolver _relationshipResolver;
 
@@ -55,9 +57,9 @@ namespace A.Views
 
             _endpointResolver = endpointResolver;
             _relationshipResolver = relationshipResolver;
+            _httpClientFactory = httpClientFactory;
 
-
-            _httpClient = httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
+            _httpClient = _httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
 
             this.Loaded += async (s, e) => { await LoadData(); };
         }

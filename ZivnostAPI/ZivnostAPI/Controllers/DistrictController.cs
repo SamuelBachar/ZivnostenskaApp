@@ -6,7 +6,7 @@ using ZivnostAPI.Services.Generic;
 
 namespace ZivnostAPI.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/DistrictController")]
 [ApiController]
 public class DistrictController : ReadController<District>
 {
