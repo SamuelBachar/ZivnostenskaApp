@@ -1,6 +1,6 @@
-﻿namespace ZivnostAPI.Services.Generic;
+﻿namespace ZivnostAPI.Services.Interfaces;
 
-public interface IWriteService<T>
+public interface IGenericWriteService<T>
 {
     Task<bool> Add(T entity);
     Task<bool> Update(int id, T entity);

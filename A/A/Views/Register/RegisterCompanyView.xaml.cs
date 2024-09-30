@@ -1,5 +1,3 @@
-using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
-using District = SharedTypesLibrary.DTOs.Bidirectional.Localization.District;
 using System.Globalization;
 using A.Interfaces;
 using SharedTypesLibrary.DTOs.Request;
@@ -7,6 +5,8 @@ using A.CustomControls.Controls;
 using CustomUIControls.Interfaces;
 using ExceptionsHandling;
 using System.Net.Http;
+
+using SharedTypesLibrary.DTOs.Bidirectional.Localization;
 
 namespace A.Views
 {
@@ -69,8 +69,8 @@ namespace A.Views
             try
             {
                 base.SetIsBusy(true);
-                await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(Region));
-                await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(District));
+                await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(RegionDTO));
+                await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(DistrictDTO));
             }
             catch (Exception ex)
             {

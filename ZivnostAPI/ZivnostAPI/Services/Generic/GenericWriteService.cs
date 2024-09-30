@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZivnostAPI.Data.CusDbContext;
+using ZivnostAPI.Services.Interfaces;
 
 namespace ZivnostAPI.Services.Generic;
 
-public class GenericWriteService<T> : IWriteService<T> where T : class
+public class GenericWriteService<T> : IGenericWriteService<T> where T : class
 {
     private readonly CusDbContext _dbContext;
     public GenericWriteService(CusDbContext dbContext)

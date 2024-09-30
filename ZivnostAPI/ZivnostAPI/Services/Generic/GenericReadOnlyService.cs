@@ -2,10 +2,11 @@
 using SharedTypesLibrary.ServiceResponseModel;
 using System.Security.Cryptography.X509Certificates;
 using ZivnostAPI.Data.CusDbContext;
+using ZivnostAPI.Services.Interfaces;
 
 namespace ZivnostAPI.Services.Generic
 {
-    public class GenericReadOnlyService<T> : IReadOnlyService<T> where T : class
+    public class GenericReadOnlyService<T> : IGenericReadOnlyService<T> where T : class
     {
         private readonly CusDbContext _dbContext;
 
@@ -14,13 +15,13 @@ namespace ZivnostAPI.Services.Generic
             _dbContext = dbContext;
         }
 
-        public async Task<ApiResponse<List<T>>> GetAll()
+        public virtual async Task<ApiResponse<T>> GetAll()
         {
-            var response = new ApiResponse<List<T>>();
+            var response = new ApiResponse<T>();
 
             try
             {
-                response.Data = await _dbContext.Set<T>().ToListAsync();
+                response.ListData = await _dbContext.Set<T>().ToListAsync();
                 response.Success = true; 
             }
             catch (Exception ex)
@@ -32,7 +33,7 @@ namespace ZivnostAPI.Services.Generic
             return response;
         }
 
-        public async Task<ApiResponse<T?>> GetById(int id)
+        public virtual async Task<ApiResponse<T?>> GetById(int id)
         {
             var response = new ApiResponse<T?>();
 

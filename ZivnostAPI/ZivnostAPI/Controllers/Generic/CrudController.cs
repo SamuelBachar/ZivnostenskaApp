@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ZivnostAPI.Services.Generic;
+using ZivnostAPI.Services.Interfaces;
 
 namespace ZivnostAPI.Controllers.Generic;
 
@@ -8,8 +8,8 @@ namespace ZivnostAPI.Controllers.Generic;
 [ApiController]
 public class CrudController<T> : ControllerBase where T : class
 {
-    private readonly ICrudService<T> _crudService;
-    public CrudController(ICrudService<T> service)
+    private readonly IGenericCrudService<T> _crudService;
+    public CrudController(IGenericCrudService<T> service)
     {
         _crudService = service;
     }

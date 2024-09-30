@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace SharedTypesLibrary.DTOs.Bidirectional.Localization;
-public class City
+public class CityDTO
 {
     public int Id { get; set; }
 

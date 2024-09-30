@@ -1,31 +1,26 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SharedTypesLibrary.DTOs.Bidirectional.Localization;
+using SharedTypesLibrary.ServiceResponseModel;
 using ZivnostAPI.Controllers.Generic;
-using ZivnostAPI.Services.Generic;
+using ZivnostAPI.Services.Interfaces;
 using Region = ZivnostAPI.Models.DatabaseModels.Localization.Region;
+
 
 namespace ZivnostAPI.Controllers;
 
 
 [Route("api/RegionController")]
 [ApiController]
-public class RegionController : ReadController<Region>
+public class RegionController : ReadController<Region, RegionDTO>
 {
-    private readonly IReadOnlyService<Region> _readOnlyService;
-    public RegionController(IReadOnlyService<Region> service) : base(service)
+    private readonly IGenericReadOnlyService<Region> _readOnlyService;
+    private readonly IMapper _mapper;
+
+    public RegionController(IGenericReadOnlyService<Region> service, IMapper mapper) : base(service, mapper)
     {
         _readOnlyService = service;
+        _mapper = mapper;
     }
-
-    //[HttpGet("GetAll")]
-    //public override async Task<ActionResult<List<Region>>> GetAll()
-    //{
-    //    return await base.GetAll(); // Calls the method in ReadController
-    //}
-
-    //[HttpGet("{id}")]
-    //public override async Task<ActionResult<Region>> GetById(int id)
-    //{
-    //    return await base.GetById(id); // Calls the method in ReadController
-    //}
 }

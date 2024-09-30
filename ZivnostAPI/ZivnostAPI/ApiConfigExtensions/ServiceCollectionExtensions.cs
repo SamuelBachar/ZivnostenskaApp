@@ -5,6 +5,7 @@ using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Services.CompanyService;
 using ZivnostAPI.Services.Generic;
+using ZivnostAPI.Services.Interfaces;
 using ZivnostAPI.Services.LogInService;
 
 namespace ZivnostAPI.ApiConfigClasses;
@@ -57,9 +58,9 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IReadOnlyService<>), typeof(GenericReadOnlyService<>));
-        services.AddScoped(typeof(IWriteService<>), typeof(GenericWriteService<>));
-        services.AddScoped(typeof(ICrudService<>), typeof(GenericCrudService<>));
+        services.AddScoped(typeof(IGenericReadOnlyService<>), typeof(GenericReadOnlyService<>));
+        services.AddScoped(typeof(IGenericWriteService<>), typeof(GenericWriteService<>));
+        services.AddScoped(typeof(IGenericCrudService<>), typeof(GenericCrudService<>));
 
         services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<ILogInService, LogInService>();

@@ -1,21 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedTypesLibrary.ServiceResponseModel;
 using ZivnostAPI.Data.CusDbContext;
+using ZivnostAPI.Services.Interfaces;
 
 namespace ZivnostAPI.Services.Generic;
 
-public class GenericCrudService<T> : ICrudService<T> where T : class
+public class GenericCrudService<T> : IGenericCrudService<T> where T : class
 {
-    private readonly IReadOnlyService<T> _readOnlyService;
-    private readonly IWriteService<T> _writeService;
+    private readonly IGenericReadOnlyService<T> _readOnlyService;
+    private readonly IGenericWriteService<T> _writeService;
 
-    public GenericCrudService(IReadOnlyService<T> readOnlyService, IWriteService<T> writeService)
+    public GenericCrudService(IGenericReadOnlyService<T> readOnlyService, IGenericWriteService<T> writeService)
     {
         _writeService = writeService;
         _readOnlyService = readOnlyService;
     }
     
-    public async Task<ApiResponse<List<T>>> GetAll()
+    public async Task<ApiResponse<T>> GetAll()
     {
         return await _readOnlyService.GetAll();
     }

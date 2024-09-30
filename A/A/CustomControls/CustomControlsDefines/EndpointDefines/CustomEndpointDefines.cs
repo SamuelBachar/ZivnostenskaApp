@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CustomUIControls.Interfaces;
-
-using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
 using SharedTypesLibrary.DTOs.Bidirectional.Localization;
+
+using CustomUIControls.Interfaces;
 using static CustomUIControls.Enumerations.Enums;
 
 
@@ -20,14 +19,14 @@ public class CustomEndpointDefines : IEndpointResolver
     private static readonly Dictionary<Type, Dictionary<ApiAction, string>> Endpoints = new Dictionary<Type, Dictionary<ApiAction, string>>()
     {
         {
-            typeof(Region), new Dictionary<ApiAction, string>()
+            typeof(RegionDTO), new Dictionary<ApiAction, string>()
             {
                 { ApiAction.GetAll, $"/api/RegionController/GetAll" },
                 { ApiAction.GetById,$"/api/RegionController/GetById/{{id}}" }
             }
         },
         {
-            typeof(District), new Dictionary<ApiAction, string>()
+            typeof(DistrictDTO), new Dictionary<ApiAction, string>()
             {
                 { ApiAction.GetAll, $"/api/DistrictController/GetAll" },
                 { ApiAction.GetById, $"/api/DistrictController/GetById/{{id}}" }

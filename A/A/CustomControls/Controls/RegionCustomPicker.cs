@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
+using SharedTypesLibrary.DTOs.Bidirectional.Localization;
 
 namespace A.CustomControls.Controls;
 
-public class RegionCustomPicker : CustomPicker<Region>
+public class RegionCustomPicker : CustomPicker<RegionDTO>
 {
     public RegionCustomPicker() { }
 }

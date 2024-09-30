@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using CustomUIControls.Interfaces;
 
-using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.Region;
+using Region = SharedTypesLibrary.DTOs.Bidirectional.Localization.RegionDTO;
 
 
 namespace A.CustomControls.CustomControlsDefines.RelationshipDefines;

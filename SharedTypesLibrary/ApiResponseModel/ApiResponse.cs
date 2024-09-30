@@ -9,7 +9,27 @@ namespace SharedTypesLibrary.ServiceResponseModel;
 public class ApiResponse<T>
 {
     public T? Data { get; set; }
+    public List<T>? ListData { get; set; }
+
     public bool Success { get; set; } = true;
     public string Message { get; set; } = string.Empty;
     public string ExceptionMessage { get; set; } = string.Empty;
+
+    public ApiResponse() { }
+
+    public ApiResponse(T? data, bool success = true, string message = "", string exceptionMessage = "")
+    {
+        Data = data;
+        Success = success;
+        Message = message;
+        ExceptionMessage = exceptionMessage;
+    }
+
+    public ApiResponse(List<T>? listData, bool success = true, string message = "", string exceptionMessage = "")
+    {
+        ListData = listData;
+        Success = success;
+        Message = message;
+        ExceptionMessage = exceptionMessage;
+    }
 }

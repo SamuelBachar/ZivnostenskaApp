@@ -16,10 +16,10 @@ public class RegistrationCompanyDataRequest
 
     public string PostalCode { get; set; } = string.Empty;
 
-    public Country Country { get; set; }
-    public City City { get; set; }
-    public Region RegionCompany { get; set; }
-    public District DistrictCompany { get; set; }
+    public CountryDTO Country { get; set; }
+    public CityDTO City { get; set; }
+    public RegionDTO RegionCompany { get; set; }
+    public DistrictDTO DistrictCompany { get; set; }
     public byte[] Image { get; set; }
 
     public string CompanyDescription { get; set; } = string.Empty;

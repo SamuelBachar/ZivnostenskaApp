@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace A.CustomControls.Controls;
 
-public class DistrictCustomPicker : CustomPicker<District>
+public class DistrictCustomPicker : CustomPicker<DistrictDTO>
 {
     public DistrictCustomPicker() { }
 }
