@@ -9,7 +9,7 @@ namespace SharedTypesLibrary.ServiceResponseModel;
 public class ApiResponse<T>
 {
     public T? Data { get; set; }
-    public List<T>? ListData { get; set; }
+    public IEnumerable<T>? ListData { get; set; }
 
     public bool Success { get; set; } = true;
     public string Message { get; set; } = string.Empty;
@@ -25,7 +25,7 @@ public class ApiResponse<T>
         ExceptionMessage = exceptionMessage;
     }
 
-    public ApiResponse(List<T>? listData, bool success = true, string message = "", string exceptionMessage = "")
+    public ApiResponse(IEnumerable<T>? listData, bool success = true, string message = "", string exceptionMessage = "")
     {
         ListData = listData;
         Success = success;

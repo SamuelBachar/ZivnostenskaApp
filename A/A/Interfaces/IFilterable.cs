@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace A.Interfaces;
 
 
-public interface IFilterable<T>
-{
-    void FilterBy(Func<T, bool> filterPredicate);
-}
+//public interface IFilterable<T>
+//{
+//    void FilterBy(Func<T, bool> filterPredicate);
+//}

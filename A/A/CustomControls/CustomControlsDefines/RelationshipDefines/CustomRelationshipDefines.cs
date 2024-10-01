@@ -16,21 +16,30 @@ public class CustomRelationshipDefines : IRelationshipResolver
 {
     public bool AreRelated<TParent, TChild>(TParent parentItem, TChild childItem)
     {
-        var parentType = typeof(TParent);
-        var childType = typeof(TChild);
+        return AreRelated((object)parentItem, (object)childItem);
+    }
+
+    public bool AreRelated(object parentItem, object childItem)
+    {
+        bool result = false;
+
+        var parentType = parentItem.GetType();
+        var childType = childItem.GetType();
 
         if (FilterRelations.Relations.ContainsKey(parentType) && FilterRelations.Relations[parentType].ContainsKey(childType))
         {
-            // Retrieve the relationship function and invoke it with the provided items
-            var relationFunc = FilterRelations.Relations[parentType][childType] as Func<TParent, TChild, bool>;
+            var relationFunc = FilterRelations.Relations[parentType][childType] as Func<object, object, bool>;
 
             if (relationFunc != null)
             {
-                return relationFunc(parentItem, childItem);
+                result = relationFunc(parentItem, childItem);
             }
         }
+        else
+        {
+            result = true;
+        }
 
-        // Default to true if no specific relation is defined (e.g., unrelated types are allowed)
-        return true;
+        return result;
     }
 }

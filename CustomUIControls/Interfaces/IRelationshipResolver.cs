@@ -8,5 +8,7 @@ namespace CustomUIControls.Interfaces;
 
 public interface IRelationshipResolver
 {
-    bool AreRelated<TParent, TChild>(TParent parent, TChild child);
+    bool AreRelated<TParent, TChild>(TParent parentItem, TChild child);
+
+    bool AreRelated(object parent, object child);
 }

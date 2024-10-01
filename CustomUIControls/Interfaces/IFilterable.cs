@@ -10,5 +10,5 @@ namespace CustomUIControls.Interfaces;
 
 public interface IFilterable<T>
 {
-    void FilterBy(Func<T, bool> filterPredicate);
+    void FilterBy(Func<T, bool> filter);
 }

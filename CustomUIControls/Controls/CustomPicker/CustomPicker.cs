@@ -14,10 +14,11 @@ using static CustomUIControls.Enumerations.Enums;
 
 using SharedTypesLibrary.ServiceResponseModel;
 using ExtensionsLibrary.Http;
+using CustomControlsLibrary.Controls.CustomPicker;
 
 namespace CustomControlsLibrary.Controls;
 
-public class CustomPicker<T> : Picker, IFilterable<T>
+public class CustomPicker<T> : Picker, IFilterable<T>, ICustomPicker
 {
     public static readonly BindableProperty FilterGroupProperty = BindableProperty.Create(nameof(FilterGroup), typeof(string), typeof(CustomPicker<T>), string.Empty, propertyChanged: OnFilterGroupChanged);
 
@@ -27,7 +28,8 @@ public class CustomPicker<T> : Picker, IFilterable<T>
         set => SetValue(FilterGroupProperty, value);
     }
 
-    public new ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
+    public List<T> Items { get; set; } = new List<T>();
+    public ObservableCollection<T> DisplayedItems { get; set; } = new ObservableCollection<T>();
 
     private HttpClient? _httpClient;
     private IEndpointResolver? _endpointResolver;
@@ -36,7 +38,7 @@ public class CustomPicker<T> : Picker, IFilterable<T>
 
     public CustomPicker()
     {
-        this.ItemsSource = Items;
+        this.ItemsSource = DisplayedItems;
         this.SelectedIndexChanged += OnSelectedIndexChanged;
     }
 
@@ -64,7 +66,7 @@ public class CustomPicker<T> : Picker, IFilterable<T>
 
         string test = await response.Content.ReadAsStringAsync();
         ApiResponse <T> apiResponse = await response.Content.ExtReadFromJsonAsync<T>();
-        var items = apiResponse.Data;
+        var items = apiResponse.ListData;
 
         Items.Clear();
 
@@ -73,18 +75,24 @@ public class CustomPicker<T> : Picker, IFilterable<T>
             foreach (var item in validItems)
             {
                 Items.Add(item);
+                DisplayedItems.Add(item);
             }
         }
+    }
+
+    void ICustomPicker.FilterBy(Func<object, bool> filter)
+    {
+        this.FilterBy(item => filter(item));
     }
 
     public void FilterBy(Func<T, bool> filterPredicate)
     {
         var filteredItems = Items.Where(filterPredicate).ToList();
-        this.ItemsSource.Clear();
+        DisplayedItems.Clear();
 
         foreach (var item in filteredItems)
         {
-            ItemsSource.Add(item);
+            DisplayedItems.Add(item);
         }
     }
 

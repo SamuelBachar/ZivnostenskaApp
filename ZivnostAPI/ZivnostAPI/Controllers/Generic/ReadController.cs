@@ -29,7 +29,7 @@ public class ReadController<TEntity, TDto> : ControllerBase where TEntity : clas
         if (result.Success)
         {
             var dtoList = _mapper.Map<IEnumerable<TDto>>(result.ListData);
-            response = Ok(new ApiResponse<IEnumerable<TDto>>(dtoList, true));
+            response = Ok(new ApiResponse<TDto>(listData : dtoList, true));
         }
         else
         {

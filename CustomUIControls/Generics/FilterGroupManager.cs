@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CustomControlsLibrary.Controls;
+using CustomControlsLibrary.Controls.CustomPicker;
 
 namespace CustomUIControls.Generics;
 
 public class FilterGroupManager
 {
-    private static FilterGroupManager _instance;
+    private static FilterGroupManager? _instance = null;
     public static FilterGroupManager Instance => _instance ??= new FilterGroupManager();
 
-    private IRelationshipResolver? _relationshipResolver = null;
+    private IRelationshipResolver? _relationshipResolver;
 
     private readonly Dictionary<string, List<object>> _filterGroups = new Dictionary<string, List<object>>();
 
@@ -37,7 +38,7 @@ public class FilterGroupManager
         _filterGroups[filterGroup].Add(picker);
     }
 
-    public void NotifyPickerChanged<T>(CustomPicker<T> parentPicker, T parentSelectedItem)
+    public void NotifyPickerChanged<T>(CustomPicker<T> parentPicker, T parentItem)
     {
         var filterGroup = parentPicker.FilterGroup;
 
@@ -45,9 +46,9 @@ public class FilterGroupManager
         {
             foreach (var pickerObj in _filterGroups[filterGroup])
             {
-                if (pickerObj is CustomPicker<T> picker && picker != parentPicker)
+                if (pickerObj is ICustomPicker childPicker && childPicker != parentPicker)
                 {
-                    picker.FilterBy(itemChild => _relationshipResolver.AreRelated(parentSelectedItem, itemChild));
+                    childPicker.FilterBy(childItem => _relationshipResolver.AreRelated(parentItem, childItem));
                 }
             }
         }
