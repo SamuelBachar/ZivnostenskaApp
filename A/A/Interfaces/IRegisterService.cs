@@ -11,6 +11,6 @@ namespace A.Interfaces;
 
 public interface IRegisterService
 {
-    Task<(RegisterGenericResponse? RegisterInfo, ExceptionHandler? Exception)> RegisterGeneric(RegisterGenericRequest request);
-    Task<(UserLoginGenericResponse? UserInfo, ExceptionHandler? Exception)> RegisterCompanyGeneric(string email, string passWord);
+    Task<(RegisterResponse? RegisterInfo, ExceptionHandler? Exception)> RegisterCompany(RegistrationCompanyRequest request);
+    Task<(RegisterResponse? RegisterInfo, ExceptionHandler? Exception)> RegisterUser(RegisterUserRequest request);
 }

@@ -3,7 +3,7 @@ using SharedTypesLibrary.DTOs.Bidirectional.Services;
 
 namespace SharedTypesLibrary.DTOs.Request;
 
-public class RegistrationCompanyDataRequest
+public class RegistrationCompanyRequest
 {
     public string CompanyName { get; set; } = string.Empty;
     public string CIN { get; set; } = string.Empty;
@@ -25,4 +25,11 @@ public class RegistrationCompanyDataRequest
     public string CompanyDescription { get; set; } = string.Empty;
 
     public required List<ServiceDTO> ListServices { get; set; }
+
+    // Register via Auth Provider
+    RegisterAuthProviderCredentials? RegProviderData { get; set; }
+
+    // Register via Generic method (email and confirmation)
+
+    RegisterGenericCredentials? RegGenericData { get; set; }
 }

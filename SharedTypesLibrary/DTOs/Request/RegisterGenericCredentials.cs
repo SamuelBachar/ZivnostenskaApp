@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharedTypesLibrary.DTOs.Request;
 
-public class RegisterGenericRequest
+public class RegisterGenericCredentials
 {
     public required string Email { get; set; }
     public required string Password { get; set; }

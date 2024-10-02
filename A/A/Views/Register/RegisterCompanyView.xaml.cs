@@ -23,6 +23,16 @@ namespace A.Views
     public partial class RegisterCompanyView : BasePage
     {
 
+        private class ImageData
+        {
+            public ImageSource? ImageSource { get; set; } = null;
+            public Stream? ImageStream { get; set; } = null;
+
+            public string FileName { get; set; } = string.Empty;
+        }
+
+        ImageData? _imageData { get; set; } = null;
+
         private int _viewIndex = 0;
         public int ViewIndex
         {
@@ -49,7 +59,6 @@ namespace A.Views
 
         public Tuple<int, bool> ViewIndexAndRegistration => new Tuple<int, bool>(ViewIndex, _genericRegistration);
 
-        ImageSource? _imageSource { get; set; } = null;
 
         private readonly HttpClient _httpClient;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -109,10 +118,21 @@ namespace A.Views
                     if (result.FileName.EndsWith("jpg", StringComparison.OrdinalIgnoreCase) ||
                         result.FileName.EndsWith("png", StringComparison.OrdinalIgnoreCase))
                     {
-                        using var stream = await result.OpenReadAsync();
-                        _imageSource = ImageSource.FromStream(() => stream);
+                        if (_imageData != null && _imageData.ImageStream != null)
+                        {
+                            await _imageData.ImageStream.DisposeAsync();
+                        }
+                        else
+                        {
+                            _imageData = new ImageData();
+                        }
 
-                        this.ImgCompanyLogo.Source = _imageSource;
+                        _imageData.ImageStream = await result.OpenReadAsync();
+                        _imageData.ImageSource = ImageSource.FromStream(() => _imageData.ImageStream);
+
+                        this.ImgCompanyLogo.Source = _imageData.ImageSource;
+
+                        _imageData.FileName = result.FileName;
                     }
                 }
             }
@@ -190,37 +210,56 @@ namespace A.Views
             //}
         }
 
+        private string GetImageFormat(string fileName)
+        {
+            string result = string.Empty;
+
+            string fileExtension = Path.GetExtension(fileName).ToLower();
+
+            if (fileExtension == ".png")
+            {
+                result = "image/png";
+            }
+            else if (fileExtension == ".jpg" || fileExtension == ".jpeg")
+            {
+                result = "image/jpeg";
+            }
+            else
+            {
+                throw new InvalidOperationException("Unsupported image format");
+            }
+
+            return result;
+        }
+
         private async void BtnRegister_Clicked(object sender, EventArgs e)
         {
             try
             {
-                if (_genericRegistration)
-                {
-                    RegisterGenericRequest reqRegister = new RegisterGenericRequest
-                    {
-                        Email = this.EntryEmailRegister.Text,
-                        Password = this.EntryPassword.Text,
-                        PasswordConfirmed = this.EntryPasswordConfirm.Text
-                    };
+                //if (_genericRegistration)
+                //{
+                //    RegisterUserGenericRequest reqRegister = new RegisterUserGenericRequest
+                //    {
+                //        Email = this.EntryEmailRegister.Text,
+                //        Password = this.EntryPassword.Text,
+                //        PasswordConfirmed = this.EntryPasswordConfirm.Text
+                //    };
 
-                    HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/api/RegisterGeneric", reqRegister, options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                //    HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/api/RegisterGeneric", reqRegister, options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                    ApiResponse<RegisterGenericResponse> responseData = await response.Content.ExtReadFromJsonAsync<RegisterGenericResponse>();
+                //    ApiResponse<RegisterGenericResponse> responseData = await response.Content.ExtReadFromJsonAsync<RegisterGenericResponse>();
 
-                    if (!responseData.Success)
-                    {
+                //    if (!responseData.Success)
+                //    {
 
-                    }
-                    else
-                    {
+                //    }
+                //    else
+                //    {
 
-                    }
-                }
+                //    }
+                //}
 
-
-                using MultipartFormDataContent content = new MultipartFormDataContent();
-
-                RegistrationCompanyDataRequest regCompData = new RegistrationCompanyDataRequest
+                RegistrationCompanyRequest regCompData = new RegistrationCompanyRequest
                 {
                     CompanyName = this.EntryCompany.Text,
                     CIN = this.EntryCIN.Text,
@@ -238,37 +277,49 @@ namespace A.Views
                     ListServices = new List<ServiceDTO>()
                 };
 
-                // Add text fields
-                content.Add(new StringContent(regCompData.CompanyName), nameof(RegistrationCompanyDataRequest.CompanyName));
-                content.Add(new StringContent(regCompData.CIN), nameof(RegistrationCompanyDataRequest.CIN));
-                content.Add(new StringContent(regCompData.Phone), nameof(RegistrationCompanyDataRequest.Phone));
-                content.Add(new StringContent(regCompData.Email), nameof(RegistrationCompanyDataRequest.Email));
-                content.Add(new StringContent(regCompData.Address), nameof(RegistrationCompanyDataRequest.Address));
-                content.Add(new StringContent(regCompData.PostalCode), nameof(RegistrationCompanyDataRequest.PostalCode));
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.Country)), nameof(RegistrationCompanyDataRequest.Country));
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.City)), nameof(RegistrationCompanyDataRequest.City));
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegionCompany)), nameof(RegistrationCompanyDataRequest.RegionCompany));
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.DistrictCompany)), nameof(RegistrationCompanyDataRequest.DistrictCompany));
-
-                // Add List of Services as JSON
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.ListServices)), nameof(RegistrationCompanyDataRequest.ListServices));
-
-                // Add the image
-                if (regCompData.Image != null)
-                {
-                    var imageContent = new ByteArrayContent(regCompData.Image);
-                    imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/png"); // or "image/jpeg"
-                    content.Add(imageContent, "Image", "companylogo.png");
-                }
-
-                // Send the request
-                //var response = await _httpClient.PostAsync("/api/endpoint", content);
-
-
                 if (_genericRegistration)
                 {
-
+                    RegisterGenericCredentials regGenData = new RegisterGenericCredentials
+                    {
+                        Email = this.EntryEmailRegister.Text,
+                        Password = this.EntryPassword.Text,
+                        PasswordConfirmed = this.EntryPasswordConfirm.Text
+                    };
                 }
+                else
+                {
+                    // Use Auth Provider data
+                }
+
+                using MultipartFormDataContent content = new MultipartFormDataContent();
+
+                content.Add(new StringContent(regCompData.CompanyName), nameof(RegistrationCompanyRequest.CompanyName));
+                content.Add(new StringContent(regCompData.CIN), nameof(RegistrationCompanyRequest.CIN));
+                content.Add(new StringContent(regCompData.Phone), nameof(RegistrationCompanyRequest.Phone));
+                content.Add(new StringContent(regCompData.Email), nameof(RegistrationCompanyRequest.Email));
+                content.Add(new StringContent(regCompData.Address), nameof(RegistrationCompanyRequest.Address));
+                content.Add(new StringContent(regCompData.PostalCode), nameof(RegistrationCompanyRequest.PostalCode));
+                content.Add(new StringContent(regCompData.CompanyDescription), nameof(RegistrationCompanyRequest.CompanyDescription));
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.Country)), nameof(RegistrationCompanyRequest.Country));
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.City)), nameof(RegistrationCompanyRequest.City));
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegionCompany)), nameof(RegistrationCompanyRequest.RegionCompany));
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.DistrictCompany)), nameof(RegistrationCompanyRequest.DistrictCompany));
+
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.ListServices)), nameof(RegistrationCompanyRequest.ListServices));
+
+                // Add the image
+                if (_imageData != null && _imageData.ImageStream != null)
+                {
+                    _imageData.ImageStream.Position = 0;
+
+                    var streamContent = new StreamContent(_imageData.ImageStream);
+                    var imageContent = new ByteArrayContent(regCompData.Image);
+
+                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(GetImageFormat(_imageData.FileName));
+
+                    content.Add(imageContent, "Image", $"{_imageData.FileName}");
+                }
+
             }
             catch (Exception ex)
             {
