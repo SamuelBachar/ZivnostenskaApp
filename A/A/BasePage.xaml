@@ -11,15 +11,15 @@
             </ContentView.Content>
         </ContentView>
 
-        <Grid x:Name="LoadingOverlay" IsVisible="{Binding IsBusy, Source={x:Reference BasePage}}" 
+        <Grid x:Name="LoadingOverlay" IsVisible="{Binding IsBusy}"
               BackgroundColor="Black"
               Opacity="0.5"
               VerticalOptions="FillAndExpand"
               HorizontalOptions="FillAndExpand">
-            <ActivityIndicator x:Name="LoadingIndicator" IsRunning="{Binding IsBusy, Source={x:Reference BasePage}}"
+            <!--<ActivityIndicator x:Name="LoadingIndicator" IsRunning="{Binding IsBusy}"
                                VerticalOptions="Center" 
                                HorizontalOptions="Center" 
-                               Color="White"/>
+                               Color="White"/>-->
         </Grid>
     </Grid>
 </ContentPage>

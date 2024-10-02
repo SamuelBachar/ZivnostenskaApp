@@ -38,7 +38,7 @@ public class FilterGroupManager
         _filterGroups[filterGroup].Add(picker);
     }
 
-    public void NotifyPickerChanged<T>(CustomPicker<T> parentPicker, T parentItem)
+    public void NotifyPickerChanged<TParent>(CustomPicker<TParent> parentPicker, TParent parentItem)
     {
         var filterGroup = parentPicker.FilterGroup;
 
@@ -48,7 +48,12 @@ public class FilterGroupManager
             {
                 if (pickerObj is ICustomPicker childPicker && childPicker != parentPicker)
                 {
-                    childPicker.FilterBy(childItem => _relationshipResolver.AreRelated(parentItem, childItem));
+                    var filter = _relationshipResolver.AreRelated(parentItem, childPicker.DataModelType);
+
+                    if (filter != null)
+                    {
+                        childPicker.FilterBy(filter);
+                    }
                 }
             }
         }

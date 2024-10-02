@@ -5,9 +5,9 @@
     <VerticalStackLayout>
 
         <Entry x:Name="MainEntry" Unfocused="MainEntry_TextAdded" Completed="MainEntry_TextAdded" 
-               Placeholder="{Binding Placeholder, Source={x:Reference CustomEntry}}"
-               TextColor="{Binding TextColor, Source={x:Reference CustomEntry}}"
-               Keyboard="{Binding Keyboard, Source={x:Reference CustomEntry}}"
+               Placeholder="{Binding Placeholder}"
+               TextColor="{Binding TextColor}"
+               Keyboard="{Binding Keyboard}"
         />
 
         <Label x:Name="LblError" HorizontalOptions="Start" TextColor="Red" FontSize="Small"

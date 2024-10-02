@@ -42,8 +42,8 @@ public partial class BasePage : ContentPage//, INotifyPropertyChanged
 
     public void SetIsBusy(bool isBusy)
     {
-        LoadingIndicator.IsVisible = isBusy;
-        LoadingOverlay.IsVisible = isBusy;
+        //LoadingIndicator.IsVisible = isBusy;
+        //LoadingOverlay.IsVisible = isBusy;
         base.IsBusy = isBusy;
     }
 

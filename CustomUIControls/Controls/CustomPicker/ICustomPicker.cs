@@ -8,5 +8,6 @@ namespace CustomControlsLibrary.Controls.CustomPicker;
 
 interface ICustomPicker
 {
+    public Type DataModelType { get; }
     public void FilterBy(Func<object, bool> filter);
 }

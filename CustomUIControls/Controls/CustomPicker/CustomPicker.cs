@@ -36,6 +36,11 @@ public class CustomPicker<T> : Picker, IFilterable<T>, ICustomPicker
     private IRelationshipResolver? _relationshipResolver;
     private Type? _dataModel;
 
+    public Type DataModelType
+    {
+        get => _dataModel;
+    }
+
     public CustomPicker()
     {
         this.ItemsSource = DisplayedItems;
@@ -69,6 +74,7 @@ public class CustomPicker<T> : Picker, IFilterable<T>, ICustomPicker
         var items = apiResponse.ListData;
 
         Items.Clear();
+        DisplayedItems.Clear();
 
         if (items is List<T> validItems)
         {
@@ -100,8 +106,10 @@ public class CustomPicker<T> : Picker, IFilterable<T>, ICustomPicker
     {
         var selectedItem = (T)this.SelectedItem;
 
-        // Inform other pickers in the same FilterGroup about the change
-        FilterGroupManager.Instance.NotifyPickerChanged(this, selectedItem);
+        if (selectedItem != null)
+        {
+            FilterGroupManager.Instance.NotifyPickerChanged(this, selectedItem);
+        }
     }
 
     // Automatically called during InitializeComponent() of View
