@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SharedTypesLibrary.DTOs.Bidirectional.Services;
 
-public class Service
+public class ServiceDTO
 {
     public int Id { get; set; }
 

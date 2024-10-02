@@ -114,7 +114,7 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
         string text = this.MainEntry.Text;
         bool isValid = true;
 
-        if (!checkLength)
+        if (!string.IsNullOrWhiteSpace(text))
         {
             isValid = EntryValidationType switch
             {
@@ -135,16 +135,15 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
             {
                 this.IsErrorVisible = false;
             }
-        }
-        else
-        {
-            if (this.IsMandatory)
-            {
-                isValid = !string.IsNullOrWhiteSpace(text);
-                ErrorMessage = "Cannot be empty";
 
-                this.IsErrorVisible = !isValid;
-            }
+        }
+
+        if ((checkLength && this.IsMandatory) && string.IsNullOrWhiteSpace(text))
+        {
+            isValid = !string.IsNullOrWhiteSpace(text);
+            ErrorMessage = "Cannot be empty";
+
+            this.IsErrorVisible = !isValid;
         }
 
         return isValid;
@@ -171,7 +170,7 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
         if (length > 0)
         {
             if ((e is FocusEventArgs focArg))
-            {  
+            {
                 _lastFocusEventTime = DateTime.Now;
                 _isFocusHandled = true;
 

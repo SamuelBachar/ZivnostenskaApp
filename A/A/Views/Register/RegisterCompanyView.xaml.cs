@@ -7,6 +7,14 @@ using ExceptionsHandling;
 using System.Net.Http;
 
 using SharedTypesLibrary.DTOs.Bidirectional.Localization;
+using SharedTypesLibrary.DTOs.Bidirectional.Services;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
+using ExtensionsLibrary.Http;
+using SharedTypesLibrary.DTOs.Response;
+using SharedTypesLibrary.ServiceResponseModel;
 
 namespace A.Views
 {
@@ -31,6 +39,7 @@ namespace A.Views
 
         public bool GenericRegistration
         {
+            get => _genericRegistration;
             set
             {
                 _genericRegistration = value;
@@ -40,10 +49,7 @@ namespace A.Views
 
         public Tuple<int, bool> ViewIndexAndRegistration => new Tuple<int, bool>(ViewIndex, _genericRegistration);
 
-
         ImageSource? _imageSource { get; set; } = null;
-
-        RegistrationCompanyDataRequest _regCompData = new RegistrationCompanyDataRequest();
 
         private readonly HttpClient _httpClient;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -137,10 +143,13 @@ namespace A.Views
 
         private void BtnNext_Clicked(object sender, EventArgs e)
         {
-            if (_viewIndex < 2) // Prevent going beyond available views
+            if (ValidateData(_viewIndex))
             {
-                ViewIndex++;
-                lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_genericRegistration ? 3 : 2)}";
+                if (_viewIndex < 2) // Prevent going beyond available views
+                {
+                    ViewIndex++;
+                    lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_genericRegistration ? 3 : 2)}";
+                }
             }
         }
 
@@ -181,48 +190,120 @@ namespace A.Views
             //}
         }
 
-        private void EntryAddress_Completed(object sender, EventArgs e)
+        private async void BtnRegister_Clicked(object sender, EventArgs e)
         {
-            var entry = (Entry)sender;
-            _regCompData.Address = entry.Text;
+            try
+            {
+                if (_genericRegistration)
+                {
+                    RegisterGenericRequest reqRegister = new RegisterGenericRequest
+                    {
+                        Email = this.EntryEmailRegister.Text,
+                        Password = this.EntryPassword.Text,
+                        PasswordConfirmed = this.EntryPasswordConfirm.Text
+                    };
+
+                    HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/api/RegisterGeneric", reqRegister, options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                    ApiResponse<RegisterGenericResponse> responseData = await response.Content.ExtReadFromJsonAsync<RegisterGenericResponse>();
+
+                    if (!responseData.Success)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+
+                using MultipartFormDataContent content = new MultipartFormDataContent();
+
+                RegistrationCompanyDataRequest regCompData = new RegistrationCompanyDataRequest
+                {
+                    CompanyName = this.EntryCompany.Text,
+                    CIN = this.EntryCIN.Text,
+                    Address = this.EntryAddress.Text,
+                    PostalCode = this.EntryPostalCode.Text,
+                    CompanyDescription = this.EditorCompanyDescription.Text,
+
+                    // required
+                    Email = this.EntryEmail.Text,
+                    Phone = this.EntryPhone.Text,
+                    DistrictCompany = (DistrictDTO)this.DistrictPicker.SelectedItem,
+                    RegionCompany = (RegionDTO)this.DistrictPicker.SelectedItem,
+                    City = new CityDTO { District_Id = 1, Name = "test" },
+                    Country = new CountryDTO { Name = "test" },
+                    ListServices = new List<ServiceDTO>()
+                };
+
+                // Add text fields
+                content.Add(new StringContent(regCompData.CompanyName), nameof(RegistrationCompanyDataRequest.CompanyName));
+                content.Add(new StringContent(regCompData.CIN), nameof(RegistrationCompanyDataRequest.CIN));
+                content.Add(new StringContent(regCompData.Phone), nameof(RegistrationCompanyDataRequest.Phone));
+                content.Add(new StringContent(regCompData.Email), nameof(RegistrationCompanyDataRequest.Email));
+                content.Add(new StringContent(regCompData.Address), nameof(RegistrationCompanyDataRequest.Address));
+                content.Add(new StringContent(regCompData.PostalCode), nameof(RegistrationCompanyDataRequest.PostalCode));
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.Country)), nameof(RegistrationCompanyDataRequest.Country));
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.City)), nameof(RegistrationCompanyDataRequest.City));
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegionCompany)), nameof(RegistrationCompanyDataRequest.RegionCompany));
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.DistrictCompany)), nameof(RegistrationCompanyDataRequest.DistrictCompany));
+
+                // Add List of Services as JSON
+                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.ListServices)), nameof(RegistrationCompanyDataRequest.ListServices));
+
+                // Add the image
+                if (regCompData.Image != null)
+                {
+                    var imageContent = new ByteArrayContent(regCompData.Image);
+                    imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/png"); // or "image/jpeg"
+                    content.Add(imageContent, "Image", "companylogo.png");
+                }
+
+                // Send the request
+                //var response = await _httpClient.PostAsync("/api/endpoint", content);
+
+
+                if (_genericRegistration)
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+
+            }
         }
 
-        private void EntryAddress_Unfocused(object sender, FocusEventArgs e)
+
+        private bool ValidateData(int _viewIndex)
         {
-            var entry = (Entry)sender;
-            _regCompData.Address = entry.Text;
-        }
+            bool result = true;
 
-        private void EntryPostalCode_Unfocused(object sender, FocusEventArgs e)
-        {
-            var entry = (Entry)sender;
-            _regCompData.PostalCode = entry.Text;
-        }
+            if (_viewIndex == 0)
+            {
+                result = this.EntryPhone.Validate(checkLength: true) && this.EntryEmail.Validate(checkLength: true);
+            }
 
-        private void EntryPostalCode_Completed(object sender, EventArgs e)
-        {
-            var entry = (Entry)sender;
-            _regCompData.PostalCode = entry.Text;
-        }
+            if (_viewIndex == 1)
+            {
+                // todo check if some services are choosed if not return false
 
-        private void BtnRegister_Clicked(object sender, EventArgs e)
-        {
+                result = false;
+            }
 
-        }
+            if (_viewIndex == 2)
+            {
+                // todo check email entry and passwords an validate ... if not correct mail or passwords are not same cancel registration
 
-        private void EntryEmail_TextChanged(object sender, TextChangedEventArgs e)
-        {
+                result = false;
+            }
 
-        }
-
-        private void EntryPassword_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void EntryPasswordConfirm_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            return result;
         }
     }
 }

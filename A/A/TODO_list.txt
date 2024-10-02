@@ -17,7 +17,9 @@ https://www.youtube.com/watch?v=kjRCDzd27oQ
 6. IHttpClientFactory https://youtu.be/Z6Y2adsMnAA?t=516
    https://www.youtube.com/watch?v=ZF9-TEzkj5c nejake dodatocne ifno ku IHttpClientFactory
    
-   pozor spravit HttpClientFactory viac reliable 
+7. pozor spravit HttpClientFactory viac reliable
+8. spravit api aby nahodou nestratila requesty a pri odoslani responsov aby zopakovala ak sa jej nepodari nieco odoslat prec
 
-7.
-http://mkumaran.net/posts/2023/use-localhost-android-emulator/
+9. Pocas loginu este neregistrovat nic ked sa ide cez Auth Providera:
+   a) Ak klikne registrovat ako uzivatel tak poslat dalsi request a registrovat ako uzivatela 
+   b) Ak klikne firma / zivnost registrovat az potom co vypise potrebne udaje
