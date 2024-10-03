@@ -11,7 +11,15 @@ public class Account
     [Key]
     public int Id { get; set; }
 
-    public string CommonId { get; set; } = string.Empty; // Common field used for login and register check in case of OAuth authentication
+    public string CommonId { get; set; } = string.Empty; // Common field used for login and register regardless of authentication type
+
+    public string Name { get; set; } = string.Empty;
+
+    public string MiddleName { get; set; } = string.Empty;
+
+    public string SureName { get; set; } = string.Empty;
+
+    public string PictureURL { get; set; } = string.Empty;
 
     [EmailAddress]
     public string Email { get; set; } = string.Empty;
@@ -20,7 +28,12 @@ public class Account
     public string Phone { get; set; } = string.Empty;
 
     [Required]
-    public required bool IsCompany { get; set; } = false;
+    public required bool IsCompanyAccount { get; set; } = false;
+    public bool IsHybridAccount { get; set; } = false;
+
+    public DateTime? RegisteredAsCompanyAt { get; set; }
+
+    public DateTime? RegisteredAsUserAt { get; set; }
 
     [ForeignKey(nameof(Company))]
     public int? Company_Id { get; set; }

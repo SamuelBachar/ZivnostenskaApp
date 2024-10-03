@@ -72,7 +72,7 @@ public class LoginService : ILoginService
 
         try
         {
-            UserLoginAuthProviderLandingPageRequest userAuthLoginRequest = new UserLoginAuthProviderLandingPageRequest { Provider = provider };
+            AuthProviderLandingPageRequest userAuthLoginRequest = new AuthProviderLandingPageRequest { Provider = provider };
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             if (response.IsSuccessStatusCode)
@@ -103,7 +103,7 @@ public class LoginService : ILoginService
                     bool newUser = (resultWA.Properties["new_user"] == "true");
                     string token = resultWA.AccessToken;
 
-                    result = (new UserOAuthResponse { AccessToken = token, NewUser = newUser }, null);
+                    result = (new UserOAuthResponse { OAuthAccessToken = token, NewUser = newUser }, null);
                 }
                 else
                 {

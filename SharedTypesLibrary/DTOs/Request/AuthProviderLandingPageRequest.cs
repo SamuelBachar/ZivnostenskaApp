@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharedTypesLibrary.DTOs.Request
 {
-    public class UserLoginAuthProviderLandingPageRequest
+    public class AuthProviderLandingPageRequest
     {
         public string Provider { get; set; } = string.Empty;
     }

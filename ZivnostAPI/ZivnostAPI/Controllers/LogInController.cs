@@ -29,7 +29,7 @@ public class LogInController : ControllerBase
     }
 
     [HttpPost("GetAuthProviderLandingPage")]
-    public async Task<ActionResult<ApiResponse<OAuthLandingPageResponse>>> GetAuthProviderLandingPage(UserLoginAuthProviderLandingPageRequest request)
+    public async Task<ActionResult<ApiResponse<OAuthLandingPageResponse>>> GetAuthProviderLandingPage(AuthProviderLandingPageRequest request)
     {
         ObjectResult result;
         ApiResponse<OAuthLandingPageResponse?> response = await _loginService.GetAuthProviderLandingPage(request);
@@ -63,7 +63,7 @@ public class LogInController : ControllerBase
         }
         else
         {
-            redirectUri = await _loginService.RedirectUri(queryParams);
+            //redirectUri = await _loginService.RedirectUri(queryParams);
         }
 
         return Redirect(redirectUri);

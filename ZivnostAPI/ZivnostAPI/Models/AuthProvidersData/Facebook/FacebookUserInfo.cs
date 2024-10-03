@@ -41,7 +41,7 @@ public class FacebookUserInfo
 public class FacebookPictureData
 {
     [JsonProperty("data")]
-    public FacebookPicture Picture { get; set; }
+    public FacebookPicture PictureData { get; set; }
 }
 
 public class FacebookPicture
