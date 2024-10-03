@@ -37,9 +37,9 @@ public class LogInService : ILogInService
         _serviceProvider = serviceProvider;
     }
 
-    public async Task<ApiResponse<UserLoginAuthProviderResponse?>> GetAuthProviderLandingPage(UserLoginAuthProviderRequest request)
+    public async Task<ApiResponse<OAuthLandingPageResponse?>> GetAuthProviderLandingPage(UserLoginAuthProviderLandingPageRequest request)
     {
-        ApiResponse<UserLoginAuthProviderResponse?> response = new ApiResponse<UserLoginAuthProviderResponse?>();
+        ApiResponse<OAuthLandingPageResponse?> response = new ApiResponse<OAuthLandingPageResponse?>();
         HttpClient? httpClient = null;
 
         await Task.Run(() =>
@@ -62,7 +62,7 @@ public class LogInService : ILogInService
                 if (httpClient.BaseAddress != null)
                 {
                     response.Success = true;
-                    response.Data = new UserLoginAuthProviderResponse
+                    response.Data = new OAuthLandingPageResponse
                     {
                         OAuthUrl = httpClient.BaseAddress.ToString()
                     };
@@ -79,49 +79,6 @@ public class LogInService : ILogInService
                 response.ExceptionMessage = "Unsupported provider";
             }
         });
-
-        return response;
-    }
-
-    public async Task<ApiResponse<UserLoginAuthProviderResponse?>> AuthenticateWithAuthProvider(UserLoginAuthProviderRequest request)
-    {
-        ApiResponse<UserLoginAuthProviderResponse?> response = new ApiResponse<UserLoginAuthProviderResponse?>();
-
-        if (request.Provider == AuthProviders.Google)
-        {
-            var client = _httpClientFactory.CreateClient(AuthProviders.Google);
-            var tokenRequest = new HttpRequestMessage(HttpMethod.Post, "https://oauth2.googleapis.com/token");
-
-            var tokenRequestData = new Dictionary<string, string>
-            {
-                { "code", request.Code },
-                { "client_id", "YOUR_GOOGLE_CLIENT_ID" },
-                { "client_secret", "YOUR_GOOGLE_CLIENT_SECRET" },
-                { "redirect_uri", "YOUR_REDIRECT_URI" },
-                { "grant_type", "authorization_code" }
-            };
-
-            tokenRequest.Content = new FormUrlEncodedContent(tokenRequestData);
-            var tokenResponse = await client.SendAsync(tokenRequest);
-
-            if (tokenResponse.IsSuccessStatusCode)
-            {
-                var tokenResponseData = await tokenResponse.Content.ReadAsStringAsync();
-                // Process token, save user, etc.
-                response.Success = true;
-                response.Data = new UserLoginAuthProviderResponse { Token = tokenResponseData };
-            }
-            else
-            {
-                response.Success = false;
-                response.Data = null;
-            }
-        }
-        else
-        {
-            response.Success = false;
-            response.Data = null;
-        }
 
         return response;
     }
@@ -163,7 +120,7 @@ public class LogInService : ILogInService
                     GoogleTokenResponse? tokenData = null;
                     string responseContent = await tokenResponse.Content.ReadAsStringAsync();
                     tokenData = JsonConvert.DeserializeObject<GoogleTokenResponse?>(responseContent);
-                    responseString = await ProcessUserAuthentication(client, tokenGoogle: tokenData, tokenFacebook: null, AuthProviders.Google, responseString);
+                    responseString = await GetUserInfoFromOAuthProvider(client, tokenGoogle: tokenData, tokenFacebook: null, AuthProviders.Google, responseString);
                 }
             }
             else if (provider == AuthProviders.Facebook)
@@ -192,7 +149,7 @@ public class LogInService : ILogInService
                     FacebookTokenResponse? tokenData = null;
                     string responseContent = await tokenResponse.Content.ReadAsStringAsync();
                     tokenData = JsonConvert.DeserializeObject<FacebookTokenResponse?>(responseContent);
-                    responseString = await ProcessUserAuthentication(client, tokenGoogle: null, tokenFacebook: tokenData, AuthProviders.Facebook, responseString);
+                    responseString = await GetUserInfoFromOAuthProvider(client, tokenGoogle: null, tokenFacebook: tokenData, AuthProviders.Facebook, responseString);
                 }
             }
             else
@@ -211,13 +168,13 @@ public class LogInService : ILogInService
         return responseString;
     }
 
-    public async Task<string> ProcessUserAuthentication(HttpClient httpClient, GoogleTokenResponse? tokenGoogle, FacebookTokenResponse? tokenFacebook, string provider, string responseString)
+    public async Task<string> GetUserInfoFromOAuthProvider(HttpClient httpClient, GoogleTokenResponse? tokenGoogle, FacebookTokenResponse? tokenFacebook, string provider, string responseString)
     {
         try
         {
             if (provider == AuthProviders.Google)
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenGoogle.AccessToken); // TODO replace
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenGoogle?.AccessToken); // TODO replace
                 HttpResponseMessage userInfoResponse = await httpClient.GetAsync("https://www.googleapis.com/oauth2/v2/userinfo");
 
                 if (userInfoResponse.IsSuccessStatusCode)
@@ -269,8 +226,8 @@ public class LogInService : ILogInService
 
             if (provider == AuthProviders.Facebook)
             {
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenFacebook.AccessToken); // TODO replace
-                HttpResponseMessage userInfoResponse = await httpClient.GetAsync($"https://graph.facebook.com/me?fields=id,name,email&access_token={tokenFacebook.AccessToken}");
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenFacebook?.AccessToken);
+                HttpResponseMessage userInfoResponse = await httpClient.GetAsync($"https://graph.facebook.com/me?fields=id,name,email,picture,phone&access_token={tokenFacebook?.AccessToken}");
 
                 if (userInfoResponse.IsSuccessStatusCode)
                 {
@@ -287,7 +244,7 @@ public class LogInService : ILogInService
                         {
                             account = new Account
                             {
-                                CommonId = userInfo.Id,
+                                CommonId = userInfo?.Id,
                                 Email = userInfo.Email,
                                 IsCompany = false, // Pre-set that account is not company
                             };

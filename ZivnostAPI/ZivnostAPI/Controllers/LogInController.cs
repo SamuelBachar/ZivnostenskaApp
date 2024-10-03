@@ -29,28 +29,10 @@ public class LogInController : ControllerBase
     }
 
     [HttpPost("GetAuthProviderLandingPage")]
-    public async Task<ActionResult<ApiResponse<UserLoginAuthProviderResponse>>> GetAuthProviderLandingPage(UserLoginAuthProviderRequest request)
+    public async Task<ActionResult<ApiResponse<OAuthLandingPageResponse>>> GetAuthProviderLandingPage(UserLoginAuthProviderLandingPageRequest request)
     {
         ObjectResult result;
-        ApiResponse<UserLoginAuthProviderResponse?> response = await _loginService.GetAuthProviderLandingPage(request);
-
-        if (response.Success)
-        {
-            result = Ok(response);
-        }
-        else
-        {
-            result = BadRequest(response);
-        }
-
-        return result;
-    }
-
-    [HttpPost("AuthenticateWithAuthProvider")]
-    public async Task<ActionResult<ApiResponse<UserLoginAuthProviderResponse>>> AuthenticateWithAuthProvider(UserLoginAuthProviderRequest request)
-    {
-        ObjectResult result;
-        ApiResponse<UserLoginAuthProviderResponse?> response = await _loginService.AuthenticateWithAuthProvider(request);
+        ApiResponse<OAuthLandingPageResponse?> response = await _loginService.GetAuthProviderLandingPage(request);
 
         if (response.Success)
         {
@@ -70,13 +52,13 @@ public class LogInController : ControllerBase
         IQueryCollection queryParams = HttpContext.Request.Query;
         string redirectUri = AuthProviderCallBackDataSchemes.MobileCallBackDataScheme;
 
-        if (queryParams["state"].ToString() == AuthProviders.Facebook && !queryParams["error_description"].ToString().IsNullOrEmpty())
+        if (queryParams["state"].ToString() == AuthProviders.Facebook && !queryParams["error_description"].ToString().IsNullOrEmpty()) // todo could be this checked also for google or apple ?
         {
             redirectUri += "success=false";
 
             if (!queryParams["error_description"].ToString().IsNullOrEmpty())
             {
-                redirectUri += $"&exception={queryParams["error_description"].ToString()} - {queryParams["error_reason"].ToString()}";
+                redirectUri += $"&exception={queryParams["error_description"]} - {queryParams["error_reason"]}";
             }
         }
         else

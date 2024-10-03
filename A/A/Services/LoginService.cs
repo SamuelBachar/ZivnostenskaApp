@@ -66,18 +66,18 @@ public class LoginService : ILoginService
         return result;
     }
 
-    public async Task<(UserLoginAuthProviderResponse? UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(string provider)
+    public async Task<(UserOAuthResponse? UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(string provider)
     {
-        (UserLoginAuthProviderResponse? UserInfo, ExceptionHandler? Exception) result = (null, null);
+        (UserOAuthResponse? UserInfo, ExceptionHandler? Exception) result = (null, null);
 
         try
         {
-            UserLoginAuthProviderRequest userAuthLoginRequest = new UserLoginAuthProviderRequest { Provider = provider };
+            UserLoginAuthProviderLandingPageRequest userAuthLoginRequest = new UserLoginAuthProviderLandingPageRequest { Provider = provider };
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             if (response.IsSuccessStatusCode)
             {
-                ApiResponse<UserLoginAuthProviderResponse>? urlResult = await response.Content.ExtReadFromJsonAsync<UserLoginAuthProviderResponse>();
+                ApiResponse<OAuthLandingPageResponse>? urlResult = await response.Content.ExtReadFromJsonAsync<OAuthLandingPageResponse>();
 
                 WebAuthenticatorResult? resultWA = null;
 
@@ -103,7 +103,7 @@ public class LoginService : ILoginService
                     bool newUser = (resultWA.Properties["new_user"] == "true");
                     string token = resultWA.AccessToken;
 
-                    result = (new UserLoginAuthProviderResponse { Token = token, NewUser = newUser }, null);
+                    result = (new UserOAuthResponse { AccessToken = token, NewUser = newUser }, null);
                 }
                 else
                 {
@@ -114,13 +114,13 @@ public class LoginService : ILoginService
             }
             else if ((!response.IsSuccessStatusCode) && (response.StatusCode == System.Net.HttpStatusCode.BadRequest))
             {
-                var serializedResponse = await response.Content.ExtReadFromJsonAsync<ApiResponse<UserLoginAuthProviderResponse>>();
+                var serializedResponse = await response.Content.ExtReadFromJsonAsync<ApiResponse<UserOAuthResponse>>();
                 result = (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
             }
             else if (!response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ExtReadAsStringAsync();
-                result = ExceptionHandler.ReadGenericHttpErrors<UserLoginAuthProviderResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
+                result = ExceptionHandler.ReadGenericHttpErrors<UserOAuthResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
             }
             else
             {

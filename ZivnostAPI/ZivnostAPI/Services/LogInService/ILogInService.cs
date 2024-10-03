@@ -9,11 +9,9 @@ namespace ZivnostAPI.Services.LogInService;
 
 public interface ILogInService
 {
-    Task<ApiResponse<UserLoginAuthProviderResponse?>> GetAuthProviderLandingPage(UserLoginAuthProviderRequest request);
-
-    Task<ApiResponse<UserLoginAuthProviderResponse?>> AuthenticateWithAuthProvider(UserLoginAuthProviderRequest request);
+    Task<ApiResponse<OAuthLandingPageResponse?>> GetAuthProviderLandingPage(UserLoginAuthProviderLandingPageRequest request);
 
     Task<string> RedirectUri(IQueryCollection query);
 
-    Task<string> ProcessUserAuthentication(HttpClient httpClient, GoogleTokenResponse? tokenGoogle, FacebookTokenResponse? tokenFacebook, string provider, string responseString);
+    Task<string> GetUserInfoFromOAuthProvider(HttpClient httpClient, GoogleTokenResponse? tokenGoogle, FacebookTokenResponse? tokenFacebook, string provider, string responseString);
 }

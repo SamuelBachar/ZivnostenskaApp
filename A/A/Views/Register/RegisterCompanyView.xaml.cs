@@ -236,29 +236,6 @@ namespace A.Views
         {
             try
             {
-                //if (_genericRegistration)
-                //{
-                //    RegisterUserGenericRequest reqRegister = new RegisterUserGenericRequest
-                //    {
-                //        Email = this.EntryEmailRegister.Text,
-                //        Password = this.EntryPassword.Text,
-                //        PasswordConfirmed = this.EntryPasswordConfirm.Text
-                //    };
-
-                //    HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/api/RegisterGeneric", reqRegister, options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                //    ApiResponse<RegisterGenericResponse> responseData = await response.Content.ExtReadFromJsonAsync<RegisterGenericResponse>();
-
-                //    if (!responseData.Success)
-                //    {
-
-                //    }
-                //    else
-                //    {
-
-                //    }
-                //}
-
                 RegistrationCompanyRequest regCompData = new RegistrationCompanyRequest
                 {
                     CompanyName = this.EntryCompany.Text,

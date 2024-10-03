@@ -16,6 +16,9 @@ public class Account
     [EmailAddress]
     public string Email { get; set; } = string.Empty;
 
+    [Phone]
+    public string Phone { get; set; } = string.Empty;
+
     [Required]
     public required bool IsCompany { get; set; } = false;
 

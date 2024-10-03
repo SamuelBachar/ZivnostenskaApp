@@ -44,7 +44,7 @@ public static class ServiceCollectionExtensions
                 { "response_type", "code" },
                 { "client_id", $"{oauthOptions.Facebook.ClientId}" },
                 { "redirect_uri",  $"{oauthOptions.RedirectUri}" },
-                { "scope", "email,public_profile" },
+                { "scope", "email,public_profile,user_mobile_phone" },
                 { "state", $"{AuthProviders.Facebook}" }
             };
 

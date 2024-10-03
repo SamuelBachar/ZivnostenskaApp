@@ -144,7 +144,7 @@ public partial class LogInView : ContentPage
 
     private async Task LogInWithAuthProvider(string provider)
     {
-        (UserLoginAuthProviderResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
+        (UserOAuthResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
 
         if (response.UserLoginDTO != null)
         {
