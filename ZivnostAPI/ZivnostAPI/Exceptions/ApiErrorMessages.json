@@ -1,32 +1,52 @@
 {
   "sk": {
-    // Login
+    // Login Generic
     "UAE_001": "Účet s daným e-mialom neexistuje",
     "UAE_002": "Nesprávne heslo",
-    "UAE_003": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)"
+    "UAE_003": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)",
+
+    // OAuth
+    // Register
+    "UAE_010": "Nebolo možné vytvoriť účet pre uživateľa pomocou #provider\r\nChyba: "
   },
   "sk-SK": {
     // Login
     "UAE_001": "Účet s daným e-mialom neexistuje",
     "UAE_002": "Nesprávne heslo",
-    "UAE_003": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)"
+    "UAE_003": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)",
+
+    // OAuth
+    // Register
+    "UAE_010": "Nebolo možné vytvoriť účet pre uživateľa pomocou #provider\r\nChyba: "
   },
   "cs": {
     // Login
     "UAE_001": "Účet s daným e-mialem neexistuje",
     "UAE_002": "Nesprávné heslo",
-    "UAE_003": "Registrace pro daný účet nebyla ověřena (Aktivujte účet emailem který jsme Vám poslali na emailovou schránku)"
+    "UAE_003": "Registrace pro daný účet nebyla ověřena (Aktivujte účet emailem který jsme Vám poslali na emailovou schránku)",
+
+    // OAuth
+    // Register
+    "UAE_010": "Nebylo možné vytvořit účet pro uživatele pomocí #provider\r\nChyba: "
   },
   "de": {
     // Login
     "UAE_001": "Das Konto mit der angegebenen E-Mail existiert nicht",
     "UAE_002": "Falsches Passwort",
-    "UAE_003": "Die Registrierung für das angegebene Konto wurde noch nicht bestätigt (Aktivieren Sie das Konto mit der E-Mail, die wir an Ihren E-Mail Konto gesendet haben)"
+    "UAE_003": "Die Registrierung für das angegebene Konto wurde noch nicht bestätigt (Aktivieren Sie das Konto mit der E-Mail, die wir an Ihren E-Mail Konto gesendet haben)",
+
+    // OAuth
+    // Register
+    "UAE_010": "Es war nicht möglich, ein Konto für den Benutzer mit #provider zu erstellen\r\nFehler: "
   },
   "en": {
     // LogIn
     "UAE_001": "The account with the given email does not exist",
     "UAE_002": "Wrong password",
-    "UAE_003": "Registration for the given account has not been verified yet (Activate account with email we sent to your email box)"
+    "UAE_003": "Registration for the given account has not been verified yet (Activate account with email we sent to your email box)",
+
+    // OAuth
+    // Register
+    "UAE_010": "It was not possible to create an account for the user using #provider\r\nError: "
   }
 }

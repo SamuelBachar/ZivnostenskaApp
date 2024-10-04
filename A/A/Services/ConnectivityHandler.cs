@@ -20,7 +20,7 @@ public class ConnectivityHandler : DelegatingHandler
 
         if (response == null || response.Content == null)
         {
-            string serErrorMsg = new ExceptionHandler("UAE_903", App.UserData.CurrentCulture).CustomMessage;
+            string serErrorMsg = new ExceptionHandler("UAE_403", App.UserData.CurrentCulture).CustomMessage;
             throw new Exception(serErrorMsg);
         }
 

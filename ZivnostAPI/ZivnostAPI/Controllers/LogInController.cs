@@ -52,6 +52,8 @@ public class LogInController : ControllerBase
         IQueryCollection queryParams = HttpContext.Request.Query;
         string redirectUri = AuthProviderCallBackDataSchemes.MobileCallBackDataScheme;
 
+        ApiResponse<UserOAuthResponse> response;
+
         if (queryParams["state"].ToString() == AuthProviders.Facebook && !queryParams["error_description"].ToString().IsNullOrEmpty()) // todo could be this checked also for google or apple ?
         {
             redirectUri += "success=false";
@@ -63,7 +65,18 @@ public class LogInController : ControllerBase
         }
         else
         {
-            //redirectUri = await _loginService.RedirectUri(queryParams);
+            response = await _loginService.RedirectUri(queryParams);
+
+            if (response.Success)
+            {
+                redirectUri += "success=true?";
+                redirectUri += _loginService.SerializeUserOAuthResponse(response.Data);
+            }
+            else
+            {
+                redirectUri += "success=false?";
+                redirectUri += $"&exception={response.APIException}";
+            }
         }
 
         return Redirect(redirectUri);

@@ -12,24 +12,25 @@ public class ApiResponse<T>
     public IEnumerable<T>? ListData { get; set; }
 
     public bool Success { get; set; } = true;
-    public string Message { get; set; } = string.Empty;
-    public string ExceptionMessage { get; set; } = string.Empty;
+
+    public string ApiErrorCode { get; set; } = string.Empty;
+    public string APIException { get; set; } = string.Empty;
 
     public ApiResponse() { }
 
-    public ApiResponse(T? data, bool success = true, string message = "", string exceptionMessage = "")
+    public ApiResponse(T? data, bool success = true, string apiErrorCode = "", string exceptionMessage = "")
     {
         Data = data;
         Success = success;
-        Message = message;
-        ExceptionMessage = exceptionMessage;
+        ApiErrorCode = apiErrorCode;
+        APIException = exceptionMessage;
     }
 
-    public ApiResponse(IEnumerable<T>? listData, bool success = true, string message = "", string exceptionMessage = "")
+    public ApiResponse(IEnumerable<T>? listData, bool success = true, string apiErrorCode = "", string exceptionMessage = "")
     {
         ListData = listData;
         Success = success;
-        Message = message;
-        ExceptionMessage = exceptionMessage;
+        ApiErrorCode = apiErrorCode;
+        APIException = exceptionMessage;
     }
 }

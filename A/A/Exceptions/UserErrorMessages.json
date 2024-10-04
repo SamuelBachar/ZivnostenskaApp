@@ -1,5 +1,7 @@
 {
   "sk": {
+    /* User Error codes */
+
     // SettingsView
     "UAE_001": "UAE_001: Jazyk zvolený ale nepodarilo sa nájsť príslušnu kultúru",
     "UAE_002": "UAE_002: Jazyk zvolený ale interne v kóde == null",
@@ -7,13 +9,28 @@
     "UAE_003": "Nie je možné sa prihlásiť\r\n. Zariadenie nemá pripojenie k internetu",
     "UAE_004": "Chyba prihlásenia\r\n.Chyba: ",
     "UAE_005": "Nastala chyba počas overenia identity pomocou poskytovateľa #provider\r\nChyba: ",
-    // Generic USER SIDE
-    "UAE_900": "Neočakavaná odpoveď od servera, neznáma chyba",
-    "UAE_901": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
-    "UAE_902": "Problém počas serializácie dát",
-    "UAE_903": "Odpoveď zo servera neobsahuje dáta"
+    // Generic
+    "UAE_400": "Neočakavaná odpoveď od servera, neznáma chyba",
+    "UAE_401": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
+    "UAE_402": "Problém počas serializácie dát",
+    "UAE_403": "Odpoveď zo servera neobsahuje dáta",
+
+    /* API Error codes */
+
+    // Login Generic
+    "UAE_501": "Účet s daným e-mialom neexistuje",
+    "UAE_502": "Nesprávne heslo",
+    "UAE_503": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)",
+
+    // OAuth
+    // Register
+    "UAE_710": "Nebolo možné vytvoriť účet pre uživateľa pomocou #provider\r\nChyba: ",
+    "UAE_711": "Nepodarilo sa načítať údaje o tokenu od poskytovateľa: #provider",
+    "UAE_712": "Autorizačný kód od #provider nebol prijatý"
   },
   "sk-SK": {
+    /* User Error codes */
+
     // SettingsView
     "UAE_001": "UAE_001: Jazyk zvolený ale nepodarilo sa nájsť príslušnu kultúru",
     "UAE_002": "UAE_002: Jazyk zvolený ale interne v kóde == null",
@@ -21,13 +38,28 @@
     "UAE_003": "Nie je možné sa prihlásiť\r\n. Zariadenie nemá pripojenie k internetu",
     "UAE_004": "Chyba prihlásenia.\r\nChyba:",
     "UAE_005": "Nastala chyba počas overenia identity pomocou poskytovateľa #provider\r\nChyba: ",
-    // Generic USER SIDE
-    "UAE_900": "Neočakavaná odpoveď od servera, neznáma chyba",
-    "UAE_901": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
-    "UAE_902": "Problém počas serializácie dát",
-    "UAE_903": "Odpoveď zo servera neobsahuje dáta"
+    // Generic
+    "UAE_400": "Neočakavaná odpoveď od servera, neznáma chyba",
+    "UAE_401": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
+    "UAE_402": "Problém počas serializácie dát",
+    "UAE_403": "Odpoveď zo servera neobsahuje dáta",
+
+    /* API Error codes */
+
+    // Login Generic
+    "UAE_501": "Účet s daným e-mialom neexistuje",
+    "UAE_502": "Nesprávne heslo",
+    "UAE_503": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)",
+
+    // OAuth
+    // Register
+    "UAE_710": "Nebolo možné vytvoriť účet pre uživateľa pomocou #provider\r\nChyba: ",
+    "UAE_711": "Nepodarilo sa načítať údaje o tokenu od poskytovateľa: #provider",
+    "UAE_712": "Autorizačný kód od #provider nebol prijatý"
   },
   "cs": {
+    /* User Error codes */
+
     // SettingsView
     "UAE_001": "UAE_001: Jazyk zvolený ale nepodařilo se najít příslušní kultúru",
     "UAE_002": "UAE_002: Jazyk zvolený ale interně v kódu == null",
@@ -36,12 +68,27 @@
     "UAE_004": "Chyba přihlášení\r\n. Chyba: ",
     "UAE_005": "Došlo k chybě při ověřování identity pomocí poskytovatele #provider\r\nChyba: ",
     // Generic
-    "UAE_900": "Neočekávaná odpověď od serveru, neznámá chyba",
-    "UAE_901": "Nastala chyba při komunikaci se serverem.\r\nChyba: ",
-    "UAE_902": "Problém během serializace dat",
-    "UAE_903": "Odpověď ze serveru neobsahuje data"
+    "UAE_400": "Neočekávaná odpověď od serveru, neznámá chyba",
+    "UAE_401": "Nastala chyba při komunikaci se serverem.\r\nChyba: ",
+    "UAE_402": "Problém během serializace dat",
+    "UAE_403": "Odpověď ze serveru neobsahuje data",
+
+    /* API Error codes */
+
+    // Login
+    "UAE_501": "Účet s daným e-mailom neexistuje",
+    "UAE_502": "Nesprávné heslo",
+    "UAE_503": "Registrace pro daný účet nebyla ověřena (Aktivujte účet emailem který jsme Vám poslali na emailovou schránku)",
+
+    // OAuth
+    // Register
+    "UAE_710": "Nebylo možné vytvořit účet pro uživatele pomocí #provider\r\nChyba: ",
+    "UAE_711": "Nepodařilo se načíst údaje o tokenu od poskytovatele: #provider",
+    "UAE_712": "Autorizační kód od #provider nebyl přijat"
   },
   "de": {
+    /* User Error codes */
+
     "UAE_001": "UAE_001: Sprache ausgewählt, aber die entsprechende Kultur konnte nicht gefunden werden",
     "UAE_002": "UAE_002: Sprache ausgewählt, aber intern im Code == null",
     // LogInView
@@ -49,12 +96,28 @@
     "UAE_004": "Anmeldefehler\r\n. Fehler: ",
     "UAE_005": "Ein Fehler trat bei der Identitätsüberprüfung mit dem Anbieter #provider auf\r\nFehler: ",
     //Generic
-    "UAE_900": "Unerwartete Antwort vom Server, unbekannter Fehler",
-    "UAE_901": "Bei der Kommunikation mit dem Server ist ein Fehler aufgetreten.\r\nFehler: ",
-    "UAE_902": "Problem bei der Datenserialisierung",
-    "UAE_903": "Die Antwort vom Server enthält keine Daten"
+    "UAE_400": "Unerwartete Antwort vom Server, unbekannter Fehler",
+    "UAE_401": "Bei der Kommunikation mit dem Server ist ein Fehler aufgetreten.\r\nFehler: ",
+    "UAE_402": "Problem bei der Datenserialisierung",
+    "UAE_403": "Die Antwort vom Server enthält keine Daten",
+
+    /* API Error codes */
+
+    // Login
+    "UAE_501": "Das Konto mit der angegebenen E-Mail existiert nicht",
+    "UAE_502": "Falsches Passwort",
+    "UAE_503": "Die Registrierung für das angegebene Konto wurde noch nicht bestätigt (Aktivieren Sie das Konto mit der E-Mail, die wir an Ihren E-Mail Konto gesendet haben)",
+
+    // OAuth
+    // Register
+    "UAE_710": "Es war nicht möglich, ein Konto für den Benutzer mit #provider zu erstellen\r\nFehler: ",
+    "UAE_711": "Abrufen der Token-Daten vom Anbieter fehlgeschlagen: #provider",
+    "UAE_712": "Autorisierungscode von #provider nicht erhalten"
+
   },
   "en": {
+    /* User Error codes */
+
     // SettingsView
     "UAE_001": "UAE_001: Language selected but the corresponding culture could not be found",
     "UAE_002": "UAE_002: Language selected but internally in the code == null",
@@ -62,10 +125,23 @@
     "UAE_003": "Unable to log in\r\n. The device does not have an internet connection",
     "UAE_004": "Login error\r\n. Error: ",
     "UAE_005": "An error occurred during identity verification with the provider #provider\r\nError: ",
-    // Generic USER SIDE
-    "UAE_900": "Unexpected response from server, unknown error",
-    "UAE_901": "An error occurred while communicating with the server.\r\nError: ",
-    "UAE_902": "Problem during data serialization",
-    "UAE_903": "The response from the server contains no data"
+    // Generic 
+    "UAE_400": "Unexpected response from server, unknown error",
+    "UAE_401": "An error occurred while communicating with the server.\r\nError: ",
+    "UAE_402": "Problem during data serialization",
+    "UAE_403": "The response from the server contains no data",
+
+    /* API Error codes */
+
+    // LogIn
+    "UAE_501": "The account with the given email does not exist",
+    "UAE_502": "Wrong password",
+    "UAE_503": "Registration for the given account has not been verified yet (Activate account with email we sent to your email box)",
+
+    // OAuth
+    // Register
+    "UAE_710": "It was not possible to create an account for the user using #provider\r\nError: ",
+    "UAE_711": "Failed to retrieve token data from provider: #provider",
+    "UAE_712": "Authorization code from #provider not received"
   }
 }

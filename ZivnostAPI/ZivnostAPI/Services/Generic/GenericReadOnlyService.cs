@@ -27,7 +27,7 @@ namespace ZivnostAPI.Services.Generic
             catch (Exception ex)
             {
                 response.Success = false; 
-                response.ExceptionMessage = ex.Message;
+                response.APIException = ex.Message;
             }
 
             return response;
@@ -46,7 +46,7 @@ namespace ZivnostAPI.Services.Generic
             catch (Exception ex)
             {
                 response.Success = false;
-                response.ExceptionMessage = ex.Message;
+                response.APIException = ex.Message;
             }
 
             return response;

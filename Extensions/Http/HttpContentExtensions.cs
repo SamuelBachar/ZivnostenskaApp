@@ -13,7 +13,7 @@ public static class HttpContentExtensions
 
         if (result == null)
         {
-            throw new Exception("UAE_902");
+            throw new Exception("UAE_402");
         }
 
         return result;
@@ -25,7 +25,7 @@ public static class HttpContentExtensions
 
         if (result == null || result.Length == 0)
         {
-            throw new Exception("UAE_902");
+            throw new Exception("UAE_402");
         }
 
         return result;

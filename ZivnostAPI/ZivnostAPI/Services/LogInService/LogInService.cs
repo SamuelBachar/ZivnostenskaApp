@@ -1,7 +1,9 @@
 ﻿using Azure;
 using Azure.Core;
+using ExceptionsHandling;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -14,11 +16,14 @@ using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
 using System;
+using System.Collections.Specialized;
 using System.Diagnostics.Eventing.Reader;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Web;
 using ZivnostAPI.Data.CusDbContext;
+using ZivnostAPI.Models;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Models.AuthProvidersData.Facebook;
 using ZivnostAPI.Models.AuthProvidersData.Google;
@@ -72,13 +77,13 @@ public class LogInService : ILogInService
                 else
                 {
                     response.Success = false;
-                    response.ExceptionMessage = "Unsupported provider";
+                    response.APIException = "Unsupported provider";
                 }
             }
             else
             {
                 response.Success = false;
-                response.ExceptionMessage = "Unsupported provider";
+                response.APIException = "Unsupported provider";
             }
         });
 
@@ -158,25 +163,29 @@ public class LogInService : ILogInService
                 if (userInfo.Success && userInfo.Data != null)
                 {
                     Account? account = await OAuthGetUserAccount(userInfo.Data, provider);
+                    bool newUser = false;
 
                     if (account == null)
                     {
-                        if (await OAuthCreateUserAccount(userInfo.Data, account))
+                        var dbResult = await OAuthCreateUserAccount(userInfo.Data, account, provider);
+
+                        if (dbResult.IsSucces)
                         {
-                            //new_user = true
+                            SetUserOAuthResponse(response.Data, account, tokenData, newUser);
+
+                            newUser = true;
                             response.Success = true;
                         }
                         else
                         {
                             response.Success = false;
-                            response.ExceptionMessage = "Could not create user"; // todo get from above function and error message (tuple)
+                            response.ApiErrorCode = dbResult.ApiErrorCode;
+                            response.APIException = dbResult.Exception?.Message ?? "";
                         }
                     }
                     else
                     {
-                        response.Data.SureName = account.SureName;
-
-                        UserOAuthResponse(response.Data, account, tokenData);
+                        SetUserOAuthResponse(response.Data, account, tokenData, newUser);
                     }
                 }
                 else
@@ -187,13 +196,13 @@ public class LogInService : ILogInService
             else
             {
                 response.Success = false;
-                response.ExceptionMessage = $"&exception=Failed to retrieve token data from provider: {provider}";
+                response.ApiErrorCode = $"&exception=Failed to retrieve token data from provider: {provider}";
             }
         }
         else
         {
             response.Success = false;
-            response.ExceptionMessage = $"&exception=Authorization code from {provider} not received";
+            response.ApiErrorCode = $"&exception=Authorization code from {provider} not received";
         }
 
         return response;
@@ -244,25 +253,25 @@ public class LogInService : ILogInService
                     else
                     {
                         result.Success = false;
-                        result.ExceptionMessage = $"Provider {provider} not supported";
+                        result.APIException = $"Provider {provider} not supported";
                     }
                 }
                 else
                 {
                     result.Success = false;
-                    result.ExceptionMessage = $"User info data were not correctly retrieved from provider: {provider}";
+                    result.APIException = $"User info data were not correctly retrieved from provider: {provider}";
                 }
             }
             else
             {
                 result.Success = false;
-                result.ExceptionMessage = $"User info data were not correctly retrieved from provider: {provider}";
+                result.APIException = $"User info data were not correctly retrieved from provider: {provider}";
             }
         }
         catch (Exception ex)
         {
             result.Success = false;
-            result.ExceptionMessage = $"User info data were not correctly retrieved from provider: {provider}.\r\nError: {ex.Message}";
+            result.APIException = $"User info data were not correctly retrieved from provider: {provider}.\r\nError: {ex.Message}";
         }
 
         return result;
@@ -280,46 +289,66 @@ public class LogInService : ILogInService
         return await _dataContext.Account.AsQueryable().FirstOrDefaultAsync(account => predicate(account));
     }
 
-    public async Task<bool> OAuthCreateUserAccount(OAuthUserInfo userInfo, Account? account)
+    public async Task<DbActionResponse> OAuthCreateUserAccount(OAuthUserInfo userInfo, Account? account, string provider)
     {
-        if (userInfo.GoogleUserInfo != null)
+        DbActionResponse result = new DbActionResponse();
+
+        try
         {
-            account = new Account
+            if (provider == AuthProviders.Google && userInfo.GoogleUserInfo != null)
             {
-                IsCompanyAccount = false, // Pre-set Company to false (updated after user choose app mode during registration)
+                account = new Account
+                {
+                    IsCompanyAccount = false, // Pre-set Company to false (updated after user choose app mode during registration)
 
-                CommonId = userInfo.GoogleUserInfo.Id,
-                Email = userInfo.GoogleUserInfo.Email,
-                Name = userInfo.GoogleUserInfo.Name,
-                SureName = userInfo.GoogleUserInfo.FamilyName,
-                PictureURL = userInfo.GoogleUserInfo.Picture,
-            };
-        }
-        
-        if (userInfo.FacebookUserInfo != null)
-        {
-            account = new Account
+                    CommonId = userInfo.GoogleUserInfo.Id,
+                    Email = userInfo.GoogleUserInfo.Email,
+                    Name = userInfo.GoogleUserInfo.Name,
+                    SureName = userInfo.GoogleUserInfo.FamilyName,
+                    PictureURL = userInfo.GoogleUserInfo.Picture,
+                };
+            }
+
+            if (provider == AuthProviders.Facebook && userInfo.FacebookUserInfo != null)
             {
-                IsCompanyAccount = false, // Pre-set Company to false (updated after user choose app mode during registration)
+                account = new Account
+                {
+                    IsCompanyAccount = false, // Pre-set Company to false (updated after user choose app mode during registration)
 
-                CommonId = userInfo.FacebookUserInfo.Id,
-                Email = userInfo.FacebookUserInfo.Email,
-                Name = userInfo.FacebookUserInfo.Name,
-                MiddleName = userInfo.FacebookUserInfo.MiddleName,
-                SureName = userInfo.FacebookUserInfo.LastName,
-                PictureURL = userInfo.FacebookUserInfo.Picture.PictureData.Url
-            };
+                    CommonId = userInfo.FacebookUserInfo.Id,
+                    Email = userInfo.FacebookUserInfo.Email,
+                    Name = userInfo.FacebookUserInfo.Name,
+                    MiddleName = userInfo.FacebookUserInfo.MiddleName,
+                    SureName = userInfo.FacebookUserInfo.LastName,
+                    PictureURL = userInfo.FacebookUserInfo.Picture.PictureData.Url
+                };
+            }
+
+            if (account != null)
+            {
+                _dataContext.Account.Add(account);
+            }
+
+            if (await _dataContext.SaveChangesAsync() > 0)
+            {
+                result.IsSucces = true;
+            }
+            else
+            {
+                result.IsSucces = false;
+                result.ApiErrorCode = "UAE_710";
+            }
         }
-
-        if (account != null)
+        catch (Exception ex) 
         {
-            _dataContext.Account.Add(account);
+            result.IsSucces = false;
+            result.Exception = ex;
         }
 
-        return await _dataContext.SaveChangesAsync() > 0;
+        return result;
     }
 
-    public void UserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData)
+    public void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser)
     {
         oAuthResponse.CommonId = account.CommonId;
         oAuthResponse.Email = account.Email;
@@ -328,6 +357,7 @@ public class LogInService : ILogInService
         oAuthResponse.SureName = account.SureName;
         oAuthResponse.MiddleName = account.MiddleName;
         oAuthResponse.SureName = account.SureName;
+        oAuthResponse.NewUser = newUser;
 
         if (tokenData is GoogleTokenResponse googleToken)
         {
@@ -341,5 +371,23 @@ public class LogInService : ILogInService
             oAuthResponse.OAuthAccessToken = facebookToken.AccessToken;
             oAuthResponse.OAuthExpiresIn = facebookToken.ExpiresIn;
         }
+    }
+
+    public string SerializeUserOAuthResponse(UserOAuthResponse oAuthResponse)
+    {
+        NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+        queryString[OAuthUrlParamsResponse.CommonId] = oAuthResponse.CommonId;
+        queryString[OAuthUrlParamsResponse.Email] = oAuthResponse.Email;
+        queryString[OAuthUrlParamsResponse.Phone] = oAuthResponse.Phone;
+        queryString[OAuthUrlParamsResponse.PictureUrl] = oAuthResponse.PictureURL;
+        queryString[OAuthUrlParamsResponse.Name] = oAuthResponse.Name;
+        queryString[OAuthUrlParamsResponse.MiddleName] = oAuthResponse.MiddleName;
+        queryString[OAuthUrlParamsResponse.SureName] = oAuthResponse.SureName;
+        queryString[OAuthUrlParamsResponse.OAuthAccessToken] = oAuthResponse.OAuthAccessToken;
+        queryString[OAuthUrlParamsResponse.OAuthRefreshToken] = oAuthResponse.OauthRefreshToken;
+        queryString[OAuthUrlParamsResponse.OAuthRefreshToken] = oAuthResponse.OAuthExpiresIn.ToString();
+        queryString[OAuthUrlParamsResponse.NewUser] = oAuthResponse.NewUser ? "true" : "false";
+
+        return queryString.ToString() ?? "";
     }
 }

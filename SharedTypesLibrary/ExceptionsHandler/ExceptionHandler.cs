@@ -30,7 +30,9 @@ namespace ExceptionsHandling
 
         private string InnerMessageCustom { get; set; } = string.Empty;
 
-        private string ErrorCode { get; set; }
+        private string ErrorCodeUser { get; set; }
+
+        private string? ErrorCodeAPI { get; set; }
 
         private bool ErrorCodeFounded { get; set; } = false;
 
@@ -44,22 +46,29 @@ namespace ExceptionsHandling
 
         public ExceptionHandler() { }
 
-        public ExceptionHandler(string errorCode, string culture) : base(errorCode)
+        public ExceptionHandler(string errorCodeUser, string culture) : base(errorCodeUser)
         {
-            this.ErrorCode = errorCode;
-            SetErrorCodeMessage(this.ErrorCode, "", null, culture);
+            this.ErrorCodeUser = errorCodeUser;
+            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeAPI: null, extraErrors: null, dicReplaceParams: null, culture);
         }
 
-        public ExceptionHandler(string errorCode, string extraErrors, string culture) : base(errorCode)
+        public ExceptionHandler(string errorCodeUser, string? errorCodeApi, string culture) : base(errorCodeUser)
         {
-            this.ErrorCode = errorCode;
-            SetErrorCodeMessage(this.ErrorCode, extraErrors, null, culture);
+            this.ErrorCodeUser = errorCodeUser;
+            this.ErrorCodeAPI = errorCodeApi;
+            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeApi, extraErrors: null, dicReplaceParams: null, culture);
+        }
+
+        public ExceptionHandler(string errorCodeUser, string? errorCodeApi, string extraErrors, string culture) : base(errorCodeUser)
+        {
+            this.ErrorCodeUser = errorCodeUser;
+            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeAPI: null, extraErrors, dicReplaceParams: null, culture);
         }
 
         public ExceptionHandler(string errorCode, string extraErrors, Dictionary<string, string>? dicReplaceParams, string culture) : base(errorCode)
         {
-            this.ErrorCode = errorCode;
-            SetErrorCodeMessage(this.ErrorCode, extraErrors, dicReplaceParams, culture);
+            this.ErrorCodeUser = errorCode;
+            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeAPI: null, extraErrors, dicReplaceParams, culture);
         }
 
         /* CASE: Not throwed ExceptionHandler but catched System Exception (based on user action) out of which ExceptionHandler was created */
@@ -70,7 +79,7 @@ namespace ExceptionsHandling
             this.InnerMessageCustom = ((innerExc != null) ? innerExc.Message : string.Empty);
         }
 
-        private void SetErrorCodeMessage(string errorCode, string extraErrors, Dictionary<string,string>? dicReplaceParams, string culture)
+        private void SetErrorCodeMessage(string errorCodeUser, string? errorCodeAPI, string? extraErrors, Dictionary<string,string>? dicReplaceParams, string culture)
         {
             string currentLanguage = culture;
 
@@ -83,25 +92,32 @@ namespace ExceptionsHandling
 
                 Dictionary<string, string> dicLocalErrMsgs = dicJsonContent[currentLanguage];
 
-                if (dicLocalErrMsgs.ContainsKey(errorCode))
+                if (!string.IsNullOrEmpty(errorCodeUser) && dicLocalErrMsgs.ContainsKey(errorCodeUser))
                 {
-                    this.MessageCustom = dicLocalErrMsgs[errorCode];
+                    this.MessageCustom = dicLocalErrMsgs[errorCodeUser];
                     this.ErrorCodeFounded = true;
+                }
 
-                    if (extraErrors != string.Empty)
-                    {
-                        this.MessageCustom += extraErrors;
-                    }
+                if (!string.IsNullOrEmpty(errorCodeAPI) && dicLocalErrMsgs.ContainsKey(errorCodeAPI))
+                {
+                    this.MessageCustom += dicLocalErrMsgs[errorCodeAPI];
+                    this.ErrorCodeFounded = true;
+                }
 
-                    if (dicReplaceParams != null)
+                if (!string.IsNullOrEmpty(extraErrors))
+                {
+                    this.MessageCustom += extraErrors;
+                }
+
+                if (dicReplaceParams != null)
+                {
+                    foreach (KeyValuePair<string,string> item in dicReplaceParams)
                     {
-                        foreach (KeyValuePair<string,string> item in dicReplaceParams)
-                        {
-                            this.MessageCustom = this.MessageCustom.Replace(item.Key, item.Value);
-                        }
+                        this.MessageCustom = this.MessageCustom.Replace(item.Key, item.Value);
                     }
                 }
-                else
+
+                if (string.IsNullOrEmpty(MessageCustom))
                 {
                     this.MessageCustom = "Error code not defined.";
                     this.ErrorCodeFounded = false;
@@ -120,19 +136,19 @@ namespace ExceptionsHandling
             {
                 Dictionary<string, List<string>> dicGenericErrors = GenericHttpErrorReader.ExtractErrorsFromWebAPIResponse(responseString);
 
-                var temp = string.Empty;
+                var strErrors = string.Empty;
 
                 foreach (var error in dicGenericErrors)
                 {
                     foreach (var errorInfo in error.Value)
-                        temp += errorInfo + "\r\n";
+                        strErrors += errorInfo + "\r\n";
                 }
 
-                return (default(T), new ExceptionHandler("UAE_901", extraErrors: temp, culture));
+                return (default(T), new ExceptionHandler("UAE_401", null, extraErrors: strErrors, culture));
             }
             else
             {
-                return (default(T), new ExceptionHandler("UAE_900", culture));
+                return (default(T), new ExceptionHandler("UAE_400", culture));
             }
         }
     }

@@ -46,7 +46,7 @@ public class LoginService : ILoginService
             else if ((!response.IsSuccessStatusCode) && (response.StatusCode == System.Net.HttpStatusCode.BadRequest))
             {
                 ApiResponse<UserLoginGenericResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<UserLoginGenericResponse>();
-                result = (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
+                result = (null, new ExceptionHandler("UAE_004", serializedResponse.ApiErrorCode, App.UserData.CurrentCulture));
             }
             else if (!response.IsSuccessStatusCode)
             {
@@ -55,12 +55,12 @@ public class LoginService : ILoginService
             }
             else
             {
-                result = (null, new ExceptionHandler("UAE_900", App.UserData.CurrentCulture));
+                result = (null, new ExceptionHandler("UAE_400", App.UserData.CurrentCulture));
             }
         }
         catch (Exception ex)
         {
-            result = (null, new ExceptionHandler("UAE_901", extraErrors: ex.Message, App.UserData.CurrentCulture));
+            result = (null, new ExceptionHandler("UAE_401", null, extraErrors: ex.Message, App.UserData.CurrentCulture));
         }
 
         return result;
@@ -115,7 +115,7 @@ public class LoginService : ILoginService
             else if ((!response.IsSuccessStatusCode) && (response.StatusCode == System.Net.HttpStatusCode.BadRequest))
             {
                 var serializedResponse = await response.Content.ExtReadFromJsonAsync<ApiResponse<UserOAuthResponse>>();
-                result = (null, new ExceptionHandler("UAE_004", extraErrors: serializedResponse.Message, App.UserData.CurrentCulture));
+                result = (null, new ExceptionHandler("UAE_004", serializedResponse.ApiErrorCode, App.UserData.CurrentCulture));
             }
             else if (!response.IsSuccessStatusCode)
             {
@@ -124,13 +124,13 @@ public class LoginService : ILoginService
             }
             else
             {
-                result = (null, new ExceptionHandler("UAE_900", App.UserData.CurrentCulture));
+                result = (null, new ExceptionHandler("UAE_400", App.UserData.CurrentCulture));
             }
 
         }
         catch (Exception ex)
         {
-            result = (null, new ExceptionHandler("UAE_901", extraErrors: ex.Message, App.UserData.CurrentCulture));
+            result = (null, new ExceptionHandler("UAE_401", null,extraErrors: ex.Message, App.UserData.CurrentCulture));
         }
 
         return result;

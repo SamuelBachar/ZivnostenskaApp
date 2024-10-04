@@ -2,6 +2,7 @@
 using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
+using ZivnostAPI.Models;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Models.AuthProvidersData.Facebook;
 using ZivnostAPI.Models.AuthProvidersData.Google;
@@ -19,7 +20,9 @@ public interface ILogInService
 
     Task<Account> OAuthGetUserAccount(OAuthUserInfo userInfo, string provider);
 
-    Task<bool> OAuthCreateUserAccount(OAuthUserInfo userInfo, Account? account);
+    Task<DbActionResponse> OAuthCreateUserAccount(OAuthUserInfo userInfo, Account? account, string provider);
 
-    void UserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData);
+    void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser);
+
+    string SerializeUserOAuthResponse(UserOAuthResponse oAuthResponse);
 }

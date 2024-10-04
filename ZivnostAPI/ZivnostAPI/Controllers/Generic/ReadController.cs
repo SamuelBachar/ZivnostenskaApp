@@ -33,7 +33,7 @@ public class ReadController<TEntity, TDto> : ControllerBase where TEntity : clas
         }
         else
         {
-            response = BadRequest(new ApiResponse<TDto>(listData: null, false, result.Message, result.ExceptionMessage));
+            response = BadRequest(new ApiResponse<TDto>(listData: null, false, result.ApiErrorCode, result.APIException));
         }
 
         return response;
@@ -53,7 +53,7 @@ public class ReadController<TEntity, TDto> : ControllerBase where TEntity : clas
         }
         else
         {
-            response = NotFound(new ApiResponse<TDto>(data: default(TDto), false, result.Message, result.ExceptionMessage));
+            response = NotFound(new ApiResponse<TDto>(data: default(TDto), false, result.ApiErrorCode, result.APIException));
         }
 
         return response;
