@@ -23,10 +23,14 @@
     "UAE_503": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)",
 
     // OAuth
-    // Register
+    // Login-Register
     "UAE_710": "Nebolo možné vytvoriť účet pre uživateľa pomocou #provider\r\nChyba: ",
     "UAE_711": "Nepodarilo sa načítať údaje o tokenu od poskytovateľa: #provider",
-    "UAE_712": "Autorizačný kód od #provider nebol prijatý"
+    "UAE_712": "Autorizačný kód od #provider nebol prijatý",
+    "UAE_713": "Poskytovateľ nie je podporovaný",
+    "UAE_714": "Chýbajúce uživateľské dáta v odpovedi poskytovateľa",
+    "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa"
+
   },
   "sk-SK": {
     /* User Error codes */
@@ -52,10 +56,16 @@
     "UAE_503": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)",
 
     // OAuth
-    // Register
+    // Login-Register
     "UAE_710": "Nebolo možné vytvoriť účet pre uživateľa pomocou #provider\r\nChyba: ",
     "UAE_711": "Nepodarilo sa načítať údaje o tokenu od poskytovateľa: #provider",
-    "UAE_712": "Autorizačný kód od #provider nebol prijatý"
+    "UAE_712": "Autorizačný kód od #provider nebol prijatý",
+    "UAE_713": "Poskytovateľ nie je podporovaný",
+    "UAE_714": "Chýbajúce uživateľské dáta v odpovedi poskytovateľa",
+    "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa"
+
+    // OAuth
+    // Login
   },
   "cs": {
     /* User Error codes */
@@ -81,10 +91,13 @@
     "UAE_503": "Registrace pro daný účet nebyla ověřena (Aktivujte účet emailem který jsme Vám poslali na emailovou schránku)",
 
     // OAuth
-    // Register
+    // Login-Register
     "UAE_710": "Nebylo možné vytvořit účet pro uživatele pomocí #provider\r\nChyba: ",
     "UAE_711": "Nepodařilo se načíst údaje o tokenu od poskytovatele: #provider",
-    "UAE_712": "Autorizační kód od #provider nebyl přijat"
+    "UAE_712": "Autorizační kód od #provider nebyl přijat",
+    "UAE_713": "Poskytovatel není podporován",
+    "UAE_714": "Chybějící uživatelská data v odpovědi poskytovatele",
+    "UAE_715": "Chybná odpověď při dotazu uživatelských dat pomocí poskytovatele"
   },
   "de": {
     /* User Error codes */
@@ -109,10 +122,13 @@
     "UAE_503": "Die Registrierung für das angegebene Konto wurde noch nicht bestätigt (Aktivieren Sie das Konto mit der E-Mail, die wir an Ihren E-Mail Konto gesendet haben)",
 
     // OAuth
-    // Register
+    // Login-Register
     "UAE_710": "Es war nicht möglich, ein Konto für den Benutzer mit #provider zu erstellen\r\nFehler: ",
     "UAE_711": "Abrufen der Token-Daten vom Anbieter fehlgeschlagen: #provider",
-    "UAE_712": "Autorisierungscode von #provider nicht erhalten"
+    "UAE_712": "Autorisierungscode von #provider nicht erhalten",
+    "UAE_713": "Anbieter wird nicht unterstützt",
+    "UAE_714": "Fehlende Benutzerdaten in der Antwort des Anbieters",
+    "UAE_715": "Fehlerhafte Antwort bei der Abfrage von Benutzerdaten durch den Anbieter"
 
   },
   "en": {
@@ -139,9 +155,12 @@
     "UAE_503": "Registration for the given account has not been verified yet (Activate account with email we sent to your email box)",
 
     // OAuth
-    // Register
+    // Login-Register
     "UAE_710": "It was not possible to create an account for the user using #provider\r\nError: ",
     "UAE_711": "Failed to retrieve token data from provider: #provider",
-    "UAE_712": "Authorization code from #provider not received"
+    "UAE_712": "Authorization code from #provider not received",
+    "UAE_713": "Provider is not supported",
+    "UAE_714": "Missing user data in provider's response",
+    "UAE_715": "Invalid response when querying user data through the provider"
   }
 }

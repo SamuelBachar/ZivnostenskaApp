@@ -77,13 +77,13 @@ public class LogInService : ILogInService
                 else
                 {
                     response.Success = false;
-                    response.APIException = "Unsupported provider";
+                    response.ApiErrorCode = "UAE_713";
                 }
             }
             else
             {
                 response.Success = false;
-                response.APIException = "Unsupported provider";
+                response.ApiErrorCode = "UAE_713";
             }
         });
 
@@ -190,19 +190,21 @@ public class LogInService : ILogInService
                 }
                 else
                 {
-                    // failed to get user info data
+                    response.Success = userInfo.Success;
+                    response.ApiErrorCode = userInfo.ApiErrorCode;
+                    response.APIException = userInfo.APIException;
                 }
             }
             else
             {
                 response.Success = false;
-                response.ApiErrorCode = $"&exception=Failed to retrieve token data from provider: {provider}";
+                response.ApiErrorCode = "UAE_711";
             }
         }
         else
         {
             response.Success = false;
-            response.ApiErrorCode = $"&exception=Authorization code from {provider} not received";
+            response.ApiErrorCode = "UAE_712";
         }
 
         return response;
@@ -253,25 +255,25 @@ public class LogInService : ILogInService
                     else
                     {
                         result.Success = false;
-                        result.APIException = $"Provider {provider} not supported";
+                        result.ApiErrorCode = "UAE_713";
                     }
                 }
                 else
                 {
                     result.Success = false;
-                    result.APIException = $"User info data were not correctly retrieved from provider: {provider}";
+                    result.ApiErrorCode = "UAE_714";
                 }
             }
             else
             {
                 result.Success = false;
-                result.APIException = $"User info data were not correctly retrieved from provider: {provider}";
+                result.ApiErrorCode = "UAE_715";
             }
         }
         catch (Exception ex)
         {
             result.Success = false;
-            result.APIException = $"User info data were not correctly retrieved from provider: {provider}.\r\nError: {ex.Message}";
+            result.APIException = ex.Message;
         }
 
         return result;
