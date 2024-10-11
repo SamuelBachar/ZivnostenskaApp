@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="A.Views.LogIn.LogInChooseView"
              xmlns:translate="clr-namespace:A.LanguageTranslateManager"
-             xmlns:appmode="clr-namespace:A.Enumerations"
+             xmlns:enums="clr-namespace:A.Enumerations"
              Title="{translate:TranslateManager LogInChooseView_Title}">
     <ScrollView>
         <Grid RowDefinitions="0.5*,*, 0.5*" ColumnDefinitions="*,*" Padding="20,0,20,0">
@@ -14,7 +14,7 @@
                 
                 <Frame  Padding="20,0,20,0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="User" />
+                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="{x:Static enums:Enums.AppMode.Customer}" />
                     </Frame.GestureRecognizers>
                     <Grid RowDefinitions="*" ColumnDefinitions="*,*" >
                         <Image Grid.Row="0" Grid.Column="0" Source="loginchoose_user.png"/>
@@ -31,7 +31,7 @@
 
                 <Frame Padding="20,0,20,0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="Company" />
+                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="{x:Static enums:Enums.AppMode.Company}" />
                     </Frame.GestureRecognizers>
                     <Grid RowDefinitions="*" ColumnDefinitions="*,*" >
                         <Image Grid.Row="0" Grid.Column="0" Source="loginchoose_freelancer.png"/>

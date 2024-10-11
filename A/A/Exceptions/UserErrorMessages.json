@@ -29,8 +29,11 @@
     "UAE_712": "Autorizačný kód od #provider nebol prijatý",
     "UAE_713": "Poskytovateľ nie je podporovaný",
     "UAE_714": "Chýbajúce uživateľské dáta v odpovedi poskytovateľa",
-    "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa"
+    "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
 
+    // API Generic Common
+    "UAE_900": "Nepodarilo sa updatnúť údaje v databáze"
+  
   },
   "sk-SK": {
     /* User Error codes */
@@ -62,10 +65,10 @@
     "UAE_712": "Autorizačný kód od #provider nebol prijatý",
     "UAE_713": "Poskytovateľ nie je podporovaný",
     "UAE_714": "Chýbajúce uživateľské dáta v odpovedi poskytovateľa",
-    "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa"
+    "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
 
-    // OAuth
-    // Login
+    // API Generic Common
+    "UAE_900": "Nepodarilo sa updatnúť údaje v databáze"
   },
   "cs": {
     /* User Error codes */
@@ -97,7 +100,10 @@
     "UAE_712": "Autorizační kód od #provider nebyl přijat",
     "UAE_713": "Poskytovatel není podporován",
     "UAE_714": "Chybějící uživatelská data v odpovědi poskytovatele",
-    "UAE_715": "Chybná odpověď při dotazu uživatelských dat pomocí poskytovatele"
+    "UAE_715": "Chybná odpověď při dotazu uživatelských dat pomocí poskytovatele",
+
+    // API Generic Common
+    "UAE_900": "Nepodařilo se aktualizovat údaje v databázi"
   },
   "de": {
     /* User Error codes */
@@ -128,8 +134,10 @@
     "UAE_712": "Autorisierungscode von #provider nicht erhalten",
     "UAE_713": "Anbieter wird nicht unterstützt",
     "UAE_714": "Fehlende Benutzerdaten in der Antwort des Anbieters",
-    "UAE_715": "Fehlerhafte Antwort bei der Abfrage von Benutzerdaten durch den Anbieter"
+    "UAE_715": "Fehlerhafte Antwort bei der Abfrage von Benutzerdaten durch den Anbieter",
 
+    // API Generic Common
+    "UAE_900": "Datenbankaktualisierung der Daten ist fehlgeschlagen"
   },
   "en": {
     /* User Error codes */
@@ -161,6 +169,9 @@
     "UAE_712": "Authorization code from #provider not received",
     "UAE_713": "Provider is not supported",
     "UAE_714": "Missing user data in provider's response",
-    "UAE_715": "Invalid response when querying user data through the provider"
+    "UAE_715": "Invalid response when querying user data through the provider",
+
+    // API Generic Common
+    "UAE_900": "Failed to update data in the database"
   }
 }

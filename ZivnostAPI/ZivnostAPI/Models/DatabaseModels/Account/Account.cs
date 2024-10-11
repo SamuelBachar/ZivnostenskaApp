@@ -29,11 +29,15 @@ public class Account
 
     [Required]
     public required bool IsCompanyAccount { get; set; } = false;
+
+    [Required]
+    public required bool IsCustomerAccount { get; set; } = false;
+
     public bool IsHybridAccount { get; set; } = false;
 
     public DateTime? RegisteredAsCompanyAt { get; set; }
 
-    public DateTime? RegisteredAsUserAt { get; set; }
+    public DateTime? RegisteredAsCustomerAt { get; set; }
 
     [ForeignKey(nameof(Company))]
     public int? Company_Id { get; set; }

@@ -8,6 +8,7 @@ namespace SharedTypesLibrary.DTOs.Response;
 
 public class UserOAuthResponse
 {
+    public int Id { get; set; }
     public string CommonId { get; set; } = string.Empty;
 
     //public string Provider { get; set; } = string.Empty;

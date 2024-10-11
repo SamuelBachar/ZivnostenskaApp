@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SharedTypesLibrary.DbResponse;
 using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
-using ZivnostAPI.Models;
 using ZivnostAPI.Models.AuthProvidersData;
-using ZivnostAPI.Models.AuthProvidersData.Facebook;
-using ZivnostAPI.Models.AuthProvidersData.Google;
 using ZivnostAPI.Models.DatabaseModels.Account;
 
 namespace ZivnostAPI.Services.LogInService;

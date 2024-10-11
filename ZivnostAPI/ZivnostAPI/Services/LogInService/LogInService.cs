@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Azure.Core;
 using ExceptionsHandling;
+using ExtensionsLibrary.DbExtensions;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using SharedTypesLibrary.Constants;
+using SharedTypesLibrary.DbResponse;
 using SharedTypesLibrary.DTOs.Request;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
@@ -171,16 +173,16 @@ public class LogInService : ILogInService
 
                         if (dbResult.IsSucces)
                         {
-                            SetUserOAuthResponse(response.Data, account, tokenData, newUser);
-
                             newUser = true;
                             response.Success = true;
+
+                            SetUserOAuthResponse(response.Data, account, tokenData, newUser);
                         }
                         else
                         {
                             response.Success = false;
                             response.ApiErrorCode = dbResult.ApiErrorCode;
-                            response.APIException = dbResult.Exception?.Message ?? "";
+                            response.APIException = dbResult.Exception;
                         }
                     }
                     else
@@ -302,7 +304,7 @@ public class LogInService : ILogInService
                 account = new Account
                 {
                     IsCompanyAccount = false, // Pre-set Company to false (updated after user choose app mode during registration)
-
+                    IsCustomerAccount = false, // Pre-set Customer to false (updated after user choose app mode during registration)
                     CommonId = userInfo.GoogleUserInfo.Id,
                     Email = userInfo.GoogleUserInfo.Email,
                     Name = userInfo.GoogleUserInfo.Name,
@@ -316,7 +318,7 @@ public class LogInService : ILogInService
                 account = new Account
                 {
                     IsCompanyAccount = false, // Pre-set Company to false (updated after user choose app mode during registration)
-
+                    IsCustomerAccount = false, // Pre-set Customer to false (updated after user choose app mode during registration)
                     CommonId = userInfo.FacebookUserInfo.Id,
                     Email = userInfo.FacebookUserInfo.Email,
                     Name = userInfo.FacebookUserInfo.Name,
@@ -331,7 +333,9 @@ public class LogInService : ILogInService
                 _dataContext.Account.Add(account);
             }
 
-            if (await _dataContext.SaveChangesAsync() > 0)
+            DbActionResponse dbResponse = await _dataContext.SaveChangesWithCheckAsync();
+
+            if (dbResponse.IsSucces) 
             {
                 result.IsSucces = true;
             }
@@ -339,12 +343,13 @@ public class LogInService : ILogInService
             {
                 result.IsSucces = false;
                 result.ApiErrorCode = "UAE_710";
+                result.Exception = dbResponse.Exception;
             }
         }
         catch (Exception ex) 
         {
             result.IsSucces = false;
-            result.Exception = ex;
+            result.Exception = ex.Message;
         }
 
         return result;
@@ -352,6 +357,7 @@ public class LogInService : ILogInService
 
     public void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser)
     {
+        oAuthResponse.Id = account.Id;
         oAuthResponse.CommonId = account.CommonId;
         oAuthResponse.Email = account.Email;
         oAuthResponse.Phone = account.Phone;
@@ -378,6 +384,7 @@ public class LogInService : ILogInService
     public string SerializeUserOAuthResponse(UserOAuthResponse oAuthResponse)
     {
         NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
+        queryString[OAuthUrlParamsResponse.Id] = HttpUtility.UrlEncode(oAuthResponse.Id.ToString());
         queryString[OAuthUrlParamsResponse.CommonId] = HttpUtility.UrlEncode(oAuthResponse.CommonId);
         queryString[OAuthUrlParamsResponse.Email] = HttpUtility.UrlEncode(oAuthResponse.Email);
         queryString[OAuthUrlParamsResponse.Phone] = HttpUtility.UrlEncode(oAuthResponse.Phone);

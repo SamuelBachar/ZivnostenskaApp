@@ -166,6 +166,7 @@ public class LoginService : ILoginService
     {
         return new UserOAuthResponse
         {
+            Id = properties.TryGetValue(OAuthUrlParamsResponse.Id, out string? id) ?  int.Parse(HttpUtility.UrlDecode(id)) : 0,
             CommonId = properties.TryGetValue(OAuthUrlParamsResponse.CommonId, out string? commonId) ? HttpUtility.UrlDecode(commonId) : string.Empty,
             Email = properties.TryGetValue(OAuthUrlParamsResponse.Email, out string? email) ? HttpUtility.UrlDecode(email) : string.Empty,
             Phone = properties.TryGetValue(OAuthUrlParamsResponse.Phone, out string? phone) ? HttpUtility.UrlDecode(phone) : string.Empty,

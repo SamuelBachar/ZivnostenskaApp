@@ -6,7 +6,7 @@ using static A.Enumerations.Enums;
 
 namespace A.Views.LogIn;
 
-[QueryProperty(nameof(NewUser), "newuser")]
+[QueryProperty(nameof(NewUser), "NewUser")]
 public partial class LogInChooseView : ContentPage
 {
     private bool _newUser = false;
@@ -40,7 +40,9 @@ public partial class LogInChooseView : ContentPage
 
     private async void OnChooseAppMode_Tapped(object sender, TappedEventArgs args)
     {
-        string? appMode = (string)((TappedEventArgs)args).Parameter;
+        //string? appMode = (string)((TappedEventArgs)args).Parameter;
+
+        AppMode appMode = (AppMode)((TappedEventArgs)args).Parameter;
 
         // Store prefered application mode if chkDontAsk is checked
         if (this.chkDontAsk.IsChecked)
@@ -49,7 +51,7 @@ public partial class LogInChooseView : ContentPage
         }
 
         // TODO: I had problem referencing AppMode from xaml to use it as arg in CommandParameters, therefore I am playing around with string
-        if (appMode == "Company")
+        if (appMode == AppMode.Company)
         {
             _newUser = true;
             if (_newUser)
@@ -62,13 +64,18 @@ public partial class LogInChooseView : ContentPage
             }
         }
 
-        if (appMode == "Customer")
+        if (appMode == AppMode.Customer)
         {
+            if (_newUser)
+            {
+                // update account type
+            }
+
             await Shell.Current.GoToAsync($"{nameof(MainPage)}");
         }
     }
 
-    private async void SavePreferedApplicationMode(string appMode)
+    private async void SavePreferedApplicationMode(AppMode appMode)
     {
         // Delete prefered App Mode if was already saved before
         if (await SettingsService.ContainsStaticAsync(PrefUserSettings.AppModeChoice))
@@ -77,14 +84,16 @@ public partial class LogInChooseView : ContentPage
         }
 
         // Update prefered App Mode based on login choose
-        if (appMode == "Customer")
+        /*if (appMode == "Customer")
         {
             await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Customer);
         }
         else
         {
             await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Company);
-        }
+        }*/
+
+        await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, appMode);
     }
 
     private async void chkDontAsk_CheckedChanged(object sender, CheckedChangedEventArgs e)

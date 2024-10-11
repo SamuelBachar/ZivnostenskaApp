@@ -165,7 +165,7 @@ public partial class LogInView : ContentPage
             else
             {
                 // Navigate to LogInChooseView where application mode is choosen
-                await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?newuser={response.userLoginInfo.NewUser}");
+                await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?NewUser={response.userLoginInfo.NewUser}");
             }
         }
         else

@@ -8,5 +8,5 @@ namespace SharedTypesLibrary.Enums;
 
 public static class Enums
 {
-    public enum Side { API = 0, FrontEnd = 1};
+    public enum AccountType { Customer = 0, Company = 1, Hybrid = 2 };
 }
