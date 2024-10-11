@@ -49,14 +49,14 @@ namespace ExceptionsHandling
         public ExceptionHandler(string errorCodeUser, string culture) : base(errorCodeUser)
         {
             this.ErrorCodeUser = errorCodeUser;
-            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeAPI: null, extraErrors: null, dicReplaceParams: null, culture);
+            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeAPI: null, extraErrorInfo: null, dicReplaceParams: null, culture);
         }
 
         public ExceptionHandler(string errorCodeUser, string? errorCodeApi, string culture) : base(errorCodeUser)
         {
             this.ErrorCodeUser = errorCodeUser;
             this.ErrorCodeAPI = errorCodeApi;
-            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeApi, extraErrors: null, dicReplaceParams: null, culture);
+            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeApi, extraErrorInfo: null, dicReplaceParams: null, culture);
         }
 
         public ExceptionHandler(string errorCodeUser, string? errorCodeApi, string extraErrors, string culture) : base(errorCodeUser)
@@ -65,11 +65,12 @@ namespace ExceptionsHandling
             SetErrorCodeMessage(this.ErrorCodeUser, errorCodeAPI: null, extraErrors, dicReplaceParams: null, culture);
         }
 
-        public ExceptionHandler(string errorCode, string extraErrors, Dictionary<string, string>? dicReplaceParams, string culture) : base(errorCode)
+        public ExceptionHandler(string errorCode, string? errorCodeAPI, string extraErrors, Dictionary<string, string>? dicReplaceParams, string culture) : base(errorCode)
         {
             this.ErrorCodeUser = errorCode;
-            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeAPI: null, extraErrors, dicReplaceParams, culture);
+            SetErrorCodeMessage(this.ErrorCodeUser, errorCodeAPI, extraErrors, dicReplaceParams, culture);
         }
+
 
         /* CASE: Not throwed ExceptionHandler but catched System Exception (based on user action) out of which ExceptionHandler was created */
         public ExceptionHandler(string message, string culture, Exception? innerExc) : base(message, innerExc)
@@ -79,7 +80,7 @@ namespace ExceptionsHandling
             this.InnerMessageCustom = ((innerExc != null) ? innerExc.Message : string.Empty);
         }
 
-        private void SetErrorCodeMessage(string errorCodeUser, string? errorCodeAPI, string? extraErrors, Dictionary<string,string>? dicReplaceParams, string culture)
+        private void SetErrorCodeMessage(string errorCodeUser, string? errorCodeAPI, string? extraErrorInfo, Dictionary<string,string>? dicReplaceParams, string culture)
         {
             string currentLanguage = culture;
 
@@ -104,9 +105,9 @@ namespace ExceptionsHandling
                     this.ErrorCodeFounded = true;
                 }
 
-                if (!string.IsNullOrEmpty(extraErrors))
+                if (!string.IsNullOrEmpty(extraErrorInfo))
                 {
-                    this.MessageCustom += extraErrors;
+                    this.MessageCustom += extraErrorInfo;
                 }
 
                 if (dicReplaceParams != null)

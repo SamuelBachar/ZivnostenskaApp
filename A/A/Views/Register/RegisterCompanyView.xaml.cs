@@ -89,7 +89,7 @@ namespace A.Views
             }
             catch (Exception ex)
             {
-                string errMsg = new ExceptionHandler("UAE_901", extraErrors: ex.Message, App.UserData.CurrentCulture).CustomMessage;
+                string errMsg = new ExceptionHandler("UAE_901", null, extraErrors: ex.Message, App.UserData.CurrentCulture).CustomMessage;
                 await DisplayAlert(App.LanguageResourceManager["RegisterCompanyView_RegisterError"].ToString(), errMsg, App.LanguageResourceManager["AllView_Close"].ToString());
             }
             finally

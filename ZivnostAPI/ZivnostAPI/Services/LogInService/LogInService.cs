@@ -378,17 +378,17 @@ public class LogInService : ILogInService
     public string SerializeUserOAuthResponse(UserOAuthResponse oAuthResponse)
     {
         NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
-        queryString[OAuthUrlParamsResponse.CommonId] = oAuthResponse.CommonId;
-        queryString[OAuthUrlParamsResponse.Email] = oAuthResponse.Email;
-        queryString[OAuthUrlParamsResponse.Phone] = oAuthResponse.Phone;
-        queryString[OAuthUrlParamsResponse.PictureUrl] = oAuthResponse.PictureURL;
-        queryString[OAuthUrlParamsResponse.Name] = oAuthResponse.Name;
-        queryString[OAuthUrlParamsResponse.MiddleName] = oAuthResponse.MiddleName;
-        queryString[OAuthUrlParamsResponse.SureName] = oAuthResponse.SureName;
-        queryString[OAuthUrlParamsResponse.OAuthAccessToken] = oAuthResponse.OAuthAccessToken;
-        queryString[OAuthUrlParamsResponse.OAuthRefreshToken] = oAuthResponse.OauthRefreshToken;
-        queryString[OAuthUrlParamsResponse.OAuthRefreshToken] = oAuthResponse.OAuthExpiresIn.ToString();
-        queryString[OAuthUrlParamsResponse.NewUser] = oAuthResponse.NewUser ? "true" : "false";
+        queryString[OAuthUrlParamsResponse.CommonId] = HttpUtility.UrlEncode(oAuthResponse.CommonId);
+        queryString[OAuthUrlParamsResponse.Email] = HttpUtility.UrlEncode(oAuthResponse.Email);
+        queryString[OAuthUrlParamsResponse.Phone] = HttpUtility.UrlEncode(oAuthResponse.Phone);
+        queryString[OAuthUrlParamsResponse.PictureUrl] = HttpUtility.UrlEncode(oAuthResponse.PictureURL);
+        queryString[OAuthUrlParamsResponse.Name] = HttpUtility.UrlEncode(oAuthResponse.Name);
+        queryString[OAuthUrlParamsResponse.MiddleName] = HttpUtility.UrlEncode(oAuthResponse.MiddleName);
+        queryString[OAuthUrlParamsResponse.SureName] = HttpUtility.UrlEncode(oAuthResponse.SureName);
+        queryString[OAuthUrlParamsResponse.OAuthAccessToken] = HttpUtility.UrlEncode(oAuthResponse.OAuthAccessToken);
+        queryString[OAuthUrlParamsResponse.OAuthRefreshToken] = HttpUtility.UrlEncode(oAuthResponse.OauthRefreshToken);
+        queryString[OAuthUrlParamsResponse.OAuthExpiresIn] = HttpUtility.UrlEncode(oAuthResponse.OAuthExpiresIn.ToString());
+        queryString[OAuthUrlParamsResponse.NewUser] = oAuthResponse.NewUser ? "true" : "false";  // boolean values don't need encoding
 
         return queryString.ToString() ?? "";
     }

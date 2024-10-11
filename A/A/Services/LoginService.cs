@@ -17,6 +17,11 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using ExtensionsLibrary.Http;
+using System.Runtime.InteropServices;
+using System.Web;
+using static Microsoft.Maui.ApplicationModel.Permissions;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 
 namespace A.Services;
 
@@ -98,16 +103,16 @@ public class LoginService : ILoginService
                     );
                 }
 
-                if (resultWA.Properties["success"] == "true")
-                {
-                    bool newUser = (resultWA.Properties["new_user"] == "true");
-                    string token = resultWA.AccessToken;
+                var oAuthResponse = CheckOAuthResponse(resultWA.Properties);
 
-                    result = (new UserOAuthResponse { OAuthAccessToken = token, NewUser = newUser }, null);
+                if (oAuthResponse.isSuccess)
+                {
+                    UserOAuthResponse data = ParseUserOAuthResponse(resultWA.Properties);
+                    result = (data, null);
                 }
                 else
                 {
-                    result = (null, new ExceptionHandler("UAE_005", extraErrors: resultWA.Properties["exception"],
+                    result = (null, new ExceptionHandler("UAE_005", oAuthResponse.apiErrorCode, oAuthResponse.exceptionMsg,
                             new Dictionary<string, string> { { "#provider", provider } }, App.UserData.CurrentCulture));
                 }
 
@@ -130,9 +135,48 @@ public class LoginService : ILoginService
         }
         catch (Exception ex)
         {
-            result = (null, new ExceptionHandler("UAE_401", null,extraErrors: ex.Message, App.UserData.CurrentCulture));
+            result = (null, new ExceptionHandler("UAE_401", null, extraErrors: ex.Message, App.UserData.CurrentCulture));
         }
 
         return result;
+    }
+
+    public (bool isSuccess, string apiErrorCode, string exceptionMsg) CheckOAuthResponse(Dictionary<string, string> properties)
+    {
+        (bool, string, string) result;
+
+        string success = properties.TryGetValue("success", out string? strSuccess) ? strSuccess : string.Empty;
+
+        if (success == "true")
+        {
+            result = (true, string.Empty, string.Empty);
+        }
+        else
+        {
+            string exceptionMsg = properties.TryGetValue("exception", out string? strExc) ? strExc : string.Empty;
+            string apiErrorCode = properties.TryGetValue("apiErrorCode", out string? strApiErrorCode) ? strApiErrorCode : string.Empty;
+
+            result = (false, apiErrorCode, exceptionMsg);
+        }
+
+        return result;
+    }
+
+    public UserOAuthResponse ParseUserOAuthResponse(Dictionary<string, string> properties)
+    {
+        return new UserOAuthResponse
+        {
+            CommonId = properties.TryGetValue(OAuthUrlParamsResponse.CommonId, out string? commonId) ? HttpUtility.UrlDecode(commonId) : string.Empty,
+            Email = properties.TryGetValue(OAuthUrlParamsResponse.Email, out string? email) ? HttpUtility.UrlDecode(email) : string.Empty,
+            Phone = properties.TryGetValue(OAuthUrlParamsResponse.Phone, out string? phone) ? HttpUtility.UrlDecode(phone) : string.Empty,
+            PictureURL = properties.TryGetValue(OAuthUrlParamsResponse.PictureUrl, out string? pictureUrl) ? HttpUtility.UrlDecode(pictureUrl) : string.Empty,
+            Name = properties.TryGetValue(OAuthUrlParamsResponse.Name, out string? name) ? HttpUtility.UrlDecode(name) : string.Empty,
+            MiddleName = properties.TryGetValue(OAuthUrlParamsResponse.MiddleName, out string? middleName) ? HttpUtility.UrlDecode(middleName) : string.Empty,
+            SureName = properties.TryGetValue(OAuthUrlParamsResponse.SureName, out string? sureName) ? HttpUtility.UrlDecode(sureName) : string.Empty,
+            OAuthAccessToken = properties.TryGetValue(OAuthUrlParamsResponse.OAuthAccessToken, out string? accessToken) ? HttpUtility.UrlDecode(accessToken) : string.Empty,
+            OauthRefreshToken = properties.TryGetValue(OAuthUrlParamsResponse.OAuthRefreshToken, out string? refreshToken) ? HttpUtility.UrlDecode(refreshToken) : string.Empty,
+            OAuthExpiresIn = properties.TryGetValue(OAuthUrlParamsResponse.OAuthExpiresIn, out string? expiresIn) ? int.Parse(HttpUtility.UrlDecode(expiresIn)) : 0,
+            NewUser = properties.TryGetValue(OAuthUrlParamsResponse.NewUser, out string? newUser) && newUser.ToLower() == "true"
+        };
     }
 }

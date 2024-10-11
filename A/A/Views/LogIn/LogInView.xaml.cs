@@ -144,9 +144,9 @@ public partial class LogInView : ContentPage
 
     private async Task LogInWithAuthProvider(string provider)
     {
-        (UserOAuthResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
+        (UserOAuthResponse userLoginInfo, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
 
-        if (response.UserLoginDTO != null)
+        if (response.userLoginInfo != null)
         {
             // Skiping choosing of Application Mode since user already choosed prefered Application Mode
             if (await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberAppModeChoice, false))
@@ -165,7 +165,7 @@ public partial class LogInView : ContentPage
             else
             {
                 // Navigate to LogInChooseView where application mode is choosen
-                await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?newuser={response.UserLoginDTO.NewUser}");
+                await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?newuser={response.userLoginInfo.NewUser}");
             }
         }
         else

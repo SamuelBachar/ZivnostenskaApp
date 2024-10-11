@@ -54,7 +54,8 @@ public class LogInController : ControllerBase
 
         ApiResponse<UserOAuthResponse> response;
 
-        if (queryParams["state"].ToString() == AuthProviders.Facebook && !queryParams["error_description"].ToString().IsNullOrEmpty()) // todo could be this checked also for google or apple ?
+        // todo could be this checked also for google or apple ?
+        if (queryParams["state"].ToString() == AuthProviders.Facebook && !queryParams["error_description"].ToString().IsNullOrEmpty())
         {
             redirectUri += "success=false";
 
@@ -69,13 +70,13 @@ public class LogInController : ControllerBase
 
             if (response.Success)
             {
-                redirectUri += "success=true?";
-                redirectUri += _loginService.SerializeUserOAuthResponse(response.Data);
+                redirectUri += "success=true";
+                redirectUri += "&" + _loginService.SerializeUserOAuthResponse(response.Data);
             }
             else
             {
-                redirectUri += "success=false?";
-                redirectUri += $"&exception={response.APIException}";
+                redirectUri += "success=false";
+                redirectUri += $"&exception={response.APIException}&apiErrorCode={response.ApiErrorCode}";
             }
         }
 
