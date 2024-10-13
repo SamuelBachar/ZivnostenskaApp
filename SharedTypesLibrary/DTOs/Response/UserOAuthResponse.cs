@@ -9,7 +9,7 @@ namespace SharedTypesLibrary.DTOs.Response;
 public class UserOAuthResponse
 {
     public int Id { get; set; }
-    public string CommonId { get; set; } = string.Empty;
+    public string OAuthId { get; set; } = string.Empty;
 
     //public string Provider { get; set; } = string.Empty;
 
@@ -26,7 +26,7 @@ public class UserOAuthResponse
 
     /* JWT Used for all clients regardless of authentication method */
     public string JWT { get; set; } = string.Empty;
-    public string RefreshToken { get; set; } = string.Empty;
+    public string JWTRefreshToken { get; set; } = string.Empty;
     /* ************************************************************ */
 
     /* Used against further login via OAuth providers if not expired yet */

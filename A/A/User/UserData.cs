@@ -6,18 +6,38 @@ using System.Threading.Tasks;
 
 namespace A.User
 {
-    public class UserLoginInfo
-    {
-        public string Email { get; set; }
 
-        public string Password { get; set; }
+    public class UserAuthenticationData
+    {
+        public string JWT { get; set; } = string.Empty;
+
+        public string JWTRefreshToken { get; set; } = string.Empty;
+
+        public bool IsOAuthLogin { get; set; }
+
+        public string Provider { get; set; } = string.Empty;
+
+        public string OAuthAccessToken { get; set; } = string.Empty;
+
+        public string OAuthRefreshToken { get; set; } = string.Empty;
+
+        public int OAuthExpiresIn { get; set; }
     }
 
-    public class UserSessionInfo
+    public class UserIdentityData
     {
-        public string Email { get; set; }
+        public int Id { get; set; }
 
-        public string JWT { get; set; }
+        public string OAuthId { get; set; } = string.Empty;
+
+        public string Email { get; set; } = string.Empty;
+
+        public string Phone { get; set; } = string.Empty;
+
+        public string PictureURL { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string MiddleName { get; set; } = string.Empty;
+        public string SureName { get; set; } = string.Empty;
     }
 
     public class UserData
@@ -30,10 +50,9 @@ namespace A.User
 
         public string CurrentCulture => ((ChoosenCulture == string.Empty) ? DefaultCulture : ChoosenCulture);
 
-        public UserSessionInfo UserSessionInfo = new UserSessionInfo();
-        public UserLoginInfo UserLoginInfo = new UserLoginInfo();
+        public UserAuthenticationData UserAuthData = new UserAuthenticationData();
 
-
+        public UserIdentityData UserIdentityData = new UserIdentityData();
 
         static UserData? _instance = null;
 

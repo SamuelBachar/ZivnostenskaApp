@@ -46,7 +46,7 @@ public class LoginService : ILoginService
             if (response.IsSuccessStatusCode)
             {
                 ApiResponse<UserLoginGenericResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<UserLoginGenericResponse>();
-                result = (new UserLoginGenericResponse { Email = serializedResponse.Data.Email, JWT = serializedResponse.Data.JWT }, null);
+                result = (serializedResponse.Data, null);
             }
             else if ((!response.IsSuccessStatusCode) && (response.StatusCode == System.Net.HttpStatusCode.BadRequest))
             {
@@ -167,7 +167,7 @@ public class LoginService : ILoginService
         return new UserOAuthResponse
         {
             Id = properties.TryGetValue(OAuthUrlParamsResponse.Id, out string? id) ?  int.Parse(HttpUtility.UrlDecode(id)) : 0,
-            CommonId = properties.TryGetValue(OAuthUrlParamsResponse.CommonId, out string? commonId) ? HttpUtility.UrlDecode(commonId) : string.Empty,
+            OAuthId = properties.TryGetValue(OAuthUrlParamsResponse.OAuthId, out string? oAuthId) ? HttpUtility.UrlDecode(oAuthId) : string.Empty,
             Email = properties.TryGetValue(OAuthUrlParamsResponse.Email, out string? email) ? HttpUtility.UrlDecode(email) : string.Empty,
             Phone = properties.TryGetValue(OAuthUrlParamsResponse.Phone, out string? phone) ? HttpUtility.UrlDecode(phone) : string.Empty,
             PictureURL = properties.TryGetValue(OAuthUrlParamsResponse.PictureUrl, out string? pictureUrl) ? HttpUtility.UrlDecode(pictureUrl) : string.Empty,

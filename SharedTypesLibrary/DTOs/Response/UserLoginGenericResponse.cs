@@ -11,4 +11,6 @@ public class UserLoginGenericResponse
     public string Email { get; set; } = string.Empty;
 
     public string JWT { get; set; } = string.Empty;
+
+    public string JWTRefreshToken { get; set; } = string.Empty;
 }

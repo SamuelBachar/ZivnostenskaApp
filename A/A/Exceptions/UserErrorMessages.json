@@ -9,6 +9,9 @@
     "UAE_003": "Nie je možné sa prihlásiť\r\n. Zariadenie nemá pripojenie k internetu",
     "UAE_004": "Chyba prihlásenia\r\n.Chyba: ",
     "UAE_005": "Nastala chyba počas overenia identity pomocou poskytovateľa #provider\r\nChyba: ",
+    // LogInChooseView
+    "UAE_006": "Počas aktualizovania typu účtu nastala chyba",
+
     // Generic
     "UAE_400": "Neočakavaná odpoveď od servera, neznáma chyba",
     "UAE_401": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
@@ -32,8 +35,8 @@
     "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
 
     // API Generic Common
-    "UAE_900": "Nepodarilo sa updatnúť údaje v databáze"
-  
+    "UAE_900": "Nepodarilo sa aktualizovať údaje v databáze"
+
   },
   "sk-SK": {
     /* User Error codes */
@@ -45,6 +48,9 @@
     "UAE_003": "Nie je možné sa prihlásiť\r\n. Zariadenie nemá pripojenie k internetu",
     "UAE_004": "Chyba prihlásenia.\r\nChyba:",
     "UAE_005": "Nastala chyba počas overenia identity pomocou poskytovateľa #provider\r\nChyba: ",
+    // LogInChooseView
+    "UAE_006": "Počas aktualizovania typu účtu nastala chyba",
+
     // Generic
     "UAE_400": "Neočakavaná odpoveď od servera, neznáma chyba",
     "UAE_401": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
@@ -68,7 +74,7 @@
     "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
 
     // API Generic Common
-    "UAE_900": "Nepodarilo sa updatnúť údaje v databáze"
+    "UAE_900": "Nepodarilo sa aktualizovať údaje v databáze"
   },
   "cs": {
     /* User Error codes */
@@ -80,6 +86,9 @@
     "UAE_003": "Nelze se přihlásit\r\n. Zařízení nemá připojení k internetu",
     "UAE_004": "Chyba přihlášení\r\n. Chyba: ",
     "UAE_005": "Došlo k chybě při ověřování identity pomocí poskytovatele #provider\r\nChyba: ",
+    // LogInChooseView
+    "UAE_006": "Při aktualizaci typu účtu došlo k chybě",
+
     // Generic
     "UAE_400": "Neočekávaná odpověď od serveru, neznámá chyba",
     "UAE_401": "Nastala chyba při komunikaci se serverem.\r\nChyba: ",
@@ -114,6 +123,9 @@
     "UAE_003": "Anmeldung nicht möglich\r\n. Das Gerät hat keine Internetverbindung",
     "UAE_004": "Anmeldefehler\r\n. Fehler: ",
     "UAE_005": "Ein Fehler trat bei der Identitätsüberprüfung mit dem Anbieter #provider auf\r\nFehler: ",
+    // LogInChooseView
+    "UAE_006": "Beim Aktualisieren des Kontotyps ist ein Fehler aufgetreten",
+
     //Generic
     "UAE_400": "Unerwartete Antwort vom Server, unbekannter Fehler",
     "UAE_401": "Bei der Kommunikation mit dem Server ist ein Fehler aufgetreten.\r\nFehler: ",
@@ -149,6 +161,9 @@
     "UAE_003": "Unable to log in\r\n. The device does not have an internet connection",
     "UAE_004": "Login error\r\n. Error: ",
     "UAE_005": "An error occurred during identity verification with the provider #provider\r\nError: ",
+    // LogInChooseView
+    "UAE_006": "An error occurred while updating the account type",
+
     // Generic 
     "UAE_400": "Unexpected response from server, unknown error",
     "UAE_401": "An error occurred while communicating with the server.\r\nError: ",

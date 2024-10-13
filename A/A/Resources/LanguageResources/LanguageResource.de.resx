@@ -130,7 +130,7 @@
     <value>Das ist im Deutsch sprache</value>
   </data>
   <data name="LogInChooseView_DoNotAskMore" xml:space="preserve">
-    <value>Frag nicht mehr (Das Umschalten des Modus ist weiterhin nach der Anmeldung in den Einstellungen möglich)</value>
+    <value>"Nicht erneut fragen (Moduswechsel ist nach dem Anmelden über die Einstellungen weiterhin möglich)"</value>
   </data>
   <data name="LogInChooseView_KnownUserContinueAs" xml:space="preserve">
     <value>Erfolgreich eingeloggt, fortfahren als</value>
@@ -251,5 +251,8 @@
   </data>
   <data name="RegisterCompanyView_RegisterError" xml:space="preserve">
     <value>Fehler bei der Registrierung des Unternehmens</value>
+  </data>
+  <data name="LogInChooseView_ChooseError" xml:space="preserve">
+    <value>Fehler bei der Auswahl</value>
   </data>
 </root>

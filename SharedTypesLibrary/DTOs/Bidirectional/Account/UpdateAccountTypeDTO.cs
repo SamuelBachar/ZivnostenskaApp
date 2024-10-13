@@ -10,5 +10,5 @@ namespace SharedTypesLibrary.DTOs.Bidirectional.Account;
 public class UpdateAccountTypeDTO
 {
     public int Id { get; set; }
-    public AccountType accountType {  get; set; }
+    public AccountType AccountType {  get; set; }
 }

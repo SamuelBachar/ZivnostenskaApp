@@ -1,5 +1,8 @@
 ﻿using A.AppPreferences;
+using A.Constants;
 using A.Interfaces;
+using A.Models.OAuthLoginData;
+using A.Models.OAuthTokenData;
 using A.Services;
 using A.Views.LogIn;
 using A.Views.Register;
@@ -8,20 +11,33 @@ using Newtonsoft.Json;
 using SharedTypesLibrary.Constants;
 using SharedTypesLibrary.DTOs.Response;
 using System;
+using System.Net.Http.Headers;
+using System.Net.Http;
 using static A.Enumerations.Enums;
 using static System.Net.WebRequestMethods;
+using ZivnostAPI.Models.AuthProvidersData.Google;
+using ZivnostAPI.Models.AuthProvidersData.Facebook;
 
 namespace A.Views;
 
 public partial class LogInView : ContentPage
 {
-    private readonly ILoginService _loginService;
+    public class UserLoginInfo
+    {
+        public string Email { get; set; }
 
-    public LogInView(ILoginService loginService)
+        public string Password { get; set; }
+    }
+
+    private readonly ILoginService _loginService;
+    private readonly IOauthService _oAuthService;
+
+    public LogInView(ILoginService loginService, IOauthService oAuthService)
     {
         InitializeComponent();
 
         _loginService = loginService;
+        _oAuthService = oAuthService;
     }
 
     private async void ChkRememberLogin_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -113,23 +129,27 @@ public partial class LogInView : ContentPage
 
         if (response.UserLoginDTO != null)
         {
-            App.UserData.UserSessionInfo.JWT = response.UserLoginDTO.JWT;
-            App.UserData.UserSessionInfo.Email = response.UserLoginDTO.Email;
+            App.UserData.UserAuthData.IsOAuthLogin = false;
 
-            App.UserData.UserLoginInfo.Email = EntryEmail.Text;
-            App.UserData.UserLoginInfo.Password = EntryPassword.Text;
+            App.UserData.UserAuthData.JWT = response.UserLoginDTO.JWT;
+            App.UserData.UserAuthData.JWTRefreshToken = response.UserLoginDTO.JWTRefreshToken;
+            App.UserData.UserIdentityData.Email = response.UserLoginDTO.Email;
 
-            if (await SettingsService.ContainsStaticAsync(nameof(App.UserData.UserLoginInfo)))
+            UserLoginInfo userLoginInfo = new UserLoginInfo();
+            userLoginInfo.Email = EntryEmail.Text;
+            userLoginInfo.Password = EntryPassword.Text;
+
+            if (await SettingsService.ContainsStaticAsync(nameof(UserLoginInfo)))
             {
-                await SettingsService.RemoveStaticAsync(nameof(App.UserData.UserLoginInfo));
+                await SettingsService.RemoveStaticAsync(nameof(UserLoginInfo));
             }
 
             if (await SettingsService.ContainsStaticAsync(PrefUserSettings.PrefRememberLogIn))
             {
                 if (await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberLogIn, false))
                 {
-                    string userLoginInfoSerialized = JsonConvert.SerializeObject(App.UserData.UserLoginInfo);
-                    await SettingsService.SaveStaticAsync<string>(nameof(App.UserData.UserLoginInfo), userLoginInfoSerialized);
+                    string userLoginInfoSerialized = JsonConvert.SerializeObject(userLoginInfo);
+                    await SettingsService.SaveStaticAsync<string>(nameof(UserLoginInfo), userLoginInfoSerialized);
                 }
             }
 
@@ -142,51 +162,160 @@ public partial class LogInView : ContentPage
         }
     }
 
-    private async Task LogInWithAuthProvider(string provider)
+    private async void OnAuthProviderLogInRegister_Tapped(object sender, TappedEventArgs e)
     {
-        (UserOAuthResponse userLoginInfo, ExceptionHandler exception) response = await _loginService.LoginWithAuthProvider(provider);
+        string authProvider = e.Parameter as string ?? "";
+        ITokenData? tokenData = null;
 
-        if (response.userLoginInfo != null)
+        tokenData = await GetStoredAccessTokenData(authProvider);
+
+        if (tokenData != null)
         {
-            // Skiping choosing of Application Mode since user already choosed prefered Application Mode
-            if (await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberAppModeChoice, false))
+            if (!CheckIfAccessTokenExpires(tokenData))
             {
-                AppMode appMode = await SettingsService.GetStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Customer);
-
-                if (appMode == AppMode.Customer)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(MainPage)}");
-                }
-                else
-                {
-                    await Shell.Current.GoToAsync($"{nameof(MainPage)}");
-                }
-            }
-            else
-            {
-                // Navigate to LogInChooseView where application mode is choosen
-                await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?NewUser={response.userLoginInfo.NewUser}");
+                await _oAuthService.ReloadUserDataFromOAuthProvider(tokenData);
+                await NavigateToNextPage();
             }
         }
         else
         {
-            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["AllView_Close"].ToString());
+            (UserOAuthResponse? userLoginInfo, ExceptionHandler? exception) response = await _loginService.LoginWithAuthProvider(authProvider);
+
+            if (response.userLoginInfo != null)
+            {
+                await StoreOAuthResponseData(response.userLoginInfo, authProvider);
+                await NavigateToNextPage(response.userLoginInfo.NewUser);
+            }
+            else
+            {
+                await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["AllView_Close"].ToString());
+            }
         }
     }
 
-    private async void OnAuthProviderLogInRegister_Tapped(object sender, TappedEventArgs e)
+    private async Task StoreOAuthResponseData(UserOAuthResponse userLoginInfo, string authProvider)
     {
-        string? authProvider = e.Parameter as string;
-        await LogInWithAuthProvider(authProvider);
+        App.UserData.UserAuthData.JWT = userLoginInfo.JWT;
+        App.UserData.UserAuthData.JWTRefreshToken = userLoginInfo.JWTRefreshToken;
+
+        App.UserData.UserAuthData.IsOAuthLogin = true;
+        App.UserData.UserAuthData.Provider = authProvider;
+        App.UserData.UserAuthData.OAuthAccessToken = userLoginInfo.OAuthAccessToken;
+        App.UserData.UserAuthData.OAuthRefreshToken = userLoginInfo.OauthRefreshToken;
+        App.UserData.UserAuthData.OAuthExpiresIn = userLoginInfo.OAuthExpiresIn;
+
+        App.UserData.UserIdentityData.Id = userLoginInfo.Id;
+        App.UserData.UserIdentityData.OAuthId = userLoginInfo.OAuthId;
+        App.UserData.UserIdentityData.Email = userLoginInfo.Email;
+        App.UserData.UserIdentityData.Phone = userLoginInfo.Phone;
+        App.UserData.UserIdentityData.PictureURL = userLoginInfo.PictureURL;
+        App.UserData.UserIdentityData.Name = userLoginInfo.Name;
+        App.UserData.UserIdentityData.MiddleName = userLoginInfo.MiddleName;
+        App.UserData.UserIdentityData.SureName = userLoginInfo.SureName;
+
+        // TODO: store access token refresh token securelly - maybe create additional class for facebook, apple, google which will hold access token and so on
+        // store it securely and than ask for it during login and do appropriate call against api to check if access token is okey or not
+        // check if access tokenis not expired (Fb do not provide refresh token , aple dont know)
+
+        // if token do not expired yet dont use landing page
+
+        if (authProvider == AuthProviders.Google)
+        {
+            GoogleTokenData data = new GoogleTokenData
+            {
+                AccessToken = App.UserData.UserAuthData.OAuthAccessToken,
+                RefreshToken = App.UserData.UserAuthData.OAuthRefreshToken,
+                ValidUntil = new DateTime(App.UserData.UserAuthData.OAuthExpiresIn)
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data);
+            await SecureStorage.Default.SetAsync(nameof(GoogleTokenData), jsonData);
+        }
+
+        if (authProvider == AuthProviders.Facebook)
+        {
+            FacebookTokenData data = new FacebookTokenData
+            {
+                AccessToken = App.UserData.UserAuthData.OAuthAccessToken,
+                ValidUntil = new DateTime(App.UserData.UserAuthData.OAuthExpiresIn)
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data);
+            await SecureStorage.Default.SetAsync(nameof(FacebookTokenData), jsonData);
+        }
     }
 
-    private async void BtnGoogleSignInUp_Clicked(object sender, EventArgs e)
+    private async Task<ITokenData?> GetStoredAccessTokenData(string authProvider)
     {
-        await LogInWithAuthProvider(AuthProviders.Google);
+        string? jsonData = string.Empty;
+        ITokenData? tokenData = null;
+
+        if (authProvider == AuthProviders.Google)
+        {
+            jsonData = await SecureStorage.Default.GetAsync(nameof(GoogleTokenData));
+
+            if (!string.IsNullOrEmpty(jsonData))
+            {
+                tokenData = JsonConvert.DeserializeObject<GoogleTokenData>(jsonData);
+            }
+        }
+
+        if (authProvider == AuthProviders.Facebook)
+        {
+            jsonData = await SecureStorage.Default.GetAsync(nameof(FacebookTokenData));
+
+            if (!string.IsNullOrEmpty(jsonData))
+            {
+                tokenData = JsonConvert.DeserializeObject<FacebookTokenData>(jsonData);
+            }
+        }
+
+        return tokenData;
     }
 
-    private async void BtnFacebookSignInUp_Clicked(object sender, EventArgs e)
+    private bool CheckIfAccessTokenExpires(ITokenData tokenData)
     {
-        await LogInWithAuthProvider(AuthProviders.Facebook);
+        bool result = false;
+
+        if (tokenData is FacebookTokenData facebookData)
+        {
+            if (facebookData.ValidUntil > DateTime.Now.AddMinutes(-1))
+            {
+                result = true;
+            }
+        }
+
+        if (tokenData is GoogleTokenData googleToken)
+        {
+            if (googleToken.ValidUntil > DateTime.Now.AddMinutes(-1))
+            {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    private async Task NavigateToNextPage(bool newUser = false)
+    {
+        // Skiping choosing of Application Mode since user already choosed prefered Application Mode
+        if (await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberAppModeChoice, false))
+        {
+            AppMode appMode = await SettingsService.GetStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Customer);
+
+            if (appMode == AppMode.Customer)
+            {
+                await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+            }
+        }
+        else
+        {
+            // Navigate to LogInChooseView where application mode is choosen
+            await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?NewUser={newUser}");
+        }
     }
 }

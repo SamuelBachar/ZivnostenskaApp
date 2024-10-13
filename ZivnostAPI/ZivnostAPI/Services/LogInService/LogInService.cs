@@ -358,7 +358,7 @@ public class LogInService : ILogInService
     public void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser)
     {
         oAuthResponse.Id = account.Id;
-        oAuthResponse.CommonId = account.CommonId;
+        oAuthResponse.OAuthId = account.CommonId;
         oAuthResponse.Email = account.Email;
         oAuthResponse.Phone = account.Phone;
         oAuthResponse.PictureURL = account.PictureURL;
@@ -385,7 +385,7 @@ public class LogInService : ILogInService
     {
         NameValueCollection queryString = HttpUtility.ParseQueryString(string.Empty);
         queryString[OAuthUrlParamsResponse.Id] = HttpUtility.UrlEncode(oAuthResponse.Id.ToString());
-        queryString[OAuthUrlParamsResponse.CommonId] = HttpUtility.UrlEncode(oAuthResponse.CommonId);
+        queryString[OAuthUrlParamsResponse.OAuthId] = HttpUtility.UrlEncode(oAuthResponse.OAuthId);
         queryString[OAuthUrlParamsResponse.Email] = HttpUtility.UrlEncode(oAuthResponse.Email);
         queryString[OAuthUrlParamsResponse.Phone] = HttpUtility.UrlEncode(oAuthResponse.Phone);
         queryString[OAuthUrlParamsResponse.PictureUrl] = HttpUtility.UrlEncode(oAuthResponse.PictureURL);

@@ -52,6 +52,7 @@ namespace A
 
             // LogInView
             builder.Services.AddSingleton<ILoginService, LoginService>();
+            builder.Services.AddSingleton<IOauthService, OauthService>();
 
             // RegisterCompanyView
             builder.Services.AddSingleton<RegisterCompanyView>();

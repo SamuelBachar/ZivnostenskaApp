@@ -252,4 +252,7 @@
   <data name="RegisterCompanyView_RegisterError" xml:space="preserve">
     <value>Register company error</value>
   </data>
+  <data name="LogInChooseView_ChooseError" xml:space="preserve">
+    <value>Error during selection</value>
+  </data>
 </root>

@@ -33,13 +33,13 @@ namespace ZivnostAPI.Controllers
 
                 if (account != null)
                 {
-                    if (data.accountType == AccountType.Company)
+                    if (data.AccountType == AccountType.Company)
                     {
                         account.IsCompanyAccount = true;
                         account.RegisteredAsCompanyAt = DateTime.UtcNow;
                     }
 
-                    if (data.accountType == AccountType.Customer)
+                    if (data.AccountType == AccountType.Customer)
                     {
                         account.IsCustomerAccount = true;
                         account.RegisteredAsCustomerAt = DateTime.UtcNow;

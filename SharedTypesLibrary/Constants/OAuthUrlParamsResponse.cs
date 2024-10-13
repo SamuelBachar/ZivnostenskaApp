@@ -9,7 +9,7 @@ namespace SharedTypesLibrary.Constants;
 public static class OAuthUrlParamsResponse
 {
     public const string Id = "id";
-    public const string CommonId = "commonId";
+    public const string OAuthId = "oauthId";
     public const string Email = "email";
     public const string Phone = "phone";
     public const string PictureUrl = "pictureUrl";

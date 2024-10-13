@@ -1,0 +1,71 @@
+﻿using A.Interfaces;
+using A.Models.OAuthLoginData;
+using A.Models.OAuthTokenData;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using ZivnostAPI.Models.AuthProvidersData.Facebook;
+using ZivnostAPI.Models.AuthProvidersData.Google;
+
+namespace A.Services;
+
+class OauthService : IOauthService
+{
+    private readonly HttpClient _httpClient;
+
+    public OauthService(IHttpClientFactory httpClientFactory)
+    {
+        _httpClient = httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
+    }
+
+    public async Task ReloadUserDataFromOAuthProvider(ITokenData tokenData)
+    {
+        string userInfoUrl = tokenData switch
+        {
+            GoogleTokenData => "https://www.googleapis.com/oauth2/v2/userinfo",
+            FacebookTokenData => $"https://graph.facebook.com/me?fields=id,name,email,picture,phone&access_token={tokenData.AccessToken}",
+            _ => throw new ArgumentException("Invalid provider")
+        };
+
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenData.AccessToken);
+        HttpResponseMessage userInfoResponse = await _httpClient.GetAsync(userInfoUrl);
+
+        if (userInfoResponse.IsSuccessStatusCode)
+        {
+            string userInfoResString = await userInfoResponse.Content.ReadAsStringAsync();
+
+            if (!string.IsNullOrEmpty(userInfoResString))
+            {
+                if (tokenData is GoogleTokenData)
+                {
+                    GoogleUserInfo? userInfo = JsonConvert.DeserializeObject<GoogleUserInfo>(userInfoResString);
+
+                    if (userInfo != null)
+                    {
+                        App.UserData.UserIdentityData.Name = userInfo.GivenName;
+                        App.UserData.UserIdentityData.SureName = userInfo.FamilyName;
+                        App.UserData.UserIdentityData.Email = userInfo.Email;
+                    }
+                }
+
+                if (tokenData is FacebookTokenData)
+                {
+                    FacebookUserInfo? userInfo = JsonConvert.DeserializeObject<FacebookUserInfo>(userInfoResString);
+
+                    if (userInfo != null)
+                    {
+                        App.UserData.UserIdentityData.Name = userInfo.Name;
+                        App.UserData.UserIdentityData.MiddleName = userInfo.MiddleName;
+                        App.UserData.UserIdentityData.SureName = userInfo.LastName;
+                        App.UserData.UserIdentityData.Email = userInfo.Email;
+                    }
+                }
+            }
+        }
+    }
+}

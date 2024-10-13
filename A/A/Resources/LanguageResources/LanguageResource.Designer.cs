@@ -106,6 +106,15 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error during selection.
+        /// </summary>
+        internal static string LogInChooseView_ChooseError {
+            get {
+                return ResourceManager.GetString("LogInChooseView_ChooseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Don&apos;t ask again (Mode switching is still possible after logging in via Settings).
         /// </summary>
         internal static string LogInChooseView_DoNotAskMore {

@@ -252,4 +252,7 @@
   <data name="RegisterCompanyView_RegisterError" xml:space="preserve">
     <value>Chyba pri registrácii spoločnosti</value>
   </data>
+  <data name="LogInChooseView_ChooseError" xml:space="preserve">
+    <value>Chyba pri výbere</value>
+  </data>
 </root>
