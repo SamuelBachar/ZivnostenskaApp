@@ -63,6 +63,10 @@ public class LoginService : ILoginService
                 result = (null, new ExceptionHandler("UAE_400", App.UserData.CurrentCulture));
             }
         }
+        catch (ExceptionHandler ex)
+        {
+            result = (null, new ExceptionHandler(ex.ErrorCodeGeneric, null, extraErrors: ex.Message, App.UserData.CurrentCulture));
+        }
         catch (Exception ex)
         {
             result = (null, new ExceptionHandler("UAE_401", null, extraErrors: ex.Message, App.UserData.CurrentCulture));

@@ -28,7 +28,8 @@ public class FacebookOAuth
 
 public class AppleOAuth
 {
-    public string ServiceId { get; set; } = string.Empty;
-    public string KeyId { get; set; } = string.Empty;
-    public string TeamId { get; set; } = string.Empty;
+    public string BaseUrl { get; set; } = string.Empty;
+    public string ClientId { get; set; } = string.Empty;
+
+    public string ClientSecret { get; set; } = string.Empty;
 }

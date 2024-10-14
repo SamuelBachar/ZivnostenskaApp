@@ -1,4 +1,4 @@
-﻿namespace ZivnostAPI.Models.AuthProvidersData.Google;
+﻿namespace SharedTypesLibrary.Models.AuthProvidersData.Google;
 
 using Newtonsoft.Json;
 

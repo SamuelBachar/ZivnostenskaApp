@@ -15,8 +15,6 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using static A.Enumerations.Enums;
 using static System.Net.WebRequestMethods;
-using ZivnostAPI.Models.AuthProvidersData.Google;
-using ZivnostAPI.Models.AuthProvidersData.Facebook;
 
 namespace A.Views;
 
@@ -164,32 +162,51 @@ public partial class LogInView : ContentPage
 
     private async void OnAuthProviderLogInRegister_Tapped(object sender, TappedEventArgs e)
     {
-        string authProvider = e.Parameter as string ?? "";
-        ITokenData? tokenData = null;
+        (UserOAuthResponse? userLoginInfo, ExceptionHandler? exception) response;
 
-        tokenData = await GetStoredAccessTokenData(authProvider);
-
-        if (tokenData != null)
+        try
         {
-            if (!CheckIfAccessTokenExpires(tokenData))
-            {
-                await _oAuthService.ReloadUserDataFromOAuthProvider(tokenData);
-                await NavigateToNextPage();
-            }
-        }
-        else
-        {
-            (UserOAuthResponse? userLoginInfo, ExceptionHandler? exception) response = await _loginService.LoginWithAuthProvider(authProvider);
+            string authProvider = e.Parameter as string ?? "";
+            ITokenData? tokenData = null;
 
-            if (response.userLoginInfo != null)
+            tokenData = await GetStoredAccessTokenData(authProvider);
+
+            if (tokenData != null)
             {
-                await StoreOAuthResponseData(response.userLoginInfo, authProvider);
-                await NavigateToNextPage(response.userLoginInfo.NewUser);
+                if (!IsAccessTokenExpired(tokenData))
+                {
+                    await _oAuthService.ReloadUserDataFromOAuthProvider(tokenData);
+                    await NavigateToNextPage();
+                }
+
+                if (IsRefreshOfAccessTokenAllowed(authProvider))
+                {
+
+                    await NavigateToNextPage();
+                }
+                else
+                {
+                    response = await _loginService.LoginWithAuthProvider(authProvider);
+                }
             }
             else
             {
-                await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["AllView_Close"].ToString());
+                response = await _loginService.LoginWithAuthProvider(authProvider);
+
+                if (response.userLoginInfo != null)
+                {
+                    await StoreOAuthResponseData(response.userLoginInfo, authProvider);
+                    await NavigateToNextPage(response.userLoginInfo.NewUser);
+                }
+                else
+                {
+                    await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception?.CustomMessage ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), ex.Message, App.LanguageResourceManager["AllView_Close"].ToString());
         }
     }
 
@@ -213,12 +230,6 @@ public partial class LogInView : ContentPage
         App.UserData.UserIdentityData.MiddleName = userLoginInfo.MiddleName;
         App.UserData.UserIdentityData.SureName = userLoginInfo.SureName;
 
-        // TODO: store access token refresh token securelly - maybe create additional class for facebook, apple, google which will hold access token and so on
-        // store it securely and than ask for it during login and do appropriate call against api to check if access token is okey or not
-        // check if access tokenis not expired (Fb do not provide refresh token , aple dont know)
-
-        // if token do not expired yet dont use landing page
-
         if (authProvider == AuthProviders.Google)
         {
             GoogleTokenData data = new GoogleTokenData
@@ -235,6 +246,18 @@ public partial class LogInView : ContentPage
         if (authProvider == AuthProviders.Facebook)
         {
             FacebookTokenData data = new FacebookTokenData
+            {
+                AccessToken = App.UserData.UserAuthData.OAuthAccessToken,
+                ValidUntil = new DateTime(App.UserData.UserAuthData.OAuthExpiresIn)
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data);
+            await SecureStorage.Default.SetAsync(nameof(FacebookTokenData), jsonData);
+        }
+
+        if (authProvider == AuthProviders.Apple)
+        {
+            FacebookTokenData data = new AppleTokenData
             {
                 AccessToken = App.UserData.UserAuthData.OAuthAccessToken,
                 ValidUntil = new DateTime(App.UserData.UserAuthData.OAuthExpiresIn)
@@ -273,7 +296,7 @@ public partial class LogInView : ContentPage
         return tokenData;
     }
 
-    private bool CheckIfAccessTokenExpires(ITokenData tokenData)
+    private bool IsAccessTokenExpired(ITokenData tokenData)
     {
         bool result = false;
 
@@ -317,5 +340,15 @@ public partial class LogInView : ContentPage
             // Navigate to LogInChooseView where application mode is choosen
             await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?NewUser={newUser}");
         }
+    }
+
+    private bool IsRefreshOfAccessTokenAllowed(string provider)
+    {
+        return provider == AuthProviders.Google || provider == AuthProviders.Apple;
+    }
+
+    private async Task RefreshAccessToken(string provider)
+    {
+
     }
 }

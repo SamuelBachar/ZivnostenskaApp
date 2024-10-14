@@ -17,7 +17,6 @@ public static class ServiceCollectionExtensions
         services.Configure<OAuth>(configuration.GetSection("OAuth"));
         services.AddHttpClient(AuthProviders.Google, (serviceProvider, authProvider) =>
         {
-            // Resolve the configured OAuth options
             var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
             var queryParams = new Dictionary<string, string>
             {
@@ -37,7 +36,6 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient(AuthProviders.Facebook, (serviceProvider, authProvider) =>
         {
-            // Resolve the configured OAuth options
             var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
             var queryParams = new Dictionary<string, string>
             {
@@ -51,6 +49,23 @@ public static class ServiceCollectionExtensions
             var queryString = string.Join("&", queryParams.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={kvp.Value}"));
 
             authProvider.BaseAddress = new Uri($"{oauthOptions.Facebook.BaseUrl}/dialog/oauth?{queryString}");
+        });
+
+        services.AddHttpClient(AuthProviders.Apple, (serviceProvider, authProvider) =>
+        {
+            var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
+            var queryParams = new Dictionary<string, string>
+            {
+                { "response_type", "code" },
+                { "client_id", $"{oauthOptions.Apple.ClientId}" },
+                { "redirect_uri",  $"{oauthOptions.RedirectUri}" },
+                { "scope", "email name" },
+                { "state", $"{AuthProviders.Apple}" }
+            };
+
+            var queryString = string.Join("&", queryParams.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={kvp.Value}"));
+
+            authProvider.BaseAddress = new Uri($"{oauthOptions.Facebook.BaseUrl}/authorize?{queryString}");
         });
 
         return services;

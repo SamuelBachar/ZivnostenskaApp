@@ -16,7 +16,7 @@ public interface ILogInService
 
     Task<ApiResponse<OAuthUserInfo>> GetUserInfoFromOAuthProvider<T>(HttpClient httpClient, T oAuthTokenResponse, string provider);
 
-    Task<Account> OAuthGetUserAccount(OAuthUserInfo userInfo, string provider);
+    Task<Account?> OAuthGetUserAccount(OAuthUserInfo userInfo, string provider);
 
     Task<DbActionResponse> OAuthCreateUserAccount(OAuthUserInfo userInfo, Account? account, string provider);
 

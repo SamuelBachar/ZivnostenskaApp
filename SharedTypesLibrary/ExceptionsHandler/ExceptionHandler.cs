@@ -36,6 +36,7 @@ namespace ExceptionsHandling
 
         private bool ErrorCodeFounded { get; set; } = false;
 
+        public string ErrorCodeGeneric { get; set; }
         public string CustomMessage => MessageCustom;
 
         public string CustomInnerMesage => InnerMessageCustom;
@@ -45,6 +46,11 @@ namespace ExceptionsHandling
         public bool GetErrorCodeFounded => ErrorCodeFounded;
 
         public ExceptionHandler() { }
+
+        public ExceptionHandler(string errorCode)
+        {
+            this.ErrorCodeGeneric = errorCode;
+        }
 
         public ExceptionHandler(string errorCodeUser, string culture) : base(errorCodeUser)
         {

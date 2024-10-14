@@ -11,7 +11,7 @@ public class Account
     [Key]
     public int Id { get; set; }
 
-    public string CommonId { get; set; } = string.Empty; // Common field used for login and register regardless of authentication type
+    public string CommonId { get; set; } = string.Empty;
 
     public string Name { get; set; } = string.Empty;
 

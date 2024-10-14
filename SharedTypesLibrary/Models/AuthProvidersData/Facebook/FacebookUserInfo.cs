@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ZivnostAPI.Models.AuthProvidersData.Facebook;
+namespace SharedTypesLibrary.Models.AuthProvidersData.Facebook;
 
 public class FacebookUserInfo
 {

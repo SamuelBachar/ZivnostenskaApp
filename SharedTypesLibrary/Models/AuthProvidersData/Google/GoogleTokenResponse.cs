@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ZivnostAPI.Models.AuthProvidersData.Google;
+namespace SharedTypesLibrary.Models.AuthProvidersData.Google;
 
 public class GoogleTokenResponse
 {
