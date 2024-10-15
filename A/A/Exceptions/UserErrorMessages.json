@@ -35,6 +35,7 @@
     "UAE_714": "Chýbajúce uživateľské dáta v odpovedi poskytovateľa",
     "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
     "UAE_716": "Chyba počas získavania tokenu pre Apple účet",
+    "UAE_717": "Chyba počas obnovenia tokenu pre Apple účet",
 
     // API Generic Common
     "UAE_900": "Nepodarilo sa aktualizovať údaje v databáze"
@@ -76,6 +77,7 @@
     "UAE_714": "Chýbajúce uživateľské dáta v odpovedi poskytovateľa",
     "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
     "UAE_716": "Chyba počas získavania tokenu pre Apple účet",
+    "UAE_717": "Chyba počas obnovenia tokenu pre Apple účet",
 
     // API Generic Common
     "UAE_900": "Nepodarilo sa aktualizovať údaje v databáze"
@@ -116,6 +118,7 @@
     "UAE_714": "Chybějící uživatelská data v odpovědi poskytovatele",
     "UAE_715": "Chybná odpověď při dotazu uživatelských dat pomocí poskytovatele",
     "UAE_716": "Chyba při získávání tokenu pro Apple účet",
+    "UAE_717": "Chyba při obnovení tokenu pro účet Apple",
 
     // API Generic Common
     "UAE_900": "Nepodařilo se aktualizovat údaje v databázi"
@@ -155,6 +158,7 @@
     "UAE_714": "Fehlende Benutzerdaten in der Antwort des Anbieters",
     "UAE_715": "Fehlerhafte Antwort bei der Abfrage von Benutzerdaten durch den Anbieter",
     "UAE_716": "Fehler beim Abrufen des Tokens für das Apple-Konto",
+    "UAE_717": "Fehler beim Aktualisieren des Tokens für das Apple-Konto",
 
     // API Generic Common
     "UAE_900": "Datenbankaktualisierung der Daten ist fehlgeschlagen"
@@ -195,6 +199,7 @@
     "UAE_714": "Missing user data in provider's response",
     "UAE_715": "Invalid response when querying user data through the provider",
     "UAE_716": "Error while retrieving the token for the Apple account",
+    "UAE_717": "Error while refreshing token for Apple account",
 
     // API Generic Common
     "UAE_900": "Failed to update data in the database"

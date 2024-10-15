@@ -15,6 +15,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using static A.Enumerations.Enums;
 using static System.Net.WebRequestMethods;
+using SharedTypesLibrary.Models.RefreshTokenRequest;
 
 namespace A.Views;
 
@@ -123,7 +124,7 @@ public partial class LogInView : ContentPage
 
     private async Task LoginGeneric(string email, string password)
     {
-        (UserLoginGenericResponse UserLoginDTO, ExceptionHandler exception) response = await _loginService.LoginGeneric(EntryEmail.Text, EntryPassword.Text);
+        (UserLoginGenericResponse? UserLoginDTO, ExceptionHandler? exception) response = await _loginService.LoginGeneric(EntryEmail.Text, EntryPassword.Text);
 
         if (response.UserLoginDTO != null)
         {
@@ -156,7 +157,7 @@ public partial class LogInView : ContentPage
         else
         {
             //this.Content = this.MainControlWrapper;
-            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception.CustomMessage, App.LanguageResourceManager["AllView_Close"].ToString());
+            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception?.CustomMessage ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
         }
     }
 
@@ -181,7 +182,7 @@ public partial class LogInView : ContentPage
 
                 if (IsRefreshOfAccessTokenAllowed(authProvider))
                 {
-
+                    await RefreshAccessToken(authProvider, tokenData);
                     await NavigateToNextPage();
                 }
                 else
@@ -216,10 +217,10 @@ public partial class LogInView : ContentPage
         App.UserData.UserAuthData.JWTRefreshToken = userLoginInfo.JWTRefreshToken;
 
         App.UserData.UserAuthData.IsOAuthLogin = true;
-        App.UserData.UserAuthData.Provider = authProvider;
-        App.UserData.UserAuthData.OAuthAccessToken = userLoginInfo.OAuthAccessToken;
-        App.UserData.UserAuthData.OAuthRefreshToken = userLoginInfo.OauthRefreshToken;
-        App.UserData.UserAuthData.OAuthExpiresIn = userLoginInfo.OAuthExpiresIn;
+        //App.UserData.UserAuthData.Provider = authProvider;
+        //App.UserData.UserAuthData.OAuthAccessToken = userLoginInfo.OAuthAccessToken;
+        //App.UserData.UserAuthData.OAuthRefreshToken = userLoginInfo.OAuthRefreshToken;
+        //App.UserData.UserAuthData.OAuthExpiresIn = userLoginInfo.OAuthExpiresIn;
 
         App.UserData.UserIdentityData.Id = userLoginInfo.Id;
         App.UserData.UserIdentityData.OAuthId = userLoginInfo.OAuthId;
@@ -234,9 +235,9 @@ public partial class LogInView : ContentPage
         {
             GoogleTokenData data = new GoogleTokenData
             {
-                AccessToken = App.UserData.UserAuthData.OAuthAccessToken,
-                RefreshToken = App.UserData.UserAuthData.OAuthRefreshToken,
-                ValidUntil = new DateTime(App.UserData.UserAuthData.OAuthExpiresIn)
+                AccessToken = userLoginInfo.OAuthAccessToken,
+                RefreshToken = userLoginInfo.OAuthRefreshToken,
+                ValidUntil = new DateTime(userLoginInfo.OAuthExpiresIn)
             };
 
             string jsonData = JsonConvert.SerializeObject(data);
@@ -247,8 +248,8 @@ public partial class LogInView : ContentPage
         {
             FacebookTokenData data = new FacebookTokenData
             {
-                AccessToken = App.UserData.UserAuthData.OAuthAccessToken,
-                ValidUntil = new DateTime(App.UserData.UserAuthData.OAuthExpiresIn)
+                AccessToken = userLoginInfo.OAuthAccessToken,
+                ValidUntil = new DateTime(userLoginInfo.OAuthExpiresIn)
             };
 
             string jsonData = JsonConvert.SerializeObject(data);
@@ -259,8 +260,9 @@ public partial class LogInView : ContentPage
         {
             AppleTokenData data = new AppleTokenData
             {
-                AccessToken = App.UserData.UserAuthData.OAuthAccessToken,
-                ValidUntil = new DateTime(App.UserData.UserAuthData.OAuthExpiresIn)
+                AccessToken = userLoginInfo.OAuthAccessToken,
+                RefreshToken = userLoginInfo.OAuthRefreshToken,
+                ValidUntil = new DateTime(userLoginInfo.OAuthExpiresIn)
             };
 
             string jsonData = JsonConvert.SerializeObject(data);
@@ -342,13 +344,71 @@ public partial class LogInView : ContentPage
         }
     }
 
-    private bool IsRefreshOfAccessTokenAllowed(string provider)
+    private bool IsRefreshOfAccessTokenAllowed(string authProvider)
     {
-        return provider == AuthProviders.Google || provider == AuthProviders.Apple;
+        return authProvider == AuthProviders.Google || authProvider == AuthProviders.Apple;
     }
 
-    private async Task RefreshAccessToken(string provider)
+    private async Task RefreshAccessToken(string authProvider, ITokenData tokenData)
     {
+        (RefreshTokenResponse? refreshToken, ExceptionHandler? exception) response;
 
+        RefreshTokenRequest refreshTokenRequest;
+        if (authProvider == AuthProviders.Google && tokenData is GoogleTokenData tokenGoogle)
+        {
+            refreshTokenRequest = new RefreshTokenRequest
+            {
+                Provider = AuthProviders.Google,
+                RefreshToken = tokenGoogle.RefreshToken
+            };
+        }
+        else if (authProvider == AuthProviders.Apple && tokenData is AppleTokenData tokenApple)
+        {
+            refreshTokenRequest = new RefreshTokenRequest
+            {
+                Provider = AuthProviders.Apple,
+                RefreshToken = tokenApple.RefreshToken
+            };
+        }
+        else
+        {
+            throw new ArgumentException("Unsupported token data type", nameof(tokenData));
+        }
+
+
+        response = await _oAuthService.RefreshAccessToken(refreshTokenRequest);
+
+        if (response.refreshToken != null)
+        {
+            if (authProvider == AuthProviders.Google)
+            {
+                GoogleTokenData data = new GoogleTokenData
+                {
+                    AccessToken = response.refreshToken.NewAccessToken,
+                    RefreshToken = response.refreshToken.NewRefreshToken,
+                    ValidUntil = new DateTime(response.refreshToken.ExpiresIn)
+                };
+
+                string jsonData = JsonConvert.SerializeObject(data);
+                await SecureStorage.Default.SetAsync(nameof(GoogleTokenData), jsonData);
+            }
+
+            if (authProvider == AuthProviders.Apple)
+            {
+                AppleTokenData data = new AppleTokenData
+                {
+                    AccessToken = response.refreshToken.NewAccessToken,
+                    RefreshToken = response.refreshToken.NewRefreshToken,
+                    ValidUntil = new DateTime(response.refreshToken.ExpiresIn)
+                };
+
+                string jsonData = JsonConvert.SerializeObject(data);
+                await SecureStorage.Default.SetAsync(nameof(FacebookTokenData), jsonData);
+            }
+        }
+        else
+        {
+            await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception?.CustomMessage ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
+        }
     }
 }

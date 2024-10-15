@@ -1,6 +1,6 @@
 ﻿namespace ZivnostAPI.Models.AuthProvidersData;
 
-public class OAuth
+public class OAuthSettings
 {
     public string CallBackScheme { get; set; } = string.Empty;
     public string JwtKey { get; set; } = string.Empty;

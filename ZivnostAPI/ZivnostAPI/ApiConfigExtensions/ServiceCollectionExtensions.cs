@@ -12,12 +12,12 @@ namespace ZivnostAPI.ApiConfigClasses;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddOAuthClients(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddOAuthHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<OAuth>(configuration.GetSection("OAuth"));
+        services.Configure<OAuthSettings>(configuration.GetSection("OAuth"));
         services.AddHttpClient(AuthProviders.Google, (serviceProvider, authProvider) =>
         {
-            var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
+            var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuthSettings>>().Value;
             var queryParams = new Dictionary<string, string>
             {
                 { "response_type", "code" },
@@ -36,7 +36,7 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient(AuthProviders.Facebook, (serviceProvider, authProvider) =>
         {
-            var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
+            var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuthSettings>>().Value;
             var queryParams = new Dictionary<string, string>
             {
                 { "response_type", "code" },
@@ -53,7 +53,7 @@ public static class ServiceCollectionExtensions
 
         services.AddHttpClient(AuthProviders.Apple, (serviceProvider, authProvider) =>
         {
-            var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
+            var oauthOptions = serviceProvider.GetRequiredService<IOptions<OAuthSettings>>().Value;
             var queryParams = new Dictionary<string, string>
             {
                 { "response_type", "code" },
@@ -67,6 +67,24 @@ public static class ServiceCollectionExtensions
 
             authProvider.BaseAddress = new Uri($"{oauthOptions.Facebook.BaseUrl}/authorize?{queryString}");
         });
+
+        return services;
+    }
+
+    public static IServiceCollection CacheOAuthSettings(this IServiceCollection services, IConfiguration configuration)
+    {
+        OAuthSettings? oauthSettings = configuration.GetSection("OAuth").Get<OAuthSettings>();
+
+        services.Configure<OAuthSettings>(configuration.GetSection("OAuth"));
+
+        if (oauthSettings == null)
+        {
+            throw new Exception("OAuth settings of providers were not correctly loaded (null)");
+        }
+        else
+        { 
+            services.AddSingleton(oauthSettings);
+        }
 
         return services;
     }

@@ -110,7 +110,7 @@ public class LogInService : ILogInService
             Dictionary<string, string> tokenRequestData;
             string endPoint = string.Empty;
 
-            OAuth oauthSettings = _serviceProvider.GetRequiredService<IOptions<OAuth>>().Value;
+            OAuthSettings oauthSettings = _serviceProvider.GetRequiredService<IOptions<OAuthSettings>>().Value;
 
             if (provider == AuthProviders.Google)
             {
@@ -125,7 +125,9 @@ public class LogInService : ILogInService
                     { "grant_type", "authorization_code" }
                 };
 
-                endPoint = $"{oauthSettings.Google.BaseUrl}/token";
+                //https://accounts.google.com/o/oauth2 - was before BaseUrl
+                //endPoint = $"{oauthSettings.Google.BaseUrl}/token";
+                endPoint = "https://oauth2.googleapis.com/token";
             }
             else if (provider == AuthProviders.Facebook)
             {
@@ -172,9 +174,9 @@ public class LogInService : ILogInService
                 string responseContent = await tokenResponse.Content.ExtReadAsStringAsync();
                 object tokenData = provider switch
                 {
-                    AuthProviders.Google => responseContent.ExtDeserializeObject<GoogleTokenResponse>(),
-                    AuthProviders.Facebook => responseContent.ExtDeserializeObject<FacebookTokenResponse>(),
-                    AuthProviders.Apple => responseContent.ExtDeserializeObject<AppleTokenResponse>(),
+                    AuthProviders.Google => responseContent.ExtJsonDeserializeObject<GoogleTokenResponse>(),
+                    AuthProviders.Facebook => responseContent.ExtJsonDeserializeObject<FacebookTokenResponse>(),
+                    AuthProviders.Apple => responseContent.ExtJsonDeserializeObject<AppleTokenResponse>(),
                     _ => throw new ExceptionHandler("UAE_713")
                 };
 
@@ -281,13 +283,13 @@ public class LogInService : ILogInService
                     {
                         if (provider == AuthProviders.Google)
                         {
-                            GoogleUserInfo? userInfo = userInfoResString.ExtDeserializeObject<GoogleUserInfo>();
+                            GoogleUserInfo? userInfo = userInfoResString.ExtJsonDeserializeObject<GoogleUserInfo>();
                             result.Data.GoogleUserInfo = userInfo;
                             result.Success = true;
                         }
                         else if (provider == AuthProviders.Facebook)
                         {
-                            FacebookUserInfo? userInfo = userInfoResString.ExtDeserializeObject<FacebookUserInfo>();
+                            FacebookUserInfo? userInfo = userInfoResString.ExtJsonDeserializeObject<FacebookUserInfo>();
                             result.Data.FacebookUserInfo = userInfo;
                             result.Success = true;
                         }
@@ -441,7 +443,7 @@ public class LogInService : ILogInService
         if (tokenData is GoogleTokenResponse googleToken)
         {
             oAuthResponse.OAuthAccessToken = googleToken.AccessToken;
-            oAuthResponse.OauthRefreshToken = googleToken.RefreshToken;
+            oAuthResponse.OAuthRefreshToken = googleToken.RefreshToken;
             oAuthResponse.OAuthExpiresIn = googleToken.ExpiresIn;
         }
 
@@ -454,7 +456,7 @@ public class LogInService : ILogInService
         if (tokenData is AppleTokenResponse appleToken)
         {
             oAuthResponse.OAuthAccessToken = appleToken.AccessToken;
-            oAuthResponse.OauthRefreshToken = appleToken.RefreshToken;
+            oAuthResponse.OAuthRefreshToken = appleToken.RefreshToken;
             oAuthResponse.OAuthExpiresIn = appleToken.ExpiresIn;
         }
     }
@@ -471,7 +473,7 @@ public class LogInService : ILogInService
         queryString[OAuthUrlParamsResponse.MiddleName] = HttpUtility.UrlEncode(oAuthResponse.MiddleName);
         queryString[OAuthUrlParamsResponse.SureName] = HttpUtility.UrlEncode(oAuthResponse.SureName);
         queryString[OAuthUrlParamsResponse.OAuthAccessToken] = HttpUtility.UrlEncode(oAuthResponse.OAuthAccessToken);
-        queryString[OAuthUrlParamsResponse.OAuthRefreshToken] = HttpUtility.UrlEncode(oAuthResponse.OauthRefreshToken);
+        queryString[OAuthUrlParamsResponse.OAuthRefreshToken] = HttpUtility.UrlEncode(oAuthResponse.OAuthRefreshToken);
         queryString[OAuthUrlParamsResponse.OAuthExpiresIn] = HttpUtility.UrlEncode(oAuthResponse.OAuthExpiresIn.ToString());
         queryString[OAuthUrlParamsResponse.NewUser] = oAuthResponse.NewUser ? "true" : "false";  // boolean values don't need encoding
 

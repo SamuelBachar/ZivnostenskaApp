@@ -11,13 +11,23 @@ using System.Text;
 using System.Threading.Tasks;
 using SharedTypesLibrary.Models.AuthProvidersData.Google;
 using SharedTypesLibrary.Models.AuthProvidersData.Facebook;
+using SharedTypesLibrary.Models.RefreshTokenRequest;
+using SharedTypesLibrary.ServiceResponseModel;
+using ExceptionsHandling;
+using System.Net.Http.Json;
+using System.Text.Json;
+using SharedTypesLibrary.DTOs.Response;
+using ExtensionsLibrary.Http;
 
 namespace A.Services;
 
 class OauthService : IOauthService
 {
-
-    public OauthService() { }
+    IHttpClientFactory _httpClientFactory;
+    public OauthService(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
 
     public async Task ReloadUserDataFromOAuthProvider(ITokenData tokenData)
     {
@@ -25,7 +35,7 @@ class OauthService : IOauthService
         {
             GoogleTokenData => "https://www.googleapis.com/oauth2/v2/userinfo",
             FacebookTokenData => $"https://graph.facebook.com/me?fields=id,name,email,picture,phone",
-            _ => throw new ArgumentException("Invalid provider")
+            _ => throw new ExceptionHandler("UAE_713", App.UserData.CurrentCulture)
         };
 
         using (HttpClient httpClient = new HttpClient())
@@ -70,4 +80,35 @@ class OauthService : IOauthService
             }
         }
     }
+
+    public async Task<(RefreshTokenResponse? refreshToken, ExceptionHandler? Exception)> RefreshAccessToken(RefreshTokenRequest request)
+    {
+        (RefreshTokenResponse? refreshToken, ExceptionHandler? Exception) result;
+
+        HttpClient httpClient = _httpClientFactory.CreateClient();
+        HttpResponseMessage response = await httpClient.PostAsJsonAsync<RefreshTokenRequest>("/api/OAuthController/RefreshAccessToken", request, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+        if (response.IsSuccessStatusCode)
+        {
+            ApiResponse<RefreshTokenResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<RefreshTokenResponse>();
+            result = (serializedResponse.Data, null);
+        }
+        else if ((!response.IsSuccessStatusCode) && (response.StatusCode == System.Net.HttpStatusCode.BadRequest))
+        {
+            ApiResponse<RefreshTokenResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<RefreshTokenResponse>();
+            result = (null, new ExceptionHandler("UAE_004", serializedResponse.ApiErrorCode, serializedResponse.APIException, App.UserData.CurrentCulture));
+        }
+        else if (!response.IsSuccessStatusCode)
+        {
+            var responseString = await response.Content.ExtReadAsStringAsync();
+            result = ExceptionHandler.ReadGenericHttpErrors<RefreshTokenResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
+        }
+        else
+        {
+            result = (null, new ExceptionHandler("UAE_400", App.UserData.CurrentCulture));
+        }
+
+        return result;
+    }
+
 }

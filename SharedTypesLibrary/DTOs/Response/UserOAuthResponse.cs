@@ -32,7 +32,7 @@ public class UserOAuthResponse
     /* Used against further login via OAuth providers if not expired yet */
     public string OAuthAccessToken { get; set; } = string.Empty;
 
-    public string OauthRefreshToken { get; set; } = string.Empty;
+    public string OAuthRefreshToken { get; set; } = string.Empty;
 
     public int OAuthExpiresIn { get; set; }
     /* ****************************************************************** */

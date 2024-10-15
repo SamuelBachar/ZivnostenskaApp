@@ -24,8 +24,9 @@ builder.Services.AddEndpointsApiExplorer(); // Learn more about configuring Swag
 
 builder.Services.ConfigureSwagger()
                 .AddCustomServices()
-                .AddOAuthClients(builder.Configuration)
+                .AddOAuthHttpClients(builder.Configuration)
                 .AddDatabaseServices(builder.Configuration)
+                .CacheOAuthSettings(builder.Configuration)
                 .AddAutoMapping();
 
 var app = builder.Build();

@@ -41,7 +41,7 @@ public class LoginService : ILoginService
         try
         {
             UserLoginRequest userLoginRequest = new UserLoginRequest { Email = email, Password = passWord };
-            var response = await _httpClient.PostAsJsonAsync($"/api/User/login", userLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/User/login", userLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             if (response.IsSuccessStatusCode)
             {
@@ -179,7 +179,7 @@ public class LoginService : ILoginService
             MiddleName = properties.TryGetValue(OAuthUrlParamsResponse.MiddleName, out string? middleName) ? HttpUtility.UrlDecode(middleName) : string.Empty,
             SureName = properties.TryGetValue(OAuthUrlParamsResponse.SureName, out string? sureName) ? HttpUtility.UrlDecode(sureName) : string.Empty,
             OAuthAccessToken = properties.TryGetValue(OAuthUrlParamsResponse.OAuthAccessToken, out string? accessToken) ? HttpUtility.UrlDecode(accessToken) : string.Empty,
-            OauthRefreshToken = properties.TryGetValue(OAuthUrlParamsResponse.OAuthRefreshToken, out string? refreshToken) ? HttpUtility.UrlDecode(refreshToken) : string.Empty,
+            OAuthRefreshToken = properties.TryGetValue(OAuthUrlParamsResponse.OAuthRefreshToken, out string? refreshToken) ? HttpUtility.UrlDecode(refreshToken) : string.Empty,
             OAuthExpiresIn = properties.TryGetValue(OAuthUrlParamsResponse.OAuthExpiresIn, out string? expiresIn) ? int.Parse(HttpUtility.UrlDecode(expiresIn)) : 0,
             NewUser = properties.TryGetValue(OAuthUrlParamsResponse.NewUser, out string? newUser) && newUser.ToLower() == "true"
         };

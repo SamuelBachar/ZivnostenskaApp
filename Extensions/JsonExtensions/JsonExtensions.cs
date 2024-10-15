@@ -10,7 +10,7 @@ namespace ExtensionsLibrary.JsonExtensions;
 
 public static class JsonExtensions
 {
-    public static T ExtDeserializeObject<T>(this string json)
+    public static T ExtJsonDeserializeObject<T>(this string json)
     {
         if (string.IsNullOrEmpty(json))
         {
@@ -30,8 +30,7 @@ public static class JsonExtensions
         }
         catch (JsonException ex)
         {
-            // Optionally log the exception or handle it as per your needs
-            throw new ExceptionHandler("");
+            throw new ExceptionHandler("", "UAE_402", ex.Message);
         }
     }
 }
