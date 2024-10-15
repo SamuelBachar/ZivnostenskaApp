@@ -257,7 +257,7 @@ public partial class LogInView : ContentPage
 
         if (authProvider == AuthProviders.Apple)
         {
-            FacebookTokenData data = new AppleTokenData
+            AppleTokenData data = new AppleTokenData
             {
                 AccessToken = App.UserData.UserAuthData.OAuthAccessToken,
                 ValidUntil = new DateTime(App.UserData.UserAuthData.OAuthExpiresIn)

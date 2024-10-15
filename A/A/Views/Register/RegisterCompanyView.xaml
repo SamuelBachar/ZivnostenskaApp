@@ -213,7 +213,7 @@
                             <Image Source="user_login.png" HeightRequest="20" WidthRequest="20" />
                         </Frame>
                         <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                            <Entry x:Name="EntryEmailRegister" ToolTipProperties.Text="Zadajte e-mail" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="E-Mail" Keyboard="Email" TextChanged="EntryEmail_TextChanged"/>
+                            <Entry x:Name="EntryEmailRegister" ToolTipProperties.Text="Zadajte e-mail" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="E-Mail" Keyboard="Email"/>
                         </Frame>
                     </StackLayout>
 
@@ -222,7 +222,7 @@
                             <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                         </Frame>
                         <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                            <Entry x:Name="EntryPassword" ToolTipProperties.Text="Zadajte heslo" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Heslo" IsPassword="True" TextChanged="EntryPassword_TextChanged"/>
+                            <Entry x:Name="EntryPassword" ToolTipProperties.Text="Zadajte heslo" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Heslo" IsPassword="True"/>
                         </Frame>
                     </StackLayout>
 
@@ -231,7 +231,7 @@
                             <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                         </Frame>
                         <Frame HeightRequest="45" Margin="-20,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                            <Entry x:Name="EntryPasswordConfirm" ToolTipProperties.Text="Zadajte heslo" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Potvrdenie hesla" IsPassword="True" TextChanged="EntryPasswordConfirm_TextChanged"/>
+                            <Entry x:Name="EntryPasswordConfirm" ToolTipProperties.Text="Zadajte heslo" TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" Placeholder="Potvrdenie hesla" IsPassword="True"/>
                         </Frame>
                     </StackLayout>
 

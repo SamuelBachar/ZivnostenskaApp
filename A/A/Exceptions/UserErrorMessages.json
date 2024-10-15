@@ -15,8 +15,9 @@
     // Generic
     "UAE_400": "Neočakavaná odpoveď od servera, neznáma chyba",
     "UAE_401": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
-    "UAE_402": "Problém počas serializácie dát",
+    "UAE_402": "Problém počas deserializácie dát",
     "UAE_403": "Odpoveď zo servera neobsahuje dáta",
+    "UAE_404": "Neexistujú dáta pre deserializáciu",
 
     /* API Error codes */
 
@@ -33,6 +34,7 @@
     "UAE_713": "Poskytovateľ nie je podporovaný",
     "UAE_714": "Chýbajúce uživateľské dáta v odpovedi poskytovateľa",
     "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
+    "UAE_716": "Chyba počas získavania tokenu pre Apple účet",
 
     // API Generic Common
     "UAE_900": "Nepodarilo sa aktualizovať údaje v databáze"
@@ -54,8 +56,9 @@
     // Generic
     "UAE_400": "Neočakavaná odpoveď od servera, neznáma chyba",
     "UAE_401": "Nastala chyba pri komunikácií so serverom.\r\nChyba: ",
-    "UAE_402": "Problém počas serializácie dát",
+    "UAE_402": "Problém počas deserializácie dát",
     "UAE_403": "Odpoveď zo servera neobsahuje dáta",
+    "UAE_404": "Neexistujú dáta pre deserializáciu",
 
     /* API Error codes */
 
@@ -72,6 +75,7 @@
     "UAE_713": "Poskytovateľ nie je podporovaný",
     "UAE_714": "Chýbajúce uživateľské dáta v odpovedi poskytovateľa",
     "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
+    "UAE_716": "Chyba počas získavania tokenu pre Apple účet",
 
     // API Generic Common
     "UAE_900": "Nepodarilo sa aktualizovať údaje v databáze"
@@ -92,8 +96,9 @@
     // Generic
     "UAE_400": "Neočekávaná odpověď od serveru, neznámá chyba",
     "UAE_401": "Nastala chyba při komunikaci se serverem.\r\nChyba: ",
-    "UAE_402": "Problém během serializace dat",
+    "UAE_402": "Problém během deserializace dat",
     "UAE_403": "Odpověď ze serveru neobsahuje data",
+    "UAE_404": "Neexistují data pro deserializaci",
 
     /* API Error codes */
 
@@ -110,6 +115,7 @@
     "UAE_713": "Poskytovatel není podporován",
     "UAE_714": "Chybějící uživatelská data v odpovědi poskytovatele",
     "UAE_715": "Chybná odpověď při dotazu uživatelských dat pomocí poskytovatele",
+    "UAE_716": "Chyba při získávání tokenu pro Apple účet",
 
     // API Generic Common
     "UAE_900": "Nepodařilo se aktualizovat údaje v databázi"
@@ -129,8 +135,9 @@
     //Generic
     "UAE_400": "Unerwartete Antwort vom Server, unbekannter Fehler",
     "UAE_401": "Bei der Kommunikation mit dem Server ist ein Fehler aufgetreten.\r\nFehler: ",
-    "UAE_402": "Problem bei der Datenserialisierung",
+    "UAE_402": "Problem bei der Datendeserialisierung",
     "UAE_403": "Die Antwort vom Server enthält keine Daten",
+    "UAE_404": "Es liegen keine Daten zur Deserialisierung vor",
 
     /* API Error codes */
 
@@ -147,6 +154,7 @@
     "UAE_713": "Anbieter wird nicht unterstützt",
     "UAE_714": "Fehlende Benutzerdaten in der Antwort des Anbieters",
     "UAE_715": "Fehlerhafte Antwort bei der Abfrage von Benutzerdaten durch den Anbieter",
+    "UAE_716": "Fehler beim Abrufen des Tokens für das Apple-Konto",
 
     // API Generic Common
     "UAE_900": "Datenbankaktualisierung der Daten ist fehlgeschlagen"
@@ -167,8 +175,9 @@
     // Generic 
     "UAE_400": "Unexpected response from server, unknown error",
     "UAE_401": "An error occurred while communicating with the server.\r\nError: ",
-    "UAE_402": "Problem during data serialization",
+    "UAE_402": "Problem during data deserialization",
     "UAE_403": "The response from the server contains no data",
+    "UAE_404": "No data available for deserialization",
 
     /* API Error codes */
 
@@ -185,6 +194,7 @@
     "UAE_713": "Provider is not supported",
     "UAE_714": "Missing user data in provider's response",
     "UAE_715": "Invalid response when querying user data through the provider",
+    "UAE_716": "Error while retrieving the token for the Apple account",
 
     // API Generic Common
     "UAE_900": "Failed to update data in the database"

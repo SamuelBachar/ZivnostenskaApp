@@ -2,6 +2,8 @@
 using Azure.Core;
 using ExceptionsHandling;
 using ExtensionsLibrary.DbExtensions;
+using ExtensionsLibrary.Http;
+using ExtensionsLibrary.JsonExtensions;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -31,6 +33,7 @@ using System.Web;
 using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Models.DatabaseModels.Account;
+using static System.Net.WebRequestMethods;
 
 namespace ZivnostAPI.Services.LogInService;
 
@@ -156,7 +159,7 @@ public class LogInService : ILogInService
             }
             else
             {
-                throw new Exception($"Provider {provider} not supported");
+                throw new ExceptionHandler("UAE_713");
             }
 
             FormUrlEncodedContent requestContent = new FormUrlEncodedContent(tokenRequestData);
@@ -164,28 +167,36 @@ public class LogInService : ILogInService
 
             if (tokenResponse.IsSuccessStatusCode)
             {
-                object? tokenData = null;
-                if (provider == AuthProviders.Google)
-                {
-                    string responseContent = await tokenResponse.Content.ReadAsStringAsync();
-                    tokenData = JsonConvert.DeserializeObject<GoogleTokenResponse?>(responseContent);
-                }
+                ApiResponse<OAuthUserInfo> userInfo = new ApiResponse<OAuthUserInfo>();
 
-                if (provider == AuthProviders.Facebook)
+                string responseContent = await tokenResponse.Content.ExtReadAsStringAsync();
+                object tokenData = provider switch
                 {
-                    string responseContent = await tokenResponse.Content.ReadAsStringAsync();
-                    tokenData = JsonConvert.DeserializeObject<FacebookTokenResponse?>(responseContent);
-                }
+                    AuthProviders.Google => responseContent.ExtDeserializeObject<GoogleTokenResponse>(),
+                    AuthProviders.Facebook => responseContent.ExtDeserializeObject<FacebookTokenResponse>(),
+                    AuthProviders.Apple => responseContent.ExtDeserializeObject<AppleTokenResponse>(),
+                    _ => throw new ExceptionHandler("UAE_713")
+                };
 
                 if (provider == AuthProviders.Apple)
                 {
-                    string responseContent = await tokenResponse.Content.ReadAsStringAsync();
-                    tokenData = JsonConvert.DeserializeObject<AppleTokenResponse?>(responseContent);
+                    if (string.IsNullOrEmpty(((AppleTokenResponse)tokenData).Error))
+                    {
+                        userInfo = await GetUserInfoFromOAuthProvider(httpClient, tokenData, provider);
+                    }
+                    else
+                    {
+                        userInfo.Success = false;
+                        userInfo.ApiErrorCode = "UAE_716";
+                        userInfo.APIException = ((AppleTokenResponse)tokenData).Error ?? "";
+                    }
+                }
+                else
+                {
+                    userInfo = await GetUserInfoFromOAuthProvider(httpClient, tokenData, provider);
                 }
 
-                ApiResponse<OAuthUserInfo> userInfo = await GetUserInfoFromOAuthProvider(httpClient, tokenData, provider);
-
-                if (userInfo.Success && userInfo.Data != null)
+                if (userInfo?.Data != null && userInfo.Success)
                 {
                     Account? account = await OAuthGetUserAccount(userInfo.Data, provider);
                     bool newUser = false;
@@ -244,20 +255,20 @@ public class LogInService : ILogInService
         {
             if (provider == AuthProviders.Google || provider == AuthProviders.Facebook)
             {
+                string accessToken = string.Empty;
+                string userInfoUrl = string.Empty;
 
-                string? accessToken = provider switch
+                if (oAuthTokenResponse is GoogleTokenResponse googleToken)
                 {
-                    AuthProviders.Google when oAuthTokenResponse is GoogleTokenResponse googleToken => googleToken.AccessToken,
-                    AuthProviders.Facebook when oAuthTokenResponse is FacebookTokenResponse facebookToken => facebookToken.AccessToken,
-                    _ => throw new ArgumentException("Invalid provider or token type")
-                };
+                    accessToken = googleToken.AccessToken;
+                    userInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
+                }
 
-                string userInfoUrl = provider switch
+                if (oAuthTokenResponse is FacebookTokenResponse facebookToken)
                 {
-                    AuthProviders.Google => "https://www.googleapis.com/oauth2/v2/userinfo",
-                    AuthProviders.Facebook => "https://graph.facebook.com/me?fields=id,name,email,picture,phone",
-                    _ => throw new ArgumentException("Invalid provider")
-                };
+                    accessToken = facebookToken.AccessToken;
+                    userInfoUrl = "https://graph.facebook.com/me?fields=id,name,email,picture,phone";
+                }
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 HttpResponseMessage userInfoResponse = await httpClient.GetAsync(userInfoUrl);
@@ -270,13 +281,13 @@ public class LogInService : ILogInService
                     {
                         if (provider == AuthProviders.Google)
                         {
-                            GoogleUserInfo? userInfo = JsonConvert.DeserializeObject<GoogleUserInfo>(userInfoResString);
+                            GoogleUserInfo? userInfo = userInfoResString.ExtDeserializeObject<GoogleUserInfo>();
                             result.Data.GoogleUserInfo = userInfo;
                             result.Success = true;
                         }
                         else if (provider == AuthProviders.Facebook)
                         {
-                            FacebookUserInfo? userInfo = JsonConvert.DeserializeObject<FacebookUserInfo>(userInfoResString);
+                            FacebookUserInfo? userInfo = userInfoResString.ExtDeserializeObject<FacebookUserInfo>();
                             result.Data.FacebookUserInfo = userInfo;
                             result.Success = true;
                         }
