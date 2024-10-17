@@ -20,7 +20,7 @@ public interface ILogInService
 
     Task<DbActionResponse> OAuthCreateUserAccount(OAuthUserInfo userInfo, Account? account, string provider);
 
-    void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser);
+    void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser, AccountRegistrationStatus? regStatus = null);
 
     string SerializeUserOAuthResponse(UserOAuthResponse oAuthResponse);
 }

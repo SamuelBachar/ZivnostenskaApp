@@ -35,7 +35,13 @@ public class UserOAuthResponse
     public string OAuthRefreshToken { get; set; } = string.Empty;
 
     public int OAuthExpiresIn { get; set; }
+
+    public string OAuthAppleJwtToken { get; set; } = string.Empty;
     /* ****************************************************************** */
 
-    public bool NewUser { get; set; } = false;
+    public bool NewUser { get; set; }
+
+    public bool RegisteredAsCustomer { get;set; }
+
+    public bool RegisteredAsCompany { get;set; }
 }

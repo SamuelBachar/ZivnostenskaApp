@@ -68,7 +68,7 @@ public class LogInController : ControllerBase
         {
             response = await _loginService.RedirectUri(queryParams);
 
-            if (response.Success)
+            if (response.Success && response.Data != null)
             {
                 redirectUri += "success=true";
                 redirectUri += "&" + _loginService.SerializeUserOAuthResponse(response.Data);

@@ -188,6 +188,16 @@ public partial class LogInView : ContentPage
                 else
                 {
                     response = await _loginService.LoginWithAuthProvider(authProvider);
+
+                    if (response.userLoginInfo != null)
+                    {
+                        await StoreOAuthResponseData(response.userLoginInfo, authProvider);
+                        await NavigateToNextPage();
+                    }
+                    else
+                    {
+                        await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception?.CustomMessage ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
+                    }
                 }
             }
             else
@@ -197,7 +207,7 @@ public partial class LogInView : ContentPage
                 if (response.userLoginInfo != null)
                 {
                     await StoreOAuthResponseData(response.userLoginInfo, authProvider);
-                    await NavigateToNextPage(response.userLoginInfo.NewUser);
+                    await NavigateToNextPage();
                 }
                 else
                 {
@@ -217,19 +227,23 @@ public partial class LogInView : ContentPage
         App.UserData.UserAuthData.JWTRefreshToken = userLoginInfo.JWTRefreshToken;
 
         App.UserData.UserAuthData.IsOAuthLogin = true;
-        //App.UserData.UserAuthData.Provider = authProvider;
+        App.UserData.UserAuthData.Provider = authProvider;
+
+        //App.UserData.UserIdentityData.OAuthId = userLoginInfo.OAuthId;
         //App.UserData.UserAuthData.OAuthAccessToken = userLoginInfo.OAuthAccessToken;
         //App.UserData.UserAuthData.OAuthRefreshToken = userLoginInfo.OAuthRefreshToken;
         //App.UserData.UserAuthData.OAuthExpiresIn = userLoginInfo.OAuthExpiresIn;
 
         App.UserData.UserIdentityData.Id = userLoginInfo.Id;
-        App.UserData.UserIdentityData.OAuthId = userLoginInfo.OAuthId;
         App.UserData.UserIdentityData.Email = userLoginInfo.Email;
         App.UserData.UserIdentityData.Phone = userLoginInfo.Phone;
         App.UserData.UserIdentityData.PictureURL = userLoginInfo.PictureURL;
         App.UserData.UserIdentityData.Name = userLoginInfo.Name;
         App.UserData.UserIdentityData.MiddleName = userLoginInfo.MiddleName;
         App.UserData.UserIdentityData.SureName = userLoginInfo.SureName;
+        App.UserData.UserIdentityData.NewUser = userLoginInfo.NewUser;
+        App.UserData.UserIdentityData.RegisteredAsCustomer = userLoginInfo.RegisteredAsCustomer;
+        App.UserData.UserIdentityData.RegisteredAsCompany = userLoginInfo.RegisteredAsCompany;
 
         if (authProvider == AuthProviders.Google)
         {
@@ -262,11 +276,12 @@ public partial class LogInView : ContentPage
             {
                 AccessToken = userLoginInfo.OAuthAccessToken,
                 RefreshToken = userLoginInfo.OAuthRefreshToken,
-                ValidUntil = new DateTime(userLoginInfo.OAuthExpiresIn)
+                ValidUntil = new DateTime(userLoginInfo.OAuthExpiresIn),
+                JwtToken = userLoginInfo.OAuthAppleJwtToken
             };
 
             string jsonData = JsonConvert.SerializeObject(data);
-            await SecureStorage.Default.SetAsync(nameof(FacebookTokenData), jsonData);
+            await SecureStorage.Default.SetAsync(nameof(AppleTokenData), jsonData);
         }
     }
 
@@ -351,7 +366,7 @@ public partial class LogInView : ContentPage
 
     private async Task RefreshAccessToken(string authProvider, ITokenData tokenData)
     {
-        (RefreshTokenResponse? refreshToken, ExceptionHandler? exception) response;
+        (RefreshTokenResponse? refreshTokenResp, ExceptionHandler? exception) response;
 
         RefreshTokenRequest refreshTokenRequest;
         if (authProvider == AuthProviders.Google && tokenData is GoogleTokenData tokenGoogle)
@@ -378,33 +393,9 @@ public partial class LogInView : ContentPage
 
         response = await _oAuthService.RefreshAccessToken(refreshTokenRequest);
 
-        if (response.refreshToken != null)
+        if (response.refreshTokenResp != null)
         {
-            if (authProvider == AuthProviders.Google)
-            {
-                GoogleTokenData data = new GoogleTokenData
-                {
-                    AccessToken = response.refreshToken.NewAccessToken,
-                    RefreshToken = response.refreshToken.NewRefreshToken,
-                    ValidUntil = new DateTime(response.refreshToken.ExpiresIn)
-                };
-
-                string jsonData = JsonConvert.SerializeObject(data);
-                await SecureStorage.Default.SetAsync(nameof(GoogleTokenData), jsonData);
-            }
-
-            if (authProvider == AuthProviders.Apple)
-            {
-                AppleTokenData data = new AppleTokenData
-                {
-                    AccessToken = response.refreshToken.NewAccessToken,
-                    RefreshToken = response.refreshToken.NewRefreshToken,
-                    ValidUntil = new DateTime(response.refreshToken.ExpiresIn)
-                };
-
-                string jsonData = JsonConvert.SerializeObject(data);
-                await SecureStorage.Default.SetAsync(nameof(FacebookTokenData), jsonData);
-            }
+            await _oAuthService.StoreNewAccessToken(authProvider, response.refreshTokenResp);
         }
         else
         {

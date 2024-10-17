@@ -1,4 +1,5 @@
-﻿using A.Interfaces;
+﻿using A.AppPreferences;
+using A.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static A.Enumerations.Enums;
 
 namespace A.Services;
 
@@ -114,5 +116,13 @@ class SettingsService : ISettingsService
             language = "testExc";
 
         return language;
+    }
+
+    public static async Task SavePreferedApplicationMode(AppMode appMode, bool saveAppMode)
+    {
+        if (saveAppMode)
+        {
+            await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, appMode);
+        }
     }
 }

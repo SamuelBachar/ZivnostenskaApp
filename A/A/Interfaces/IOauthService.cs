@@ -16,4 +16,6 @@ public interface IOauthService
     Task ReloadUserDataFromOAuthProvider(ITokenData tokenData);
 
     Task<(RefreshTokenResponse? refreshToken, ExceptionHandler? Exception)> RefreshAccessToken(RefreshTokenRequest request);
+
+    Task StoreNewAccessToken(string authProvider, RefreshTokenResponse response);
 }

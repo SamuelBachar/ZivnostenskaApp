@@ -18,6 +18,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using SharedTypesLibrary.DTOs.Response;
 using ExtensionsLibrary.Http;
+using SharedTypesLibrary.Constants;
 
 namespace A.Services;
 
@@ -49,19 +50,6 @@ class OauthService : IOauthService
 
                 if (!string.IsNullOrEmpty(userInfoResString))
                 {
-                    if (tokenData is GoogleTokenData)
-                    {
-                        GoogleUserInfo? userInfo = JsonConvert.DeserializeObject<GoogleUserInfo>(userInfoResString);
-
-                        if (userInfo != null)
-                        {
-                            App.UserData.UserIdentityData.Name = userInfo.GivenName;
-                            App.UserData.UserIdentityData.SureName = userInfo.FamilyName;
-                            App.UserData.UserIdentityData.Email = userInfo.Email;
-                            App.UserData.UserIdentityData.PictureURL = userInfo.Picture;
-                        }
-                    }
-
                     if (tokenData is FacebookTokenData)
                     {
                         FacebookUserInfo? userInfo = JsonConvert.DeserializeObject<FacebookUserInfo>(userInfoResString);
@@ -76,6 +64,21 @@ class OauthService : IOauthService
                             App.UserData.UserIdentityData.PictureURL = userInfo.Picture.PictureData.Url;
                         }
                     }
+
+                    if (tokenData is GoogleTokenData)
+                    {
+                        GoogleUserInfo? userInfo = JsonConvert.DeserializeObject<GoogleUserInfo>(userInfoResString);
+
+                        if (userInfo != null)
+                        {
+                            App.UserData.UserIdentityData.Name = userInfo.GivenName;
+                            App.UserData.UserIdentityData.SureName = userInfo.FamilyName;
+                            App.UserData.UserIdentityData.Email = userInfo.Email;
+                            App.UserData.UserIdentityData.PictureURL = userInfo.Picture;
+                        }
+                    }
+
+                    // For APPLE is not such endpoint therefore no reloading of data
                 }
             }
         }
@@ -111,4 +114,32 @@ class OauthService : IOauthService
         return result;
     }
 
+    public async Task StoreNewAccessToken(string authProvider, RefreshTokenResponse refreshToken)
+    {
+        if (authProvider == AuthProviders.Google)
+        {
+            GoogleTokenData data = new GoogleTokenData
+            {
+                AccessToken = refreshToken.NewAccessToken,
+                RefreshToken = refreshToken.NewRefreshToken,
+                ValidUntil = new DateTime(refreshToken.ExpiresIn)
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data);
+            await SecureStorage.Default.SetAsync(nameof(GoogleTokenData), jsonData);
+        }
+
+        if (authProvider == AuthProviders.Apple)
+        {
+            AppleTokenData data = new AppleTokenData
+            {
+                AccessToken = refreshToken.NewAccessToken,
+                RefreshToken = refreshToken.NewRefreshToken,
+                ValidUntil = new DateTime(refreshToken.ExpiresIn)
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data);
+            await SecureStorage.Default.SetAsync(nameof(AppleTokenData), jsonData);
+        }
+    }
 }

@@ -19,5 +19,8 @@ public static class OAuthUrlParamsResponse
     public const string OAuthAccessToken = "oAuthAccessToken";
     public const string OAuthRefreshToken = "oAuthRefreshToken";
     public const string OAuthExpiresIn = "oAuthExpiresIn";
+    public const string OAuthAppleJwtToken = "oAuthAppleJwtToken";
     public const string NewUser = "newUser";
+    public const string RegisteredAsCustomer = "registeredAsCustomer";
+    public const string RegisteredAsCompany = "registeredAsCompany";
 }

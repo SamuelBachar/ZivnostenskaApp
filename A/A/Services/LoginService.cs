@@ -181,7 +181,10 @@ public class LoginService : ILoginService
             OAuthAccessToken = properties.TryGetValue(OAuthUrlParamsResponse.OAuthAccessToken, out string? accessToken) ? HttpUtility.UrlDecode(accessToken) : string.Empty,
             OAuthRefreshToken = properties.TryGetValue(OAuthUrlParamsResponse.OAuthRefreshToken, out string? refreshToken) ? HttpUtility.UrlDecode(refreshToken) : string.Empty,
             OAuthExpiresIn = properties.TryGetValue(OAuthUrlParamsResponse.OAuthExpiresIn, out string? expiresIn) ? int.Parse(HttpUtility.UrlDecode(expiresIn)) : 0,
-            NewUser = properties.TryGetValue(OAuthUrlParamsResponse.NewUser, out string? newUser) && newUser.ToLower() == "true"
+            OAuthAppleJwtToken = properties.TryGetValue(OAuthUrlParamsResponse.OAuthAppleJwtToken, out string? appleJwtToken) ? HttpUtility.UrlDecode(appleJwtToken) : string.Empty,
+            NewUser = properties.TryGetValue(OAuthUrlParamsResponse.NewUser, out string? newUser) && newUser.ToLower() == "true",
+            RegisteredAsCustomer = properties.TryGetValue(OAuthUrlParamsResponse.NewUser, out string? regAsCus) && regAsCus.ToLower() == "true",
+            RegisteredAsCompany = properties.TryGetValue(OAuthUrlParamsResponse.NewUser, out string? regAsComp) && regAsComp.ToLower() == "true"
         };
     }
 }

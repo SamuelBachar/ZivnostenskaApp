@@ -38,6 +38,10 @@ namespace A.User
         public string Name { get; set; } = string.Empty;
         public string MiddleName { get; set; } = string.Empty;
         public string SureName { get; set; } = string.Empty;
+
+        public bool NewUser { get; set; }
+        public bool RegisteredAsCustomer { get; set; }
+        public bool RegisteredAsCompany { get; set; }
     }
 
     public class UserData

@@ -58,17 +58,11 @@ public partial class LogInChooseView : ContentPage
 
             AppMode appMode = (AppMode)((TappedEventArgs)args).Parameter;
 
-            // Store prefered application mode if chkDontAsk is checked
-            if (this.chkDontAsk.IsChecked)
-            {
-                SavePreferedApplicationMode(appMode);
-            }
-
             // TODO: I had problem referencing AppMode from xaml to use it as arg in CommandParameters, therefore I am playing around with string
             if (appMode == AppMode.Company)
             {
                 _newUser = true;
-                if (_newUser)
+                if (_newUser || !App.UserData.UserIdentityData.RegisterAsCompFinished)
                 {
                     await Shell.Current.GoToAsync($"{nameof(RegisterCompanyView)}");
                 }
@@ -80,7 +74,7 @@ public partial class LogInChooseView : ContentPage
 
             if (appMode == AppMode.Customer)
             {
-                if (_newUser)
+                if (_newUser || !App.UserData.UserIdentityData.RegisterAsCustomerFinished)
                 {
                     UpdateAccountTypeDTO data = new UpdateAccountTypeDTO { AccountType = AccountType.Customer };
                     HttpResponseMessage response = await _httpClient.PutAsJsonAsync("/api/Account/UpdateAccountType", data, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
@@ -89,6 +83,7 @@ public partial class LogInChooseView : ContentPage
 
                     if (serializedResponse.Success)
                     {
+                        await SettingsService.SavePreferedApplicationMode(appMode, this.chkDontAsk.IsChecked);
                         await Shell.Current.GoToAsync($"{nameof(MainPage)}");
                     }
                     else
@@ -99,6 +94,8 @@ public partial class LogInChooseView : ContentPage
                 }
                 else
                 {
+
+                    await SettingsService.SavePreferedApplicationMode(appMode, this.chkDontAsk.IsChecked);
                     await Shell.Current.GoToAsync($"{nameof(MainPage)}");
                 }
             }
@@ -110,13 +107,13 @@ public partial class LogInChooseView : ContentPage
         }
     }
 
-    private async void SavePreferedApplicationMode(AppMode appMode)
+    private async void SavePreferedApplicationMode(AppMode appMode, bool saveAppMode)
     {
         // Delete prefered App Mode if was already saved before
-        if (await SettingsService.ContainsStaticAsync(PrefUserSettings.AppModeChoice))
+        /*if (await SettingsService.ContainsStaticAsync(PrefUserSettings.AppModeChoice))
         {
             await SettingsService.RemoveStaticAsync(PrefUserSettings.AppModeChoice);
-        }
+        }*/
 
         // Update prefered App Mode based on login choose
         /*if (appMode == "Customer")
@@ -128,7 +125,10 @@ public partial class LogInChooseView : ContentPage
             await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Company);
         }*/
 
-        await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, appMode);
+        if (saveAppMode)
+        {
+            await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, appMode);
+        }
     }
 
     private async void chkDontAsk_CheckedChanged(object sender, CheckedChangedEventArgs e)

@@ -14,7 +14,7 @@
                 
                 <Frame  Padding="20,0,20,0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="{x:Static enums:Enums.AppMode.Customer}" />
+                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="{x:Static enums:Enums+AppMode.Customer}" />
                     </Frame.GestureRecognizers>
                     <Grid RowDefinitions="*" ColumnDefinitions="*,*" >
                         <Image Grid.Row="0" Grid.Column="0" Source="loginchoose_user.png"/>
@@ -31,7 +31,7 @@
 
                 <Frame Padding="20,0,20,0" HasShadow="True" BorderColor="White" VerticalOptions="StartAndExpand">
                     <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="{x:Static enums:Enums.AppMode.Company}" />
+                        <TapGestureRecognizer Tapped="OnChooseAppMode_Tapped" CommandParameter="{x:Static enums:Enums+AppMode.Company}" />
                     </Frame.GestureRecognizers>
                     <Grid RowDefinitions="*" ColumnDefinitions="*,*" >
                         <Image Grid.Row="0" Grid.Column="0" Source="loginchoose_freelancer.png"/>

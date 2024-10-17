@@ -37,6 +37,13 @@ using static System.Net.WebRequestMethods;
 
 namespace ZivnostAPI.Services.LogInService;
 
+
+public class AccountRegistrationStatus
+{
+    public bool RegisteredAsCustomer { get; set; }
+    public bool RegisteredAsCompany { get; set; }
+}
+
 public class LogInService : ILogInService
 {
     private readonly CusDbContext _dataContext;
@@ -223,7 +230,8 @@ public class LogInService : ILogInService
                     }
                     else
                     {
-                        SetUserOAuthResponse(response.Data, account, tokenData, newUser);
+                        AccountRegistrationStatus regStatus = GetAccountTypesRegistrationStatus(account);
+                        SetUserOAuthResponse(response.Data, account, tokenData, newUser, regStatus);
                     }
                 }
                 else
@@ -287,16 +295,12 @@ public class LogInService : ILogInService
                             result.Data.GoogleUserInfo = userInfo;
                             result.Success = true;
                         }
-                        else if (provider == AuthProviders.Facebook)
+                        
+                        if (provider == AuthProviders.Facebook)
                         {
                             FacebookUserInfo? userInfo = userInfoResString.ExtJsonDeserializeObject<FacebookUserInfo>();
                             result.Data.FacebookUserInfo = userInfo;
                             result.Success = true;
-                        }
-                        else
-                        {
-                            result.Success = false;
-                            result.ApiErrorCode = "UAE_713";
                         }
                     }
                     else
@@ -328,7 +332,7 @@ public class LogInService : ILogInService
             }
             else
             {
-                throw new ArgumentException("Invalid provider");
+                throw new ArgumentException("UAE_713");
             }
         }
         catch (Exception ex)
@@ -428,7 +432,7 @@ public class LogInService : ILogInService
         return result;
     }
 
-    public void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser)
+    public void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser, AccountRegistrationStatus? regStatus = null)
     {
         oAuthResponse.Id = account.Id;
         oAuthResponse.OAuthId = account.CommonId;
@@ -439,6 +443,8 @@ public class LogInService : ILogInService
         oAuthResponse.MiddleName = account.MiddleName;
         oAuthResponse.SureName = account.SureName;
         oAuthResponse.NewUser = newUser;
+        oAuthResponse.RegisteredAsCustomer = regStatus?.RegisteredAsCustomer ?? false;
+        oAuthResponse.RegisteredAsCompany = regStatus?.RegisteredAsCompany ?? false;
 
         if (tokenData is GoogleTokenResponse googleToken)
         {
@@ -458,6 +464,7 @@ public class LogInService : ILogInService
             oAuthResponse.OAuthAccessToken = appleToken.AccessToken;
             oAuthResponse.OAuthRefreshToken = appleToken.RefreshToken;
             oAuthResponse.OAuthExpiresIn = appleToken.ExpiresIn;
+            oAuthResponse.OAuthAppleJwtToken = appleToken.IdToken;
         }
     }
 
@@ -475,7 +482,10 @@ public class LogInService : ILogInService
         queryString[OAuthUrlParamsResponse.OAuthAccessToken] = HttpUtility.UrlEncode(oAuthResponse.OAuthAccessToken);
         queryString[OAuthUrlParamsResponse.OAuthRefreshToken] = HttpUtility.UrlEncode(oAuthResponse.OAuthRefreshToken);
         queryString[OAuthUrlParamsResponse.OAuthExpiresIn] = HttpUtility.UrlEncode(oAuthResponse.OAuthExpiresIn.ToString());
+        queryString[OAuthUrlParamsResponse.OAuthAppleJwtToken] = HttpUtility.UrlEncode(oAuthResponse.OAuthAppleJwtToken.ToString());
         queryString[OAuthUrlParamsResponse.NewUser] = oAuthResponse.NewUser ? "true" : "false";  // boolean values don't need encoding
+        queryString[OAuthUrlParamsResponse.RegisteredAsCustomer] = oAuthResponse.RegisteredAsCustomer ? "true" : "false";  // boolean values don't need encoding
+        queryString[OAuthUrlParamsResponse.RegisteredAsCompany] = oAuthResponse.RegisteredAsCompany ? "true" : "false";  // boolean values don't need encoding
 
         return queryString.ToString() ?? "";
     }
@@ -504,5 +514,16 @@ public class LogInService : ILogInService
         };
 
         return appleUserInfo;
+    }
+
+    private AccountRegistrationStatus GetAccountTypesRegistrationStatus(Account account)
+    {
+        AccountRegistrationStatus result = new AccountRegistrationStatus
+        {
+            RegisteredAsCustomer = account.IsCustomerAccount && account.RegisteredAsCustomerAt != null,
+            RegisteredAsCompany = account.IsCompanyAccount && account.RegisteredAsCompanyAt != null
+        };
+
+        return result;
     }
 }

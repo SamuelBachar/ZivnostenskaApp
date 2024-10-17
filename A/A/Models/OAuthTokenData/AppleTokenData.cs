@@ -13,4 +13,6 @@ public class AppleTokenData
     public string RefreshToken { get; set; } = string.Empty;
 
     public DateTime ValidUntil { get; set; }
+
+    public string JwtToken { get; set; } = string.Empty;
 }
