@@ -7,6 +7,7 @@ using ZivnostAPI.Services.CompanyService;
 using ZivnostAPI.Services.Generic;
 using ZivnostAPI.Services.Interfaces;
 using ZivnostAPI.Services.LogInService;
+using ZivnostAPI.Services.OAuth;
 
 namespace ZivnostAPI.ApiConfigClasses;
 
@@ -73,21 +74,22 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection CacheOAuthSettings(this IServiceCollection services, IConfiguration configuration)
     {
-        OAuthSettings? oauthSettings = configuration.GetSection("OAuth").Get<OAuthSettings>();
-
         services.Configure<OAuthSettings>(configuration.GetSection("OAuth"));
-
-        if (oauthSettings == null)
-        {
-            throw new Exception("OAuth settings of providers were not correctly loaded (null)");
-        }
-        else
-        { 
-            services.AddSingleton(oauthSettings);
-        }
 
         return services;
     }
+
+    public static IServiceCollection AddOAuthUrlBuildService(this IServiceCollection services)
+    {
+        services.AddSingleton<OAuthUrlBuildService>(serviceProvider =>
+        {
+            var oauthSettings = serviceProvider.GetRequiredService<IOptions<OAuthSettings>>().Value;
+            return new OAuthUrlBuildService(oauthSettings);
+        });
+
+        return services;
+    }
+
 
     public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {

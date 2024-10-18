@@ -174,45 +174,21 @@ public partial class LogInView : ContentPage
 
             if (tokenData != null)
             {
-                if (!IsAccessTokenExpired(tokenData))
-                {
-                    await _oAuthService.ReloadUserDataFromOAuthProvider(tokenData);
-                    await NavigateToNextPage();
-                }
-
-                if (IsRefreshOfAccessTokenAllowed(authProvider))
-                {
-                    await RefreshAccessToken(authProvider, tokenData);
-                    await NavigateToNextPage();
-                }
-                else
-                {
-                    response = await _loginService.LoginWithAuthProvider(authProvider);
-
-                    if (response.userLoginInfo != null)
-                    {
-                        await StoreOAuthResponseData(response.userLoginInfo, authProvider);
-                        await NavigateToNextPage();
-                    }
-                    else
-                    {
-                        await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception?.CustomMessage ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
-                    }
-                }
+                response = await _loginService.LoginWithAuthProvider(authProvider, isFirstLogin: false);
             }
             else
             {
-                response = await _loginService.LoginWithAuthProvider(authProvider);
+                response = await _loginService.LoginWithAuthProvider(authProvider, isFirstLogin: true);
+            }
 
-                if (response.userLoginInfo != null)
-                {
-                    await StoreOAuthResponseData(response.userLoginInfo, authProvider);
-                    await NavigateToNextPage();
-                }
-                else
-                {
-                    await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception?.CustomMessage ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
-                }
+            if (response.userLoginInfo != null)
+            {
+                await StoreOAuthResponseData(response.userLoginInfo, authProvider);
+                await NavigateToNextPage();
+            }
+            else
+            {
+                await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception?.CustomMessage ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
             }
         }
         catch (Exception ex)
@@ -401,5 +377,10 @@ public partial class LogInView : ContentPage
         {
             await DisplayAlert(App.LanguageResourceManager["LogInView_LogInError"].ToString(), response.exception?.CustomMessage ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
         }
+    }
+
+    private bool AreApplicationDataFetched()
+    {
+        return App.UserData.UserIdentityData.Id != null;
     }
 }

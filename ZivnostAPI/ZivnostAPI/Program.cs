@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic;
 using SharedTypesLibrary.Constants;
+using System;
 using System.Reflection;
 using System.Text.Json;
 using ZivnostAPI.ApiConfigClasses;
@@ -27,6 +28,7 @@ builder.Services.ConfigureSwagger()
                 .AddOAuthHttpClients(builder.Configuration)
                 .AddDatabaseServices(builder.Configuration)
                 .CacheOAuthSettings(builder.Configuration)
+                .AddOAuthUrlBuildService()
                 .AddAutoMapping();
 
 var app = builder.Build();

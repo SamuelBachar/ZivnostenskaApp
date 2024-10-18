@@ -15,6 +15,7 @@ public class OAuthSettings
 public class GoogleOAuth
 {
     public string BaseUrl { get; set; } = string.Empty;
+    public string RetrieveAccessTokenUrl { get; set; } = string.Empty;
     public string ClientId { get; set; } = string.Empty;
     public string ClientSecret { get; set; } = string.Empty;
 }
@@ -22,6 +23,7 @@ public class GoogleOAuth
 public class FacebookOAuth
 {
     public string BaseUrl { get; set; } = string.Empty;
+    public string RetrieveAccessTokenUrl { get; set; } = string.Empty;
     public string ClientId { get; set; } = string.Empty;
     public string ClientSecret { get; set; } = string.Empty;
 }
@@ -29,7 +31,7 @@ public class FacebookOAuth
 public class AppleOAuth
 {
     public string BaseUrl { get; set; } = string.Empty;
+    public string RetrieveAccessTokenUrl { get; set; } = string.Empty;
     public string ClientId { get; set; } = string.Empty;
-
     public string ClientSecret { get; set; } = string.Empty;
 }

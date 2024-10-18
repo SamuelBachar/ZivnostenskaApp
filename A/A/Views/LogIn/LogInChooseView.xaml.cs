@@ -62,7 +62,7 @@ public partial class LogInChooseView : ContentPage
             if (appMode == AppMode.Company)
             {
                 _newUser = true;
-                if (_newUser || !App.UserData.UserIdentityData.RegisterAsCompFinished)
+                if (_newUser || !App.UserData.UserIdentityData.RegisteredAsCompany)
                 {
                     await Shell.Current.GoToAsync($"{nameof(RegisterCompanyView)}");
                 }
@@ -74,7 +74,7 @@ public partial class LogInChooseView : ContentPage
 
             if (appMode == AppMode.Customer)
             {
-                if (_newUser || !App.UserData.UserIdentityData.RegisterAsCustomerFinished)
+                if (_newUser || !App.UserData.UserIdentityData.RegisteredAsCustomer)
                 {
                     UpdateAccountTypeDTO data = new UpdateAccountTypeDTO { AccountType = AccountType.Customer };
                     HttpResponseMessage response = await _httpClient.PutAsJsonAsync("/api/Account/UpdateAccountType", data, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
@@ -94,7 +94,6 @@ public partial class LogInChooseView : ContentPage
                 }
                 else
                 {
-
                     await SettingsService.SavePreferedApplicationMode(appMode, this.chkDontAsk.IsChecked);
                     await Shell.Current.GoToAsync($"{nameof(MainPage)}");
                 }
@@ -104,30 +103,6 @@ public partial class LogInChooseView : ContentPage
         {
             string exMsg = new ExceptionHandler("UAE_401", null, extraErrors: ex.Message, App.UserData.CurrentCulture).CustomMessage;
             await DisplayAlert(App.LanguageResourceManager["LogInChooseView_ChooseError"].ToString(), exMsg, App.LanguageResourceManager["AllView_Close"].ToString());
-        }
-    }
-
-    private async void SavePreferedApplicationMode(AppMode appMode, bool saveAppMode)
-    {
-        // Delete prefered App Mode if was already saved before
-        /*if (await SettingsService.ContainsStaticAsync(PrefUserSettings.AppModeChoice))
-        {
-            await SettingsService.RemoveStaticAsync(PrefUserSettings.AppModeChoice);
-        }*/
-
-        // Update prefered App Mode based on login choose
-        /*if (appMode == "Customer")
-        {
-            await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Customer);
-        }
-        else
-        {
-            await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Company);
-        }*/
-
-        if (saveAppMode)
-        {
-            await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, appMode);
         }
     }
 

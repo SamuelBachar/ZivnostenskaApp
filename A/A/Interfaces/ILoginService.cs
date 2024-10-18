@@ -11,5 +11,5 @@ namespace A.Interfaces;
 public interface ILoginService
 {
     Task<(UserLoginGenericResponse? UserInfo, ExceptionHandler? Exception)> LoginGeneric(string email, string passWord);
-    Task<(UserOAuthResponse? UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(string provider);
+    Task<(UserOAuthResponse? UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(string provider, bool isFirstLogin);
 }

@@ -33,6 +33,7 @@ using System.Web;
 using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Models.DatabaseModels.Account;
+using ZivnostAPI.Services.OAuth;
 using static System.Net.WebRequestMethods;
 
 namespace ZivnostAPI.Services.LogInService;
@@ -49,49 +50,35 @@ public class LogInService : ILogInService
     private readonly CusDbContext _dataContext;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IServiceProvider _serviceProvider;
+    private readonly OAuthUrlBuildService _oAuthUrlBuildService;
 
-    public LogInService(IHttpClientFactory httpClientFactory, IServiceProvider serviceProvider, CusDbContext dataContext)
+    public LogInService(IHttpClientFactory httpClientFactory, CusDbContext dataContext, OAuthUrlBuildService oAuthUrlBuildService)
     {
         _httpClientFactory = httpClientFactory;
         _dataContext = dataContext;
-        _serviceProvider = serviceProvider;
+        _oAuthUrlBuildService = oAuthUrlBuildService;
     }
 
     public async Task<ApiResponse<OAuthLandingPageResponse?>> GetAuthProviderLandingPage(AuthProviderLandingPageRequest request)
     {
         ApiResponse<OAuthLandingPageResponse?> response = new ApiResponse<OAuthLandingPageResponse?>();
-        HttpClient? httpClient = null;
 
         await Task.Run(() =>
         {
             if (request.Provider == AuthProviders.Google)
             {
-                httpClient = _httpClientFactory.CreateClient(AuthProviders.Google);
+                response.Success = true;
+                response.Data = new OAuthLandingPageResponse { OAuthUrl = _oAuthUrlBuildService.BuildGoogleLandingPageUrl(request.IsFirstLogin) };
             }
             else if (request.Provider == AuthProviders.Facebook)
             {
-                httpClient = _httpClientFactory.CreateClient(AuthProviders.Facebook);
+                response.Success = true;
+                response.Data = new OAuthLandingPageResponse { OAuthUrl = _oAuthUrlBuildService.BuildFacebookLandingUrl() };
             }
             else if (request.Provider == AuthProviders.Apple)
             {
-                httpClient = _httpClientFactory.CreateClient(AuthProviders.Apple);
-            }
-
-            if (httpClient != null)
-            {
-                if (httpClient.BaseAddress != null)
-                {
-                    response.Success = true;
-                    response.Data = new OAuthLandingPageResponse
-                    {
-                        OAuthUrl = httpClient.BaseAddress.ToString()
-                    };
-                }
-                else
-                {
-                    response.Success = false;
-                    response.ApiErrorCode = "UAE_713";
-                }
+                response.Success = true;
+                response.Data = new OAuthLandingPageResponse { OAuthUrl = _oAuthUrlBuildService.BuildAppleLandingUrl() };
             }
             else
             {
@@ -117,54 +104,23 @@ public class LogInService : ILogInService
             Dictionary<string, string> tokenRequestData;
             string endPoint = string.Empty;
 
-            OAuthSettings oauthSettings = _serviceProvider.GetRequiredService<IOptions<OAuthSettings>>().Value;
-
-            if (provider == AuthProviders.Google)
+            if (provider == AuthProviders.Apple)
             {
-                httpClient = _httpClientFactory.CreateClient(AuthProviders.Google);
-
-                tokenRequestData = new Dictionary<string, string>
-                {
-                    { "code", code },
-                    { "client_id", $"{oauthSettings.Google.ClientId}"},
-                    { "client_secret", $"{oauthSettings.Google.ClientSecret}"},
-                    { "redirect_uri", $"{oauthSettings.RedirectUri}"},
-                    { "grant_type", "authorization_code" }
-                };
-
-                //https://accounts.google.com/o/oauth2 - was before BaseUrl
-                //endPoint = $"{oauthSettings.Google.BaseUrl}/token";
-                endPoint = "https://oauth2.googleapis.com/token";
+                httpClient = _httpClientFactory.CreateClient(AuthProviders.Apple);
+                tokenRequestData = _oAuthUrlBuildService.BuildAppleRetrieveAcessTokenForm(code);
+                endPoint = _oAuthUrlBuildService.GetAppleRetrieveAcessTokenUrlEndpoint();
             }
             else if (provider == AuthProviders.Facebook)
             {
                 httpClient = _httpClientFactory.CreateClient(AuthProviders.Facebook);
-
-                tokenRequestData = new Dictionary<string, string>
-                {
-                    { "code", code },
-                    { "client_id", oauthSettings.Facebook.ClientId},
-                    { "client_secret", oauthSettings.Facebook.ClientSecret},
-                    { "redirect_uri", oauthSettings.RedirectUri },
-                    { "grant_type", "authorization_code" }
-                };
-
-                endPoint = "https://graph.facebook.com/v12.0/oauth/access_token";
+                tokenRequestData = _oAuthUrlBuildService.BuildFacebookRetrieveAccessTokenForm(code);
+                endPoint = _oAuthUrlBuildService.GetFacebookRetrieveAcessTokenUrlEndpoint();
             }
-            else if (provider == AuthProviders.Apple)
+            else if (provider == AuthProviders.Google)
             {
-                httpClient = _httpClientFactory.CreateClient(AuthProviders.Apple);
-
-                tokenRequestData = new Dictionary<string, string>
-                {
-                    { "code", code },
-                    { "client_id", oauthSettings.Apple.ClientId },
-                    { "client_secret", oauthSettings.Apple.ClientSecret },
-                    { "redirect_uri", oauthSettings.RedirectUri },
-                    { "grant_type", "authorization_code" }
-                };
-
-                endPoint = $"{oauthSettings.Apple.BaseUrl}/token";
+                httpClient = _httpClientFactory.CreateClient(AuthProviders.Google);
+                tokenRequestData = _oAuthUrlBuildService.BuildGoogleRetrieveAccessTokenForm(code);
+                endPoint = _oAuthUrlBuildService.GetGoogleRetrieveAcessTokenUrlEndpoint();
             }
             else
             {
@@ -172,7 +128,7 @@ public class LogInService : ILogInService
             }
 
             FormUrlEncodedContent requestContent = new FormUrlEncodedContent(tokenRequestData);
-            HttpResponseMessage tokenResponse = await httpClient.PostAsync(endPoint, requestContent);
+            HttpResponseMessage tokenResponse = await httpClient.PostAsync(endPoint, null);
 
             if (tokenResponse.IsSuccessStatusCode)
             {

@@ -75,13 +75,13 @@ public class LoginService : ILoginService
         return result;
     }
 
-    public async Task<(UserOAuthResponse? UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(string provider)
+    public async Task<(UserOAuthResponse? UserInfo, ExceptionHandler? Exception)> LoginWithAuthProvider(string provider, bool isFirstLogin)
     {
         (UserOAuthResponse? UserInfo, ExceptionHandler? Exception) result = (null, null);
 
         try
         {
-            AuthProviderLandingPageRequest userAuthLoginRequest = new AuthProviderLandingPageRequest { Provider = provider };
+            AuthProviderLandingPageRequest userAuthLoginRequest = new AuthProviderLandingPageRequest { Provider = provider, IsFirstLogin = isFirstLogin };
             HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/LogIn/GetAuthProviderLandingPage", userAuthLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             if (response.IsSuccessStatusCode)
