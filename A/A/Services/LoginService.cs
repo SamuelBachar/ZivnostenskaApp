@@ -40,8 +40,8 @@ public class LoginService : ILoginService
 
         try
         {
-            UserLoginRequest userLoginRequest = new UserLoginRequest { Email = email, Password = passWord };
-            HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/User/login", userLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            UserLoginGenericRequest userLoginRequest = new UserLoginGenericRequest { Email = email, Password = passWord };
+            HttpResponseMessage response = await _httpClient.PostAsJsonAsync($"/api/LogIn/LogInGeneric", userLoginRequest, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             if (response.IsSuccessStatusCode)
             {

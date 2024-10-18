@@ -204,11 +204,12 @@
 
                 </Grid>
 
-                <Grid x:Name="ThirdStepView" RowDefinitions="Auto,60,60,60, *" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
+                <Grid x:Name="ThirdStepView" RowDefinitions="Auto,Auto,60,60,60, *" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
 
-                    <Label Grid.Row="0" Text="Zadajte údaje pre prihlasovanie"/>
+                    <Label Grid.Row="0" Text="Zadajte alternatívne prihlasovacie údaje" LineBreakMode="WordWrap" FontSize="Header" />
+                    <Label Grid.Row="1" x:Name="LblNotMandatoryData" Text="Zadávanie údajov nie je povinné, naďalej môžte využívať #provider pre prihlasovanie" LineBreakMode="WordWrap" FontSize="Small" />
 
-                    <StackLayout Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <StackLayout Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal">
                         <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="user_login.png" HeightRequest="20" WidthRequest="20" />
                         </Frame>
@@ -217,7 +218,7 @@
                         </Frame>
                     </StackLayout>
 
-                    <StackLayout Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <StackLayout Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal">
                         <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                         </Frame>
@@ -226,7 +227,7 @@
                         </Frame>
                     </StackLayout>
 
-                    <StackLayout Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal">
+                    <StackLayout Grid.Row="4" Grid.ColumnSpan="3" Orientation="Horizontal">
                         <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="lock_login.png" HeightRequest="20" WidthRequest="20" />
                         </Frame>
@@ -235,7 +236,7 @@
                         </Frame>
                     </StackLayout>
 
-                    <Button x:Name="BtnPrev3" Grid.Row="4" Grid.Column="0" Text="Späť" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="End" Clicked="BtnPrev_Clicked" />
+                    <Button x:Name="BtnPrev3" Grid.Row="5" Grid.Column="0" Text="Späť" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="End" Clicked="BtnPrev_Clicked" />
                     <Button Grid.Row="4" Grid.Column="1" x:Name="BtnRegister3" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
 
                 </Grid>

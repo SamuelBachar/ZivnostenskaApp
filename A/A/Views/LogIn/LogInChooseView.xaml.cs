@@ -1,6 +1,7 @@
 using A.AppPreferences;
 using A.Enumerations;
 using A.Services;
+using A.ViewModels;
 using ExceptionsHandling;
 using ExtensionsLibrary.Http;
 using Newtonsoft.Json;
@@ -15,6 +16,7 @@ using static SharedTypesLibrary.Enums.Enums;
 namespace A.Views.LogIn;
 
 [QueryProperty(nameof(NewUser), "NewUser")]
+[QueryProperty(nameof(OAuthLogIn), "OAuthLogIn")]
 public partial class LogInChooseView : ContentPage
 {
     private readonly HttpClient _httpClient;
@@ -29,10 +31,23 @@ public partial class LogInChooseView : ContentPage
         }
     }
 
-	public LogInChooseView(IHttpClientFactory httpClientFactory)
+    private bool _oAuthLogIn = false;
+
+    public bool OAuthLogIn
+    {
+        set
+        {
+            _oAuthLogIn = value;
+        }
+    }
+
+    private readonly LogInChooseViewModel _logInChooseViewModel;
+
+    public LogInChooseView(IHttpClientFactory httpClientFactory, LogInChooseViewModel logInChooseViewModel)
 	{
 		InitializeComponent();
 
+        _logInChooseViewModel = logInChooseViewModel;
         _httpClient = httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
 	}
 
@@ -40,6 +55,7 @@ public partial class LogInChooseView : ContentPage
     {
         base.OnNavigatedTo(args);
 
+        //App.UserData.UserIdentityData.NewUser
         if (_newUser)
         {
             this.LblInfo.Text = App.LanguageResourceManager["LogInChooseView_NewUserContinueAs"].ToString();
@@ -54,35 +70,18 @@ public partial class LogInChooseView : ContentPage
     {
         try
         {
-            //string? appMode = (string)((TappedEventArgs)args).Parameter;
-
             AppMode appMode = (AppMode)((TappedEventArgs)args).Parameter;
-
-            // TODO: I had problem referencing AppMode from xaml to use it as arg in CommandParameters, therefore I am playing around with string
-            if (appMode == AppMode.Company)
-            {
-                _newUser = true;
-                if (_newUser || !App.UserData.UserIdentityData.RegisteredAsCompany)
-                {
-                    await Shell.Current.GoToAsync($"{nameof(RegisterCompanyView)}");
-                }
-                else
-                {
-                    await Shell.Current.GoToAsync($"{nameof(MainPage)}");
-                }
-            }
 
             if (appMode == AppMode.Customer)
             {
                 if (_newUser || !App.UserData.UserIdentityData.RegisteredAsCustomer)
                 {
                     UpdateAccountTypeDTO data = new UpdateAccountTypeDTO { AccountType = AccountType.Customer };
-                    HttpResponseMessage response = await _httpClient.PutAsJsonAsync("/api/Account/UpdateAccountType", data, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-
-                    ApiResponse<UpdateAccountTypeDTO> serializedResponse = await response.Content.ExtReadFromJsonAsync<UpdateAccountTypeDTO>();
+                    ApiResponse<UpdateAccountTypeDTO> serializedResponse = await UpdateAccountType(data);
 
                     if (serializedResponse.Success)
                     {
+                        App.AppMode = appMode;
                         await SettingsService.SavePreferedApplicationMode(appMode, this.chkDontAsk.IsChecked);
                         await Shell.Current.GoToAsync($"{nameof(MainPage)}");
                     }
@@ -94,6 +93,30 @@ public partial class LogInChooseView : ContentPage
                 }
                 else
                 {
+                    App.AppMode = appMode;
+                    await SettingsService.SavePreferedApplicationMode(appMode, this.chkDontAsk.IsChecked);
+                    await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+                }
+            }
+
+            if (appMode == AppMode.Company)
+            {
+                if (_newUser || !App.UserData.UserIdentityData.RegisteredAsCompany)
+                {
+                    // For company PreferedApplicationMode is saved after successfully registration
+                    App.AppMode = appMode;
+
+                    await Shell.Current.GoToAsync(nameof(RegisterCompanyView),
+                        new Dictionary<string, object>
+                        {
+                            ["Provider"] = "",
+                            ["IsPreferredAppModeChecked"] = this.chkDontAsk.IsChecked,
+                            ["OAuthRegistration"] = _oAuthLogIn
+                        });
+                }
+                else
+                {
+                    App.AppMode = appMode;
                     await SettingsService.SavePreferedApplicationMode(appMode, this.chkDontAsk.IsChecked);
                     await Shell.Current.GoToAsync($"{nameof(MainPage)}");
                 }
@@ -104,6 +127,14 @@ public partial class LogInChooseView : ContentPage
             string exMsg = new ExceptionHandler("UAE_401", null, extraErrors: ex.Message, App.UserData.CurrentCulture).CustomMessage;
             await DisplayAlert(App.LanguageResourceManager["LogInChooseView_ChooseError"].ToString(), exMsg, App.LanguageResourceManager["AllView_Close"].ToString());
         }
+    }
+
+    private async Task<ApiResponse<UpdateAccountTypeDTO>> UpdateAccountType(UpdateAccountTypeDTO data)
+    {
+        HttpResponseMessage response = await _httpClient.PutAsJsonAsync("/api/Account/UpdateAccountType", data, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        ApiResponse<UpdateAccountTypeDTO> serializedResponse = await response.Content.ExtReadFromJsonAsync<UpdateAccountTypeDTO>();
+
+        return serializedResponse;
     }
 
     private async void chkDontAsk_CheckedChanged(object sender, CheckedChangedEventArgs e)

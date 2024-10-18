@@ -29,6 +29,8 @@ builder.Services.ConfigureSwagger()
                 .AddDatabaseServices(builder.Configuration)
                 .CacheOAuthSettings(builder.Configuration)
                 .AddOAuthUrlBuildService()
+                .CacheJwtSettings(builder.Configuration)
+                .AddJWTService()
                 .AddAutoMapping();
 
 var app = builder.Build();

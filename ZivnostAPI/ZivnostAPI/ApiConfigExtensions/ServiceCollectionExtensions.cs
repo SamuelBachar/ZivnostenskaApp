@@ -3,9 +3,11 @@ using Microsoft.Extensions.Options;
 using SharedTypesLibrary.Constants;
 using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Models.AuthProvidersData;
+using ZivnostAPI.Models.JWT;
 using ZivnostAPI.Services.CompanyService;
 using ZivnostAPI.Services.Generic;
 using ZivnostAPI.Services.Interfaces;
+using ZivnostAPI.Services.JWT;
 using ZivnostAPI.Services.LogInService;
 using ZivnostAPI.Services.OAuth;
 
@@ -75,7 +77,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection CacheOAuthSettings(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<OAuthSettings>(configuration.GetSection("OAuth"));
-
         return services;
     }
 
@@ -85,6 +86,23 @@ public static class ServiceCollectionExtensions
         {
             var oauthSettings = serviceProvider.GetRequiredService<IOptions<OAuthSettings>>().Value;
             return new OAuthUrlBuildService(oauthSettings);
+        });
+
+        return services;
+    }
+
+    public static IServiceCollection CacheJwtSettings(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
+        return services;
+    }
+
+    public static IServiceCollection AddJWTService(this IServiceCollection services)
+    {
+        services.AddSingleton<JWTService>(serviceProvider =>
+        {
+            var jwtConfig = serviceProvider.GetRequiredService<IOptions<JwtConfig>>().Value;
+            return new JWTService(jwtConfig);
         });
 
         return services;

@@ -10,6 +10,7 @@ using A.Views.Register;
 using CustomUIControls.Interfaces;
 using A.CustomControls.CustomControlsDefines.EndpointDefines;
 using A.CustomControls.CustomControlsDefines.RelationshipDefines;
+using A.ViewModels;
 
 namespace A
 {
@@ -65,6 +66,10 @@ namespace A
 
             builder.Services.AddSingleton<SettingsService>();
             builder.Services.AddSingleton<RegisterChooseView>();
+
+            // ViewModels
+            builder.Services.AddScoped<RegisterCompanyViewModel>();
+            builder.Services.AddScoped<LogInChooseViewModel>();
 
             return builder.Build();
         }

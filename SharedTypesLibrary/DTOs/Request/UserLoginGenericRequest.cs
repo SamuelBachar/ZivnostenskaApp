@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SharedTypesLibrary.DTOs.Request;
 
-public class UserLoginRequest
+public class UserLoginGenericRequest
 {
     [Required, EmailAddress]
     public string Email { get; set; } = string.Empty;

@@ -23,4 +23,6 @@ public interface ILogInService
     void SetUserOAuthResponse(UserOAuthResponse oAuthResponse, Account account, object tokenData, bool newUser, AccountRegistrationStatus? regStatus = null);
 
     string SerializeUserOAuthResponse(UserOAuthResponse oAuthResponse);
+
+    Task<ApiResponse<UserLoginGenericResponse>> LogInGeneric(UserLoginGenericRequest request);
 }

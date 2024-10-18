@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
@@ -28,12 +29,14 @@ using System.Diagnostics.Eventing.Reader;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Web;
 using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Models.AuthProvidersData;
 using ZivnostAPI.Models.DatabaseModels.Account;
 using ZivnostAPI.Services.OAuth;
+using ZivnostAPI.Services.JWT;
 using static System.Net.WebRequestMethods;
 
 namespace ZivnostAPI.Services.LogInService;
@@ -47,16 +50,19 @@ public class AccountRegistrationStatus
 
 public class LogInService : ILogInService
 {
-    private readonly CusDbContext _dataContext;
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IServiceProvider _serviceProvider;
-    private readonly OAuthUrlBuildService _oAuthUrlBuildService;
 
-    public LogInService(IHttpClientFactory httpClientFactory, CusDbContext dataContext, OAuthUrlBuildService oAuthUrlBuildService)
+    private readonly CusDbContext _dataContext;
+    private readonly OAuthUrlBuildService _oAuthUrlBuildService;
+    private readonly JWTService _jwtService;
+
+    public LogInService(IHttpClientFactory httpClientFactory, CusDbContext dataContext, 
+                        OAuthUrlBuildService oAuthUrlBuildService, JWTService jwtService)
     {
         _httpClientFactory = httpClientFactory;
         _dataContext = dataContext;
         _oAuthUrlBuildService = oAuthUrlBuildService;
+        _jwtService = jwtService;
     }
 
     public async Task<ApiResponse<OAuthLandingPageResponse?>> GetAuthProviderLandingPage(AuthProviderLandingPageRequest request)
@@ -481,5 +487,51 @@ public class LogInService : ILogInService
         };
 
         return result;
+    }
+
+    public async Task<ApiResponse<UserLoginGenericResponse>> LogInGeneric(UserLoginGenericRequest request)
+    {
+        ApiResponse<UserLoginGenericResponse> response = new ApiResponse<UserLoginGenericResponse>();
+
+        Account? account = await _dataContext.Account.FirstOrDefaultAsync(u => u.Email == request.Email);
+        
+        if (account != null)
+        {
+            if (_jwtService.VerifyPasswordHash(request.Password, account.PasswordHashWithSalt))
+            {
+                if (account.VerifiedAt != null)
+                {
+                    string jwtToken = _jwtService.CreateJWTToken(account);
+
+                    UserLoginGenericResponse data = new UserLoginGenericResponse
+                    {
+                        Id = account.Id,
+                        Email = account.Email,
+                        JWT = jwtToken,
+                        JWTRefreshToken = ""
+                    };
+
+                    response.Success = true;
+                    response.Data = data;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.ApiErrorCode = "Registrácia pre daný účet nebola overená";
+                }
+            }
+            else
+            {
+                response.Success = false;
+                response.ApiErrorCode = "Nesprávne heslo";
+            }
+        }
+        else
+        {
+            response.Success = false;
+            response.ApiErrorCode = "Účet s daným e-mialom neexistuje";
+        }
+
+        return response;
     }
 }

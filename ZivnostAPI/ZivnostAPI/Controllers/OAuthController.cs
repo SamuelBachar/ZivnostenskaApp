@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SharedTypesLibrary.Constants;
 using SharedTypesLibrary.Models.AuthProvidersData.Google;
-using SharedTypesLibrary.Models.RefreshTokenRequest;
+using SharedTypesLibrary.Models.OAuthRefreshTokenRequest;
 using SharedTypesLibrary.ServiceResponseModel;
 using System.Net.Http;
 using System.Net;
@@ -34,10 +34,10 @@ public class OAuthController : ControllerBase
     }
 
     [HttpPost("RefreshAccessToken")]
-    public async Task<ActionResult<ApiResponse<RefreshTokenResponse>>> RefreshAccessToken([FromBody] RefreshTokenRequest request)
+    public async Task<ActionResult<ApiResponse<OAuthRefreshTokenResponse>>> RefreshAccessToken([FromBody] OAuthRefreshTokenRequest request)
     {
         ObjectResult result;
-        ApiResponse<RefreshTokenResponse> apiResponse;
+        ApiResponse<OAuthRefreshTokenResponse> apiResponse;
 
         HttpClient? httpClient = null;
         string endPoint = string.Empty;
@@ -81,14 +81,14 @@ public class OAuthController : ControllerBase
             if (request.Provider == AuthProviders.Google)
             {
                 GoogleTokenResponse token = responseString.ExtJsonDeserializeObject<GoogleTokenResponse>();
-                RefreshTokenResponse tokenResp = new RefreshTokenResponse 
+                OAuthRefreshTokenResponse tokenResp = new OAuthRefreshTokenResponse 
                 { 
                     NewAccessToken = token.AccessToken, 
                     NewRefreshToken = token.RefreshToken,
                     ExpiresIn = token.ExpiresIn
                 };
 
-                apiResponse = new ApiResponse<RefreshTokenResponse>(data: tokenResp);
+                apiResponse = new ApiResponse<OAuthRefreshTokenResponse>(data: tokenResp);
                 result = Ok(apiResponse);
             }
             else if (request.Provider == AuthProviders.Apple)
@@ -97,31 +97,31 @@ public class OAuthController : ControllerBase
 
                 if (string.IsNullOrEmpty(token.Error))
                 {
-                    RefreshTokenResponse tokenResp = new RefreshTokenResponse 
+                    OAuthRefreshTokenResponse tokenResp = new OAuthRefreshTokenResponse 
                     { 
                         NewAccessToken = token.AccessToken, 
                         NewRefreshToken = token.RefreshToken ,
                         ExpiresIn = token.ExpiresIn
                     };
 
-                    apiResponse = new ApiResponse<RefreshTokenResponse>(data: tokenResp);
+                    apiResponse = new ApiResponse<OAuthRefreshTokenResponse>(data: tokenResp);
                     result = Ok(apiResponse);
                 }
                 else
                 {
-                    apiResponse = new ApiResponse<RefreshTokenResponse>(data: null, success: false, apiErrorCode: "UAE_717", exceptionMessage: token.Error ?? "");
+                    apiResponse = new ApiResponse<OAuthRefreshTokenResponse>(data: null, success: false, apiErrorCode: "UAE_717", exceptionMessage: token.Error ?? "");
                     result = BadRequest(apiResponse);
                 }
             }
             else
             {
-                apiResponse = new ApiResponse<RefreshTokenResponse>(data: null, success: false, apiErrorCode: "UAE_713");
+                apiResponse = new ApiResponse<OAuthRefreshTokenResponse>(data: null, success: false, apiErrorCode: "UAE_713");
                 result = BadRequest(apiResponse);
             }
         }
         else
         {
-            apiResponse = new ApiResponse<RefreshTokenResponse>(data: null, success: false, apiErrorCode: "UAE_713");
+            apiResponse = new ApiResponse<OAuthRefreshTokenResponse>(data: null, success: false, apiErrorCode: "UAE_713");
             result = BadRequest(apiResponse);
         }
 

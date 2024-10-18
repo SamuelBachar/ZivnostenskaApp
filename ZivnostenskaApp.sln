@@ -9,9 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZivnostAPI", "ZivnostAPI\Zi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedTypesLibrary", "SharedTypesLibrary\SharedTypesLibrary.csproj", "{37276C0D-8741-4860-9358-966A381BF7E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlsLibrary", "CustomUIControls\CustomControlsLibrary.csproj", "{337286A2-EF08-41E3-88A3-2B277ADD749C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomControlsLibrary", "CustomUIControls\CustomControlsLibrary.csproj", "{337286A2-EF08-41E3-88A3-2B277ADD749C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionsLibrary", "Extensions\ExtensionsLibrary.csproj", "{C7093D8B-84A4-41EE-BEF1-1BCE0994E150}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionsLibrary", "Extensions\ExtensionsLibrary.csproj", "{C7093D8B-84A4-41EE-BEF1-1BCE0994E150}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB62E191-4977-46BE-8B08-179742452E22}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

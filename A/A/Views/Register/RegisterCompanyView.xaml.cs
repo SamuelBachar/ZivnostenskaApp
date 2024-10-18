@@ -15,23 +15,25 @@ using System.Text.Json;
 using ExtensionsLibrary.Http;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
+using A.ViewModels;
 
 namespace A.Views
 {
-
-    [QueryProperty(nameof(GenericRegistration), "genericRegistration")]
     public partial class RegisterCompanyView : BasePage
     {
+        bool _oAuthRegistration { get; set; } = false;
 
-        private class ImageData
+        public bool OAuthRegistration
         {
-            public ImageSource? ImageSource { get; set; } = null;
-            public Stream? ImageStream { get; set; } = null;
-
-            public string FileName { get; set; } = string.Empty;
+            get => _oAuthRegistration;
+            set
+            {
+                _oAuthRegistration = value;
+                UpdateViewIndexAndRegistration();
+            }
         }
+        bool _isPreferredAppModeChecked { get; set; } = false;
 
-        ImageData? _imageData { get; set; } = null;
 
         private int _viewIndex = 0;
         public int ViewIndex
@@ -45,27 +47,28 @@ namespace A.Views
             }
         }
 
-        bool _genericRegistration { get; set; } = false;
+        private string _provider = string.Empty;
 
-        public bool GenericRegistration
+        private class ImageData
         {
-            get => _genericRegistration;
-            set
-            {
-                _genericRegistration = value;
-                UpdateViewIndexAndRegistration();
-            }
+            public ImageSource? ImageSource { get; set; } = null;
+            public Stream? ImageStream { get; set; } = null;
+
+            public string FileName { get; set; } = string.Empty;
         }
 
-        public Tuple<int, bool> ViewIndexAndRegistration => new Tuple<int, bool>(ViewIndex, _genericRegistration);
+        ImageData? _imageData { get; set; } = null;
+
+        public Tuple<int, bool> ViewIndexAndRegistration => new Tuple<int, bool>(ViewIndex, _oAuthRegistration);
 
 
         private readonly HttpClient _httpClient;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IEndpointResolver _endpointResolver;
         private readonly IRelationshipResolver _relationshipResolver;
-
-        public RegisterCompanyView(IHttpClientFactory httpClientFactory, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver)
+        private readonly RegisterCompanyViewModel _registerCompanyViewModel;
+        public RegisterCompanyView(IHttpClientFactory httpClientFactory, IEndpointResolver endpointResolver, 
+                                   IRelationshipResolver relationshipResolver, RegisterCompanyViewModel registerCompanyViewModel)
         {
             InitializeComponent();
             //this.BindingContext = this;
@@ -73,11 +76,33 @@ namespace A.Views
             _endpointResolver = endpointResolver;
             _relationshipResolver = relationshipResolver;
             _httpClientFactory = httpClientFactory;
+            _registerCompanyViewModel = registerCompanyViewModel;
 
             _httpClient = _httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
 
             this.Loaded += async (s, e) => { await LoadData(); };
         }
+
+        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            base.OnNavigatedTo(args);
+
+            _oAuthRegistration = _registerCompanyViewModel.OAuthRegistration;
+            _isPreferredAppModeChecked = _registerCompanyViewModel.IsPreferredAppModeChecked;
+            _provider = _registerCompanyViewModel.Provider;
+
+            if (this._oAuthRegistration)
+            {
+                this.lblTitleViewStep.Text = "1/3";
+            }
+            else
+            {
+                this.lblTitleViewStep.Text = "1/2";
+            }
+
+            this.LblNotMandatoryData.Text = this.LblNotMandatoryData.Text.Replace("%#provider", _provider);
+        }
+
 
         private async Task LoadData()
         {
@@ -144,18 +169,6 @@ namespace A.Views
             return (result, msg);
         }
 
-        protected override async void OnNavigatedTo(NavigatedToEventArgs args)
-        {
-            if (this._genericRegistration)
-            {
-                this.lblTitleViewStep.Text = "1/3";
-            }
-            else
-            {
-                this.lblTitleViewStep.Text = "1/2";
-            }
-        }
-
         private async void BtnChooseImage_Clicked(object sender, EventArgs e)
         {
             await PickAndShow(PickOptions.Images);
@@ -168,7 +181,7 @@ namespace A.Views
                 if (_viewIndex < 2) // Prevent going beyond available views
                 {
                     ViewIndex++;
-                    lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_genericRegistration ? 3 : 2)}";
+                    lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_oAuthRegistration ? 3 : 2)}";
                 }
             }
         }
@@ -178,7 +191,7 @@ namespace A.Views
             if (_viewIndex > 0) // Prevent negative index
             {
                 ViewIndex--;
-                lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_genericRegistration ? 3 : 2)}";
+                lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_oAuthRegistration ? 3 : 2)}";
             }
         }
 
@@ -238,6 +251,7 @@ namespace A.Views
             {
                 RegistrationCompanyRequest regCompData = new RegistrationCompanyRequest
                 {
+                    Id = App.UserData.UserIdentityData.Id,
                     CompanyName = this.EntryCompany.Text,
                     CIN = this.EntryCIN.Text,
                     Address = this.EntryAddress.Text,
@@ -254,7 +268,7 @@ namespace A.Views
                     ListServices = new List<ServiceDTO>()
                 };
 
-                if (_genericRegistration)
+                if (_oAuthRegistration)
                 {
                     RegisterGenericCredentials regGenData = new RegisterGenericCredentials
                     {

@@ -3,7 +3,6 @@
 public class OAuthSettings
 {
     public string CallBackScheme { get; set; } = string.Empty;
-    public string JwtKey { get; set; } = string.Empty;
 
     public string RedirectUri { get; set; } = string.Empty;
 

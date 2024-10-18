@@ -28,6 +28,24 @@ public class LogInController : ControllerBase
         _serviceProvider = serviceProvider;
     }
 
+    [HttpPost("LogInGeneric")]
+    public async Task<ActionResult<ApiResponse<UserLoginGenericResponse>>> LogInGeneric(UserLoginGenericRequest request)
+    {
+        ObjectResult result;
+        ApiResponse<UserLoginGenericResponse> response = await _loginService.LogInGeneric(request);
+
+        if (response.Success)
+        {
+            result = Ok(response);
+        }
+        else
+        {
+            result = BadRequest(response);
+        }
+
+        return result;
+    }
+
     [HttpPost("GetAuthProviderLandingPage")]
     public async Task<ActionResult<ApiResponse<OAuthLandingPageResponse>>> GetAuthProviderLandingPage(AuthProviderLandingPageRequest request)
     {

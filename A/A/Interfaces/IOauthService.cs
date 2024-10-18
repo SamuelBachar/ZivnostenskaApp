@@ -1,7 +1,7 @@
 ﻿using A.Models.OAuthTokenData;
 using ExceptionsHandling;
 using SharedTypesLibrary.DTOs.Response;
-using SharedTypesLibrary.Models.RefreshTokenRequest;
+using SharedTypesLibrary.Models.OAuthRefreshTokenRequest;
 using SharedTypesLibrary.ServiceResponseModel;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ public interface IOauthService
 {
     Task ReloadUserDataFromOAuthProvider(ITokenData tokenData);
 
-    Task<(RefreshTokenResponse? refreshToken, ExceptionHandler? Exception)> RefreshAccessToken(RefreshTokenRequest request);
+    Task<(OAuthRefreshTokenResponse? refreshToken, ExceptionHandler? Exception)> RefreshAccessToken(OAuthRefreshTokenRequest request);
 
-    Task StoreNewAccessToken(string authProvider, RefreshTokenResponse response);
+    Task StoreNewAccessToken(string authProvider, OAuthRefreshTokenResponse response);
 }

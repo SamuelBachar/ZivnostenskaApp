@@ -26,7 +26,7 @@ namespace A.User
 
     public class UserIdentityData
     {
-        public int? Id { get; set; }
+        public int Id { get; set; } = -1;
 
         public string OAuthId { get; set; } = string.Empty;
 

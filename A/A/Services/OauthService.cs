@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharedTypesLibrary.Models.AuthProvidersData.Google;
 using SharedTypesLibrary.Models.AuthProvidersData.Facebook;
-using SharedTypesLibrary.Models.RefreshTokenRequest;
+using SharedTypesLibrary.Models.OAuthRefreshTokenRequest;
 using SharedTypesLibrary.ServiceResponseModel;
 using ExceptionsHandling;
 using System.Net.Http.Json;
@@ -84,27 +84,27 @@ class OauthService : IOauthService
         }
     }
 
-    public async Task<(RefreshTokenResponse? refreshToken, ExceptionHandler? Exception)> RefreshAccessToken(RefreshTokenRequest request)
+    public async Task<(OAuthRefreshTokenResponse? refreshToken, ExceptionHandler? Exception)> RefreshAccessToken(OAuthRefreshTokenRequest request)
     {
-        (RefreshTokenResponse? refreshToken, ExceptionHandler? Exception) result;
+        (OAuthRefreshTokenResponse? refreshToken, ExceptionHandler? Exception) result;
 
         HttpClient httpClient = _httpClientFactory.CreateClient();
-        HttpResponseMessage response = await httpClient.PostAsJsonAsync<RefreshTokenRequest>("/api/OAuthController/RefreshAccessToken", request, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        HttpResponseMessage response = await httpClient.PostAsJsonAsync<OAuthRefreshTokenRequest>("/api/OAuthController/RefreshAccessToken", request, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
         if (response.IsSuccessStatusCode)
         {
-            ApiResponse<RefreshTokenResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<RefreshTokenResponse>();
+            ApiResponse<OAuthRefreshTokenResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<OAuthRefreshTokenResponse>();
             result = (serializedResponse.Data, null);
         }
         else if ((!response.IsSuccessStatusCode) && (response.StatusCode == System.Net.HttpStatusCode.BadRequest))
         {
-            ApiResponse<RefreshTokenResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<RefreshTokenResponse>();
+            ApiResponse<OAuthRefreshTokenResponse> serializedResponse = await response.Content.ExtReadFromJsonAsync<OAuthRefreshTokenResponse>();
             result = (null, new ExceptionHandler("UAE_004", serializedResponse.ApiErrorCode, serializedResponse.APIException, App.UserData.CurrentCulture));
         }
         else if (!response.IsSuccessStatusCode)
         {
             var responseString = await response.Content.ExtReadAsStringAsync();
-            result = ExceptionHandler.ReadGenericHttpErrors<RefreshTokenResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
+            result = ExceptionHandler.ReadGenericHttpErrors<OAuthRefreshTokenResponse>(type: null, responseString: responseString, culture: App.UserData.CurrentCulture);
         }
         else
         {
@@ -114,7 +114,7 @@ class OauthService : IOauthService
         return result;
     }
 
-    public async Task StoreNewAccessToken(string authProvider, RefreshTokenResponse refreshToken)
+    public async Task StoreNewAccessToken(string authProvider, OAuthRefreshTokenResponse refreshToken)
     {
         if (authProvider == AuthProviders.Google)
         {

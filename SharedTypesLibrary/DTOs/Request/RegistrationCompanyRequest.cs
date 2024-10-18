@@ -5,6 +5,7 @@ namespace SharedTypesLibrary.DTOs.Request;
 
 public class RegistrationCompanyRequest
 {
+    public int Id { get; set; }
     public string CompanyName { get; set; } = string.Empty;
     public string CIN { get; set; } = string.Empty;
 

@@ -15,7 +15,7 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using static A.Enumerations.Enums;
 using static System.Net.WebRequestMethods;
-using SharedTypesLibrary.Models.RefreshTokenRequest;
+using SharedTypesLibrary.Models.OAuthRefreshTokenRequest;
 
 namespace A.Views;
 
@@ -23,9 +23,9 @@ public partial class LogInView : ContentPage
 {
     public class UserLoginInfo
     {
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
     }
 
     private readonly ILoginService _loginService;
@@ -37,6 +37,22 @@ public partial class LogInView : ContentPage
 
         _loginService = loginService;
         _oAuthService = oAuthService;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (await IsUserLoginInfoStoringAllowed())
+        {
+            UserLoginInfo? userLoginInfo = await SettingsService.GetStaticAsync<UserLoginInfo?>(nameof(UserLoginInfo), null);
+
+            if (userLoginInfo != null)
+            {
+                this.EntryEmail.Text = userLoginInfo.Email;
+                this.EntryPassword.Text = userLoginInfo.Password;
+            }
+        }
     }
 
     private async void ChkRememberLogin_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -124,35 +140,28 @@ public partial class LogInView : ContentPage
 
     private async Task LoginGeneric(string email, string password)
     {
-        (UserLoginGenericResponse? UserLoginDTO, ExceptionHandler? exception) response = await _loginService.LoginGeneric(EntryEmail.Text, EntryPassword.Text);
+        (UserLoginGenericResponse? UserLoginGenericResp, ExceptionHandler? exception) response = await _loginService.LoginGeneric(EntryEmail.Text, EntryPassword.Text);
 
-        if (response.UserLoginDTO != null)
+        if (response.UserLoginGenericResp != null)
         {
             App.UserData.UserAuthData.IsOAuthLogin = false;
 
-            App.UserData.UserAuthData.JWT = response.UserLoginDTO.JWT;
-            App.UserData.UserAuthData.JWTRefreshToken = response.UserLoginDTO.JWTRefreshToken;
-            App.UserData.UserIdentityData.Email = response.UserLoginDTO.Email;
+            App.UserData.UserIdentityData.Id = response.UserLoginGenericResp.Id;
+            App.UserData.UserIdentityData.Email = response.UserLoginGenericResp.Email;
+            App.UserData.UserAuthData.JWT = response.UserLoginGenericResp.JWT;
+            App.UserData.UserAuthData.JWTRefreshToken = response.UserLoginGenericResp.JWTRefreshToken;
 
             UserLoginInfo userLoginInfo = new UserLoginInfo();
             userLoginInfo.Email = EntryEmail.Text;
             userLoginInfo.Password = EntryPassword.Text;
 
-            if (await SettingsService.ContainsStaticAsync(nameof(UserLoginInfo)))
-            {
-                await SettingsService.RemoveStaticAsync(nameof(UserLoginInfo));
+            if (await IsUserLoginInfoStoringAllowed())
+            { 
+                string userLoginInfoSerialized = JsonConvert.SerializeObject(userLoginInfo);
+                await SettingsService.SaveStaticAsync<string>(nameof(UserLoginInfo), userLoginInfoSerialized);
             }
 
-            if (await SettingsService.ContainsStaticAsync(PrefUserSettings.PrefRememberLogIn))
-            {
-                if (await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberLogIn, false))
-                {
-                    string userLoginInfoSerialized = JsonConvert.SerializeObject(userLoginInfo);
-                    await SettingsService.SaveStaticAsync<string>(nameof(UserLoginInfo), userLoginInfoSerialized);
-                }
-            }
-
-            await Shell.Current.GoToAsync($"{nameof(MainPage)}");
+            await NavigateToNextPage();
         }
         else
         {
@@ -184,7 +193,7 @@ public partial class LogInView : ContentPage
             if (response.userLoginInfo != null)
             {
                 await StoreOAuthResponseData(response.userLoginInfo, authProvider);
-                await NavigateToNextPage();
+                await NavigateToNextPage(authProvider);
             }
             else
             {
@@ -312,7 +321,7 @@ public partial class LogInView : ContentPage
         return result;
     }
 
-    private async Task NavigateToNextPage(bool newUser = false)
+    private async Task NavigateToNextPage(string authProvider = "")
     {
         // Skiping choosing of Application Mode since user already choosed prefered Application Mode
         if (await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberAppModeChoice, false))
@@ -331,7 +340,13 @@ public partial class LogInView : ContentPage
         else
         {
             // Navigate to LogInChooseView where application mode is choosen
-            await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}?NewUser={newUser}");
+            await Shell.Current.GoToAsync($"{nameof(LogInChooseView)}",
+                new Dictionary<string, object>
+                {
+                    ["Provider"] = authProvider,
+                    ["NewUser"] = App.UserData.UserIdentityData.NewUser,
+                    ["OAuthRegistration"] = App.UserData.UserAuthData.IsOAuthLogin
+                });
         }
     }
 
@@ -342,12 +357,12 @@ public partial class LogInView : ContentPage
 
     private async Task RefreshAccessToken(string authProvider, ITokenData tokenData)
     {
-        (RefreshTokenResponse? refreshTokenResp, ExceptionHandler? exception) response;
+        (OAuthRefreshTokenResponse? refreshTokenResp, ExceptionHandler? exception) response;
 
-        RefreshTokenRequest refreshTokenRequest;
+        OAuthRefreshTokenRequest refreshTokenRequest;
         if (authProvider == AuthProviders.Google && tokenData is GoogleTokenData tokenGoogle)
         {
-            refreshTokenRequest = new RefreshTokenRequest
+            refreshTokenRequest = new OAuthRefreshTokenRequest
             {
                 Provider = AuthProviders.Google,
                 RefreshToken = tokenGoogle.RefreshToken
@@ -355,7 +370,7 @@ public partial class LogInView : ContentPage
         }
         else if (authProvider == AuthProviders.Apple && tokenData is AppleTokenData tokenApple)
         {
-            refreshTokenRequest = new RefreshTokenRequest
+            refreshTokenRequest = new OAuthRefreshTokenRequest
             {
                 Provider = AuthProviders.Apple,
                 RefreshToken = tokenApple.RefreshToken
@@ -381,6 +396,12 @@ public partial class LogInView : ContentPage
 
     private bool AreApplicationDataFetched()
     {
-        return App.UserData.UserIdentityData.Id != null;
+        return App.UserData.UserIdentityData.Id != -1;
+    }
+
+    public async Task<bool> IsUserLoginInfoStoringAllowed()
+    {
+        return await SettingsService.ContainsStaticAsync(PrefUserSettings.PrefRememberLogIn) &&
+               await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberLogIn, false);
     }
 }

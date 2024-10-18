@@ -8,6 +8,7 @@ namespace SharedTypesLibrary.DTOs.Response;
 
 public class UserLoginGenericResponse
 {
+    public int Id { get; set; }
     public string Email { get; set; } = string.Empty;
 
     public string JWT { get; set; } = string.Empty;
