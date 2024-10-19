@@ -28,7 +28,7 @@ namespace A.User
     {
         public int Id { get; set; } = -1;
 
-        public string OAuthId { get; set; } = string.Empty;
+        //public string OAuthId { get; set; } = string.Empty;
 
         public string Email { get; set; } = string.Empty;
 

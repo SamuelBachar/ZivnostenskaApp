@@ -122,7 +122,18 @@ class SettingsService : ISettingsService
     {
         if (saveAppMode)
         {
-            await SettingsService.SaveStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, appMode);
+            await SettingsService.SaveStaticAsync<AppMode>($"{PrefUserSettings.PrefAppModeChoice}_{App.UserData.UserIdentityData.Id}", appMode);
         }
+    }
+
+    // Check if User choosed Application Mode and (Marked / Checked) to remember Application Mode in LogInChooseView
+    public static async Task<bool> IsPrefRememberAppModeChoiceStored()
+    {
+        return await SettingsService.ContainsStaticAsync($"{PrefUserSettings.PrefRememberAppModeChoice}_{App.UserData.UserIdentityData.Id}");
+    }
+
+    public static async Task<AppMode> GetPreferedApplicationMode(AppMode appModeIfFails)
+    {
+       return await SettingsService.GetStaticAsync<AppMode>($"{PrefUserSettings.PrefAppModeChoice}_{App.UserData.UserIdentityData.Id}", appModeIfFails);
     }
 }

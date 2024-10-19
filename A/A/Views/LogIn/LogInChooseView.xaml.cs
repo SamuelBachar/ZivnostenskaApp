@@ -15,31 +15,9 @@ using static SharedTypesLibrary.Enums.Enums;
 
 namespace A.Views.LogIn;
 
-[QueryProperty(nameof(NewUser), "NewUser")]
-[QueryProperty(nameof(OAuthLogIn), "OAuthLogIn")]
 public partial class LogInChooseView : ContentPage
 {
     private readonly HttpClient _httpClient;
-
-    private bool _newUser = false;
-
-    public bool NewUser
-    {
-        set
-        {
-            _newUser = value;
-        }
-    }
-
-    private bool _oAuthLogIn = false;
-
-    public bool OAuthLogIn
-    {
-        set
-        {
-            _oAuthLogIn = value;
-        }
-    }
 
     private readonly LogInChooseViewModel _logInChooseViewModel;
 
@@ -56,7 +34,7 @@ public partial class LogInChooseView : ContentPage
         base.OnNavigatedTo(args);
 
         //App.UserData.UserIdentityData.NewUser
-        if (_newUser)
+        if (_logInChooseViewModel.NewUser)
         {
             this.LblInfo.Text = App.LanguageResourceManager["LogInChooseView_NewUserContinueAs"].ToString();
         }
@@ -74,7 +52,7 @@ public partial class LogInChooseView : ContentPage
 
             if (appMode == AppMode.Customer)
             {
-                if (_newUser || !App.UserData.UserIdentityData.RegisteredAsCustomer)
+                if (_logInChooseViewModel.NewUser || !App.UserData.UserIdentityData.RegisteredAsCustomer)
                 {
                     UpdateAccountTypeDTO data = new UpdateAccountTypeDTO { AccountType = AccountType.Customer };
                     ApiResponse<UpdateAccountTypeDTO> serializedResponse = await UpdateAccountType(data);
@@ -101,17 +79,21 @@ public partial class LogInChooseView : ContentPage
 
             if (appMode == AppMode.Company)
             {
-                if (_newUser || !App.UserData.UserIdentityData.RegisteredAsCompany)
+                if (_logInChooseViewModel.NewUser || !App.UserData.UserIdentityData.RegisteredAsCompany)
                 {
+                    // When totally new user OR when user was not yet registered as company
+
                     // For company PreferedApplicationMode is saved after successfully registration
+                    // For company UpdatingAccountType is also done after successfully registration
+                    
                     App.AppMode = appMode;
 
                     await Shell.Current.GoToAsync(nameof(RegisterCompanyView),
                         new Dictionary<string, object>
                         {
-                            ["Provider"] = "",
+                            ["Provider"] = _logInChooseViewModel.Provider,
                             ["IsPreferredAppModeChecked"] = this.chkDontAsk.IsChecked,
-                            ["OAuthRegistration"] = _oAuthLogIn
+                            ["OAuthRegistration"] = _logInChooseViewModel.OAuthRegistration
                         });
                 }
                 else
@@ -135,15 +117,5 @@ public partial class LogInChooseView : ContentPage
         ApiResponse<UpdateAccountTypeDTO> serializedResponse = await response.Content.ExtReadFromJsonAsync<UpdateAccountTypeDTO>();
 
         return serializedResponse;
-    }
-
-    private async void chkDontAsk_CheckedChanged(object sender, CheckedChangedEventArgs e)
-    {
-        if (await SettingsService.ContainsStaticAsync(PrefUserSettings.PrefRememberAppModeChoice))
-        {
-            await SettingsService.RemoveStaticAsync(PrefUserSettings.PrefRememberAppModeChoice);
-        }
-
-        await SettingsService.SaveStaticAsync<bool>(PrefUserSettings.PrefRememberAppModeChoice, e.Value);
     }
 }

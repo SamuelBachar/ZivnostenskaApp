@@ -14,6 +14,6 @@ public static class PrefUserSettings
     public const string PrefRememberLogIn = "RememberLogin";
 
     public const string PrefRememberAppModeChoice = "RememberAppModeChoice";
-    public const string AppModeChoice = "AppModeChoice";
+    public const string PrefAppModeChoice = "AppModeChoice";
 
 }

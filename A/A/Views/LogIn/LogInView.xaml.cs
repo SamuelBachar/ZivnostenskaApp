@@ -148,6 +148,11 @@ public partial class LogInView : ContentPage
 
             App.UserData.UserIdentityData.Id = response.UserLoginGenericResp.Id;
             App.UserData.UserIdentityData.Email = response.UserLoginGenericResp.Email;
+            App.UserData.UserIdentityData.RegisteredAsCustomer = response.UserLoginGenericResp.RegisteredAsCustomer;
+            App.UserData.UserIdentityData.RegisteredAsCompany = response.UserLoginGenericResp.RegisteredAsCompany;
+
+            App.UserData.UserIdentityData.NewUser = (!response.UserLoginGenericResp.RegisteredAsCustomer && !response.UserLoginGenericResp.RegisteredAsCompany);
+
             App.UserData.UserAuthData.JWT = response.UserLoginGenericResp.JWT;
             App.UserData.UserAuthData.JWTRefreshToken = response.UserLoginGenericResp.JWTRefreshToken;
 
@@ -323,10 +328,10 @@ public partial class LogInView : ContentPage
 
     private async Task NavigateToNextPage(string authProvider = "")
     {
-        // Skiping choosing of Application Mode since user already choosed prefered Application Mode
-        if (await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberAppModeChoice, false))
+        // Skiping choosing of Application Mode since user already choosed prefered Application Mode and checked to not ask again
+        if (await SettingsService.IsPrefRememberAppModeChoiceStored())
         {
-            AppMode appMode = await SettingsService.GetStaticAsync<AppMode>(PrefUserSettings.AppModeChoice, AppMode.Customer);
+            AppMode appMode = await SettingsService.GetPreferedApplicationMode( appModeIfFails: AppMode.Customer);
 
             if (appMode == AppMode.Customer)
             {
@@ -401,7 +406,6 @@ public partial class LogInView : ContentPage
 
     public async Task<bool> IsUserLoginInfoStoringAllowed()
     {
-        return await SettingsService.ContainsStaticAsync(PrefUserSettings.PrefRememberLogIn) &&
-               await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberLogIn, false);
+        return await SettingsService.GetStaticAsync<bool>(PrefUserSettings.PrefRememberLogIn, false);
     }
 }

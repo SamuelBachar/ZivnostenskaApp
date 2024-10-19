@@ -507,6 +507,8 @@ public class LogInService : ILogInService
                     {
                         Id = account.Id,
                         Email = account.Email,
+                        RegisteredAsCustomer = account.RegisteredAsCustomerAt != null,
+                        RegisteredAsCompany = account.RegisteredAsCompanyAt != null,
                         JWT = jwtToken,
                         JWTRefreshToken = ""
                     };
