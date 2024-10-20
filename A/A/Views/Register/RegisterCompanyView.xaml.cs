@@ -111,6 +111,7 @@ namespace A.Views
                 base.SetIsBusy(true);
                 await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(RegionDTO));
                 await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(DistrictDTO));
+                await this.CityEntryPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(CityDTO));
             }
             catch (Exception ex)
             {
@@ -263,7 +264,7 @@ namespace A.Views
                     Phone = this.EntryPhone.Text,
                     DistrictCompany = (DistrictDTO)this.DistrictPicker.SelectedItem,
                     RegionCompany = (RegionDTO)this.DistrictPicker.SelectedItem,
-                    City = new CityDTO { District_Id = 1, Name = "test" },
+                    City = (CityDTO)this.CityEntryPicker.SelectedItem ?? ,
                     Country = new CountryDTO { Name = "test" },
                     ListServices = new List<ServiceDTO>()
                 };

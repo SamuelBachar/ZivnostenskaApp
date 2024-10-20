@@ -126,7 +126,7 @@
                             <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                            <Entry x:Name="EntryCity" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
+                            <ccProj:CityEntryPicker x:Name="CityEntryPicker" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
                         />
@@ -240,8 +240,6 @@
                     <Button Grid.Row="4" Grid.Column="1" x:Name="BtnRegister3" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
 
                 </Grid>
-
-
             </Grid>
 
         </ScrollView>

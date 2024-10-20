@@ -10,5 +10,7 @@ namespace CustomUIControls.Interfaces;
 
 public interface IFilterable<T>
 {
-    void FilterBy(Func<T, bool> filter);
+    string FilterGroup { get; }
+    Type DataModelType { get; }
+    void FilterBy(Func<object, bool> filter);
 }

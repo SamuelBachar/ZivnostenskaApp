@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CustomControlsLibrary.Controls.EntryPicker">
+    <StackLayout>
+        <Entry x:Name="MainEntry"
+               Placeholder="{Binding PlaceHolder}"
+               HorizontalOptions="FillAndExpand"
+               Focused="OnEntryFocused"
+               Unfocused="OnEntryUnfocused"/>
+
+        <CollectionView x:Name="DropdownList"
+                        IsVisible="False"
+                        SelectionMode="Single"
+                        SelectionChanged="OnItemSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Label Text="{Binding .}" Padding="10"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentView>

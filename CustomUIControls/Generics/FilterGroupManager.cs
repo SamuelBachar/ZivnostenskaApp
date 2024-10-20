@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CustomControlsLibrary.Controls;
-using CustomControlsLibrary.Controls.CustomPicker;
 
 namespace CustomUIControls.Generics;
 
@@ -28,31 +27,31 @@ public class FilterGroupManager
         }
     }
 
-    public void RegisterPicker<T>(CustomPicker<T> picker, string filterGroup)
+    public void RegisterFilterAbleControl<T>(IFilterable<T> control, string filterGroup)
     {
         if (!_filterGroups.ContainsKey(filterGroup))
         {
             _filterGroups[filterGroup] = new List<object>();
         }
 
-        _filterGroups[filterGroup].Add(picker);
+        _filterGroups[filterGroup].Add(control);
     }
 
-    public void NotifyPickerChanged<TParent>(CustomPicker<TParent> parentPicker, TParent parentItem)
+    public void NotifyFilterAbleControlChange<TParent>(IFilterable<TParent> parentControl, TParent parentItem)
     {
-        var filterGroup = parentPicker.FilterGroup;
+        var filterGroup = parentControl.FilterGroup;
 
         if (_filterGroups.ContainsKey(filterGroup))
         {
-            foreach (var pickerObj in _filterGroups[filterGroup])
+            foreach (var childControlObj in _filterGroups[filterGroup])
             {
-                if (pickerObj is ICustomPicker childPicker && childPicker != parentPicker)
+                if (childControlObj is IFilterable<TParent> childControl && !ReferenceEquals(childControl, parentControl))
                 {
-                    var filter = _relationshipResolver.AreRelated(parentItem, childPicker.DataModelType);
+                    var filter = _relationshipResolver.AreRelated(parentItem, childControl.DataModelType);
 
                     if (filter != null)
                     {
-                        childPicker.FilterBy(filter);
+                        childControl.FilterBy(filter);
                     }
                 }
             }

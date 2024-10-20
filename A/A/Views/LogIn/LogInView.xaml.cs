@@ -16,6 +16,7 @@ using System.Net.Http;
 using static A.Enumerations.Enums;
 using static System.Net.WebRequestMethods;
 using SharedTypesLibrary.Models.OAuthRefreshTokenRequest;
+using A.ViewModels;
 
 namespace A.Views;
 
@@ -74,7 +75,13 @@ public partial class LogInView : ContentPage
 
     private async void TxtRegisterHere_Tapped(object sender, TappedEventArgs e)
     {
-        await Shell.Current.GoToAsync($"{nameof(RegisterChooseView)}");
+        await Shell.Current.GoToAsync(nameof(RegisterCompanyView),
+            new Dictionary<string, object>
+            {
+                ["Provider"] = "Google",
+                ["IsPreferredAppModeChecked"] = false,
+                ["OAuthRegistration"] = true
+            });
     }
 
     private void EntryPassword_TextChanged(object sender, TextChangedEventArgs e)

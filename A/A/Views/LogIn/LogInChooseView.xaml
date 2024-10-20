@@ -49,7 +49,7 @@
             </VerticalStackLayout>
 
             <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" RowDefinitions="*" ColumnDefinitions="40, *" Padding="0,0,0,0" HorizontalOptions="Center">
-                <CheckBox x:Name="chkDontAsk" Grid.Column="0" Grid.Row="0" CheckedChanged="chkDontAsk_CheckedChanged"/>
+                <CheckBox x:Name="chkDontAsk" Grid.Column="0" Grid.Row="0" />
                 <Label Grid.Column="1" Grid.Row="0" Text="{translate:TranslateManager LogInChooseView_DoNotAskMore}" LineBreakMode="WordWrap" VerticalTextAlignment="Center" />
             </Grid>
         </Grid>

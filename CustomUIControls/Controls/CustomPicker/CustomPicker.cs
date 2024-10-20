@@ -14,7 +14,6 @@ using static CustomUIControls.Enumerations.Enums;
 
 using SharedTypesLibrary.ServiceResponseModel;
 using ExtensionsLibrary.Http;
-using CustomControlsLibrary.Controls.CustomPicker;
 
 namespace CustomControlsLibrary.Controls;
 
@@ -86,12 +85,12 @@ public class CustomPicker<T> : Picker, IFilterable<T>, ICustomPicker
         }
     }
 
-    void ICustomPicker.FilterBy(Func<object, bool> filter)
+    public void FilterBy(Func<object, bool> filter)
     {
-        this.FilterBy(item => filter(item));
+        this.FilterByCustom(item => filter(item));
     }
 
-    public void FilterBy(Func<T, bool> filterPredicate)
+    public void FilterByCustom(Func<T, bool> filterPredicate)
     {
         var filteredItems = Items.Where(filterPredicate).ToList();
         DisplayedItems.Clear();
@@ -108,7 +107,7 @@ public class CustomPicker<T> : Picker, IFilterable<T>, ICustomPicker
 
         if (selectedItem != null)
         {
-            FilterGroupManager.Instance.NotifyPickerChanged(this, selectedItem);
+            FilterGroupManager.Instance.NotifyFilterAbleControlChange(this, selectedItem);
         }
     }
 
@@ -120,7 +119,7 @@ public class CustomPicker<T> : Picker, IFilterable<T>, ICustomPicker
             if (!string.IsNullOrWhiteSpace(filterGroup))
             {
                 // Automatically register the picker in the FilterGroupManager
-                FilterGroupManager.Instance.RegisterPicker(picker, filterGroup);
+                FilterGroupManager.Instance.RegisterFilterAbleControl(picker, filterGroup);
             }
         }
     }

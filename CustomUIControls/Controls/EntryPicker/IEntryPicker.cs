@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CustomControlsLibrary.Controls;
 
-interface ICustomPicker
+internal interface IEntryPicker
 {
     //public Type DataModelType { get; }
     //public void FilterBy(Func<object, bool> filter);
