@@ -38,9 +38,6 @@
 	  <MauiXaml Update="Controls\CustomEntry\CustomEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\EntryPicker\EntryPicker.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

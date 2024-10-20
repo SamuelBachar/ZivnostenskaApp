@@ -68,7 +68,7 @@ namespace A
             builder.Services.AddSingleton<RegisterChooseView>();
 
             // ViewModels
-            builder.Services.AddScoped<RegisterCompanyViewModel>();
+            builder.Services.AddTransient<RegisterCompanyViewModel>();
             builder.Services.AddScoped<LogInChooseViewModel>();
 
             return builder.Build();

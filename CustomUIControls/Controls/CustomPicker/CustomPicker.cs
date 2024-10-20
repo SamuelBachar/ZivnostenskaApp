@@ -17,7 +17,7 @@ using ExtensionsLibrary.Http;
 
 namespace CustomControlsLibrary.Controls;
 
-public class CustomPicker<T> : Picker, IFilterable<T>, ICustomPicker
+public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
 {
     public static readonly BindableProperty FilterGroupProperty = BindableProperty.Create(nameof(FilterGroup), typeof(string), typeof(CustomPicker<T>), string.Empty, propertyChanged: OnFilterGroupChanged);
 

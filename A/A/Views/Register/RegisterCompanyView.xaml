@@ -101,9 +101,10 @@
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                             <ccProj:RegionCustomPicker x:Name="RegionPicker" Title="Zvoľte kraj" 
-                                                   Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
-                                                   ItemDisplayBinding="{Binding Name}" FilterGroup="1"
-                                                   SelectedIndexChanged="RegionPicker_SelectedIndexChanged"/>
+                                                       FilterGroup="1"
+                                                       Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
+                                                       ItemDisplayBinding="{Binding Name}"
+                                                       SelectedIndexChanged="RegionPicker_SelectedIndexChanged"/>
                         </Frame>
                     </StackLayout>
 
@@ -114,9 +115,10 @@
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                             <ccProj:DistrictCustomPicker x:Name="DistrictPicker" Title="Zvoľte okres"
-                                                     Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
-                                                     ItemDisplayBinding="{Binding Name}" FilterGroup="1"
-                                                     SelectedIndexChanged="District_SelectedIndexChanged"/>
+                                                         FilterGroup="1" 
+                                                         Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
+                                                         ItemDisplayBinding="{Binding Name}"
+                                                         SelectedIndexChanged="District_SelectedIndexChanged"/>
                         </Frame>
                     </StackLayout>
 
@@ -126,9 +128,11 @@
                             <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                            <ccProj:CityEntryPicker x:Name="CityEntryPicker" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
+                            <ccProj:CityEntryPicker x:Name="CityEntryPicker" 
+                                                    FilterGroup="1"
+                                                    ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
+                                                    TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" 
+                                                    Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
                         />
                         </Frame>
                     </StackLayout>

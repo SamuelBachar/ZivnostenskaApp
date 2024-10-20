@@ -21,7 +21,7 @@ public static class FilterRelations
         {
             typeof(DistrictDTO), new Dictionary<Type, Delegate>
             {
-                { typeof(CityDTO), new Func<object, object, bool>((region, district) => ((DistrictDTO)district).Id == ((CityDTO)region).Id) }
+                { typeof(CityDTO), new Func<object, object, bool>((district, city) => ((DistrictDTO)district).Id == ((CityDTO)city).District_Id) }
             }
         }
     };

@@ -27,7 +27,7 @@ public class FilterGroupManager
         }
     }
 
-    public void RegisterFilterAbleControl<T>(IFilterable<T> control, string filterGroup)
+    public void RegisterFilterAbleControl(IFilterable control, string filterGroup)
     {
         if (!_filterGroups.ContainsKey(filterGroup))
         {
@@ -37,7 +37,7 @@ public class FilterGroupManager
         _filterGroups[filterGroup].Add(control);
     }
 
-    public void NotifyFilterAbleControlChange<TParent>(IFilterable<TParent> parentControl, TParent parentItem)
+    public void NotifyFilterAbleControlChange<TParent>(IFilterable parentControl, TParent parentItem)
     {
         var filterGroup = parentControl.FilterGroup;
 
@@ -45,7 +45,7 @@ public class FilterGroupManager
         {
             foreach (var childControlObj in _filterGroups[filterGroup])
             {
-                if (childControlObj is IFilterable<TParent> childControl && !ReferenceEquals(childControl, parentControl))
+                if (childControlObj is IFilterable childControl && !ReferenceEquals(childControl, parentControl))
                 {
                     var filter = _relationshipResolver.AreRelated(parentItem, childControl.DataModelType);
 

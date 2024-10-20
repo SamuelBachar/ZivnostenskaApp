@@ -23,3 +23,5 @@ https://www.youtube.com/watch?v=kjRCDzd27oQ
 9. Pocas loginu este neregistrovat nic ked sa ide cez Auth Providera:
    a) Ak klikne registrovat ako uzivatel tak poslat dalsi request a registrovat ako uzivatela 
    b) Ak klikne firma / zivnost registrovat az potom co vypise potrebne udaje
+
+10. Link na zoznam obci http://www.sodbtn.sk/obce/okres.php?kod_okresu=404

@@ -1,8 +1,7 @@
-using CustomUIControls.Generics;
+﻿using CustomUIControls.Generics;
 using CustomUIControls.Interfaces;
 using ExtensionsLibrary.Http;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Graphics.Text;
+using Microsoft.Maui.Layouts;
 using SharedTypesLibrary.DTOs;
 using SharedTypesLibrary.ServiceResponseModel;
 using System.Collections.ObjectModel;
@@ -10,10 +9,11 @@ using static CustomUIControls.Enumerations.Enums;
 
 namespace CustomControlsLibrary.Controls;
 
-public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
+public partial class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : class
 {
     private Entry _entry;
     private CollectionView _collectionView;
+    private AbsoluteLayout _absoluteLayout;
 
     public List<T> Items { get; set; } = new List<T>();
     public ObservableCollection<T> DisplayedItems { get; set; } = new ObservableCollection<T>();
@@ -48,7 +48,7 @@ public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
         set => SetValue(SelectedItemProperty, value);
     }
 
-    public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(EntryPicker), default(string), BindingMode.TwoWay);
+    public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(EntryPicker<T>), default(string), BindingMode.TwoWay);
 
     public string Text
     {
@@ -56,7 +56,7 @@ public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
         set => SetValue(TextProperty, value);
     }
 
-    public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(EntryPicker), string.Empty);
+    public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(EntryPicker<T>), string.Empty);
 
     public string Placeholder
     {
@@ -64,7 +64,7 @@ public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
         set => SetValue(PlaceholderProperty, value);
     }
 
-    public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EntryPicker), Colors.Black);
+    public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EntryPicker<T>), Colors.Black);
 
     public Color TextColor
     {
@@ -76,7 +76,7 @@ public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
     public EntryPicker()
     {
         InitializeControls();
-        SetLayout();
+        //SetLayout();
     }
 
     public async Task Initialize(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver, Type dataModel)
@@ -93,46 +93,73 @@ public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
 
     private void InitializeControls()
     {
-        _entry = new Entry
+        try
         {
-            Placeholder = this.Placeholder,
-            Margin = new Thickness(10),
-        };
-
-        this._entry.SetBinding(Entry.PlaceholderProperty, new Binding(nameof(Placeholder), source: this));
-        this._entry.SetBinding(Entry.TextColorProperty, new Binding(nameof(TextColor), source: this));
-
-        _collectionView = new CollectionView
-        {
-            ItemsSource = DisplayedItems,
-            ItemTemplate = new DataTemplate(() =>
+            if (_absoluteLayout == null)
             {
-                Label label = new Label();
-                label.SetBinding(Label.TextProperty, "Name");
-                return new StackLayout
-                {
-                    Children = { label }
-                };
-            }),
-            IsVisible = false,
-            HeightRequest = 150,
-        };
+                _absoluteLayout = new AbsoluteLayout();
+            }
 
-        _entry.TextChanged += OnEntryTextChanged;
-        _entry.Focused += OnEntryFocused;
-        _entry.Unfocused += OnEntryUnfocused;
-        _collectionView.SelectionChanged += OnCollectionViewSelectionChanged;
+            _entry = new Entry
+            {
+                Placeholder = this.Placeholder,
+                Margin = new Thickness(10),
+            };
+
+            this._entry.SetBinding(Entry.PlaceholderProperty, new Binding(nameof(Placeholder), source: this));
+            this._entry.SetBinding(Entry.TextColorProperty, new Binding(nameof(TextColor), source: this));
+
+            _collectionView = new CollectionView
+            {
+                ItemsSource = DisplayedItems,
+                ItemTemplate = new DataTemplate(() =>
+                {
+                    Label label = new Label();
+                    label.SetBinding(Label.TextProperty, "Name");
+                    return new StackLayout
+                    {
+                        Children = { label }
+                    };
+                }),
+                IsVisible = false,
+                HeightRequest = 150,
+            };
+
+            _entry.TextChanged += OnEntryTextChanged;
+            _entry.Focused += OnEntryFocused;
+            _entry.Unfocused += OnEntryUnfocused;
+            _collectionView.SelectionChanged += OnCollectionViewSelectionChanged;
+
+            // Add controls to AbsoluteLayout
+            AbsoluteLayout.SetLayoutBounds(_entry, new Rect(0, 0, 1, 0.1)); // Entry positioned normally
+            AbsoluteLayout.SetLayoutFlags(_entry, AbsoluteLayoutFlags.All);
+
+            AbsoluteLayout.SetLayoutBounds(_collectionView, new Rect(0, 1, 1, 0.4)); // CollectionView positioned below Entry
+            AbsoluteLayout.SetLayoutFlags(_collectionView, AbsoluteLayoutFlags.All);
+
+           
+
+            // Add both controls to AbsoluteLayout
+            _absoluteLayout.Children.Add(_entry);
+            _absoluteLayout.Children.Add(_collectionView);
+
+
+            /*if (_absoluteLayout.Parent != null)
+            {
+                ((Layout)_absoluteLayout.Parent).Children.Remove(_absoluteLayout);
+            }*/
+
+           
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 
     private void SetLayout()
     {
-        // Add Entry and CollectionView to the Grid layout
-        this.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        this.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-        this.Children.Add(_entry);
-        this.Children.Add(_collectionView);
-        Grid.SetRow(_collectionView, 1);
     }
 
     private async Task LoadData()
@@ -230,7 +257,7 @@ public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
     // Automatically called during InitializeComponent() of View
     private static void OnFilterGroupChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        if (bindable is EntryPicker<T> entryPicker && newValue is string filterGroup)
+       if (bindable is EntryPicker<T> entryPicker && newValue is string filterGroup)
         {
             if (!string.IsNullOrWhiteSpace(filterGroup))
             {

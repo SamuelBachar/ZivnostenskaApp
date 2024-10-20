@@ -62,7 +62,7 @@ namespace A.Views
         public Tuple<int, bool> ViewIndexAndRegistration => new Tuple<int, bool>(ViewIndex, _oAuthRegistration);
 
 
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IEndpointResolver _endpointResolver;
         private readonly IRelationshipResolver _relationshipResolver;
@@ -77,8 +77,6 @@ namespace A.Views
             _relationshipResolver = relationshipResolver;
             _httpClientFactory = httpClientFactory;
             _registerCompanyViewModel = registerCompanyViewModel;
-
-            _httpClient = _httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
 
             this.Loaded += async (s, e) => { await LoadData(); };
         }
@@ -108,6 +106,8 @@ namespace A.Views
         {
             try
             {
+                _httpClient = _httpClientFactory.CreateClient(Constants.AppConstants.HttpsClientName);
+
                 base.SetIsBusy(true);
                 await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(RegionDTO));
                 await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(DistrictDTO));
@@ -264,7 +264,7 @@ namespace A.Views
                     Phone = this.EntryPhone.Text,
                     DistrictCompany = (DistrictDTO)this.DistrictPicker.SelectedItem,
                     RegionCompany = (RegionDTO)this.DistrictPicker.SelectedItem,
-                    City = (CityDTO)this.CityEntryPicker.SelectedItem ?? ,
+                    City = (CityDTO)this.CityEntryPicker.SelectedItem,
                     Country = new CountryDTO { Name = "test" },
                     ListServices = new List<ServiceDTO>()
                 };

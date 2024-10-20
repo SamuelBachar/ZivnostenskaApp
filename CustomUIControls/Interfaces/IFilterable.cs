@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CustomUIControls.Interfaces;
 
 
-public interface IFilterable<T>
+public interface IFilterable
 {
     string FilterGroup { get; }
     Type DataModelType { get; }
