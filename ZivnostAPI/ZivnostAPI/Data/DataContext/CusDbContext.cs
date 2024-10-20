@@ -24,8 +24,9 @@ public class CusDbContext : DbContext
 
     public DbSet<Company> Company { get; set; }
     public DbSet<Account> Account { get; set; }
+    public DbSet<Country> Country { get; set; }
     public DbSet<Region> Region { get; set; }
     public DbSet<District> District { get; set; }
+    public DbSet<City> City { get; set; }
 
-    public DbSet<Country> Country { get; set; }
 }
