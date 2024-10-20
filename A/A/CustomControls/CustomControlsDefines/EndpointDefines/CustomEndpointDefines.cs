@@ -31,6 +31,13 @@ public class CustomEndpointDefines : IEndpointResolver
                 { ApiAction.GetAll, $"/api/DistrictController/GetAll" },
                 { ApiAction.GetById, $"/api/DistrictController/GetById/{{id}}" }
             }
+        },
+        {
+            typeof(CityDTO), new Dictionary<ApiAction, string>()
+            {
+                { ApiAction.GetAll, $"/api/CityController/GetAll" },
+                { ApiAction.GetById, $"/api/CityController/GetById/{{id}}" }
+            }
         }
     };
 

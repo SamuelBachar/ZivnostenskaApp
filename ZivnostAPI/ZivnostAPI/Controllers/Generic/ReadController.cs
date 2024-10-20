@@ -39,7 +39,7 @@ public class ReadController<TEntity, TDto> : ControllerBase where TEntity : clas
         return response;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("GetById/{id}")]
     public async Task<ActionResult<ApiResponse<TDto>>> GetById(int id)
     {
         ActionResult response;

@@ -4,52 +4,51 @@ using System.Security.Cryptography.X509Certificates;
 using ZivnostAPI.Data.CusDbContext;
 using ZivnostAPI.Services.Interfaces;
 
-namespace ZivnostAPI.Services.Generic
+namespace ZivnostAPI.Services.Generic;
+
+public class GenericReadOnlyService<T> : IGenericReadOnlyService<T> where T : class
 {
-    public class GenericReadOnlyService<T> : IGenericReadOnlyService<T> where T : class
+    private readonly CusDbContext _dbContext;
+
+    public GenericReadOnlyService(CusDbContext dbContext)
     {
-        private readonly CusDbContext _dbContext;
+        _dbContext = dbContext;
+    }
 
-        public GenericReadOnlyService(CusDbContext dbContext)
+    public virtual async Task<ApiResponse<T>> GetAll()
+    {
+        var response = new ApiResponse<T>();
+
+        try
         {
-            _dbContext = dbContext;
+            response.ListData = await _dbContext.Set<T>().ToListAsync();
+            response.Success = true; 
+        }
+        catch (Exception ex)
+        {
+            response.Success = false; 
+            response.APIException = ex.Message;
         }
 
-        public virtual async Task<ApiResponse<T>> GetAll()
+        return response;
+    }
+
+    public virtual async Task<ApiResponse<T?>> GetById(int id)
+    {
+        var response = new ApiResponse<T?>();
+
+        try
         {
-            var response = new ApiResponse<T>();
-
-            try
-            {
-                response.ListData = await _dbContext.Set<T>().ToListAsync();
-                response.Success = true; 
-            }
-            catch (Exception ex)
-            {
-                response.Success = false; 
-                response.APIException = ex.Message;
-            }
-
-            return response;
+            var data = await _dbContext.Set<T>().FindAsync(id);
+            response.Data = data;
+            response.Success = data != null;
+        }
+        catch (Exception ex)
+        {
+            response.Success = false;
+            response.APIException = ex.Message;
         }
 
-        public virtual async Task<ApiResponse<T?>> GetById(int id)
-        {
-            var response = new ApiResponse<T?>();
-
-            try
-            {
-                var data = await _dbContext.Set<T>().FindAsync(id);
-                response.Data = data;
-                response.Success = data != null;
-            }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.APIException = ex.Message;
-            }
-
-            return response;
-        }
+        return response;
     }
 }

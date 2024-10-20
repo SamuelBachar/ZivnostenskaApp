@@ -3,6 +3,7 @@ using CustomUIControls.Interfaces;
 using ExtensionsLibrary.Http;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics.Text;
+using SharedTypesLibrary.DTOs;
 using SharedTypesLibrary.ServiceResponseModel;
 using System.Collections.ObjectModel;
 using static CustomUIControls.Enumerations.Enums;
@@ -94,7 +95,7 @@ public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
     {
         _entry = new Entry
         {
-            Placeholder = "Search or type",
+            Placeholder = this.Placeholder,
             Margin = new Thickness(10),
         };
 
@@ -194,8 +195,11 @@ public partial class EntryPicker<T> : Grid, IFilterable<T>, IEntryPicker
 
             FilterGroupManager.Instance.NotifyFilterAbleControlChange(this, selectedItem);
 
-            // Update Entry text with selected item's name (or whatever property you want to show)
-            _entry.Text = selectedItem.ToString();
+            if (selectedItem is BaseDTO baseDTO)
+            {
+                _entry.Text = baseDTO.DisplayName;
+            }
+            //_entry.Text = selectedItem.ToString();
             HidePopup(); // Hide collection after selection
         }
     }

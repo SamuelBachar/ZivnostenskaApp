@@ -10,6 +10,7 @@ public class AutoMappingProfile : Profile
     {
         CreateMap<Region, RegionDTO>();
         CreateMap<District, DistrictDTO>();
+        CreateMap<City, CityDTO>();
     }
 }
 
