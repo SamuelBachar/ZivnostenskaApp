@@ -1,4 +1,5 @@
 ﻿using CustomControlsLibrary.Controls;
+using CustomControlsLibrary.Interfaces;
 using SharedTypesLibrary.DTOs.Bidirectional.Localization;
 using System;
 using System.Collections.Generic;

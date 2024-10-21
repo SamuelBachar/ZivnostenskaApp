@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace CustomControlsLibrary.Controls;
 
@@ -23,13 +24,17 @@ public class EntryPickerPopUp<T> : Popup where T : class
 {
     public event EventHandler<ItemSelectedEventArgs<T>>? OnItemSelected = null;
     public event EventHandler<EventArgs>? OnPopUpClosed = null;
+    public event EventHandler<TextChangedEventArgs>? OnEntryTextChanged = null;
 
     private CollectionView _collectionView;
 
     private Entry _searchEntry;
 
+    ObservableCollection<T> _displayedItems;
     public EntryPickerPopUp(ObservableCollection<T> displayedItems)
     {
+        _displayedItems = displayedItems;
+
         _searchEntry = new Entry
         {
             Placeholder = "Search...",
@@ -44,13 +49,21 @@ public class EntryPickerPopUp<T> : Popup where T : class
             {
                 Label label = new Label();
                 label.SetBinding(Label.TextProperty, "Name");
+
                 return new StackLayout
                 {
-                    Children = { label }
+                    Children = { label },
+                    Padding = new Thickness(10),
+                    BackgroundColor = Colors.LightGray
                 };
             }),
-            SelectionMode = SelectionMode.Single
+            SelectionMode = SelectionMode.Single,
+            ItemsLayout = new LinearItemsLayout(ItemsLayoutOrientation.Vertical)
+            {
+                ItemSpacing = 10 // Set the space between each item
+            }
         };
+        _collectionView.SelectionChanged += OnCollectionViewSelectionChanged;
 
         StackLayout stackLayout = new StackLayout
         {
@@ -58,16 +71,19 @@ public class EntryPickerPopUp<T> : Popup where T : class
             Padding = new Thickness(20)
         };
 
-        Content = new Frame
+        Frame frame = new Frame
         {
             CornerRadius = 20,
             Padding = 0,
             BackgroundColor = Colors.White,
             BorderColor = Colors.Blue,
-            Content = _collectionView
+            Content = stackLayout
         };
 
-        _collectionView.SelectionChanged += OnCollectionViewSelectionChanged;
+        ScrollView scrollView = new ScrollView();
+        scrollView.Content = frame;
+
+        this.Content = scrollView;
     }
 
     private Rect GetPopupBounds()
@@ -87,12 +103,19 @@ public class EntryPickerPopUp<T> : Popup where T : class
 
     private void OnSearcEntryTextChanged(object? sender, TextChangedEventArgs e)
     {
-        string searchText = e.NewTextValue?.ToLower() ?? string.Empty;
+        if (!string.IsNullOrEmpty(e.NewTextValue))
+        {
+            string searchText = e.NewTextValue?.ToLower() ?? string.Empty;
 
-        var filteredItems = ((ObservableCollection<T>)_collectionView.ItemsSource)
-            .Where(item => item.ToString().ToLower().Contains(searchText)); 
-
-        _collectionView.ItemsSource = new ObservableCollection<T>(filteredItems);
+            if (OnEntryTextChanged != null)
+            {
+                OnEntryTextChanged.Invoke(this, e);
+            }
+        }
+        else
+        {
+            _collectionView.ItemsSource = _displayedItems;
+        }
     }
 
     private void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)

@@ -4,19 +4,23 @@ using Microsoft.Maui.Controls;
 using CustomControlsLibrary.Interfaces;
 using CustomUIControls;
 
+using CustomControlsLibrary.Platforms.iOS;
+
 [assembly: Dependency(typeof(DisplayService))]
-namespace CustomUIControls;
-
-// All the code in this file is only included on iOS.
-public class PlatformClass1
+namespace CustomControlsLibrary.Platforms.iOS
 {
-}
 
-public class DisplayService : IDisplayService
-{
-    public (double Width, double Height) GetDisplayDimensions()
+    // All the code in this file is only included on iOS.
+    public class PlatformClass1
     {
-        var screenBounds = UIScreen.MainScreen.Bounds;
-        return (screenBounds.Width, screenBounds.Height);
+    }
+
+    public class DisplayService : IDisplayService
+    {
+        public (double Width, double Height) GetDisplayDimensions()
+        {
+            var screenBounds = UIScreen.MainScreen.Bounds;
+            return (screenBounds.Width, screenBounds.Height);
+        }
     }
 }

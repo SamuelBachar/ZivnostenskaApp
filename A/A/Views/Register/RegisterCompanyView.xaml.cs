@@ -16,6 +16,7 @@ using ExtensionsLibrary.Http;
 using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
 using A.ViewModels;
+using CustomControlsLibrary.Interfaces;
 
 namespace A.Views
 {
@@ -66,9 +67,10 @@ namespace A.Views
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IEndpointResolver _endpointResolver;
         private readonly IRelationshipResolver _relationshipResolver;
+        private readonly IDisplayService _displayService;
         private readonly RegisterCompanyViewModel _registerCompanyViewModel;
         public RegisterCompanyView(IHttpClientFactory httpClientFactory, IEndpointResolver endpointResolver, 
-                                   IRelationshipResolver relationshipResolver, RegisterCompanyViewModel registerCompanyViewModel)
+                                   IRelationshipResolver relationshipResolver, IDisplayService displayService, RegisterCompanyViewModel registerCompanyViewModel)
         {
             InitializeComponent();
             //this.BindingContext = this;
@@ -77,6 +79,7 @@ namespace A.Views
             _relationshipResolver = relationshipResolver;
             _httpClientFactory = httpClientFactory;
             _registerCompanyViewModel = registerCompanyViewModel;
+            _displayService = displayService;
 
             this.Loaded += async (s, e) => { await LoadData(); };
         }
@@ -111,7 +114,7 @@ namespace A.Views
                 base.SetIsBusy(true);
                 await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(RegionDTO));
                 await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(DistrictDTO));
-                await this.CityEntryPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(CityDTO));
+                await this.CityEntryPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, _displayService, typeof(CityDTO));
             }
             catch (Exception ex)
             {

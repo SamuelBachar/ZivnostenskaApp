@@ -11,8 +11,13 @@ using CustomUIControls.Interfaces;
 using A.CustomControls.CustomControlsDefines.EndpointDefines;
 using A.CustomControls.CustomControlsDefines.RelationshipDefines;
 using A.ViewModels;
+
 using CustomControlsLibrary.Interfaces;
-using CustomUIControls;
+#if ANDROID
+using CustomControlsLibrary.Platforms.Droid;
+#elif IOS
+using CustomControlsLibrary.Platforms.iOS;
+#endif
 
 namespace A
 {
@@ -73,7 +78,9 @@ namespace A
             builder.Services.AddTransient<RegisterCompanyViewModel>();
             builder.Services.AddScoped<LogInChooseViewModel>();
 
+#if ANDROID || IOS
             builder.Services.AddSingleton<IDisplayService, DisplayService>();
+#endif
 
             return builder.Build();
         }

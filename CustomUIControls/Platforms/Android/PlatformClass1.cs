@@ -2,21 +2,24 @@
 using Microsoft.Maui.Controls;
 
 using CustomControlsLibrary.Interfaces;
-using CustomUIControls;
+
+using CustomControlsLibrary.Platforms.Droid;
 
 [assembly: Dependency(typeof(DisplayService))]
-namespace CustomUIControls;
-
-// All the code in this file is only included on Android.
-public class PlatformClass1
+namespace CustomControlsLibrary.Platforms.Droid
 {
-}
 
-public class DisplayService : IDisplayService
-{
-    public (double Width, double Height) GetDisplayDimensions()
+    // All the code in this file is only included on Android.
+    public class PlatformClass1
     {
-        var metrics = Android.App.Application.Context.Resources.DisplayMetrics;
-        return (metrics.WidthPixels / metrics.Density, metrics.HeightPixels / metrics.Density);
+    }
+
+    public class DisplayService : IDisplayService
+    {
+        public (double Width, double Height) GetDisplayDimensions()
+        {
+            var metrics = Android.App.Application.Context.Resources.DisplayMetrics;
+            return (metrics.WidthPixels / metrics.Density, metrics.HeightPixels / metrics.Density);
+        }
     }
 }

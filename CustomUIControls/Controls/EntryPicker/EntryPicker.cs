@@ -13,7 +13,7 @@ using CustomControlsLibrary.Interfaces;
 
 namespace CustomControlsLibrary.Controls;
 
-public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : class
+public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 {
     private Entry _entry;
     public ObservableCollection<T> DisplayedItems { get; set; } = new ObservableCollection<T>();
@@ -25,6 +25,7 @@ public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : c
     private HttpClient? _httpClient;
     private IEndpointResolver? _endpointResolver;
     private IRelationshipResolver? _relationshipResolver;
+    private IDisplayService _displayService;
 
     private Type? _dataModel;
     public Type DataModelType
@@ -51,74 +52,47 @@ public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : c
         set => SetValue(SelectedItemProperty, value);
     }
 
-    public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(EntryPicker<T>), default(string), BindingMode.TwoWay);
+    //public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(EntryPicker<T>), default(string), BindingMode.TwoWay);
 
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
+    //public string Text
+    //{
+    //    get => (string)GetValue(TextProperty);
+    //    set => SetValue(TextProperty, value);
+    //}
 
-    public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(EntryPicker<T>), string.Empty);
+    //public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(EntryPicker<T>), string.Empty);
 
-    public string Placeholder
-    {
-        get => (string)GetValue(PlaceholderProperty);
-        set => SetValue(PlaceholderProperty, value);
-    }
+    //public string Placeholder
+    //{
+    //    get => (string)GetValue(PlaceholderProperty);
+    //    set => SetValue(PlaceholderProperty, value);
+    //}
 
-    public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EntryPicker<T>), Colors.Black);
+    //public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EntryPicker<T>), Colors.Black);
 
-    public Color TextColor
-    {
-        get => (Color)GetValue(TextColorProperty);
-        set => SetValue(TextColorProperty, value);
-    }
+    //public Color TextColor
+    //{
+    //    get => (Color)GetValue(TextColorProperty);
+    //    set => SetValue(TextColorProperty, value);
+    //}
     #endregion
 
     public EntryPicker()
     {
-        InitializeControls();
-        //SetLayout();
+        this.Focused += OnEntryFocused;
     }
 
-    public async Task Initialize(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver, Type dataModel)
+    public async Task Initialize(HttpClient httpClient, IEndpointResolver endpointResolver, IRelationshipResolver relationshipResolver, IDisplayService displayService, Type dataModel)
     {
         _httpClient = httpClient;
         _endpointResolver = endpointResolver;
         _relationshipResolver = relationshipResolver;
+        _displayService = displayService;
         _dataModel = dataModel;
 
         FilterGroupManager.Instance.Initialize(_relationshipResolver);
 
         await LoadData();
-    }
-
-    private void InitializeControls()
-    {
-        try
-        {
-            _entry = new Entry
-            {
-                Placeholder = this.Placeholder,
-                Margin = new Thickness(10),
-                VerticalOptions = LayoutOptions.Start,
-                HorizontalOptions = LayoutOptions.Start,
-            };
-
-            this._entry.SetBinding(Entry.PlaceholderProperty, new Binding(nameof(Placeholder), source: this));
-            this._entry.SetBinding(Entry.TextColorProperty, new Binding(nameof(TextColor), source: this));
-
-            //_entry.TextChanged += OnEntryTextChanged;
-            _entry.Focused += OnEntryFocused;
-            _entry.Unfocused += OnEntryUnfocused;
-
-            Content = _entry;
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
     }
 
     private async Task LoadData()
@@ -164,10 +138,18 @@ public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : c
         }
     }
 
-    private void OnEntryTextChanged(object? sender, TextChangedEventArgs e)
+    public void OnEntryTextChanged(object? sender, TextChangedEventArgs e)
     {
         // Filter items based on the text entered
-        FilterBy(item => item.ToString().Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase));
+        FilterBy(item => 
+        {
+            if (item is BaseDTO baseDTO)
+            {
+                 return baseDTO.DisplayName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase);
+            }
+
+            return false;
+        });
     }
 
     private async void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
@@ -180,9 +162,9 @@ public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : c
 
             if (selectedItem is BaseDTO baseDTO)
             {
-                _entry.Text = baseDTO.DisplayName;
+               this.Text = baseDTO.DisplayName;
             }
-            //_entry.Text = selectedItem.ToString();
+            
             //await HidePopup(); // Hide collection after selection
         }
     }
@@ -190,11 +172,6 @@ public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : c
     private async void OnEntryFocused(object? sender, FocusEventArgs e)
     {
         await ShowPopup();
-    }
-
-    private async void OnEntryUnfocused(object? sender, FocusEventArgs e)
-    {
-        await HidePopup();
     }
 
     private async Task HidePopup()
@@ -213,9 +190,9 @@ public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : c
         _popUp = new EntryPickerPopUp<T>(DisplayedItems);
         _popUp.OnItemSelected += OnItemSelectionChanged;
         _popUp.OnPopUpClosed += OnPopUpClosed;
+        _popUp.OnEntryTextChanged += OnEntryTextChanged;
 
-        var displayService = DependencyService.Get<IDisplayService>();
-        var (screenWidth, screenHeight) = displayService.GetDisplayDimensions();
+        var (screenWidth, screenHeight) = _displayService.GetDisplayDimensions();
 
         double popupWidth = screenWidth * 0.8; // 80% of the screen width
         double popupHeight = screenHeight * 0.8; // 80% of the screen height
@@ -234,6 +211,7 @@ public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : c
     private void OnPopUpClosed(object? sender, EventArgs args)
     {
         _isPopupVisible = false;
+        this.Unfocus();
     }
 
     private void OnItemSelectionChanged(object? sender, ItemSelectedEventArgs<T> e)
@@ -243,7 +221,7 @@ public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : c
         if (e.SelectedItem is BaseDTO baseDTO)
         {
             this.SelectedItem = e.SelectedItem;
-            _entry.Text = baseDTO.DisplayName;
+            this.Text = baseDTO.DisplayName;
 
             FilterGroupManager.Instance.NotifyFilterAbleControlChange(this, this.SelectedItem);
         }
