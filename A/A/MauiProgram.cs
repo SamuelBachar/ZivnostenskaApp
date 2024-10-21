@@ -11,6 +11,8 @@ using CustomUIControls.Interfaces;
 using A.CustomControls.CustomControlsDefines.EndpointDefines;
 using A.CustomControls.CustomControlsDefines.RelationshipDefines;
 using A.ViewModels;
+using CustomControlsLibrary.Interfaces;
+using CustomUIControls;
 
 namespace A
 {
@@ -70,6 +72,8 @@ namespace A
             // ViewModels
             builder.Services.AddTransient<RegisterCompanyViewModel>();
             builder.Services.AddScoped<LogInChooseViewModel>();
+
+            builder.Services.AddSingleton<IDisplayService, DisplayService>();
 
             return builder.Build();
         }

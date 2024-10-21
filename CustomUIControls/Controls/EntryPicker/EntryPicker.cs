@@ -1,24 +1,27 @@
-﻿using CustomUIControls.Generics;
+﻿using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Views;
+using CustomUIControls.Generics;
 using CustomUIControls.Interfaces;
 using ExtensionsLibrary.Http;
-using Microsoft.Maui.Layouts;
 using SharedTypesLibrary.DTOs;
 using SharedTypesLibrary.ServiceResponseModel;
 using System.Collections.ObjectModel;
+using Microsoft.Maui.Devices;
+
 using static CustomUIControls.Enumerations.Enums;
+using CustomControlsLibrary.Interfaces;
 
 namespace CustomControlsLibrary.Controls;
 
-public partial class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : class
+public class EntryPicker<T> : ContentView, IFilterable, IEntryPicker where T : class
 {
     private Entry _entry;
-    private CollectionView _collectionView;
-    private AbsoluteLayout _absoluteLayout;
+    public ObservableCollection<T> DisplayedItems { get; set; } = new ObservableCollection<T>();
+    private bool _isPopupVisible;
+    EntryPickerPopUp<T>? _popUp = null;
 
     public List<T> Items { get; set; } = new List<T>();
-    public ObservableCollection<T> DisplayedItems { get; set; } = new ObservableCollection<T>();
 
-    private bool _isPopupVisible;
     private HttpClient? _httpClient;
     private IEndpointResolver? _endpointResolver;
     private IRelationshipResolver? _relationshipResolver;
@@ -95,71 +98,27 @@ public partial class EntryPicker<T> : ContentView, IFilterable, IEntryPicker whe
     {
         try
         {
-            if (_absoluteLayout == null)
-            {
-                _absoluteLayout = new AbsoluteLayout();
-            }
-
             _entry = new Entry
             {
                 Placeholder = this.Placeholder,
                 Margin = new Thickness(10),
+                VerticalOptions = LayoutOptions.Start,
+                HorizontalOptions = LayoutOptions.Start,
             };
 
             this._entry.SetBinding(Entry.PlaceholderProperty, new Binding(nameof(Placeholder), source: this));
             this._entry.SetBinding(Entry.TextColorProperty, new Binding(nameof(TextColor), source: this));
 
-            _collectionView = new CollectionView
-            {
-                ItemsSource = DisplayedItems,
-                ItemTemplate = new DataTemplate(() =>
-                {
-                    Label label = new Label();
-                    label.SetBinding(Label.TextProperty, "Name");
-                    return new StackLayout
-                    {
-                        Children = { label }
-                    };
-                }),
-                IsVisible = false,
-                HeightRequest = 150,
-            };
-
-            _entry.TextChanged += OnEntryTextChanged;
+            //_entry.TextChanged += OnEntryTextChanged;
             _entry.Focused += OnEntryFocused;
             _entry.Unfocused += OnEntryUnfocused;
-            _collectionView.SelectionChanged += OnCollectionViewSelectionChanged;
 
-            // Add controls to AbsoluteLayout
-            AbsoluteLayout.SetLayoutBounds(_entry, new Rect(0, 0, 1, 0.1)); // Entry positioned normally
-            AbsoluteLayout.SetLayoutFlags(_entry, AbsoluteLayoutFlags.All);
-
-            AbsoluteLayout.SetLayoutBounds(_collectionView, new Rect(0, 1, 1, 0.4)); // CollectionView positioned below Entry
-            AbsoluteLayout.SetLayoutFlags(_collectionView, AbsoluteLayoutFlags.All);
-
-           
-
-            // Add both controls to AbsoluteLayout
-            _absoluteLayout.Children.Add(_entry);
-            _absoluteLayout.Children.Add(_collectionView);
-
-
-            /*if (_absoluteLayout.Parent != null)
-            {
-                ((Layout)_absoluteLayout.Parent).Children.Remove(_absoluteLayout);
-            }*/
-
-           
+            Content = _entry;
         }
         catch (Exception ex)
         {
             throw;
         }
-    }
-
-    private void SetLayout()
-    {
-
     }
 
     private async Task LoadData()
@@ -209,12 +168,9 @@ public partial class EntryPicker<T> : ContentView, IFilterable, IEntryPicker whe
     {
         // Filter items based on the text entered
         FilterBy(item => item.ToString().Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase));
-
-        // Show or hide CollectionView based on whether there are filtered items
-        _collectionView.IsVisible = !string.IsNullOrWhiteSpace(e.NewTextValue) && DisplayedItems.Count > 0;
     }
 
-    private void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private async void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection.FirstOrDefault() is T selectedItem)
         {
@@ -227,31 +183,70 @@ public partial class EntryPicker<T> : ContentView, IFilterable, IEntryPicker whe
                 _entry.Text = baseDTO.DisplayName;
             }
             //_entry.Text = selectedItem.ToString();
-            HidePopup(); // Hide collection after selection
+            //await HidePopup(); // Hide collection after selection
         }
     }
 
-    private void OnEntryFocused(object? sender, FocusEventArgs e)
+    private async void OnEntryFocused(object? sender, FocusEventArgs e)
     {
-        ShowPopup();
+        await ShowPopup();
     }
 
-    private void OnEntryUnfocused(object? sender, FocusEventArgs e)
+    private async void OnEntryUnfocused(object? sender, FocusEventArgs e)
     {
-        HidePopup();
+        await HidePopup();
     }
 
-    private void ShowPopup()
+    private async Task HidePopup()
+    {
+        if (_popUp != null && _isPopupVisible)
+        {
+            await _popUp.CloseAsync();
+            _isPopupVisible = false;
+        }
+    }
+
+    private async Task ShowPopup()
     {
         _isPopupVisible = true;
-        _collectionView.ItemsSource = DisplayedItems;
-        _collectionView.IsVisible = _isPopupVisible;
+
+        _popUp = new EntryPickerPopUp<T>(DisplayedItems);
+        _popUp.OnItemSelected += OnItemSelectionChanged;
+        _popUp.OnPopUpClosed += OnPopUpClosed;
+
+        var displayService = DependencyService.Get<IDisplayService>();
+        var (screenWidth, screenHeight) = displayService.GetDisplayDimensions();
+
+        double popupWidth = screenWidth * 0.8; // 80% of the screen width
+        double popupHeight = screenHeight * 0.8; // 80% of the screen height
+
+        _popUp.Size = new Size(popupWidth, popupHeight);
+
+        AbsoluteLayout.SetLayoutBounds(_popUp, new Rect((screenWidth - popupWidth) / 2, (screenHeight - popupHeight) / 2, popupWidth, popupHeight));
+
+        await Application.Current.MainPage?.ShowPopupAsync(_popUp);
+
+        //var selectedItem = await Application.Current.MainPage.ShowPopupAsync(_popUp);
+
+        _isPopupVisible = false;
     }
 
-    private void HidePopup()
+    private void OnPopUpClosed(object? sender, EventArgs args)
     {
         _isPopupVisible = false;
-        _collectionView.IsVisible = _isPopupVisible;
+    }
+
+    private void OnItemSelectionChanged(object? sender, ItemSelectedEventArgs<T> e)
+    {
+        this.SelectedItem = e.SelectedItem;
+
+        if (e.SelectedItem is BaseDTO baseDTO)
+        {
+            this.SelectedItem = e.SelectedItem;
+            _entry.Text = baseDTO.DisplayName;
+
+            FilterGroupManager.Instance.NotifyFilterAbleControlChange(this, this.SelectedItem);
+        }
     }
 
     // Automatically called during InitializeComponent() of View

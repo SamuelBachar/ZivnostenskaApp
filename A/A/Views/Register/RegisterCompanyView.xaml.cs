@@ -285,6 +285,7 @@ namespace A.Views
 
                 using MultipartFormDataContent content = new MultipartFormDataContent();
 
+                content.Add(new StringContent(regCompData.Id.ToString()), nameof(RegistrationCompanyRequest.Id));
                 content.Add(new StringContent(regCompData.CompanyName), nameof(RegistrationCompanyRequest.CompanyName));
                 content.Add(new StringContent(regCompData.CIN), nameof(RegistrationCompanyRequest.CIN));
                 content.Add(new StringContent(regCompData.Phone), nameof(RegistrationCompanyRequest.Phone));

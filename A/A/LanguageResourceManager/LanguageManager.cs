@@ -34,7 +34,6 @@ namespace A.LanguageResourceManager
 
         public object this[string resourceKey] => LanguageResource.ResourceManager.GetObject(resourceKey, LanguageResource.Culture) ?? Array.Empty<byte>();
 
-
         public void SetCulture(CultureInfo culture)
         {
             LanguageResource.Culture = culture;
