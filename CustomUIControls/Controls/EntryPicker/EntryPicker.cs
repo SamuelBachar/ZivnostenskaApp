@@ -10,6 +10,7 @@ using Microsoft.Maui.Devices;
 
 using static CustomUIControls.Enumerations.Enums;
 using CustomControlsLibrary.Interfaces;
+using Microsoft.Maui.Layouts;
 
 namespace CustomControlsLibrary.Controls;
 
@@ -141,11 +142,11 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
     public void OnEntryTextChanged(object? sender, TextChangedEventArgs e)
     {
         // Filter items based on the text entered
-        FilterBy(item => 
+        FilterBy(item =>
         {
             if (item is BaseDTO baseDTO)
             {
-                 return baseDTO.DisplayName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase);
+                return baseDTO.DisplayName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase);
             }
 
             return false;
@@ -162,25 +163,17 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 
             if (selectedItem is BaseDTO baseDTO)
             {
-               this.Text = baseDTO.DisplayName;
+                this.Text = baseDTO.DisplayName;
             }
-            
+
             //await HidePopup(); // Hide collection after selection
         }
     }
 
     private async void OnEntryFocused(object? sender, FocusEventArgs e)
     {
+        this.Unfocus();
         await ShowPopup();
-    }
-
-    private async Task HidePopup()
-    {
-        if (_popUp != null && _isPopupVisible)
-        {
-            await _popUp.CloseAsync();
-            _isPopupVisible = false;
-        }
     }
 
     private async Task ShowPopup()
@@ -189,17 +182,22 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 
         _popUp = new EntryPickerPopUp<T>(DisplayedItems);
         _popUp.OnItemSelected += OnItemSelectionChanged;
-        _popUp.OnPopUpClosed += OnPopUpClosed;
+        _popUp.OnPopUpClosedWhenItemSelected += OnPopUpClosedWhenItemChoosed;
+        _popUp.Closed += OnPopUpClosed;
         _popUp.OnEntryTextChanged += OnEntryTextChanged;
+        _popUp.Color = Colors.Transparent;
 
-        var (screenWidth, screenHeight) = _displayService.GetDisplayDimensions();
+        var (screenWidth, screenHeight) = GetScreenSizes();
+        var (finalWidth, finalHeight) = GetFinalLayoutSize((screenWidth, screenHeight));
 
-        double popupWidth = screenWidth * 0.8; // 80% of the screen width
-        double popupHeight = screenHeight * 0.8; // 80% of the screen height
+        //var (screenWidth, screenHeight) = _displayService.GetDisplayDimensions();
 
-        _popUp.Size = new Size(popupWidth, popupHeight);
+        //double finalWidth = screenWidth * 0.8; // 80% of the screen width
+        //double finalHeight = screenHeight * 0.8; // 80% of the screen height
 
-        AbsoluteLayout.SetLayoutBounds(_popUp, new Rect((screenWidth - popupWidth) / 2, (screenHeight - popupHeight) / 2, popupWidth, popupHeight));
+        _popUp.Size = new Size(finalWidth, finalHeight);
+        AbsoluteLayout.SetLayoutBounds(_popUp, new Rect((screenWidth - finalWidth) / 2, (screenHeight - finalHeight) / 2, finalWidth, finalHeight));
+        AbsoluteLayout.SetLayoutFlags(_popUp, AbsoluteLayoutFlags.All);
 
         await Application.Current.MainPage?.ShowPopupAsync(_popUp);
 
@@ -208,10 +206,18 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         _isPopupVisible = false;
     }
 
-    private void OnPopUpClosed(object? sender, EventArgs args)
+    private void OnPopUpClosedWhenItemChoosed(object? sender, EventArgs args)
     {
         _isPopupVisible = false;
         this.Unfocus();
+        RefreshList();
+    }
+
+    private void OnPopUpClosed(object? sender, PopupClosedEventArgs args)
+    {
+        _isPopupVisible = false;
+        this.Unfocus();
+        RefreshList();
     }
 
     private void OnItemSelectionChanged(object? sender, ItemSelectedEventArgs<T> e)
@@ -230,7 +236,7 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
     // Automatically called during InitializeComponent() of View
     private static void OnFilterGroupChanged(BindableObject bindable, object oldValue, object newValue)
     {
-       if (bindable is EntryPicker<T> entryPicker && newValue is string filterGroup)
+        if (bindable is EntryPicker<T> entryPicker && newValue is string filterGroup)
         {
             if (!string.IsNullOrWhiteSpace(filterGroup))
             {
@@ -238,5 +244,30 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
                 FilterGroupManager.Instance.RegisterFilterAbleControl(entryPicker, filterGroup);
             }
         }
+    }
+
+    public void RefreshList()
+    {
+        DisplayedItems.Clear();
+
+        foreach (var item in Items)
+        {
+            DisplayedItems.Add(item);
+        }
+    }
+
+    private (double screenWidth, double screenHeight) GetScreenSizes()
+    {
+        var displayInfo = DeviceDisplay.MainDisplayInfo;
+
+        double screenWidth = displayInfo.Width / displayInfo.Density; // Width in pixels
+        double screenHeight = displayInfo.Height / displayInfo.Density; // Height in pixels
+
+        return (screenWidth, screenHeight);
+    }
+
+    private (double finalScreenWidth, double finalScreenHeight) GetFinalLayoutSize((double screenWidth, double screenHeight) sizes)
+    {
+        return (sizes.screenWidth * 0.8, sizes.screenHeight * 0.8);
     }
 }
