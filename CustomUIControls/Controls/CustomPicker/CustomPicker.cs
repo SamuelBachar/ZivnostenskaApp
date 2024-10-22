@@ -85,7 +85,7 @@ public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
         }
     }
 
-    public void FilterBy(Func<object, bool> filter)
+    public void FilterBy(Func<object, bool> filter, bool isFilteredByParentControl)
     {
         this.FilterByCustom(item => filter(item));
     }

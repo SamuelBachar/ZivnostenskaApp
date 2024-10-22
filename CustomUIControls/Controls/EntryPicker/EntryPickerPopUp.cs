@@ -31,7 +31,8 @@ public class EntryPickerPopUp<T> : Popup where T : class
 
     private Entry _searchEntry;
 
-    ObservableCollection<T> _displayedItems;
+    private ObservableCollection<T> _displayedItems;
+    private ObservableCollection<T> _backupItems = new ObservableCollection<T>();
     public EntryPickerPopUp(ObservableCollection<T> displayedItems)
     {
         _displayedItems = displayedItems;

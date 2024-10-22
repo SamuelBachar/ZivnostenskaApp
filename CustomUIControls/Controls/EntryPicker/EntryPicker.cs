@@ -17,11 +17,12 @@ namespace CustomControlsLibrary.Controls;
 public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 {
     private Entry _entry;
-    public ObservableCollection<T> DisplayedItems { get; set; } = new ObservableCollection<T>();
+    public ObservableCollection<T> _displayedItems { get; set; } = new ObservableCollection<T>();
     private bool _isPopupVisible;
     EntryPickerPopUp<T>? _popUp = null;
 
-    public List<T> Items { get; set; } = new List<T>();
+    public List<T> _items { get; set; } = new List<T>();
+    public List<T> _itemsFilteredByParent { get; set; } = new List<T>();
 
     private HttpClient? _httpClient;
     private IEndpointResolver? _endpointResolver;
@@ -110,32 +111,43 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         ApiResponse<T> apiResponse = await response.Content.ExtReadFromJsonAsync<T>();
         var items = apiResponse.ListData;
 
-        Items.Clear();
-        DisplayedItems.Clear();
+        _items.Clear();
+        _displayedItems.Clear();
 
         if (items is List<T> validItems)
         {
             foreach (var item in validItems)
             {
-                Items.Add(item);
-                DisplayedItems.Add(item);
+                _items.Add(item);
+                _itemsFilteredByParent.Add(item);
+                _displayedItems.Add(item);
             }
         }
     }
 
-    public void FilterBy(Func<object, bool> filter)
+    public void FilterBy(Func<object, bool> filter, bool isFilteredByParentControl)
     {
-        this.FilterByCustom(item => filter(item));
+        this.FilterByCustom(item => filter(item), isFilteredByParentControl);
     }
 
-    public void FilterByCustom(Func<T, bool> filterPredicate)
+    public void FilterByCustom(Func<T, bool> filterPredicate, bool isFilteredByParentControl)
     {
-        var filteredItems = Items.Where(filterPredicate).ToList();
-        DisplayedItems.Clear();
+        var filteredItems = _items.Where(filterPredicate).ToList();
+        _displayedItems.Clear();
+
+        if (isFilteredByParentControl)
+        {
+            _itemsFilteredByParent.Clear();
+        }
 
         foreach (var item in filteredItems)
         {
-            DisplayedItems.Add(item);
+            if (isFilteredByParentControl)
+            {
+                _itemsFilteredByParent.Add(item);
+            }
+
+            _displayedItems.Add(item);
         }
     }
 
@@ -150,10 +162,10 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
             }
 
             return false;
-        });
+        }, isFilteredByParentControl: false);
     }
 
-    private async void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    private void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection.FirstOrDefault() is T selectedItem)
         {
@@ -165,8 +177,6 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
             {
                 this.Text = baseDTO.DisplayName;
             }
-
-            //await HidePopup(); // Hide collection after selection
         }
     }
 
@@ -180,7 +190,7 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
     {
         _isPopupVisible = true;
 
-        _popUp = new EntryPickerPopUp<T>(DisplayedItems);
+        _popUp = new EntryPickerPopUp<T>(_displayedItems);
         _popUp.OnItemSelected += OnItemSelectionChanged;
         _popUp.OnPopUpClosedWhenItemSelected += OnPopUpClosedWhenItemChoosed;
         _popUp.Closed += OnPopUpClosed;
@@ -248,11 +258,11 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 
     public void RefreshList()
     {
-        DisplayedItems.Clear();
+        _displayedItems.Clear();
 
-        foreach (var item in Items)
+        foreach (var item in _itemsFilteredByParent)
         {
-            DisplayedItems.Add(item);
+            _displayedItems.Add(item);
         }
     }
 

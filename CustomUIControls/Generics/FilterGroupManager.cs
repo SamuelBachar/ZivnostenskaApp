@@ -51,7 +51,7 @@ public class FilterGroupManager
 
                     if (filter != null)
                     {
-                        childControl.FilterBy(filter);
+                        childControl.FilterBy(filter, isFilteredByParentControl: true);
                     }
                 }
             }

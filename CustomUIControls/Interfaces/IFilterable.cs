@@ -12,5 +12,5 @@ public interface IFilterable
 {
     string FilterGroup { get; }
     Type DataModelType { get; }
-    void FilterBy(Func<object, bool> filter);
+    void FilterBy(Func<object, bool> filter, bool isFilteredByParentControl);
 }
