@@ -255,4 +255,22 @@
   <data name="LogInChooseView_ChooseError" xml:space="preserve">
     <value>Error during selection</value>
   </data>
+  <data name="RegisterCompanyView_BadEMailFormat" xml:space="preserve">
+    <value>Bad e-mail format</value>
+  </data>
+  <data name="RegisterCompanyView_BadPhoneFormat" xml:space="preserve">
+    <value>Bad phone format</value>
+  </data>
+  <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
+    <value>Cannot be blank</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseRegion" xml:space="preserve">
+    <value>Choose region</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseDistrict" xml:space="preserve">
+    <value>Choose district</value>
+  </data>
+  <data name="Controls_Picker_MustBeChoosed" xml:space="preserve">
+    <value>Please select</value>
+  </data>
 </root>

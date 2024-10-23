@@ -88,6 +88,24 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot be blank.
+        /// </summary>
+        internal static string Controls_Entry_CantBeEmpty {
+            get {
+                return ResourceManager.GetString("Controls_Entry_CantBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select.
+        /// </summary>
+        internal static string Controls_Picker_MustBeChoosed {
+            get {
+                return ResourceManager.GetString("Controls_Picker_MustBeChoosed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You clicked {0} times.
         /// </summary>
         internal static string Counter {
@@ -367,11 +385,47 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad e-mail format.
+        /// </summary>
+        internal static string RegisterCompanyView_BadEMailFormat {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_BadEMailFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad phone format.
+        /// </summary>
+        internal static string RegisterCompanyView_BadPhoneFormat {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_BadPhoneFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose district.
+        /// </summary>
+        internal static string RegisterCompanyView_ChooseDistrict {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_ChooseDistrict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select image.
         /// </summary>
         internal static string RegisterCompanyView_ChooseImage {
             get {
                 return ResourceManager.GetString("RegisterCompanyView_ChooseImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose region.
+        /// </summary>
+        internal static string RegisterCompanyView_ChooseRegion {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_ChooseRegion", resourceCulture);
             }
         }
         

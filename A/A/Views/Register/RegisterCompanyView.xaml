@@ -77,6 +77,7 @@
                             <ccLib:CustomEntry x:Name="EntryPhone" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="PhoneNumber" IsMandatory="True"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
+                               ErrorText="{translate:TranslateManager RegisterCompanyView_Phone}" ErrorTextEmpty="{translate:TranslateManager Controls_Entry_CantBeEmpty}"
                         />
                         </Frame>
                     </StackLayout>
@@ -90,6 +91,7 @@
                             <ccLib:CustomEntry x:Name="EntryEmail" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="Email" IsMandatory="True"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}" Keyboard="Email"
+                               ErrorText="{translate:TranslateManager RegisterCompanyView_BadEmailFormat}" ErrorTextEmpty="{translate:TranslateManager Controls_Entry_CantBeEmpty}"
                         />
                         </Frame>
                     </StackLayout>
@@ -100,11 +102,14 @@
                             <Image Source="region.svg" HeightRequest="40" WidthRequest="40" />
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                            <ccProj:RegionCustomPicker x:Name="RegionPicker" Title="Zvoľte kraj" 
-                                                       FilterGroup="1"
+                            <ccProj:RegionCustomPicker x:Name="RegionPicker" Title="{translate:TranslateManager RegisterCompanyView_ChooseRegion}"
+                                                       TitleColor="Gray"
+                                                       ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_ChooseRegion}"
+                                                       FilterGroup="1" IsMandatory="True"
                                                        Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
                                                        ItemDisplayBinding="{Binding Name}"
-                                                       SelectedIndexChanged="RegionPicker_SelectedIndexChanged"/>
+                                                       SelectedIndexChanged="RegionPicker_SelectedIndexChanged"
+                                                       ErrorTextUnChoosed="{translate:TranslateManager Controls_Picker_MustBeChoosed}"/>
                         </Frame>
                     </StackLayout>
 
@@ -114,11 +119,14 @@
                             <Image Source="district.svg" HeightRequest="40" WidthRequest="40" />
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                            <ccProj:DistrictCustomPicker x:Name="DistrictPicker" Title="Zvoľte okres"
-                                                         FilterGroup="1" 
+                            <ccProj:DistrictCustomPicker x:Name="DistrictPicker" Title="{translate:TranslateManager RegisterCompanyView_ChooseDistrict}"
+                                                         TitleColor="Gray"
+                                                         ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_ChooseRegion}"
+                                                         FilterGroup="1" IsMandatory="True"
                                                          Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
                                                          ItemDisplayBinding="{Binding Name}"
-                                                         SelectedIndexChanged="District_SelectedIndexChanged"/>
+                                                         SelectedIndexChanged="District_SelectedIndexChanged"
+                                                         ErrorTextUnChoosed="{translate:TranslateManager Controls_Picker_MustBeChoosed}"/>
                         </Frame>
                     </StackLayout>
 
@@ -132,8 +140,7 @@
                                                     FilterGroup="1"
                                                     ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
                                                     TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" 
-                                                    Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
-                        />
+                                                    Placeholder="{translate:TranslateManager RegisterCompanyView_City}"/>
                         </Frame>
                     </StackLayout>
 

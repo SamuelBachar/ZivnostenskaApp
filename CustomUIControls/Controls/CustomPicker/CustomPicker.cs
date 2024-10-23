@@ -19,12 +19,22 @@ namespace CustomControlsLibrary.Controls;
 
 public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
 {
+    private string _titleBkp = string.Empty;
+
     public static readonly BindableProperty FilterGroupProperty = BindableProperty.Create(nameof(FilterGroup), typeof(string), typeof(CustomPicker<T>), string.Empty, propertyChanged: OnFilterGroupChanged);
 
     public string FilterGroup
     {
         get => (string)GetValue(FilterGroupProperty);
         set => SetValue(FilterGroupProperty, value);
+    }
+
+    public static readonly BindableProperty ErrorTextUnChoosedProperty = BindableProperty.Create(nameof(ErrorTextUnChoosed), typeof(string), typeof(CustomPicker<T>), string.Empty);
+
+    public string ErrorTextUnChoosed
+    {
+        get => (string)GetValue(ErrorTextUnChoosedProperty);
+        set => SetValue(ErrorTextUnChoosedProperty, value);
     }
 
     public List<T> Items { get; set; } = new List<T>();
@@ -39,6 +49,8 @@ public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
     {
         get => _dataModel;
     }
+
+    public bool IsMandatory { get; set; } = false;
 
     public CustomPicker()
     {
@@ -56,6 +68,8 @@ public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
         FilterGroupManager.Instance.Initialize(_relationshipResolver);
 
         await LoadData();
+
+        _titleBkp = this.Title;
     }
 
     private async Task LoadData()
@@ -121,6 +135,29 @@ public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
                 // Automatically register the picker in the FilterGroupManager
                 FilterGroupManager.Instance.RegisterFilterAbleControl(picker, filterGroup);
             }
+        }
+    }
+
+    private bool Validate()
+    {
+        bool result = this.SelectedIndex != -1;
+
+        SetDesign(result);
+
+        return result;
+    }
+
+    private void SetDesign(bool isSelected)
+    {
+        if (!isSelected && this.IsMandatory)
+        {
+            this.Title = this.ErrorTextUnChoosed;
+            this.TextColor = Colors.Red;
+        }
+        else
+        {
+            this.Title = _titleBkp;
+            this.TextColor = Colors.Black;
         }
     }
 }

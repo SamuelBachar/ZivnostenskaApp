@@ -255,4 +255,22 @@
   <data name="LogInChooseView_ChooseError" xml:space="preserve">
     <value>Chyba při výběru</value>
   </data>
+  <data name="RegisterCompanyView_BadEMailFormat" xml:space="preserve">
+    <value>Špatný formát e-mailu</value>
+  </data>
+  <data name="RegisterCompanyView_BadPhoneFormat" xml:space="preserve">
+    <value>Špatný formát telefonního čísla</value>
+  </data>
+  <data name="RegisterCompanyView_EntryCantBeEmpty" xml:space="preserve">
+    <value>Nemůže být prázdné</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseRegion" xml:space="preserve">
+    <value>Vyberte region</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseDistrict" xml:space="preserve">
+    <value>Vyberte okres</value>
+  </data>
+  <data name="RegisterCompanyView_PickerMustBeChoosed" xml:space="preserve">
+    <value>Zadajte voľbu</value>
+  </data>
 </root>

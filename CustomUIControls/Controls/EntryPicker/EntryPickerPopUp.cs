@@ -65,7 +65,7 @@ public class EntryPickerPopUp<T> : Popup where T : class
                 ItemSpacing = 10 // Set the space between each item
             },
         };
-        _collectionView.SelectionChanged += async(s,e) => await OnCollectionViewSelectionChanged(s, e);
+        _collectionView.SelectionChanged += async (s, e) => await OnCollectionViewSelectionChanged(s, e);
 
         StackLayout stackLayout = new StackLayout
         {
@@ -91,18 +91,11 @@ public class EntryPickerPopUp<T> : Popup where T : class
 
     private void OnSearcEntryTextChanged(object? sender, TextChangedEventArgs e)
     {
-        if (!string.IsNullOrEmpty(e.NewTextValue))
-        {
-            string searchText = e.NewTextValue?.ToLower() ?? string.Empty;
+        string searchText = e.NewTextValue?.ToLower() ?? string.Empty;
 
-            if (OnEntryTextChanged != null)
-            {
-                OnEntryTextChanged.Invoke(this, e);
-            }
-        }
-        else
+        if (OnEntryTextChanged != null)
         {
-            _collectionView.ItemsSource = _displayedItems;
+            OnEntryTextChanged.Invoke(this, e);
         }
     }
 
@@ -114,7 +107,7 @@ public class EntryPickerPopUp<T> : Popup where T : class
             {
                 OnItemSelected?.Invoke(this, new ItemSelectedEventArgs<T>(selectedItem));
             }
-            
+
             await CloseAsync(selectedItem);
             this._searchEntry.Unfocus();
 

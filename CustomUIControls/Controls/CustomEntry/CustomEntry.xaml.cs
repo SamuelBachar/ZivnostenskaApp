@@ -85,6 +85,22 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
         set => SetValue(TextColorProperty, value);
     }
 
+    public static readonly BindableProperty ErrorTextProperty = BindableProperty.Create(nameof(ErrorTextProperty), typeof(string), typeof(CustomEntry));
+
+    public string ErrorText
+    {
+        get => (string)GetValue(ErrorTextProperty);
+        set => SetValue(ErrorTextProperty, value);
+    }
+
+    public static readonly BindableProperty ErrorTextEmptyProperty = BindableProperty.Create(nameof(ErrorTextEmpty), typeof(string), typeof(CustomEntry));
+
+    public string ErrorTextEmpty
+    {
+        get => (string)GetValue(ErrorTextEmptyProperty);
+        set => SetValue(ErrorTextEmptyProperty, value);
+    }
+
     public static readonly BindableProperty KeyboardProperty = BindableProperty.Create(nameof(Keyboard), typeof(Keyboard), typeof(CustomEntry), Keyboard.Default);
     public Keyboard Keyboard
     {
@@ -125,10 +141,7 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
 
             if (!isValid)
             {
-                this.ErrorMessage = this.EntryValidationType == ValidationType.Email ?
-                    "Bad E-mail" :
-                    "Bad Phone number";
-
+                this.ErrorMessage = this.ErrorText;
                 this.IsErrorVisible = true;
             }
             else
@@ -141,7 +154,7 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
         if ((checkLength && this.IsMandatory) && string.IsNullOrWhiteSpace(text))
         {
             isValid = !string.IsNullOrWhiteSpace(text);
-            ErrorMessage = "Cannot be empty";
+            ErrorMessage = this.ErrorTextEmpty;
 
             this.IsErrorVisible = !isValid;
         }

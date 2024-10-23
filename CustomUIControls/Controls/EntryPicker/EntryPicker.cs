@@ -127,6 +127,11 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 
     public void FilterBy(Func<object, bool> filter, bool isFilteredByParentControl)
     {
+        if (isFilteredByParentControl)
+        {
+            this.Text = string.Empty;
+        }
+
         this.FilterByCustom(item => filter(item), isFilteredByParentControl);
     }
 
@@ -153,16 +158,22 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 
     public void OnEntryTextChanged(object? sender, TextChangedEventArgs e)
     {
-        // Filter items based on the text entered
-        FilterBy(item =>
+        if (!string.IsNullOrEmpty(e.NewTextValue))
         {
-            if (item is BaseDTO baseDTO)
+            FilterBy(item =>
             {
-                return baseDTO.DisplayName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase);
-            }
+                if (item is BaseDTO baseDTO)
+                {
+                    return baseDTO.DisplayName.Contains(e.NewTextValue, StringComparison.OrdinalIgnoreCase);
+                }
 
-            return false;
-        }, isFilteredByParentControl: false);
+                return false;
+            }, isFilteredByParentControl: false);
+        }
+        else
+        {
+            RefreshList();
+        }
     }
 
     private void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
