@@ -1,7 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
 
 namespace ZivnostAPI.Models.DatabaseModels.Account;
 

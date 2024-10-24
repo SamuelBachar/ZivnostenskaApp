@@ -97,6 +97,15 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string Controls_EntryPicker_SearchTxtPopUp {
+            get {
+                return ResourceManager.GetString("Controls_EntryPicker_SearchTxtPopUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select.
         /// </summary>
         internal static string Controls_Picker_MustBeChoosed {
@@ -466,6 +475,15 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot be blank.
+        /// </summary>
+        internal static string RegisterCompanyView_EntryCantBeEmpty {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_EntryCantBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logo of Trade / Company.
         /// </summary>
         internal static string RegisterCompanyView_Image {
@@ -489,6 +507,15 @@ namespace A.Resources.LanguageResources {
         internal static string RegisterCompanyView_Phone {
             get {
                 return ResourceManager.GetString("RegisterCompanyView_Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose option.
+        /// </summary>
+        internal static string RegisterCompanyView_PickerMustBeChoosed {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_PickerMustBeChoosed", resourceCulture);
             }
         }
         

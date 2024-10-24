@@ -33,13 +33,13 @@ public class EntryPickerPopUp<T> : Popup where T : class
 
     private ObservableCollection<T> _displayedItems;
     private ObservableCollection<T> _backupItems = new ObservableCollection<T>();
-    public EntryPickerPopUp(ObservableCollection<T> displayedItems)
+    public EntryPickerPopUp(ObservableCollection<T> displayedItems, string searchTxtPopUp)
     {
         _displayedItems = displayedItems;
 
         _searchEntry = new Entry
         {
-            Placeholder = "Search...",
+            Placeholder = searchTxtPopUp,
             Margin = new Thickness(10)
         };
         _searchEntry.TextChanged += OnSearcEntryTextChanged;

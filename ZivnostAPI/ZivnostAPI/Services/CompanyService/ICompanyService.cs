@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Data;
-using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
+using ZivnostAPI.Models.DatabaseModels.Company;
 
 namespace ZivnostAPI.Services.CompanyService;
 

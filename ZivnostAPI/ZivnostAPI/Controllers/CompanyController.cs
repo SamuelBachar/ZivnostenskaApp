@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 using ZivnostAPI.Models;
-using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
+using ZivnostAPI.Models.DatabaseModels.Company;
 using ZivnostAPI.Services.CompanyService;
 
 namespace ZivnostAPI.Controllers

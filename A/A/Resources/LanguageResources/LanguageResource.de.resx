@@ -261,8 +261,8 @@
   <data name="RegisterCompanyView_BadPhoneFormat" xml:space="preserve">
     <value>Falsches Telefonformat</value>
   </data>
-  <data name="RegisterCompanyView_EntryCantBeEmpty" xml:space="preserve">
-    <value>Darf nicht leer sein</value>
+  <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
+    <value>Kann nicht leer sein</value>
   </data>
   <data name="RegisterCompanyView_ChooseRegion" xml:space="preserve">
     <value>Wählen Sie den Land / Bundesland </value>
@@ -270,13 +270,16 @@
   <data name="RegisterCompanyView_ChooseDistrict" xml:space="preserve">
     <value>Wählen Sie den Kreis / Bezirk</value>
   </data>
+  <data name="Controls_Picker_MustBeChoosed" xml:space="preserve">
+    <value>Geben Sie die Wahl ein</value>
+  </data>
+  <data name="RegisterCompanyView_EntryCantBeEmpty" xml:space="preserve">
+    <value>Darf nicht leer sein</value>
+  </data>
   <data name="RegisterCompanyView_PickerMustBeChoosed" xml:space="preserve">
     <value>Bitte wählen Sie</value>
   </data>
-  <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
-    <value>Kann nicht leer sein</value>
-  </data>
-  <data name="Controls_Picker_MustBeChoosed" xml:space="preserve">
-    <value>Geben Sie die Wahl ein</value>
+  <data name="Controls_EntryPicker_SearchTxtPopUp" xml:space="preserve">
+    <value>Suchen</value>
   </data>
 </root>

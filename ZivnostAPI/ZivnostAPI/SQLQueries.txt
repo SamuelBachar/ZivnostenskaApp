@@ -1,0 +1,140 @@
+﻿-- Podpora SK, DE, CS, ENG, PL, UK, HU
+
+ALTER DATABASE ZivnostAppDB
+COLLATE SQL_Latin1_General_CP1_CI_AS;
+
+
+INSERT INTO Service (Name) VALUES
+('Architektúra a projekcia'),
+('Exteriér a údržba záhrad'),
+('Fasády a interiérové dokončovacie práce'),
+('Inštalácie a technológie'),
+('Kovové a drevené konštrukcie'),
+('Nábytok a interiér'),
+('Okná a dvere'),
+('Ostatné služby'),
+('Podlahy a povrchy'),
+('Stavebné a remeselné práce'),
+('Stavebné povolenia'),
+('Strešné práce');
+
+-- Architektúra a projekcia (Service_Id = 1)
+INSERT INTO Category (Service_Id, Name) VALUES
+(1, 'Architektonické návrhy'),
+(1, 'Bezpečnosť práce (BOZP)'),
+(1, 'Certifikácia energetickej účinnosti'),
+(1, 'Geodetické služby'),
+(1, 'Geologické štúdie'),
+(1, 'Legálne riešenia stavieb'),
+(1, 'Návrh interiérov'),
+(1, 'Projektový manažment');
+
+-- Exteriér a údržba záhrad (Service_Id = 2)
+INSERT INTO Category (Service_Id, Name) VALUES
+(2, 'Oplotenia a kamenné múry'),
+(2, 'Ošetrovanie a údržba trávnikov'),
+(2, 'Stavba bazénov a wellness zariadení'),
+(2, 'Výstavba záhradných prístreškov a altánkov'),
+(2, 'Zámková dlažba a terasy'),
+(2, 'Zavlažovacie systémy a výsadba'),
+(2, 'Zemné a výkopové práce');
+
+-- Fasády a interiérové dokončovacie práce (Service_Id = 3)
+INSERT INTO Category (Service_Id, Name) VALUES
+(3, 'Fasády, omietky a obklady'),
+(3, 'Maľovanie a dekorácie interiérov'),
+(3, 'Povrchové úpravy dreva a kovov'),
+(3, 'Sadrokartónové konštrukcie'),
+(3, 'Tapetovanie a štukatúra'),
+(3, 'Tepelná izolácia a hydroizolácia');
+
+-- Inštalácie a technológie (Service_Id = 4)
+INSERT INTO Category (Service_Id, Name) VALUES
+(4, 'Elektrikárske a elektroinštalačné práce'),
+(4, 'Inštalácia komínov a krbov'),
+(4, 'Inteligentné domy (smart home)'),
+(4, 'Klimatizačné systémy'),
+(4, 'Podlahové kúrenie a čerpadlá'),
+(4, 'Solárne a fotovoltaické systémy'),
+(4, 'Telekomunikačné služby a zabezpečovacie systémy'),
+(4, 'Vodoinštalatérske práce');
+
+-- Kovové a drevené konštrukcie (Service_Id = 5)
+INSERT INTO Category (Service_Id, Name) VALUES
+(5, 'CNC obrábanie kovov'),
+(5, 'Drevené terasy a altánky'),
+(5, 'Kované ploty a zábradlia'),
+(5, 'Kovové brány a konštrukcie'),
+(5, 'Montované garáže a prístrešky'),
+(5, 'Nerezové schody a zábradlia');
+
+-- Nábytok a interiér (Service_Id = 6)
+INSERT INTO Category (Service_Id, Name) VALUES
+(6, 'Čalúnnické práce'),
+(6, 'Nábytok na mieru (kuchyne, spálne)'),
+(6, 'Renovácia starého nábytku'),
+(6, 'Stolárske služby a montáž nábytku'),
+(6, 'Výroba nábytku z masívu');
+
+-- Okná a dvere (Service_Id = 7)
+INSERT INTO Category (Service_Id, Name) VALUES
+(7, 'Garážové a bezpečnostné dvere'),
+(7, 'Hliníkové vchodové dvere'),
+(7, 'Montáž a oprava okien a dverí'),
+(7, 'Plastové a drevené okná'),
+(7, 'Sklenárske práce a zimné záhrady'),
+(7, 'Tienenie, žalúzie a rolety');
+
+-- Ostatné služby (Service_Id = 8)
+INSERT INTO Category (Service_Id, Name) VALUES
+(8, 'Kominárske služby'),
+(8, 'Prenájom stavebných strojov a techniky'),
+(8, 'Sťahovanie a preprava'),
+(8, 'Upratovacie služby'),
+(8, 'Výškové práce a údržba budov');
+
+-- Podlahy a povrchy (Service_Id = 9)
+INSERT INTO Category (Service_Id, Name) VALUES
+(9, 'Epoxidové a priemyselné podlahy'),
+(9, 'Obklady a dlažby'),
+(9, 'Pokládka podláh (parkety, dlažba, vinyl)'),
+(9, 'Textilné a kobercové podlahové krytiny');
+
+-- Stavebné a remeselné práce (Service_Id = 10)
+INSERT INTO Category (Service_Id, Name) VALUES
+(10, 'Betónovanie a výkopové práce'),
+(10, 'Ekologické stavby'),
+(10, 'Murárske služby a omietky'),
+(10, 'Nízkoenergetické a pasívne domy'),
+(10, 'Oporné múry a základy'),
+(10, 'Renovácie a rekonštrukcie'),
+(10, 'Stavba komínov a iné špecializované práce'),
+(10, 'Stavebný materiál a rezivo'),
+(10, 'Výstavba domov na mieru'),
+(10, 'Základy a základové dosky'),
+(10, 'Zatepľovanie a izolácie');
+
+-- Stavebné povolenia (Service_Id = 11)
+INSERT INTO Category (Service_Id, Name) VALUES
+(11, 'Hodnotenie nehnuteľností'),
+(11, 'Inžinierske stavby a infraštruktúra'),
+(11, 'Projekt požiarnej ochrany'),
+(11, 'Riadenie a dozor stavby'),
+(11, 'Statika stavieb'),
+(11, 'Technické zabezpečenie budov (TZB)'),
+(11, 'Urbanizmus a plánovanie území'),
+(11, 'Výpočet energetických nákladov'),
+(11, 'Záhradný dizajn a architektúra');
+
+-- Strešné práce (Service_Id = 12)
+INSERT INTO Category (Service_Id, Name) VALUES
+(12, 'Inštalácia odkvapov'),
+(12, 'Krytina striech a klampiarske práce'),
+(12, 'Montáž bleskozvodov'),
+(12, 'Montáž drevených prístreškov'),
+(12, 'Oprava a údržba striech'),
+(12, 'Strešné okná a izolácie'),
+(12, 'Tesárske práce a konštrukcie'),
+(12, 'Zelené strechy');
+
+

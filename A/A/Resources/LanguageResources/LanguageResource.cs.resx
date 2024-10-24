@@ -261,7 +261,7 @@
   <data name="RegisterCompanyView_BadPhoneFormat" xml:space="preserve">
     <value>Špatný formát telefonního čísla</value>
   </data>
-  <data name="RegisterCompanyView_EntryCantBeEmpty" xml:space="preserve">
+  <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
     <value>Nemůže být prázdné</value>
   </data>
   <data name="RegisterCompanyView_ChooseRegion" xml:space="preserve">
@@ -270,13 +270,16 @@
   <data name="RegisterCompanyView_ChooseDistrict" xml:space="preserve">
     <value>Vyberte okres</value>
   </data>
-  <data name="RegisterCompanyView_PickerMustBeChoosed" xml:space="preserve">
-    <value>Zadajte voľbu</value>
-  </data>
-  <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
-    <value>Nemůže být prázdné</value>
-  </data>
   <data name="Controls_Picker_MustBeChoosed" xml:space="preserve">
     <value>Zadejte volbu</value>
+  </data>
+  <data name="RegisterCompanyView_EntryCantBeEmpty" xml:space="preserve">
+    <value>Nemůže být prázdné</value>
+  </data>
+  <data name="RegisterCompanyView_PickerMustBeChoosed" xml:space="preserve">
+    <value>Zadejte volbu</value>
+  </data>
+  <data name="Controls_EntryPicker_SearchTxtPopUp" xml:space="preserve">
+    <value>Vyhledej</value>
   </data>
 </root>

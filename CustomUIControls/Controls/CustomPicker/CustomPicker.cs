@@ -120,6 +120,7 @@ public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
 
         if (selectedItem != null)
         {
+            SetDesign(true);
             FilterGroupManager.Instance.NotifyFilterAbleControlChange(this, selectedItem);
         }
     }

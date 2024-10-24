@@ -47,7 +47,7 @@
                         <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="company.svg" HeightRequest="20" WidthRequest="20" />
                         </Frame>
-                        <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                        <Frame HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                             <ccLib:CustomEntry x:Name="EntryCompany" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
                                TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="Generic"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_CompanyName}"
@@ -108,7 +108,7 @@
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                             <ccProj:RegionCustomPicker x:Name="RegionPicker" Title="{translate:TranslateManager RegisterCompanyView_ChooseRegion}"
-                                                       TitleColor="Gray"
+                                                       TitleColor="LightGray"
                                                        ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_ChooseRegion}"
                                                        FilterGroup="1" IsMandatory="True"
                                                        Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
@@ -125,7 +125,7 @@
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                             <ccProj:DistrictCustomPicker x:Name="DistrictPicker" Title="{translate:TranslateManager RegisterCompanyView_ChooseDistrict}"
-                                                         TitleColor="Gray"
+                                                         TitleColor="LightGray"
                                                          ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_ChooseRegion}"
                                                          FilterGroup="1" IsMandatory="True"
                                                          Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
@@ -142,10 +142,12 @@
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                             <ccProj:CityEntryPicker x:Name="CityEntryPicker" 
+                                                    PlaceholderColor="LightGray"
                                                     FilterGroup="1"
                                                     ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_City}"
                                                     TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" 
-                                                    Placeholder="{translate:TranslateManager RegisterCompanyView_City}"/>
+                                                    Placeholder="{translate:TranslateManager RegisterCompanyView_City}"
+                                                    SearchTxtPopUp = "{translate:TranslateManager Controls_EntryPicker_SearchTxtPopUp}"/>
                         </Frame>
                     </StackLayout>
 

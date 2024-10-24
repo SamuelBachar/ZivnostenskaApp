@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using ZivnostAPI.Models.DatabaseModels.Localization;
 
-namespace ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
+namespace ZivnostAPI.Models.DatabaseModels.Company;
 
 [Table(nameof(Company))]
 public class Company
@@ -16,9 +16,14 @@ public class Company
     [MaxLength(500)]
     public string Description { get; set; } = string.Empty;
 
+    [ForeignKey(nameof(Region))]
+    public required int Region_Id { get; set; }
+
+    [ForeignKey(nameof(District))]
+    public required int District_Id { get; set; }
+
     [ForeignKey(nameof(City))]
-    [Required]
-    public required int City_Id { get; set; }
+    public int? City_Id { get; set; }
 
     public string Street { get; set; } = string.Empty;
 

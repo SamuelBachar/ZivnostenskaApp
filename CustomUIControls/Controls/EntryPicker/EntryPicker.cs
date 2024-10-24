@@ -12,6 +12,7 @@ using static CustomUIControls.Enumerations.Enums;
 using CustomControlsLibrary.Interfaces;
 using Microsoft.Maui.Layouts;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CustomControlsLibrary.Controls;
 
@@ -35,6 +36,8 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
     {
         get => _dataModel;
     }
+
+    public string SearchTxtPopUp { get; set; } = string.Empty;
 
     private string _placeHolderBkp { get; set; } = string.Empty;
     private bool _isSelected = false;
@@ -61,29 +64,6 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         set => SetValue(SelectedItemProperty, value);
     }
 
-    //public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(EntryPicker<T>), default(string), BindingMode.TwoWay);
-
-    //public string Text
-    //{
-    //    get => (string)GetValue(TextProperty);
-    //    set => SetValue(TextProperty, value);
-    //}
-
-    //public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(EntryPicker<T>), string.Empty);
-
-    //public string Placeholder
-    //{
-    //    get => (string)GetValue(PlaceholderProperty);
-    //    set => SetValue(PlaceholderProperty, value);
-    //}
-
-    //public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(EntryPicker<T>), Colors.Black);
-
-    //public Color TextColor
-    //{
-    //    get => (Color)GetValue(TextColorProperty);
-    //    set => SetValue(TextColorProperty, value);
-    //}
     #endregion
 
     public EntryPicker()
@@ -186,7 +166,7 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         }
     }
 
-    private void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
+    /*private void OnCollectionViewSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection.FirstOrDefault() is T selectedItem)
         {
@@ -201,7 +181,7 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 
             _isSelected = true;
         }
-    }
+    }*/
 
     private async void OnEntryFocused(object? sender, FocusEventArgs e)
     {
@@ -213,7 +193,7 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
     {
         _isPopupVisible = true;
 
-        _popUp = new EntryPickerPopUp<T>(_displayedItems);
+        _popUp = new EntryPickerPopUp<T>(_displayedItems, this.SearchTxtPopUp);
         _popUp.OnItemSelected += OnItemSelectionChanged;
         _popUp.OnPopUpClosedWhenItemSelected += OnPopUpClosedWhenItemChoosed;
         _popUp.Closed += OnPopUpClosed;
@@ -261,6 +241,9 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         {
             this.SelectedItem = e.SelectedItem;
             this.Text = baseDTO.DisplayName;
+            _isSelected = true;
+
+            SetDesign(_isSelected);
 
             FilterGroupManager.Instance.NotifyFilterAbleControlChange(this, this.SelectedItem);
         }

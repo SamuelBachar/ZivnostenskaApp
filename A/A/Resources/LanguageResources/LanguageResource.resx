@@ -273,4 +273,13 @@
   <data name="Controls_Picker_MustBeChoosed" xml:space="preserve">
     <value>Please select</value>
   </data>
+  <data name="RegisterCompanyView_EntryCantBeEmpty" xml:space="preserve">
+    <value>Cannot be blank</value>
+  </data>
+  <data name="RegisterCompanyView_PickerMustBeChoosed" xml:space="preserve">
+    <value>Choose option</value>
+  </data>
+  <data name="Controls_EntryPicker_SearchTxtPopUp" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ZivnostAPI.Data.CusDbContext;
-using ZivnostAPI.Models.DatabaseModels.CompanyBaseData;
+using ZivnostAPI.Models.DatabaseModels.Company;
 
 namespace ZivnostAPI.Services.CompanyService;
 
