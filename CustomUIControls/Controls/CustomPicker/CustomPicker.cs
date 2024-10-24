@@ -19,8 +19,6 @@ namespace CustomControlsLibrary.Controls;
 
 public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
 {
-    private string _titleBkp = string.Empty;
-
     public static readonly BindableProperty FilterGroupProperty = BindableProperty.Create(nameof(FilterGroup), typeof(string), typeof(CustomPicker<T>), string.Empty, propertyChanged: OnFilterGroupChanged);
 
     public string FilterGroup
@@ -51,6 +49,7 @@ public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
     }
 
     public bool IsMandatory { get; set; } = false;
+    private string _titleBkp = string.Empty;
 
     public CustomPicker()
     {
@@ -138,26 +137,30 @@ public class CustomPicker<T> : Picker, IFilterable, ICustomPicker
         }
     }
 
-    private bool Validate()
+    public bool Validate()
     {
-        bool result = this.SelectedIndex != -1;
+        bool result = true;
 
-        SetDesign(result);
+        if (this.IsMandatory)
+        {
+            result = this.SelectedIndex != -1;
+            SetDesign(result);
+        }
 
         return result;
     }
 
     private void SetDesign(bool isSelected)
     {
-        if (!isSelected && this.IsMandatory)
+        if (!isSelected)
         {
             this.Title = this.ErrorTextUnChoosed;
-            this.TextColor = Colors.Red;
+            this.TitleColor = Colors.Red;
         }
         else
         {
             this.Title = _titleBkp;
-            this.TextColor = Colors.Black;
+            this.TitleColor = Colors.Black;
         }
     }
 }

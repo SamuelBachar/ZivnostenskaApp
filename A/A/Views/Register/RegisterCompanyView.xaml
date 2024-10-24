@@ -48,10 +48,11 @@
                             <Image Source="company.svg" HeightRequest="20" WidthRequest="20" />
                         </Frame>
                         <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
-                            <Entry x:Name="EntryCompany" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center"
+                            <ccLib:CustomEntry x:Name="EntryCompany" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_CompanyName}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="Generic"
                                Placeholder="{translate:TranslateManager RegisterCompanyView_CompanyName}"
-                        />
+                               IsMandatory="True"
+                               ErrorTextEmpty="{translate:TranslateManager Controls_Entry_CantBeEmpty}"/>
                         </Frame>
                     </StackLayout>
 
@@ -75,9 +76,11 @@
                         </Frame>
                         <Frame HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                             <ccLib:CustomEntry x:Name="EntryPhone" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_Phone}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="PhoneNumber" IsMandatory="True"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}" Keyboard="Telephone"
-                               ErrorText="{translate:TranslateManager RegisterCompanyView_Phone}" ErrorTextEmpty="{translate:TranslateManager Controls_Entry_CantBeEmpty}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="PhoneNumber" Keyboard="Telephone"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_Phone}"
+                               IsMandatory="True"
+                               ErrorText="{translate:TranslateManager RegisterCompanyView_BadPhoneFormat}"
+                               ErrorTextEmpty="{translate:TranslateManager Controls_Entry_CantBeEmpty}"
                         />
                         </Frame>
                     </StackLayout>
@@ -89,9 +92,11 @@
                         </Frame>
                         <Frame HeightRequest="80" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
                             <ccLib:CustomEntry x:Name="EntryEmail" ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_EMail}"
-                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="Email" IsMandatory="True"
-                               Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}" Keyboard="Email"
-                               ErrorText="{translate:TranslateManager RegisterCompanyView_BadEmailFormat}" ErrorTextEmpty="{translate:TranslateManager Controls_Entry_CantBeEmpty}"
+                               TextColor="Black" Margin="20,0,0,0" VerticalOptions="Center" EntryValidationType="Email" Keyboard="Email"
+                               Placeholder="{translate:TranslateManager RegisterCompanyView_EMail}"
+                               IsMandatory="True"
+                               ErrorText="{translate:TranslateManager RegisterCompanyView_BadEmailFormat}" 
+                               ErrorTextEmpty="{translate:TranslateManager Controls_Entry_CantBeEmpty}"
                         />
                         </Frame>
                     </StackLayout>
@@ -196,8 +201,7 @@
                     <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="{translate:TranslateManager RegisterCompanyView_Image}" 
                        FontAttributes="Bold" 
                        LineBreakMode="WordWrap"
-                       HorizontalOptions="Center"
-                       />
+                       HorizontalOptions="Center"/>
 
                     <!-- Company picture -->
                     <VerticalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" Spacing="5">

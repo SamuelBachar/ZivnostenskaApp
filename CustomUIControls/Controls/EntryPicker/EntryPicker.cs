@@ -11,6 +11,7 @@ using Microsoft.Maui.Devices;
 using static CustomUIControls.Enumerations.Enums;
 using CustomControlsLibrary.Interfaces;
 using Microsoft.Maui.Layouts;
+using Microsoft.Extensions.Options;
 
 namespace CustomControlsLibrary.Controls;
 
@@ -34,6 +35,12 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
     {
         get => _dataModel;
     }
+
+    private string _placeHolderBkp { get; set; } = string.Empty;
+    private bool _isSelected = false;
+    public bool IsMandatory { get; set; } = false;
+
+    public string ErrorTextUnChoosed { get; set; } = string.Empty;
 
     // Expose Properties so they will be reachable from XAML file of Page / View
     #region Bindings of Properties
@@ -95,6 +102,8 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         FilterGroupManager.Instance.Initialize(_relationshipResolver);
 
         await LoadData();
+
+        _placeHolderBkp = this.Placeholder;
     }
 
     private async Task LoadData()
@@ -142,6 +151,7 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
 
         if (isFilteredByParentControl)
         {
+            _isSelected = false;
             _itemsFilteredByParent.Clear();
         }
 
@@ -188,6 +198,8 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
             {
                 this.Text = baseDTO.DisplayName;
             }
+
+            _isSelected = true;
         }
     }
 
@@ -291,4 +303,32 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
     {
         return (sizes.screenWidth * 0.8, sizes.screenHeight * 0.8);
     }
+
+    public bool Validate()
+    {
+        bool result = true;
+
+        if (this.IsMandatory)
+        {
+            SetDesign(_isSelected);
+            result = _isSelected;
+        }
+
+        return result;
+    }
+
+    private void SetDesign(bool isSelected)
+    {
+        if (!isSelected)
+        {
+            this.Text = this.ErrorTextUnChoosed;
+            this.TextColor = Colors.Red;
+        }
+        else
+        {
+            this.Text = _placeHolderBkp;
+            this.TextColor = Colors.Black;
+        }
+    }
+
 }

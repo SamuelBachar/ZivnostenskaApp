@@ -333,7 +333,9 @@ namespace A.Views
 
             if (_viewIndex == 0)
             {
-                result = this.EntryPhone.Validate(checkLength: true) & this.EntryEmail.Validate(checkLength: true);
+                result = this.EntryPhone.Validate(checkLength: true) & this.EntryEmail.Validate(checkLength: true) &
+                         this.RegionPicker.Validate() & this.DistrictPicker.Validate() & this.CityEntryPicker.Validate() &
+                         this.EntryCompany.Validate(checkLength: true);
             }
 
             if (_viewIndex == 1)

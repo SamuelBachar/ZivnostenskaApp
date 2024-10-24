@@ -120,9 +120,10 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
 
     public bool IsMandatory { get; set; } = false;
     public enum ValidationType
-    {
+    {   
         Email,
-        PhoneNumber
+        PhoneNumber,
+        Generic
     }
 
     public bool Validate(bool checkLength = false)
@@ -136,6 +137,7 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
             {
                 ValidationType.Email => ValidateEmail(text),
                 ValidationType.PhoneNumber => ValidatePhoneNumber(text),
+                ValidationType.Generic => true,
                 _ => false
             };
 
@@ -153,10 +155,10 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
 
         if ((checkLength && this.IsMandatory) && string.IsNullOrWhiteSpace(text))
         {
-            isValid = !string.IsNullOrWhiteSpace(text);
             ErrorMessage = this.ErrorTextEmpty;
+            this.IsErrorVisible = true;
 
-            this.IsErrorVisible = !isValid;
+            isValid = false;
         }
 
         return isValid;

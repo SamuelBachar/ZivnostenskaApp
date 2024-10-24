@@ -271,6 +271,9 @@
     <value>Vyberte okres</value>
   </data>
   <data name="Controls_Picker_MustBeChoosed" xml:space="preserve">
-    <value>Zadejte volbu</value>
+    <value>Zadejte voľbu</value>
+  </data>
+  <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
+    <value>Nemôže byť prázdne</value>
   </data>
 </root>

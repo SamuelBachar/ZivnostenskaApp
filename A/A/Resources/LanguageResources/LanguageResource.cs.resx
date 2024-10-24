@@ -273,4 +273,10 @@
   <data name="RegisterCompanyView_PickerMustBeChoosed" xml:space="preserve">
     <value>Zadajte voľbu</value>
   </data>
+  <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
+    <value>Nemůže být prázdné</value>
+  </data>
+  <data name="Controls_Picker_MustBeChoosed" xml:space="preserve">
+    <value>Zadejte volbu</value>
+  </data>
 </root>
