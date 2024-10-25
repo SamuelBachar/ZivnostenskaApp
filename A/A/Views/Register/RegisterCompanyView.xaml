@@ -187,12 +187,7 @@
                     <Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
                         <VerticalStackLayout HorizontalOptions="FillAndExpand">
                             <Label Text="Vyberte si kategorie" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Header"/>
-                            <SearchBar HorizontalOptions="FillAndExpand">
-
-                            </SearchBar>
-                            <ListView>
-
-                            </ListView>
+                            <ccProj:ServiceCategoryList />
                         </VerticalStackLayout>
                     </Frame>
 

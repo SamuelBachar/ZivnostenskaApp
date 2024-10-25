@@ -17,6 +17,6 @@ public class CompanyServiceCategory
     [ForeignKey(nameof(Service))]
     public required int Service_Id { get; set; }
 
-    [ForeignKey(nameof(Category))]
+    [ForeignKey(nameof(CategoryDTO))]
     public required int Category_Id { get; set; }
 }

@@ -37,8 +37,6 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         get => _dataModel;
     }
 
-    public string SearchTxtPopUp { get; set; } = string.Empty;
-
     private string _placeHolderBkp { get; set; } = string.Empty;
     private bool _isSelected = false;
     public bool IsMandatory { get; set; } = false;
@@ -63,6 +61,14 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         get => (T)GetValue(SelectedItemProperty);
         set => SetValue(SelectedItemProperty, value);
     }
+
+    public static readonly BindableProperty SearchTxtPopUpProperty = BindableProperty.Create(nameof(SearchTxtPopUp), typeof(string), typeof(EntryPicker<T>), string.Empty, BindingMode.OneWay);
+
+    public string SearchTxtPopUp 
+    {
+        get => (string)GetValue(SearchTxtPopUpProperty);
+        set => SetValue(SearchTxtPopUpProperty, value);
+    } 
 
     #endregion
 

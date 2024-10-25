@@ -32,7 +32,7 @@ public class CusDbContext : DbContext
     public DbSet<District> District { get; set; }
     public DbSet<City> City { get; set; }
     public DbSet<Service> Service { get; set; }
-    public DbSet<Category> Category { get; set; }
+    public DbSet<CategoryDTO> Category { get; set; }
     public DbSet<CompanyServiceCategory> CompanyServiceCategory { get; set; }
 
 }

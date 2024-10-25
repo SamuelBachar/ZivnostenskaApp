@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="A.CustomControls.Controls.ServiceCategoryList">
+
+    <ContentView.Content>
+        <VerticalStackLayout>
+            <!-- Search Bar for filtering categories -->
+            <SearchBar x:Name="CategorySearchBar"
+                       Placeholder="Search categories"
+                       TextChanged="OnSearchTextChanged"/>
+
+            <!-- Main Frame that will toggle between Services and Categories -->
+            <Frame x:Name="MainFrame"
+                   BorderColor="LightGray"
+                   CornerRadius="10"
+                   Padding="10"
+                   HasShadow="True"
+                   BackgroundColor="White">
+                <VerticalStackLayout>
+                    <!-- Service List -->
+                    <CollectionView x:Name="ServiceCollectionView"
+                                IsVisible="True"
+                                SelectionMode="Single"
+                                SelectionChanged="OnServiceSelected">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Padding="10" BorderColor="LightGray" CornerRadius="10" Margin="5">
+                                    <StackLayout Orientation="Horizontal" Spacing="10">
+                                        <Image Source="{Binding Image}" WidthRequest="50" HeightRequest="50"/>
+                                        <Label Text="{Binding Name}" VerticalOptions="Center"/>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <!-- Category List with Back Button -->
+                    <StackLayout x:Name="CategoryLayout" IsVisible="False">
+                        <StackLayout Orientation="Horizontal" Spacing="10" VerticalOptions="Start">
+                            <!-- Back Button -->
+                            <ImageButton Source="back_arrow.png" Clicked="OnBackButtonClicked"/>
+                            <!-- Service Name Label -->
+                            <Label x:Name="SelectedServiceLabel" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
+                        </StackLayout>
+
+                        <!-- List of Categories -->
+                        <CollectionView x:Name="CategoryCollectionView"
+                                    SelectionMode="None">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Padding="10" BorderColor="LightGray" CornerRadius="10" Margin="5">
+                                        <Label Text="{Binding Name}" VerticalOptions="Center"/>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ContentView.Content>
+</ContentView>
