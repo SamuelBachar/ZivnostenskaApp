@@ -71,9 +71,11 @@
 	  <None Remove="Resources\Images\Images\LogInView\lock_login.png" />
 	  <None Remove="Resources\Images\Images\LogInView\user_login.png" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\address.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\back_arrow.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\cin.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\city.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\company.svg" />
+	  <None Remove="Resources\Images\Images\RegisterCompanyView\delete_bin.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\district.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\email.svg" />
 	  <None Remove="Resources\Images\Images\RegisterCompanyView\phone.svg" />
@@ -115,9 +117,11 @@
 	  <MauiImage Include="Resources\Images\Images\LogInView\lock_login.png" />
 	  <MauiImage Include="Resources\Images\Images\LogInView\user_login.png" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\address.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\back_arrow.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\cin.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\city.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\company.svg" />
+	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\delete_bin.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\district.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\email.svg" />
 	  <MauiImage Include="Resources\Images\Images\RegisterCompanyView\phone.svg" />
@@ -149,8 +153,10 @@
 	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\email.svg" BaseSize="40,40" />
 	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\cin.svg" BaseSize="40,40" />
 	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\company.svg" BaseSize="40,40" />
-  <MauiImage Update="Resources\Images\Images\RegisterCompanyView\region.svg" BaseSize="40,40" />
-  <MauiImage Update="Resources\Images\Images\RegisterCompanyView\district.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\region.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\district.svg" BaseSize="40,40" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\back_arrow.svg" BaseSize="20,20" />
+	<MauiImage Update="Resources\Images\Images\RegisterCompanyView\delete_bin.svg" BaseSize="16,16" />
 	</ItemGroup>
 
 	<ItemGroup>

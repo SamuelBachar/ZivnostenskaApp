@@ -4,66 +4,108 @@
              x:Class="A.CustomControls.Controls.ServiceCategoryList">
 
     <ContentView.Content>
-        <VerticalStackLayout>
-            <!-- Search Bar for filtering categories -->
-            <SearchBar x:Name="CategorySearchBar"
-                       Placeholder="Search categories"
-                       TextChanged="OnSearchTextChanged"/>
-
-            <!-- Main Frame that will toggle between Services and Categories -->
-            <Frame x:Name="MainFrame"
+        <!-- Main Frame that will toggle between Services and Categories -->
+        <Frame x:Name="MainFrame"
                    BorderColor="LightGray"
                    CornerRadius="10"
                    Padding="10"
                    HasShadow="True"
-                   BackgroundColor="White">
-                <VerticalStackLayout>
+                   BackgroundColor="White"
+                   VerticalOptions="FillAndExpand">
+            <ScrollView>
+                <Grid RowDefinitions="Auto, 0.7*, 0.3*" ColumnDefinitions="*">
+                    <!-- Search Bar for filtering categories -->
+                    <SearchBar Grid.Row="0" 
+                       x:Name="CategorySearchBar"
+                       Placeholder="Search categories"
+                       TextChanged="OnSearchTextChanged"/>
+                    
+                    <!-- Grid.Row=1 Is switching between Services and Categories -->
                     <!-- Service List -->
-                    <CollectionView x:Name="ServiceCollectionView"
+                    <CollectionView Grid.Row="1" Grid.Column="0"
+                                x:Name="ServiceCollectionView"
                                 IsVisible="True"
-                                SelectionMode="Single"
-                                SelectionChanged="OnServiceSelected">
+                                SelectionMode="Single">
                         <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical"/>
+                            <GridItemsLayout Orientation="Vertical" Span="2" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Frame Padding="10" BorderColor="LightGray" CornerRadius="10" Margin="5">
-                                    <StackLayout Orientation="Horizontal" Spacing="10">
-                                        <Image Source="{Binding Image}" WidthRequest="50" HeightRequest="50"/>
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Image Source="{Binding ImageURL}" WidthRequest="40" HeightRequest="40"/>
                                         <Label Text="{Binding Name}" VerticalOptions="Center"/>
-                                    </StackLayout>
+                                    </HorizontalStackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnServiceSelected" CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
                                 </Frame>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
                     <!-- Category List with Back Button -->
-                    <StackLayout x:Name="CategoryLayout" IsVisible="False">
-                        <StackLayout Orientation="Horizontal" Spacing="10" VerticalOptions="Start">
+                    <VerticalStackLayout Grid.Row="1" Grid.Column="0" 
+                                         x:Name="CategoryLayout"
+                                         IsVisible="False">
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Start">
                             <!-- Back Button -->
-                            <ImageButton Source="back_arrow.png" Clicked="OnBackButtonClicked"/>
+                            <ImageButton Source="back_arrow.svg" Clicked="OnBackButtonClicked"/>
                             <!-- Service Name Label -->
-                            <Label x:Name="SelectedServiceLabel" FontSize="Medium" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
-                        </StackLayout>
+                            <Label x:Name="SelectedServiceLabel" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
 
                         <!-- List of Categories -->
                         <CollectionView x:Name="CategoryCollectionView"
-                                    SelectionMode="None">
+                                    SelectionMode="Single">
                             <CollectionView.ItemsLayout>
-                                <LinearItemsLayout Orientation="Vertical"/>
+                                <GridItemsLayout Orientation="Vertical" Span="2" />
                             </CollectionView.ItemsLayout>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Frame Padding="10" BorderColor="LightGray" CornerRadius="10" Margin="5">
-                                        <Label Text="{Binding Name}" VerticalOptions="Center"/>
-                                    </Frame>
+                                    <VerticalStackLayout>
+                                        <Frame Padding="10" BorderColor="LightGray" CornerRadius="10" Margin="5">
+                                            <Label Text="{Binding Name}" VerticalOptions="Center" LineBreakMode="WordWrap"/>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnCategorySelected" CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                    </VerticalStackLayout>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
-                    </StackLayout>
-                </VerticalStackLayout>
-            </Frame>
-        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout x:Name="ChoosenCategoryLayout" Grid.Row="2" Grid.Column="0">
+                        <HorizontalStackLayout>
+                            <Line VerticalOptions="Center" HorizontalOptions="Start"/>
+                            <Label Text="Choosen categories" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            <Line VerticalOptions="Center" HorizontalOptions="End"/>
+                        </HorizontalStackLayout>
+                        <CollectionView x:Name="ChoosenCategoriesCollectionView">
+                            <CollectionView.ItemsLayout>
+                                <GridItemsLayout Orientation="Vertical" Span="2"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout>
+                                        <Frame Padding="10" BorderColor="LightGray" CornerRadius="10" Margin="5">
+                                            <HorizontalStackLayout>
+                                                <Label Text="{Binding Name}" VerticalOptions="Center" LineBreakMode="WordWrap"/>
+                                                <Image Source="delete_bin.svg" VerticalOptions="Center" />
+                                            </HorizontalStackLayout>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnChoosenCategoryDelete" CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+
+                </Grid>
+            </ScrollView>
+        </Frame>
     </ContentView.Content>
 </ContentView>

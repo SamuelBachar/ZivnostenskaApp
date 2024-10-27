@@ -6,13 +6,10 @@ using ExtensionsLibrary.Http;
 using SharedTypesLibrary.DTOs;
 using SharedTypesLibrary.ServiceResponseModel;
 using System.Collections.ObjectModel;
-using Microsoft.Maui.Devices;
 
 using static CustomUIControls.Enumerations.Enums;
 using CustomControlsLibrary.Interfaces;
 using Microsoft.Maui.Layouts;
-using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CustomControlsLibrary.Controls;
 
@@ -315,7 +312,7 @@ public class EntryPicker<T> : Entry, IFilterable, IEntryPicker where T : class
         }
         else
         {
-            this.Text = _placeHolderBkp;
+            //this.Text = _placeHolderBkp;
             this.TextColor = Colors.Black;
         }
     }

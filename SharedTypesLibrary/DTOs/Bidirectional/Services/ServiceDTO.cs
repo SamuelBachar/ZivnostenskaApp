@@ -9,5 +9,5 @@ public class ServiceDTO
 
     public required string Name { get; set; } = string.Empty;
 
-    public string Image {  get; set; } = string.Empty;
+    public string ImageURL {  get; set; } = string.Empty;
 }

@@ -184,29 +184,27 @@
 
                 <Grid x:Name="SecondStepView"  RowDefinitions="*,*,Auto,Auto,Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
 
-                    <Frame Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
-                        <VerticalStackLayout HorizontalOptions="FillAndExpand">
-                            <Label Text="Vyberte si kategorie" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Header"/>
-                            <ccProj:ServiceCategoryList />
-                        </VerticalStackLayout>
-                    </Frame>
+                    <VerticalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
+                        <Label Text="Vyberte si kategorie" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Header"/>
+                        <ccProj:ServiceCategoryList x:Name="ServiceCategoryList" />
+                    </VerticalStackLayout>
 
-                    <Frame  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
+                    <!--<Frame  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
                         <Editor x:Name="EditorCompanyDescription" Placeholder="Enter your company descriptionhere" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
                     </Frame>
                     
                     <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="{translate:TranslateManager RegisterCompanyView_Image}" 
                        FontAttributes="Bold" 
                        LineBreakMode="WordWrap"
-                       HorizontalOptions="Center"/>
+                       HorizontalOptions="Center"/>-->
 
                     <!-- Company picture -->
-                    <VerticalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" Spacing="5">
+                    <!--<VerticalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" Spacing="5">
                         <Border HeightRequest="104" WidthRequest="104" StrokeThickness="2">
                             <Image x:Name="ImgCompanyLogo" MaximumHeightRequest="104" MaximumWidthRequest="104" Aspect="AspectFit"/>
                         </Border>
                         <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
-                    </VerticalStackLayout>
+                    </VerticalStackLayout>-->
 
                     <Button x:Name="BtnPrev2" Grid.Row="4" Grid.Column="0" Text="Prev" HorizontalOptions="Start" CornerRadius="20" Clicked="BtnPrev_Clicked"/>
                     <Button x:Name="BtnRegister2" Grid.Row="4" Grid.Column="1" Text="Prev" HorizontalOptions="Center" Clicked="BtnRegister_Clicked"

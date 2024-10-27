@@ -4,19 +4,19 @@ ALTER DATABASE ZivnostAppDB
 COLLATE SQL_Latin1_General_CP1_CI_AS;
 
 
-INSERT INTO Service (Name) VALUES
-('Architektúra a projekcia'),
-('Exteriér a údržba záhrad'),
-('Fasády a interiérové dokončovacie práce'),
-('Inštalácie a technológie'),
-('Kovové a drevené konštrukcie'),
-('Nábytok a interiér'),
-('Okná a dvere'),
-('Ostatné služby'),
-('Podlahy a povrchy'),
-('Stavebné a remeselné práce'),
-('Stavebné povolenia'),
-('Strešné práce');
+INSERT INTO Service (Name, ImageName) VALUES
+('Architektúra a projekcia', 'architecture.svg'),
+('Exteriér a údržba záhrad', 'exterior_garden.svg'),
+('Fasády a interiérové dokončovacie práce', 'facade_interior.svg'),
+('Inštalácie a technológie', 'installation_tools.svg'),
+('Kovové a drevené konštrukcie', 'wood_iron_constructions.svg'),
+('Nábytok a interiér', 'furniture_interior.svg'),
+('Okná a dvere', 'windows_doors.svg'),
+('Ostatné služby', 'others.svg'),
+('Podlahy a povrchy', 'surface_floor.svg'),
+('Stavebné a remeselné práce', 'construction_work.svg'),
+('Stavebné povolenia', 'construction_certification.svg'),
+('Strešné práce', 'roof_work.svg');
 
 -- Architektúra a projekcia (Service_Id = 1)
 INSERT INTO Category (Service_Id, Name) VALUES
@@ -41,8 +41,10 @@ INSERT INTO Category (Service_Id, Name) VALUES
 
 -- Fasády a interiérové dokončovacie práce (Service_Id = 3)
 INSERT INTO Category (Service_Id, Name) VALUES
-(3, 'Fasády, omietky a obklady'),
-(3, 'Maľovanie a dekorácie interiérov'),
+(3, 'Fasády, omietky'),
+(3, 'Obklady'),
+(3, 'Maľovanie'),
+(3, 'Dekorácie interiérov'),
 (3, 'Povrchové úpravy dreva a kovov'),
 (3, 'Sadrokartónové konštrukcie'),
 (3, 'Tapetovanie a štukatúra'),

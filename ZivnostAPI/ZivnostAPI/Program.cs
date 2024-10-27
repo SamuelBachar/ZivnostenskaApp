@@ -31,7 +31,7 @@ builder.Services.ConfigureSwagger()
                 .AddOAuthUrlBuildService()
                 .CacheJwtSettings(builder.Configuration)
                 .AddJWTService()
-                .AddAutoMapping();
+                .AddAutoMapping(builder.Configuration);
 
 var app = builder.Build();
 
@@ -45,8 +45,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthorization();
 app.UseAuthentication();
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

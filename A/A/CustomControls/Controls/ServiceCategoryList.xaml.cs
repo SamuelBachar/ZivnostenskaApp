@@ -1,60 +1,118 @@
+using CustomUIControls.Interfaces;
+using ExtensionsLibrary.Http;
 using SharedTypesLibrary.DTOs.Bidirectional.Categories;
 using SharedTypesLibrary.DTOs.Bidirectional.Services;
+using SharedTypesLibrary.ServiceResponseModel;
 using System.Collections.ObjectModel;
+
+using static CustomUIControls.Enumerations.Enums;
 
 namespace A.CustomControls.Controls;
 
 public partial class ServiceCategoryList : ContentView
 {
-    private ObservableCollection<ServiceDTO> Services = new ObservableCollection<ServiceDTO>();
-    private ObservableCollection<CategoryDTO> Categories = new ObservableCollection<CategoryDTO>();
+    private ObservableCollection<CategoryDTO> _collChoosedCategories = new ObservableCollection<CategoryDTO>();
+    private ObservableCollection<ServiceDTO> _collServices = new ObservableCollection<ServiceDTO>();
+    private ObservableCollection<CategoryDTO> _collCategories = new ObservableCollection<CategoryDTO>();
+
+    private HttpClient _httpClient;
+    private IEndpointResolver _endpointResolver;
     public ServiceCategoryList()
 	{
-		InitializeComponent();
-        LoadServices();
+        InitializeComponent();
     }
 
-    private void LoadServices()
+    public async Task Initialize(HttpClient httpClient, IEndpointResolver endpointResolver)
     {
-        // Load services with name and image (mock data for example)
-        Services.Add(new ServiceDTO { Name = "Architecture", Image = "architecture.png" });
-        Services.Add(new ServiceDTO { Name = "Plumbing", Image = "plumbing.png" });
-        // Add more services...
+        _httpClient = httpClient;
+        _endpointResolver = endpointResolver;
 
-        ServiceCollectionView.ItemsSource = Services;
+        await LoadData();
+
+        ServiceCollectionView.ItemsSource = _collServices;
+        CategoryCollectionView.ItemsSource = _collCategories;
+        ChoosenCategoriesCollectionView.ItemsSource = _collChoosedCategories;
     }
 
-    private void OnServiceSelected(object sender, SelectionChangedEventArgs e)
+    private async Task LoadData()
     {
-        var selectedService = (ServiceDTO)e.CurrentSelection.FirstOrDefault();
-        if (selectedService != null)
-        {
-            // Load corresponding categories (mock data for example)
-            Categories.Clear();
-            Categories.Add(new CategoryDTO { Name = "Architectural Design", Service_Id = 1 });
-            Categories.Add(new CategoryDTO { Name = "Interior Design", Service_Id = 1 });
-            // Add more categories...
+        if (_httpClient == null || _endpointResolver == null)
+            return;
 
-            // Display categories
-            SelectedServiceLabel.Text = selectedService.Name;
-            ServiceCollectionView.IsVisible = false;
-            CategoryLayout.IsVisible = true;
-            CategoryCollectionView.ItemsSource = Categories;
-        }
+        string endPointServices = _endpointResolver.GetEndpoint<ServiceDTO>(ApiAction.GetAll);
+        var response = await _httpClient.GetAsync(endPointServices);
+        response.EnsureSuccessStatusCode();
+        ApiResponse<ServiceDTO> apiResponseSer = await response.Content.ExtReadFromJsonAsync<ServiceDTO>();
+
+        apiResponseSer.ListData?.ToList().ForEach(data => _collServices.Add(data));
+
+        string endPointCategories = _endpointResolver.GetEndpoint<CategoryDTO>(ApiAction.GetAll);
+        response = await _httpClient.GetAsync(endPointCategories);
+        response.EnsureSuccessStatusCode();
+        ApiResponse<CategoryDTO> apiResponseCat = await response.Content.ExtReadFromJsonAsync<CategoryDTO>();
+
+        apiResponseCat.ListData?.ToList().ForEach(data => _collCategories.Add(data));
     }
 
     private void OnBackButtonClicked(object sender, EventArgs e)
     {
-        // Go back to service list
         ServiceCollectionView.IsVisible = true;
         CategoryLayout.IsVisible = false;
     }
 
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
     {
-        // Filter categories based on search query
         var searchText = e.NewTextValue.ToLower();
-        var filteredCategories = Categories.Where(c => c.Name.ToLower().Contains(searchText)).ToList();
+        var filteredCategories = _collCategories.Where(c => c.Name.ToLower().Contains(searchText)).ToList();
         CategoryCollectionView.ItemsSource = filteredCategories;
+
+        if (e.NewTextValue.Length == 0)
+        {
+            ServiceCollectionView.IsVisible = true;
+            CategoryLayout.IsVisible = false;
+            SelectedServiceLabel.Text = string.Empty;
+        }
+        else if (filteredCategories.Count == 0)
+        {
+            ServiceCollectionView.IsVisible = false;
+            CategoryLayout.IsVisible = true;
+            SelectedServiceLabel.Text = "No results";
+        }
+        else
+        {
+            ServiceCollectionView.IsVisible = false;
+            CategoryLayout.IsVisible = true;
+            SelectedServiceLabel.Text = "Matched categories";
+        }
+    }
+
+    private void OnServiceSelected(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is ServiceDTO selService)
+        {
+            var filteredCategories = _collCategories.Where(c => c.Service_Id == selService.Id).ToList();
+
+            SelectedServiceLabel.Text = selService.Name;
+            ServiceCollectionView.IsVisible = false;
+            CategoryLayout.IsVisible = true;
+            CategoryCollectionView.ItemsSource = filteredCategories;
+        }
+    }
+
+    private void OnCategorySelected(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is CategoryDTO selCategory)
+        {
+            _collChoosedCategories.Add(selCategory);
+        }
+    }
+
+    private void OnChoosenCategoryDelete(object sender, TappedEventArgs e)
+    {
+        if (e.Parameter is CategoryDTO delCategory)
+        {
+            _collChoosedCategories.Remove(delCategory);
+            //CategoryCollectionView.ItemsSource = _collChoosedCategories;
+        }
     }
 }

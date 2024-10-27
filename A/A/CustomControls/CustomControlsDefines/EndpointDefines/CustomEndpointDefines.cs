@@ -9,6 +9,8 @@ using SharedTypesLibrary.DTOs.Bidirectional.Localization;
 
 using CustomUIControls.Interfaces;
 using static CustomUIControls.Enumerations.Enums;
+using SharedTypesLibrary.DTOs.Bidirectional.Services;
+using SharedTypesLibrary.DTOs.Bidirectional.Categories;
 
 
 namespace A.CustomControls.CustomControlsDefines.EndpointDefines;
@@ -37,6 +39,20 @@ public class CustomEndpointDefines : IEndpointResolver
             {
                 { ApiAction.GetAll, $"/api/CityController/GetAll" },
                 { ApiAction.GetById, $"/api/CityController/GetById/{{id}}" }
+            }
+        },
+        {
+            typeof(ServiceDTO), new Dictionary<ApiAction, string>()
+            {
+                { ApiAction.GetAll, $"/api/ServiceController/GetAll" },
+                { ApiAction.GetById, $"/api/ServiceController/GetById/{{id}}" }
+            }
+        },
+        {
+            typeof(CategoryDTO), new Dictionary<ApiAction, string>()
+            {
+                { ApiAction.GetAll, $"/api/CategoryController/GetAll" },
+                { ApiAction.GetById, $"/api/CategoryController/GetById/{{id}}" }
             }
         }
     };

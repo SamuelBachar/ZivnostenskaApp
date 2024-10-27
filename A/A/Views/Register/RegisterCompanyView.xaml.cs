@@ -115,6 +115,7 @@ namespace A.Views
                 await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(RegionDTO));
                 await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(DistrictDTO));
                 await this.CityEntryPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, _displayService, typeof(CityDTO));
+                await this.ServiceCategoryList.Initialize(_httpClient, _endpointResolver);
             }
             catch (Exception ex)
             {
@@ -159,7 +160,7 @@ namespace A.Views
                         _imageData.ImageStream = await result.OpenReadAsync();
                         _imageData.ImageSource = ImageSource.FromStream(() => _imageData.ImageStream);
 
-                        this.ImgCompanyLogo.Source = _imageData.ImageSource;
+                        //this.ImgCompanyLogo.Source = _imageData.ImageSource;
 
                         _imageData.FileName = result.FileName;
                     }
@@ -260,7 +261,7 @@ namespace A.Views
                     CIN = this.EntryCIN.Text,
                     Address = this.EntryAddress.Text,
                     PostalCode = this.EntryPostalCode.Text,
-                    CompanyDescription = this.EditorCompanyDescription.Text,
+                    //CompanyDescription = this.EditorCompanyDescription.Text,
 
                     // required
                     Email = this.EntryEmail.Text,
