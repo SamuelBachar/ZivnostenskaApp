@@ -1,3 +1,4 @@
+using CustomControlsLibrary.Interfaces;
 using CustomUIControls.Interfaces;
 using ExtensionsLibrary.Http;
 using SharedTypesLibrary.DTOs.Bidirectional.Categories;
@@ -17,21 +18,28 @@ public partial class ServiceCategoryList : ContentView
 
     private HttpClient _httpClient;
     private IEndpointResolver _endpointResolver;
+    IDisplayService _displayService;
     public ServiceCategoryList()
 	{
         InitializeComponent();
     }
 
-    public async Task Initialize(HttpClient httpClient, IEndpointResolver endpointResolver)
+    public async Task Initialize(HttpClient httpClient, IEndpointResolver endpointResolver, IDisplayService displayService)
     {
         _httpClient = httpClient;
         _endpointResolver = endpointResolver;
+        _displayService = displayService;
 
         await LoadData();
 
         ServiceCollectionView.ItemsSource = _collServices;
         CategoryCollectionView.ItemsSource = _collCategories;
         ChoosenCategoriesCollectionView.ItemsSource = _collChoosedCategories;
+
+        var (screenWidth, screenHeight) = _displayService.GetScreenSizes();
+        var (finalWidth, finalHeight) = _displayService.GetFinalLayoutSize((screenWidth, screenHeight), scaleW: 0.50, scaleH: 0.85);
+
+        this.MaximumHeightRequest = finalHeight;
     }
 
     private async Task LoadData()
@@ -103,7 +111,10 @@ public partial class ServiceCategoryList : ContentView
     {
         if (e.Parameter is CategoryDTO selCategory)
         {
-            _collChoosedCategories.Add(selCategory);
+            if (!_collChoosedCategories.Contains(selCategory))
+            {
+                _collChoosedCategories.Add(selCategory);
+            }
         }
     }
 

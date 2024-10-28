@@ -8,7 +8,7 @@ using ZivnostAPI.Services.Interfaces;
 
 namespace ZivnostAPI.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/CategoryController")]
 [ApiController]
 public class CategoryController : ReadController<Category, CategoryDTO>
 {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharedTypesLibrary.DTOs.Bidirectional.Categories;
-using System.Drawing;
 using ZivnostAPI.Models.DatabaseModels.Account;
+using ZivnostAPI.Models.DatabaseModels.Categories;
 using ZivnostAPI.Models.DatabaseModels.Company;
 using ZivnostAPI.Models.DatabaseModels.CompanyData;
 using ZivnostAPI.Models.DatabaseModels.Localization;
@@ -32,7 +31,7 @@ public class CusDbContext : DbContext
     public DbSet<District> District { get; set; }
     public DbSet<City> City { get; set; }
     public DbSet<Service> Service { get; set; }
-    public DbSet<CategoryDTO> Category { get; set; }
+    public DbSet<Category> Category { get; set; }
     public DbSet<CompanyServiceCategory> CompanyServiceCategory { get; set; }
 
 }

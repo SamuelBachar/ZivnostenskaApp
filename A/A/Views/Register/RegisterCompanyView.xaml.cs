@@ -115,7 +115,7 @@ namespace A.Views
                 await this.RegionPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(RegionDTO));
                 await this.DistrictPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, typeof(DistrictDTO));
                 await this.CityEntryPicker.Initialize(_httpClient, _endpointResolver, _relationshipResolver, _displayService, typeof(CityDTO));
-                await this.ServiceCategoryList.Initialize(_httpClient, _endpointResolver);
+                await this.ServiceCategoryList.Initialize(_httpClient, _endpointResolver, _displayService);
             }
             catch (Exception ex)
             {
@@ -181,14 +181,14 @@ namespace A.Views
 
         private void BtnNext_Clicked(object sender, EventArgs e)
         {
-            if (ValidateData(_viewIndex))
-            {
+            //if (ValidateData(_viewIndex))
+            //{
                 if (_viewIndex < 2) // Prevent going beyond available views
                 {
                     ViewIndex++;
                     lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_oAuthRegistration ? 3 : 2)}";
                 }
-            }
+           // }
         }
 
         private void BtnPrev_Clicked(object sender, EventArgs e)
