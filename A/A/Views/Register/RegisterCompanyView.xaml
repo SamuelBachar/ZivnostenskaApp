@@ -182,7 +182,7 @@
                         Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
                 </Grid>
 
-                <Grid x:Name="SecondStepView" RowDefinitions="0.85*, Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
+                <Grid x:Name="SecondStepView" RowDefinitions="0.75*, Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
 
                     <ScrollView x:Name="ScrollViewSecondStepView" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalOptions="FillAndExpand">
                         <VerticalStackLayout Spacing="10">
@@ -190,23 +190,6 @@
                             <ccProj:ServiceCategoryList x:Name="ServiceCategoryList" />
                         </VerticalStackLayout>
                     </ScrollView>
-
-                    <!--<Frame  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
-                        <Editor x:Name="EditorCompanyDescription" Placeholder="Enter your company descriptionhere" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
-                    </Frame>
-                    
-                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="{translate:TranslateManager RegisterCompanyView_Image}" 
-                       FontAttributes="Bold" 
-                       LineBreakMode="WordWrap"
-                       HorizontalOptions="Center"/>-->
-
-                    <!-- Company picture -->
-                    <!--<VerticalStackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" Spacing="5">
-                        <Border HeightRequest="104" WidthRequest="104" StrokeThickness="2">
-                            <Image x:Name="ImgCompanyLogo" MaximumHeightRequest="104" MaximumWidthRequest="104" Aspect="AspectFit"/>
-                        </Border>
-                        <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
-                    </VerticalStackLayout>-->
 
                     <Button x:Name="BtnPrev2" Grid.Row="1" Grid.Column="0" Text="Prev" HorizontalOptions="Start" CornerRadius="20" Clicked="BtnPrev_Clicked"/>
                     <Button x:Name="BtnRegister2" Grid.Row="1" Grid.Column="1" Text="Prev" HorizontalOptions="Center" Clicked="BtnRegister_Clicked"
@@ -216,7 +199,29 @@
 
                 </Grid>
 
-                <Grid x:Name="ThirdStepView" RowDefinitions="Auto,Auto,60,60,60, *" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
+                <Grid x:Name="ThirdStepView" RowDefinitions="*,Auto,0.5*,Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
+                    <Frame  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
+                        <Editor x:Name="EditorCompanyDescription" Placeholder="Enter your company descriptionhere" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                    </Frame>
+                    
+                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{translate:TranslateManager RegisterCompanyView_Image}" 
+                       FontAttributes="Bold" 
+                       LineBreakMode="WordWrap"
+                       HorizontalOptions="Center"/>
+
+                     <!--Company picture--> 
+                    <VerticalStackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" Spacing="5">
+                        <Border HeightRequest="156" WidthRequest="156" StrokeThickness="2">
+                            <Image x:Name="ImgCompanyLogo" MaximumHeightRequest="156" MaximumWidthRequest="156" Aspect="AspectFit"/>
+                        </Border>
+                        <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
+                    </VerticalStackLayout>
+
+                    <Button x:Name="BtnPrev3" Grid.Row="3" Grid.Column="0" Text="Prev" HorizontalOptions="Start" CornerRadius="20" Clicked="BtnPrev_Clicked"/>
+                    <Button x:Name="BtnNext3" Grid.Row="3" Grid.Column="2" Text="Next" HorizontalOptions="End" CornerRadius="20" Clicked="BtnNext_Clicked"/>
+                </Grid>
+
+                <Grid x:Name="FourthStepView" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndexAndRegistration, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='3'}">
 
                     <Label Grid.Row="0" Text="Zadajte alternatívne prihlasovacie údaje" LineBreakMode="WordWrap" FontSize="Header" />
                     <Label Grid.Row="1" x:Name="LblNotMandatoryData" Text="Zadávanie údajov nie je povinné, naďalej môžte využívať #provider pre prihlasovanie" LineBreakMode="WordWrap" FontSize="Small" />
@@ -248,8 +253,13 @@
                         </Frame>
                     </StackLayout>
 
-                    <Button x:Name="BtnPrev3" Grid.Row="5" Grid.Column="0" Text="Späť" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="End" Clicked="BtnPrev_Clicked" />
-                    <Button Grid.Row="4" Grid.Column="1" x:Name="BtnRegister3" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
+                    <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" RowDefinitions="*" ColumnDefinitions="*,*,*">
+                        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnPrev4" Text="Späť" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="End" Clicked="BtnPrev_Clicked" />
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                            <Button  x:Name="BtnRegister4" Text="Preskočiť a Registrovať" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
+                            <Button  x:Name="BtnRegister4_1" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
+                        </VerticalStackLayout>
+                    </Grid>
 
                 </Grid>
             </Grid>

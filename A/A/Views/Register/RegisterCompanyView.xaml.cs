@@ -92,14 +92,8 @@ namespace A.Views
             _isPreferredAppModeChecked = _registerCompanyViewModel.IsPreferredAppModeChecked;
             _provider = _registerCompanyViewModel.Provider;
 
-            if (this._oAuthRegistration)
-            {
-                this.lblTitleViewStep.Text = "1/3";
-            }
-            else
-            {
-                this.lblTitleViewStep.Text = "1/2";
-            }
+            this.lblTitleViewStep.Text = "1/4";
+
 
             this.LblNotMandatoryData.Text = this.LblNotMandatoryData.Text.Replace("%#provider", _provider);
         }
@@ -183,10 +177,10 @@ namespace A.Views
         {
             //if (ValidateData(_viewIndex))
             //{
-                if (_viewIndex < 2) // Prevent going beyond available views
+                if (_viewIndex < 3) // Prevent going beyond available views
                 {
                     ViewIndex++;
-                    lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_oAuthRegistration ? 3 : 2)}";
+                    lblTitleViewStep.Text = $"{ViewIndex + 1}/4";
                 }
            // }
         }
@@ -196,7 +190,7 @@ namespace A.Views
             if (_viewIndex > 0) // Prevent negative index
             {
                 ViewIndex--;
-                lblTitleViewStep.Text = $"{ViewIndex + 1}/{(_oAuthRegistration ? 3 : 2)}";
+                lblTitleViewStep.Text = $"{ViewIndex + 1}/4";
             }
         }
 
@@ -348,6 +342,13 @@ namespace A.Views
 
             if (_viewIndex == 2)
             {
+                // TODO: most likely not needed to check logo of company or describtion of company
+
+                result = false;
+            }
+
+            if (_viewIndex == 3)
+            {
                 // todo check email entry and passwords an validate ... if not correct mail or passwords are not same cancel registration
 
                 result = false;
@@ -369,11 +370,6 @@ namespace A.Converters
                 int viewIndex = viewIndexAndRegistration.Item1;
                 bool genericRegistration = viewIndexAndRegistration.Item2;
 
-                if (gridIndex == "2")
-                {
-                    // Only show the third grid if ViewIndex is 2 and GenericRegistration is true
-                    return viewIndex == 2 && genericRegistration;
-                }
                 // For other grids, only compare with viewIndex
                 return viewIndex == int.Parse(gridIndex);
             }

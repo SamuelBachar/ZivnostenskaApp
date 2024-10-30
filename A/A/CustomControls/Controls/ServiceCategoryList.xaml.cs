@@ -1,3 +1,4 @@
+using A.ViewModels;
 using CustomControlsLibrary.Interfaces;
 using CustomUIControls.Interfaces;
 using ExtensionsLibrary.Http;
@@ -12,9 +13,9 @@ namespace A.CustomControls.Controls;
 
 public partial class ServiceCategoryList : ContentView
 {
-    private ObservableCollection<CategoryDTO> _collChoosedCategories = new ObservableCollection<CategoryDTO>();
     private ObservableCollection<ServiceDTO> _collServices = new ObservableCollection<ServiceDTO>();
-    private ObservableCollection<CategoryDTO> _collCategories = new ObservableCollection<CategoryDTO>();
+    private ObservableCollection<CategoryViewModel> _collCategories = new ObservableCollection<CategoryViewModel>();
+    private ObservableCollection<CategoryViewModel> _collChoosedCategories = new ObservableCollection<CategoryViewModel>();
 
     private HttpClient _httpClient;
     private IEndpointResolver _endpointResolver;
@@ -37,7 +38,7 @@ public partial class ServiceCategoryList : ContentView
         ChoosenCategoriesCollectionView.ItemsSource = _collChoosedCategories;
 
         var (screenWidth, screenHeight) = _displayService.GetScreenSizes();
-        var (finalWidth, finalHeight) = _displayService.GetFinalLayoutSize((screenWidth, screenHeight), scaleW: 0.50, scaleH: 0.85);
+        var (finalWidth, finalHeight) = _displayService.GetFinalLayoutSize((screenWidth, screenHeight), scaleW: 0.50, scaleH: 0.75);
 
         this.MaximumHeightRequest = finalHeight;
     }
@@ -59,7 +60,7 @@ public partial class ServiceCategoryList : ContentView
         response.EnsureSuccessStatusCode();
         ApiResponse<CategoryDTO> apiResponseCat = await response.Content.ExtReadFromJsonAsync<CategoryDTO>();
 
-        apiResponseCat.ListData?.ToList().ForEach(data => _collCategories.Add(data));
+        apiResponseCat.ListData?.ToList().ForEach(data => _collCategories.Add( new CategoryViewModel(data)));
     }
 
     private void OnBackButtonClicked(object sender, EventArgs e)
@@ -71,7 +72,7 @@ public partial class ServiceCategoryList : ContentView
     private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
     {
         var searchText = e.NewTextValue.ToLower();
-        var filteredCategories = _collCategories.Where(c => c.Name.ToLower().Contains(searchText)).ToList();
+        var filteredCategories = _collCategories.Where(c => c.CategoryData.Name.ToLower().Contains(searchText)).ToList();
         CategoryCollectionView.ItemsSource = filteredCategories;
 
         if (e.NewTextValue.Length == 0)
@@ -98,7 +99,7 @@ public partial class ServiceCategoryList : ContentView
     {
         if (e.Parameter is ServiceDTO selService)
         {
-            var filteredCategories = _collCategories.Where(c => c.Service_Id == selService.Id).ToList();
+            var filteredCategories = _collCategories.Where(c => c.CategoryData.Service_Id == selService.Id).ToList();
 
             SelectedServiceLabel.Text = selService.Name;
             ServiceCollectionView.IsVisible = false;
@@ -107,20 +108,26 @@ public partial class ServiceCategoryList : ContentView
         }
     }
 
-    private void OnCategorySelected(object sender, TappedEventArgs e)
+    private async void OnCategorySelected(object sender, TappedEventArgs e)
     {
-        if (e.Parameter is CategoryDTO selCategory)
+        if (e.Parameter is CategoryViewModel selCategory)
         {
             if (!_collChoosedCategories.Contains(selCategory))
             {
                 _collChoosedCategories.Add(selCategory);
             }
+
+            selCategory.FrameBackgroundColor = Color.FromArgb("2D9AEA");
+            await Task.Delay(400);
+            selCategory.FrameBackgroundColor = Colors.Transparent;
+
+            await this.ChoosenCategoriesScrollView.ScrollToAsync(this.ChoosenCategoriesCollectionView, ScrollToPosition.End, true);
         }
     }
 
     private void OnChoosenCategoryDelete(object sender, TappedEventArgs e)
     {
-        if (e.Parameter is CategoryDTO delCategory)
+        if (e.Parameter is CategoryViewModel delCategory)
         {
             _collChoosedCategories.Remove(delCategory);
             //CategoryCollectionView.ItemsSource = _collChoosedCategories;

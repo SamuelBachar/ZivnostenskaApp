@@ -61,9 +61,9 @@
                             </Grid.RowDefinitions>
 
                             <HorizontalStackLayout Grid.Row="0" Spacing="50" HorizontalOptions="Center" VerticalOptions="Start">
-                                 <!--Back Button--> 
+                                <!--Back Button-->
                                 <ImageButton Source="back_arrow.svg" HeightRequest="20" WidthRequest="20" Clicked="OnBackButtonClicked"/>
-                                 <!--Service Name Label--> 
+                                <!--Service Name Label-->
                                 <Label x:Name="SelectedServiceLabel" FontSize="Medium" WidthRequest="250" LineBreakMode="WordWrap" HorizontalOptions="Center" VerticalOptions="Center"/>
                             </HorizontalStackLayout>
 
@@ -77,8 +77,9 @@
                                 </CollectionView.ItemsLayout>
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <Frame BorderColor="LightGray" Margin="5" CornerRadius="10" VerticalOptions="FillAndExpand">
-                                            <Label Text="{Binding Name}" FontSize="Small" VerticalOptions="Center" LineBreakMode="WordWrap"/>
+                                        <Frame BorderColor="LightGray" Margin="5" CornerRadius="10" VerticalOptions="FillAndExpand"
+                                               BackgroundColor="{Binding FrameBackgroundColor}">
+                                            <Label Text="{Binding CategoryData.Name}" FontSize="Small" VerticalOptions="Center" LineBreakMode="WordWrap"/>
                                             <Frame.GestureRecognizers>
                                                 <TapGestureRecognizer Tapped="OnCategorySelected" CommandParameter="{Binding .}" />
                                             </Frame.GestureRecognizers>
@@ -92,7 +93,7 @@
             </Frame>
 
             <Frame x:Name="ChoosenCategoryLayout" Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand" MinimumHeightRequest="500">
-                <ScrollView VerticalOptions="FillAndExpand">
+                <ScrollView VerticalOptions="FillAndExpand" x:Name="ChoosenCategoriesScrollView">
                     <VerticalStackLayout VerticalOptions="FillAndExpand">
                         <StackLayout Orientation="Horizontal" Spacing="5">
                             <BoxView VerticalOptions="Center" HorizontalOptions="FillAndExpand" HeightRequest="1" BackgroundColor="Grey"/>
@@ -106,14 +107,14 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Frame Padding="10" BorderColor="LightGray" CornerRadius="10" Margin="5">
-                                            <HorizontalStackLayout>
-                                                <Label Text="{Binding Name}" FontSize="Small" WidthRequest="100" LineBreakMode="WordWrap"/>
-                                                <Image Source="delete_bin.svg" HeightRequest="24" WidthRequest="24" VerticalOptions="Center"/>
-                                            </HorizontalStackLayout>
-                                            <Frame.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="OnChoosenCategoryDelete" CommandParameter="{Binding .}" />
-                                            </Frame.GestureRecognizers>
-                                        </Frame>
+                                        <HorizontalStackLayout>
+                                            <Label Text="{Binding CategoryData.Name}" FontSize="Small" WidthRequest="100" LineBreakMode="WordWrap"/>
+                                            <Image Source="delete_bin.svg" HeightRequest="24" WidthRequest="24" VerticalOptions="Center"/>
+                                        </HorizontalStackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnChoosenCategoryDelete" CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
