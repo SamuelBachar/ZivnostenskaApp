@@ -17,12 +17,14 @@ using SharedTypesLibrary.DTOs.Response;
 using SharedTypesLibrary.ServiceResponseModel;
 using A.ViewModels;
 using CustomControlsLibrary.Interfaces;
+using System.ComponentModel;
 
 namespace A.Views
 {
     public partial class RegisterCompanyView : BasePage
     {
-        bool _oAuthRegistration { get; set; } = false;
+        bool _genericRegistration = false;
+        bool _oAuthRegistration = false;
 
         public bool OAuthRegistration
         {
@@ -30,9 +32,10 @@ namespace A.Views
             set
             {
                 _oAuthRegistration = value;
-                UpdateViewIndexAndRegistration();
+                OnPropertyChanged(nameof(OAuthRegistration));
             }
         }
+
         bool _isPreferredAppModeChecked { get; set; } = false;
 
 
@@ -43,8 +46,7 @@ namespace A.Views
             set
             {
                 _viewIndex = value;
-                OnPropertyChanged(nameof(ViewIndex)); // Notify the UI about the change
-                UpdateViewIndexAndRegistration();
+                OnPropertyChanged(nameof(ViewIndex));
             }
         }
 
@@ -60,20 +62,16 @@ namespace A.Views
 
         ImageData? _imageData { get; set; } = null;
 
-        public Tuple<int, bool> ViewIndexAndRegistration => new Tuple<int, bool>(ViewIndex, _oAuthRegistration);
-
-
         private HttpClient _httpClient;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IEndpointResolver _endpointResolver;
         private readonly IRelationshipResolver _relationshipResolver;
         private readonly IDisplayService _displayService;
         private readonly RegisterCompanyViewModel _registerCompanyViewModel;
-        public RegisterCompanyView(IHttpClientFactory httpClientFactory, IEndpointResolver endpointResolver, 
+        public RegisterCompanyView(IHttpClientFactory httpClientFactory, IEndpointResolver endpointResolver,
                                    IRelationshipResolver relationshipResolver, IDisplayService displayService, RegisterCompanyViewModel registerCompanyViewModel)
         {
             InitializeComponent();
-            //this.BindingContext = this;
 
             _endpointResolver = endpointResolver;
             _relationshipResolver = relationshipResolver;
@@ -92,10 +90,30 @@ namespace A.Views
             _isPreferredAppModeChecked = _registerCompanyViewModel.IsPreferredAppModeChecked;
             _provider = _registerCompanyViewModel.Provider;
 
+            OAuthRegistration = _oAuthRegistration;
+            _genericRegistration = !_oAuthRegistration;
+
             this.lblTitleViewStep.Text = "1/4";
 
+            if (_oAuthRegistration)
+            {
+                this.LblFourthStep.Text = "Zadajte alternatÌvne prihlasovacie ˙daje";
+                this.LblFourthStep.Text += "Zad·vanie ˙dajov nie je povinnÈ, naÔalej mÙûte vyuûÌvaù #provider pre prihlasovanie";
+                this.LblFourthStep.Text = this.LblFourthStep.Text.Replace("%#provider", _provider);
+                this.BtnRegister4Skip.IsVisible = true;
+            }
+            else
+            {
+                this.LblFourthStep.Text = "Zadajte prihlasovacie ˙daje";
+                this.BtnRegister4Skip.IsVisible = false;
+                this.EntryEmailRegister.IsMandatory = true;
+                this.EntryPassword.IsMandatory = true;
+                this.EntryPasswordConfirm.IsMandatory = true;
 
-            this.LblNotMandatoryData.Text = this.LblNotMandatoryData.Text.Replace("%#provider", _provider);
+                OAuthRegistration = true; // test - DO NOT WORK really
+            }
+
+            this.BindingContext = this;
         }
 
 
@@ -124,7 +142,7 @@ namespace A.Views
 
         private void UpdateViewIndexAndRegistration()
         {
-            OnPropertyChanged(nameof(ViewIndexAndRegistration));
+            OnPropertyChanged(nameof(ViewIndex));
         }
 
         //https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/file-picker?view=net-maui-8.0&tabs=android
@@ -177,12 +195,12 @@ namespace A.Views
         {
             //if (ValidateData(_viewIndex))
             //{
-                if (_viewIndex < 3) // Prevent going beyond available views
-                {
-                    ViewIndex++;
-                    lblTitleViewStep.Text = $"{ViewIndex + 1}/4";
-                }
-           // }
+            if (_viewIndex < 3) // Prevent going beyond available views
+            {
+                ViewIndex++;
+                lblTitleViewStep.Text = $"{ViewIndex + 1}/4";
+            }
+            // }
         }
 
         private void BtnPrev_Clicked(object sender, EventArgs e)
@@ -248,75 +266,80 @@ namespace A.Views
         {
             try
             {
-                RegistrationCompanyRequest regCompData = new RegistrationCompanyRequest
+                if (ValidateData(_viewIndex))
                 {
-                    Id = App.UserData.UserIdentityData.Id,
-                    CompanyName = this.EntryCompany.Text,
-                    CIN = this.EntryCIN.Text,
-                    Address = this.EntryAddress.Text,
-                    PostalCode = this.EntryPostalCode.Text,
-                    //CompanyDescription = this.EditorCompanyDescription.Text,
-
-                    // required
-                    Email = this.EntryEmail.Text,
-                    Phone = this.EntryPhone.Text,
-                    DistrictCompany = (DistrictDTO)this.DistrictPicker.SelectedItem,
-                    RegionCompany = (RegionDTO)this.DistrictPicker.SelectedItem,
-                    City = (CityDTO)this.CityEntryPicker.SelectedItem,
-                    Country = new CountryDTO { Name = "test" },
-                    ListServices = new List<ServiceDTO>()
-                };
-
-                if (_oAuthRegistration)
-                {
-                    RegisterGenericCredentials regGenData = new RegisterGenericCredentials
+                    RegistrationCompanyRequest regCompData = new RegistrationCompanyRequest
                     {
-                        Email = this.EntryEmailRegister.Text,
-                        Password = this.EntryPassword.Text,
-                        PasswordConfirmed = this.EntryPasswordConfirm.Text
+                        Id = App.UserData.UserIdentityData.Id,
+                        CompanyName = this.EntryCompany.Text,
+                        CIN = this.EntryCIN.Text,
+                        Address = this.EntryAddress.Text,
+                        PostalCode = this.EntryPostalCode.Text,
+                        //CompanyDescription = this.EditorCompanyDescription.Text,
+
+                        // required
+                        Email = this.EntryEmail.Text,
+                        Phone = this.EntryPhone.Text,
+                        DistrictCompany = (DistrictDTO)this.DistrictPicker.SelectedItem,
+                        RegionCompany = (RegionDTO)this.DistrictPicker.SelectedItem,
+                        City = (CityDTO)this.CityEntryPicker.SelectedItem,
+                        Country = new CountryDTO { Name = "test" },
+                        ListServices = new List<ServiceDTO>()
                     };
+
+                    if (_oAuthRegistration)
+                    {
+                        RegisterGenericCredentials regGenData = new RegisterGenericCredentials
+                        {
+                            Email = this.EntryEmailRegister.Text,
+                            Password = this.EntryPassword.Text,
+                            PasswordConfirmed = this.EntryPasswordConfirm.Text
+                        };
+                    }
+                    else
+                    {
+                        // Use Auth Provider data
+                    }
+
+                    using MultipartFormDataContent content = new MultipartFormDataContent();
+
+                    content.Add(new StringContent(regCompData.Id.ToString()), nameof(RegistrationCompanyRequest.Id));
+                    content.Add(new StringContent(regCompData.CompanyName), nameof(RegistrationCompanyRequest.CompanyName));
+                    content.Add(new StringContent(regCompData.CIN), nameof(RegistrationCompanyRequest.CIN));
+                    content.Add(new StringContent(regCompData.Phone), nameof(RegistrationCompanyRequest.Phone));
+                    content.Add(new StringContent(regCompData.Email), nameof(RegistrationCompanyRequest.Email));
+                    content.Add(new StringContent(regCompData.Address), nameof(RegistrationCompanyRequest.Address));
+                    content.Add(new StringContent(regCompData.PostalCode), nameof(RegistrationCompanyRequest.PostalCode));
+                    content.Add(new StringContent(regCompData.CompanyDescription), nameof(RegistrationCompanyRequest.CompanyDescription));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.Country)), nameof(RegistrationCompanyRequest.Country));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.City)), nameof(RegistrationCompanyRequest.City));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegionCompany)), nameof(RegistrationCompanyRequest.RegionCompany));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.DistrictCompany)), nameof(RegistrationCompanyRequest.DistrictCompany));
+
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.ListServices)), nameof(RegistrationCompanyRequest.ListServices));
+
+                    // Add the image
+                    if (_imageData != null && _imageData.ImageStream != null)
+                    {
+                        _imageData.ImageStream.Position = 0;
+
+                        var streamContent = new StreamContent(_imageData.ImageStream);
+                        var imageContent = new ByteArrayContent(regCompData.Image);
+
+                        imageContent.Headers.ContentType = new MediaTypeHeaderValue(GetImageFormat(_imageData.FileName));
+
+                        content.Add(imageContent, "Image", $"{_imageData.FileName}");
+                    }
+
                 }
-                else
-                {
-                    // Use Auth Provider data
-                }
-
-                using MultipartFormDataContent content = new MultipartFormDataContent();
-
-                content.Add(new StringContent(regCompData.Id.ToString()), nameof(RegistrationCompanyRequest.Id));
-                content.Add(new StringContent(regCompData.CompanyName), nameof(RegistrationCompanyRequest.CompanyName));
-                content.Add(new StringContent(regCompData.CIN), nameof(RegistrationCompanyRequest.CIN));
-                content.Add(new StringContent(regCompData.Phone), nameof(RegistrationCompanyRequest.Phone));
-                content.Add(new StringContent(regCompData.Email), nameof(RegistrationCompanyRequest.Email));
-                content.Add(new StringContent(regCompData.Address), nameof(RegistrationCompanyRequest.Address));
-                content.Add(new StringContent(regCompData.PostalCode), nameof(RegistrationCompanyRequest.PostalCode));
-                content.Add(new StringContent(regCompData.CompanyDescription), nameof(RegistrationCompanyRequest.CompanyDescription));
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.Country)), nameof(RegistrationCompanyRequest.Country));
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.City)), nameof(RegistrationCompanyRequest.City));
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegionCompany)), nameof(RegistrationCompanyRequest.RegionCompany));
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.DistrictCompany)), nameof(RegistrationCompanyRequest.DistrictCompany));
-
-                content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.ListServices)), nameof(RegistrationCompanyRequest.ListServices));
-
-                // Add the image
-                if (_imageData != null && _imageData.ImageStream != null)
-                {
-                    _imageData.ImageStream.Position = 0;
-
-                    var streamContent = new StreamContent(_imageData.ImageStream);
-                    var imageContent = new ByteArrayContent(regCompData.Image);
-
-                    imageContent.Headers.ContentType = new MediaTypeHeaderValue(GetImageFormat(_imageData.FileName));
-
-                    content.Add(imageContent, "Image", $"{_imageData.FileName}");
-                }
-
             }
             catch (Exception ex)
             {
             }
             finally
             {
+
+
 
             }
         }
@@ -349,9 +372,25 @@ namespace A.Views
 
             if (_viewIndex == 3)
             {
-                // todo check email entry and passwords an validate ... if not correct mail or passwords are not same cancel registration
+                result = this.EntryPassword.Validate(checkLength: true) & this.EntryPasswordConfirm.Validate(checkLength: true) & 
+                         EntryEmailRegister.Validate(checkLength: true);
 
-                result = false;
+                if (_genericRegistration)
+                {
+                    if (result &&
+                        (!string.IsNullOrEmpty(this.EntryPassword.Text) || !string.IsNullOrEmpty(this.EntryPasswordConfirm.Text)) &&
+                        this.EntryPassword.Text != this.EntryPasswordConfirm.Text)
+                    {
+                        result = false;
+
+                        string errMsg = App.LanguageResourceManager["Controls_CustomEntry_Password_PasswordsNotSame"].ToString() ?? "Error passwords are not matching";
+
+                        this.EntryPassword.ErrorMessage = errMsg;
+                        this.EntryPasswordConfirm.ErrorMessage = errMsg;
+                    }
+                }
+
+
             }
 
             return result;
@@ -365,20 +404,36 @@ namespace A.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Tuple<int, bool> viewIndexAndRegistration && parameter is string gridIndex)
+            if (value is int viewIndex && parameter is string gridIndex)
             {
-                int viewIndex = viewIndexAndRegistration.Item1;
-                bool genericRegistration = viewIndexAndRegistration.Item2;
-
-                // For other grids, only compare with viewIndex
+                // Show only specific grid
                 return viewIndex == int.Parse(gridIndex);
             }
+
             return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class StringFormatConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            // Ensure the parameter is a format string
+            if (parameter is string format && value != null)
+            {
+                return string.Format(format, value);
+            }
+            return parameter; // If no value, return the unformatted string
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException(); // Not needed for one-way binding
         }
     }
 }

@@ -1,8 +1,6 @@
-using Microsoft.Maui.Graphics.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CustomControlsLibrary.Controls;
 
@@ -25,6 +23,7 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
         this.MainEntry.SetBinding(Entry.TextColorProperty, new Binding(nameof(TextColor), source: this));
         this.MainEntry.SetBinding(Entry.KeyboardProperty, new Binding(nameof(Keyboard), source: this));
         this.MainEntry.SetBinding(Entry.TextProperty, new Binding(nameof(Text), source: this));
+        this.MainEntry.SetBinding(Entry.IsPasswordProperty, new Binding(nameof(IsPassword), source: this));
     }
 
     private bool _isFocusHandled = false;
@@ -58,6 +57,8 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
             }
         }
     }
+
+    public int PasswordMinLength { get; set; } = 5;
 
     // Expose Properties so they will be reachable from XAML file of Page / View
     #region Bindings of Properties
@@ -107,9 +108,18 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
         get => (Keyboard)GetValue(KeyboardProperty);
         set => SetValue(KeyboardProperty, value);
     }
+
+    public static readonly BindableProperty IsPasswordProperty = BindableProperty.Create(nameof(IsPassword), typeof(bool), typeof(CustomEntry), false);
+    public bool IsPassword
+    {
+        get => (bool)GetValue(IsPasswordProperty);
+        set => SetValue(IsPasswordProperty, value);
+    }
+
     #endregion
 
-    // Bind the Unfocused event to the Entry
+    public bool IsMandatory { get; set; } = false;
+
     protected override void OnParentSet()
     {
         base.OnParentSet();
@@ -118,11 +128,11 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
 
     public ValidationType EntryValidationType { get; set; } = ValidationType.Email;
 
-    public bool IsMandatory { get; set; } = false;
     public enum ValidationType
     {   
         Email,
         PhoneNumber,
+        Password,
         Generic
     }
 
@@ -137,6 +147,7 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
             {
                 ValidationType.Email => ValidateEmail(text),
                 ValidationType.PhoneNumber => ValidatePhoneNumber(text),
+                ValidationType.Password => ValidatePassword(text),
                 ValidationType.Generic => true,
                 _ => false
             };
@@ -174,6 +185,11 @@ public partial class CustomEntry : ContentView, INotifyPropertyChanged
     {
         string phonePattern = @"^(\+|00|0)\d{7,15}$";
         return Regex.IsMatch(phoneNumber, phonePattern);
+    }
+
+    private bool ValidatePassword(string password)
+    {
+        return password.Length > PasswordMinLength;
     }
 
     private async void MainEntry_TextAdded(object sender, EventArgs e)

@@ -88,6 +88,42 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad e-mail format.
+        /// </summary>
+        internal static string Controls_CustomEntry_Email_BadFormat {
+            get {
+                return ResourceManager.GetString("Controls_CustomEntry_Email_BadFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password needs to be atleast {0} characters long.
+        /// </summary>
+        internal static string Controls_CustomEntry_Password_BadLength {
+            get {
+                return ResourceManager.GetString("Controls_CustomEntry_Password_BadLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password and its confirmation do not match.
+        /// </summary>
+        internal static string Controls_CustomEntry_Password_PasswordsNotSame {
+            get {
+                return ResourceManager.GetString("Controls_CustomEntry_Password_PasswordsNotSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad phone format.
+        /// </summary>
+        internal static string Controls_CustomEntry_Phone_BadFormat {
+            get {
+                return ResourceManager.GetString("Controls_CustomEntry_Phone_BadFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot be blank.
         /// </summary>
         internal static string Controls_Entry_CantBeEmpty {
@@ -394,24 +430,6 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bad e-mail format.
-        /// </summary>
-        internal static string RegisterCompanyView_BadEMailFormat {
-            get {
-                return ResourceManager.GetString("RegisterCompanyView_BadEMailFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bad phone format.
-        /// </summary>
-        internal static string RegisterCompanyView_BadPhoneFormat {
-            get {
-                return ResourceManager.GetString("RegisterCompanyView_BadPhoneFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Choose district.
         /// </summary>
         internal static string RegisterCompanyView_ChooseDistrict {
@@ -498,6 +516,15 @@ namespace A.Resources.LanguageResources {
         internal static string RegisterCompanyView_NextView {
             get {
                 return ResourceManager.GetString("RegisterCompanyView_NextView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string RegisterCompanyView_Password {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_Password", resourceCulture);
             }
         }
         

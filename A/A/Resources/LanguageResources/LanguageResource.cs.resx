@@ -255,10 +255,10 @@
   <data name="LogInChooseView_ChooseError" xml:space="preserve">
     <value>Chyba při výběru</value>
   </data>
-  <data name="RegisterCompanyView_BadEMailFormat" xml:space="preserve">
+  <data name="Controls_CustomEntry_Email_BadFormat" xml:space="preserve">
     <value>Špatný formát e-mailu</value>
   </data>
-  <data name="RegisterCompanyView_BadPhoneFormat" xml:space="preserve">
+  <data name="Controls_CustomEntry_Phone_BadFormat" xml:space="preserve">
     <value>Špatný formát telefonního čísla</value>
   </data>
   <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
@@ -281,5 +281,14 @@
   </data>
   <data name="Controls_EntryPicker_SearchTxtPopUp" xml:space="preserve">
     <value>Vyhledej</value>
+  </data>
+  <data name="Controls_CustomEntry_Password_BadLength" xml:space="preserve">
+    <value>Heslo musí mít alespoň {0} znaků</value>
+  </data>
+  <data name="Controls_CustomEntry_Password_PasswordsNotSame" xml:space="preserve">
+    <value>Heslo a potvrzení hesla se neshodují</value>
+  </data>
+  <data name="RegisterCompanyView_Password" xml:space="preserve">
+    <value>Heslo</value>
   </data>
 </root>

@@ -255,10 +255,10 @@
   <data name="LogInChooseView_ChooseError" xml:space="preserve">
     <value>Error during selection</value>
   </data>
-  <data name="RegisterCompanyView_BadEMailFormat" xml:space="preserve">
+  <data name="Controls_CustomEntry_Email_BadFormat" xml:space="preserve">
     <value>Bad e-mail format</value>
   </data>
-  <data name="RegisterCompanyView_BadPhoneFormat" xml:space="preserve">
+  <data name="Controls_CustomEntry_Phone_BadFormat" xml:space="preserve">
     <value>Bad phone format</value>
   </data>
   <data name="Controls_Entry_CantBeEmpty" xml:space="preserve">
@@ -281,5 +281,14 @@
   </data>
   <data name="Controls_EntryPicker_SearchTxtPopUp" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="Controls_CustomEntry_Password_BadLength" xml:space="preserve">
+    <value>Password needs to be atleast {0} characters long</value>
+  </data>
+  <data name="Controls_CustomEntry_Password_PasswordsNotSame" xml:space="preserve">
+    <value>The password and its confirmation do not match</value>
+  </data>
+  <data name="RegisterCompanyView_Password" xml:space="preserve">
+    <value>Password</value>
   </data>
 </root>
