@@ -17,7 +17,8 @@ public class AutoMappingProfile : Profile
     public AutoMappingProfile(string apiStaticFilesUrl)
     {
         _apiStaticFilesUrl = apiStaticFilesUrl;
-        
+
+        CreateMap<Country, CountryDTO>();
         CreateMap<Region, RegionDTO>();
         CreateMap<District, DistrictDTO>();
         CreateMap<City, CityDTO>();

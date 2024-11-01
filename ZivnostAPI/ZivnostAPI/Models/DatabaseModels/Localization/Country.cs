@@ -11,4 +11,6 @@ public class Country
 
     [Required]
     public required string Name { get; set; } = string.Empty;
+
+    public bool IsEnabled { get; set; }
 }

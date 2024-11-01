@@ -88,6 +88,24 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string Controls_Btn_Back {
+            get {
+                return ResourceManager.GetString("Controls_Btn_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        internal static string Controls_Btn_Next {
+            get {
+                return ResourceManager.GetString("Controls_Btn_Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad e-mail format.
         /// </summary>
         internal static string Controls_CustomEntry_Email_BadFormat {
@@ -430,6 +448,33 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Register.
+        /// </summary>
+        internal static string RegisterCompanyView_BtnRegister4 {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_BtnRegister4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip and Register.
+        /// </summary>
+        internal static string RegisterCompanyView_BtnRegister4Skip {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_BtnRegister4Skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a country.
+        /// </summary>
+        internal static string RegisterCompanyView_ChooseCountry {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_ChooseCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose district.
         /// </summary>
         internal static string RegisterCompanyView_ChooseDistrict {
@@ -484,6 +529,15 @@ namespace A.Resources.LanguageResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter the description of your company/business.
+        /// </summary>
+        internal static string RegisterCompanyView_EditorPlaceHolder {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_EditorPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-Mail.
         /// </summary>
         internal static string RegisterCompanyView_EMail {
@@ -507,6 +561,33 @@ namespace A.Resources.LanguageResources {
         internal static string RegisterCompanyView_Image {
             get {
                 return ResourceManager.GetString("RegisterCompanyView_Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select categories.
+        /// </summary>
+        internal static string RegisterCompanyView_LblChooseCategories {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_LblChooseCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter registration details.
+        /// </summary>
+        internal static string RegisterCompanyView_LblFourthStepGeneric {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_LblFourthStepGeneric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter alternative login credentials\nEntering this information is optional you can continue to use #provider for logging in.
+        /// </summary>
+        internal static string RegisterCompanyView_LblFourthStepOAuth {
+            get {
+                return ResourceManager.GetString("RegisterCompanyView_LblFourthStepOAuth", resourceCulture);
             }
         }
         

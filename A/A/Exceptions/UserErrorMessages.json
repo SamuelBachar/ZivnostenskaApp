@@ -11,6 +11,9 @@
     "UAE_005": "Nastala chyba počas overenia identity pomocou poskytovateľa #provider\r\nChyba: ",
     // LogInChooseView
     "UAE_006": "Počas aktualizovania typu účtu nastala chyba",
+    // RegisterCompanyView
+    "UAE_020": "Počas registrácie nastala neočakavaná chyba",
+    "UAE_021": "Chyba registrácie\r\n.Chyba:",
 
     // Generic
     "UAE_400": "Neočakavaná odpoveď od servera, neznáma chyba",
@@ -25,6 +28,9 @@
     "UAE_501": "Účet s daným e-mialom neexistuje",
     "UAE_502": "Nesprávne heslo",
     "UAE_503": "Registrácia pre daný účet nebola overená (Aktivujte účet emailom ktorý sme Vám poslali na emailovú schránku)",
+
+    // Register Generic
+    "UAE_521": "Neuspešná registrácia.\r\nChyba:",
 
     // OAuth
     // Login-Register
@@ -45,14 +51,17 @@
     /* User Error codes */
 
     // SettingsView
-    "UAE_001": "UAE_001: Jazyk zvolený ale nepodarilo sa nájsť príslušnu kultúru",
-    "UAE_002": "UAE_002: Jazyk zvolený ale interne v kóde == null",
+    "UAE_001": "Jazyk zvolený ale nepodarilo sa nájsť príslušnu kultúru",
+    "UAE_002": "Jazyk zvolený ale interne v kóde == null",
     // LogInView
     "UAE_003": "Nie je možné sa prihlásiť\r\n. Zariadenie nemá pripojenie k internetu",
     "UAE_004": "Chyba prihlásenia.\r\nChyba:",
     "UAE_005": "Nastala chyba počas overenia identity pomocou poskytovateľa #provider\r\nChyba: ",
     // LogInChooseView
     "UAE_006": "Počas aktualizovania typu účtu nastala chyba",
+    // RegisterCompanyView
+    "UAE_020": "Počas registrácie nastala neočakavaná chyba",
+    "UAE_021": "Chyba registrácie\r\n.Chyba:",
 
     // Generic
     "UAE_400": "Neočakavaná odpoveď od servera, neznáma chyba",
@@ -86,14 +95,17 @@
     /* User Error codes */
 
     // SettingsView
-    "UAE_001": "UAE_001: Jazyk zvolený ale nepodařilo se najít příslušní kultúru",
-    "UAE_002": "UAE_002: Jazyk zvolený ale interně v kódu == null",
+    "UAE_001": "Jazyk zvolený ale nepodařilo se najít příslušní kultúru",
+    "UAE_002": "Jazyk zvolený ale interně v kódu == null",
     // LogInView
     "UAE_003": "Nelze se přihlásit\r\n. Zařízení nemá připojení k internetu",
     "UAE_004": "Chyba přihlášení\r\n. Chyba: ",
     "UAE_005": "Došlo k chybě při ověřování identity pomocí poskytovatele #provider\r\nChyba: ",
     // LogInChooseView
     "UAE_006": "Při aktualizaci typu účtu došlo k chybě",
+    // RegisterCompanyView
+    "UAE_020": "Při registraci došlo k neočekávané chybě",
+    "UAE_021": "Chyba registrace\r\nChyba:",
 
     // Generic
     "UAE_400": "Neočekávaná odpověď od serveru, neznámá chyba",
@@ -126,14 +138,17 @@
   "de": {
     /* User Error codes */
 
-    "UAE_001": "UAE_001: Sprache ausgewählt, aber die entsprechende Kultur konnte nicht gefunden werden",
-    "UAE_002": "UAE_002: Sprache ausgewählt, aber intern im Code == null",
+    "UAE_001": "Sprache ausgewählt, aber die entsprechende Kultur konnte nicht gefunden werden",
+    "UAE_002": "Sprache ausgewählt, aber intern im Code == null",
     // LogInView
     "UAE_003": "Anmeldung nicht möglich\r\n. Das Gerät hat keine Internetverbindung",
     "UAE_004": "Anmeldefehler\r\n. Fehler: ",
     "UAE_005": "Ein Fehler trat bei der Identitätsüberprüfung mit dem Anbieter #provider auf\r\nFehler: ",
     // LogInChooseView
     "UAE_006": "Beim Aktualisieren des Kontotyps ist ein Fehler aufgetreten",
+    // RegisterCompanyView
+    "UAE_020": "Bei der Registrierung ist ein unerwarteter Fehler aufgetreten",
+    "UAE_021": "Registrierungsfehler\r\nFehler:",
 
     //Generic
     "UAE_400": "Unerwartete Antwort vom Server, unbekannter Fehler",
@@ -167,14 +182,17 @@
     /* User Error codes */
 
     // SettingsView
-    "UAE_001": "UAE_001: Language selected but the corresponding culture could not be found",
-    "UAE_002": "UAE_002: Language selected but internally in the code == null",
+    "UAE_001": "Language selected but the corresponding culture could not be found",
+    "UAE_002": "Language selected but internally in the code == null",
     // LogInView
     "UAE_003": "Unable to log in\r\n. The device does not have an internet connection",
     "UAE_004": "Login error\r\n. Error: ",
     "UAE_005": "An error occurred during identity verification with the provider #provider\r\nError: ",
     // LogInChooseView
     "UAE_006": "An error occurred while updating the account type",
+    // RegisterCompanyView
+    "UAE_020": "An unexpected error occurred during registration",
+    "UAE_021": "Registration error\r\nError:",
 
     // Generic 
     "UAE_400": "Unexpected response from server, unknown error",

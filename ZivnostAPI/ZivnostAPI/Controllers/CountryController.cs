@@ -8,15 +8,15 @@ using ZivnostAPI.Services.Interfaces;
 
 namespace ZivnostAPI.Controllers;
 
-[Route("api/CityController")]
+[Route("api/CountryController")]
 [ApiController]
-public class CityController : ReadController<City, CityDTO>
+public class CountryController : ReadController<Country, CountryDTO>
 {
-    private readonly IGenericReadOnlyService<City> _cityService;
+    private readonly IGenericReadOnlyService<Country> _countryService;
     private readonly IMapper _mapper;
-    public CityController(IGenericReadOnlyService<City> service, IMapper mapper) : base(service, mapper)
+    public CountryController(IGenericReadOnlyService<Country> service, IMapper mapper) : base(service, mapper)
     {
-        _cityService = service;
+        _countryService = service;
         _mapper = mapper;
     }
 }

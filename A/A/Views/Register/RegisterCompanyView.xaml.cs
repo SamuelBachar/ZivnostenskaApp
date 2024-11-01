@@ -1,4 +1,4 @@
-using System.Globalization;
+ï»¿using System.Globalization;
 using A.Interfaces;
 using SharedTypesLibrary.DTOs.Request;
 using A.CustomControls.Controls;
@@ -18,6 +18,7 @@ using SharedTypesLibrary.ServiceResponseModel;
 using A.ViewModels;
 using CustomControlsLibrary.Interfaces;
 using System.ComponentModel;
+using SharedTypesLibrary.DTOs.Bidirectional.Categories;
 
 namespace A.Views
 {
@@ -97,25 +98,22 @@ namespace A.Views
 
             if (_oAuthRegistration)
             {
-                this.LblFourthStep.Text = "Zadajte alternatívne prihlasovacie údaje";
-                this.LblFourthStep.Text += "Zadávanie údajov nie je povinné, naïalej môžte využíva #provider pre prihlasovanie";
-                this.LblFourthStep.Text = this.LblFourthStep.Text.Replace("%#provider", _provider);
+                this.LblFourthStep.Text = App.LanguageResourceManager["RegisterCompanyView_LblFourthStepOAuth"].ToString() ?? "Not mandatory data";
+                this.LblFourthStep.Text = this.LblFourthStep.Text.Replace("#provider", _provider);
                 this.BtnRegister4Skip.IsVisible = true;
             }
             else
             {
-                this.LblFourthStep.Text = "Zadajte prihlasovacie údaje";
+                this.LblFourthStep.Text = App.LanguageResourceManager["RegisterCompanyView_LblFourthStepGeneric"].ToString() ?? "Add registration data";
                 this.BtnRegister4Skip.IsVisible = false;
                 this.EntryEmailRegister.IsMandatory = true;
                 this.EntryPassword.IsMandatory = true;
                 this.EntryPasswordConfirm.IsMandatory = true;
-
-                OAuthRegistration = true; // test - DO NOT WORK really
+                this.BtnRegister4Skip.IsVisible = false;
             }
 
             this.BindingContext = this;
         }
-
 
         private async Task LoadData()
         {
@@ -172,7 +170,7 @@ namespace A.Views
                         _imageData.ImageStream = await result.OpenReadAsync();
                         _imageData.ImageSource = ImageSource.FromStream(() => _imageData.ImageStream);
 
-                        //this.ImgCompanyLogo.Source = _imageData.ImageSource;
+                        this.ImgCompanyLogo.Source = _imageData.ImageSource;
 
                         _imageData.FileName = result.FileName;
                     }
@@ -212,34 +210,6 @@ namespace A.Views
             }
         }
 
-        private void RegionPicker_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Picker regionPicker = (Picker)sender;
-
-            //int selectedIndex = regionPicker.SelectedIndex;
-
-            //if (selectedIndex != -1)
-            //{
-            //    this.DistrictPicker.ItemsSource = _dicDistrict[selectedIndex];
-
-            //    Region choosenRegion = (Region)this.RegionPicker.SelectedItem;
-            //    _regCompData.RegionCompany = choosenRegion;
-            //}
-        }
-
-        private void District_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Picker districtPicker = (Picker)sender;
-
-            //int selectedIndex = districtPicker.SelectedIndex;
-
-            //if (selectedIndex != -1)
-            //{
-            //    District choosenDistrict = (District)this.DistrictPicker.SelectedItem;
-            //    _regCompData.DistrictCompany = choosenDistrict;
-            //}
-        }
-
         private string GetImageFormat(string fileName)
         {
             string result = string.Empty;
@@ -275,7 +245,7 @@ namespace A.Views
                         CIN = this.EntryCIN.Text,
                         Address = this.EntryAddress.Text,
                         PostalCode = this.EntryPostalCode.Text,
-                        //CompanyDescription = this.EditorCompanyDescription.Text,
+                        CompanyDescription = this.EditorCompanyDescription.Text,
 
                         // required
                         Email = this.EntryEmail.Text,
@@ -283,22 +253,26 @@ namespace A.Views
                         DistrictCompany = (DistrictDTO)this.DistrictPicker.SelectedItem,
                         RegionCompany = (RegionDTO)this.DistrictPicker.SelectedItem,
                         City = (CityDTO)this.CityEntryPicker.SelectedItem,
-                        Country = new CountryDTO { Name = "test" },
-                        ListServices = new List<ServiceDTO>()
+                        Country = (CountryDTO)this.CountryPicker.SelectedItem,
+                        ListCategories = this.ServiceCategoryList.GetChosenCategories()
                     };
 
-                    if (_oAuthRegistration)
+
+                    if (string.IsNullOrEmpty(this.EntryEmailRegister.Text) && string.IsNullOrEmpty(this.EntryPassword.Text))
                     {
-                        RegisterGenericCredentials regGenData = new RegisterGenericCredentials
+                        RegisterGenericCredentials regGenericData = new RegisterGenericCredentials
                         {
                             Email = this.EntryEmailRegister.Text,
                             Password = this.EntryPassword.Text,
                             PasswordConfirmed = this.EntryPasswordConfirm.Text
                         };
+
+                        regCompData.RegGenericData = regGenericData;
                     }
-                    else
+
+                    if (OAuthRegistration)
                     {
-                        // Use Auth Provider data
+                        regCompData.IsRegisteredByOAuth = true;
                     }
 
                     using MultipartFormDataContent content = new MultipartFormDataContent();
@@ -315,8 +289,9 @@ namespace A.Views
                     content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.City)), nameof(RegistrationCompanyRequest.City));
                     content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegionCompany)), nameof(RegistrationCompanyRequest.RegionCompany));
                     content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.DistrictCompany)), nameof(RegistrationCompanyRequest.DistrictCompany));
-
-                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.ListServices)), nameof(RegistrationCompanyRequest.ListServices));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.ListCategories)), nameof(RegistrationCompanyRequest.ListCategories));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegGenericData)), nameof(RegistrationCompanyRequest.RegGenericData));
+                    content.Add(new StringContent(regCompData.IsRegisteredByOAuth ? "true" : "false"), nameof(RegistrationCompanyRequest.IsRegisteredByOAuth));
 
                     // Add the image
                     if (_imageData != null && _imageData.ImageStream != null)
@@ -324,24 +299,26 @@ namespace A.Views
                         _imageData.ImageStream.Position = 0;
 
                         var streamContent = new StreamContent(_imageData.ImageStream);
-                        var imageContent = new ByteArrayContent(regCompData.Image);
 
+                        using var memoryStream = new MemoryStream();
+                        await streamContent.CopyToAsync(memoryStream);
+                        regCompData.Image = memoryStream.ToArray();
+
+                        var imageContent = new ByteArrayContent(regCompData.Image);
                         imageContent.Headers.ContentType = new MediaTypeHeaderValue(GetImageFormat(_imageData.FileName));
 
                         content.Add(imageContent, "Image", $"{_imageData.FileName}");
                     }
 
+
                 }
             }
             catch (Exception ex)
             {
+                string errMsg = new ExceptionHandler("UAE_020", null, extraErrors: ex.Message, App.UserData.CurrentCulture).CustomMessage;
+                await DisplayAlert(App.LanguageResourceManager["RegisterCompanyView_RegisterError"].ToString(), errMsg ?? "", App.LanguageResourceManager["AllView_Close"].ToString());
             }
-            finally
-            {
-
-
-
-            }
+            finally { }
         }
 
 
@@ -358,16 +335,15 @@ namespace A.Views
 
             if (_viewIndex == 1)
             {
-                // todo check if some services are choosed if not return false
-
-                result = false;
+                if (this.ServiceCategoryList.GetChosenCategories().Count == 0)
+                {
+                    result = false;
+                }
             }
 
             if (_viewIndex == 2)
             {
-                // TODO: most likely not needed to check logo of company or describtion of company
-
-                result = false;
+                // TODO: most likely not needed to check logo of company or description of company
             }
 
             if (_viewIndex == 3)
@@ -377,9 +353,7 @@ namespace A.Views
 
                 if (_genericRegistration)
                 {
-                    if (result &&
-                        (!string.IsNullOrEmpty(this.EntryPassword.Text) || !string.IsNullOrEmpty(this.EntryPasswordConfirm.Text)) &&
-                        this.EntryPassword.Text != this.EntryPasswordConfirm.Text)
+                    if (result && this.EntryPassword.Text != this.EntryPasswordConfirm.Text)
                     {
                         result = false;
 
@@ -389,8 +363,6 @@ namespace A.Views
                         this.EntryPasswordConfirm.ErrorMessage = errMsg;
                     }
                 }
-
-
             }
 
             return result;

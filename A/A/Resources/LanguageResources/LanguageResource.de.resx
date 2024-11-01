@@ -265,7 +265,7 @@
     <value>Kann nicht leer sein</value>
   </data>
   <data name="RegisterCompanyView_ChooseRegion" xml:space="preserve">
-    <value>Wählen Sie den Land / Bundesland </value>
+    <value>Wählen Sie ein Bundesland </value>
   </data>
   <data name="RegisterCompanyView_ChooseDistrict" xml:space="preserve">
     <value>Wählen Sie den Kreis / Bezirk</value>
@@ -290,5 +290,32 @@
   </data>
   <data name="RegisterCompanyView_Password" xml:space="preserve">
     <value>Passwort</value>
+  </data>
+  <data name="RegisterCompanyView_LblFourthStepOAuth" xml:space="preserve">
+    <value>Geben Sie alternative Anmeldedaten ein\nDas Eingeben dieser Daten ist optional Sie können weiterhin #provider zur Anmeldung verwenden</value>
+  </data>
+  <data name="RegisterCompanyView_LblFourthStepGeneric" xml:space="preserve">
+    <value>Geben Sie Registrierungsdaten ein</value>
+  </data>
+  <data name="RegisterCompanyView_LblChooseCategories" xml:space="preserve">
+    <value>Wählen Sie Kategorien aus</value>
+  </data>
+  <data name="RegisterCompanyView_EditorPlaceHolder" xml:space="preserve">
+    <value>Geben Sie die Beschreibung Ihres Unternehmens/Gewerbes ein</value>
+  </data>
+  <data name="RegisterCompanyView_BtnRegister4Skip" xml:space="preserve">
+    <value>Überspringen und Registrieren</value>
+  </data>
+  <data name="RegisterCompanyView_BtnRegister4" xml:space="preserve">
+    <value>Registrieren</value>
+  </data>
+  <data name="Controls_Btn_Back" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="Controls_Btn_Next" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseCountry" xml:space="preserve">
+    <value>Wählen Sie ein Land</value>
   </data>
 </root>

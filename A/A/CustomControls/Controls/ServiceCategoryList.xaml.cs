@@ -15,7 +15,7 @@ public partial class ServiceCategoryList : ContentView
 {
     private ObservableCollection<ServiceDTO> _collServices = new ObservableCollection<ServiceDTO>();
     private ObservableCollection<CategoryViewModel> _collCategories = new ObservableCollection<CategoryViewModel>();
-    private ObservableCollection<CategoryViewModel> _collChoosedCategories = new ObservableCollection<CategoryViewModel>();
+    private ObservableCollection<CategoryViewModel> _collChosenCategories = new ObservableCollection<CategoryViewModel>();
 
     private HttpClient _httpClient;
     private IEndpointResolver _endpointResolver;
@@ -35,7 +35,7 @@ public partial class ServiceCategoryList : ContentView
 
         ServiceCollectionView.ItemsSource = _collServices;
         CategoryCollectionView.ItemsSource = _collCategories;
-        ChoosenCategoriesCollectionView.ItemsSource = _collChoosedCategories;
+        ChosenCategoriesCollectionView.ItemsSource = _collChosenCategories;
 
         var (screenWidth, screenHeight) = _displayService.GetScreenSizes();
         var (finalWidth, finalHeight) = _displayService.GetFinalLayoutSize((screenWidth, screenHeight), scaleW: 0.50, scaleH: 0.75);
@@ -112,16 +112,16 @@ public partial class ServiceCategoryList : ContentView
     {
         if (e.Parameter is CategoryViewModel selCategory)
         {
-            if (!_collChoosedCategories.Contains(selCategory))
+            if (!_collChosenCategories.Contains(selCategory))
             {
-                _collChoosedCategories.Add(selCategory);
+                _collChosenCategories.Add(selCategory);
             }
 
             selCategory.FrameBackgroundColor = Color.FromArgb("2D9AEA");
             await Task.Delay(400);
             selCategory.FrameBackgroundColor = Colors.Transparent;
 
-            await this.ChoosenCategoriesScrollView.ScrollToAsync(this.ChoosenCategoriesCollectionView, ScrollToPosition.End, true);
+            await this.ChoosenCategoriesScrollView.ScrollToAsync(this.ChosenCategoriesCollectionView, ScrollToPosition.End, true);
         }
     }
 
@@ -129,8 +129,14 @@ public partial class ServiceCategoryList : ContentView
     {
         if (e.Parameter is CategoryViewModel delCategory)
         {
-            _collChoosedCategories.Remove(delCategory);
+            _collChosenCategories.Remove(delCategory);
             //CategoryCollectionView.ItemsSource = _collChoosedCategories;
         }
     }
+
+    public List<CategoryDTO> GetChosenCategories()
+    {
+        return _collChosenCategories.Select(catWM => catWM.CategoryData).ToList();
+    }
+
 }

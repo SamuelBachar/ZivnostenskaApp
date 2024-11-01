@@ -8,4 +8,6 @@ public class CountryDTO
     public int Id { get; set; }
 
     public required string Name { get; set; } = string.Empty;
+
+    public bool IsEnabled { get; set; }
 }

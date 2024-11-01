@@ -291,4 +291,31 @@
   <data name="RegisterCompanyView_Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="RegisterCompanyView_LblFourthStepOAuth" xml:space="preserve">
+    <value>Enter alternative login credentials\nEntering this information is optional you can continue to use #provider for logging in</value>
+  </data>
+  <data name="RegisterCompanyView_LblFourthStepGeneric" xml:space="preserve">
+    <value>Enter registration details</value>
+  </data>
+  <data name="RegisterCompanyView_LblChooseCategories" xml:space="preserve">
+    <value>Select categories</value>
+  </data>
+  <data name="RegisterCompanyView_EditorPlaceHolder" xml:space="preserve">
+    <value>Enter the description of your company/business</value>
+  </data>
+  <data name="RegisterCompanyView_BtnRegister4Skip" xml:space="preserve">
+    <value>Skip and Register</value>
+  </data>
+  <data name="RegisterCompanyView_BtnRegister4" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="Controls_Btn_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Controls_Btn_Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseCountry" xml:space="preserve">
+    <value>Select a country</value>
+  </data>
 </root>

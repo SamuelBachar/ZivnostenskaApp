@@ -21,6 +21,13 @@ public class CustomEndpointDefines : IEndpointResolver
     private static readonly Dictionary<Type, Dictionary<ApiAction, string>> Endpoints = new Dictionary<Type, Dictionary<ApiAction, string>>()
     {
         {
+            typeof(CountryDTO), new Dictionary<ApiAction, string>()
+            {
+                { ApiAction.GetAll, $"/api/CountryController/GetAll" },
+                { ApiAction.GetById,$"/api/CountryController/GetById/{{id}}" }
+            }
+        },
+        {
             typeof(RegionDTO), new Dictionary<ApiAction, string>()
             {
                 { ApiAction.GetAll, $"/api/RegionController/GetAll" },

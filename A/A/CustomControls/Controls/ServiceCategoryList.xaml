@@ -100,7 +100,7 @@
                             <Label Text="Choosen categories" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Center"/>
                             <BoxView VerticalOptions="Center" HorizontalOptions="FillAndExpand" HeightRequest="1" BackgroundColor="Grey"/>
                         </StackLayout>
-                        <CollectionView x:Name="ChoosenCategoriesCollectionView" VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Always">
+                        <CollectionView x:Name="ChosenCategoriesCollectionView" VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Always">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" Span="2"/>
                             </CollectionView.ItemsLayout>

@@ -41,7 +41,7 @@
         <ScrollView>
             <Grid Padding="10,0,10,10">
                 <!-- First CarouselView Item -->
-                <Grid x:Name="FirstStepView" Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*,*,*,*,*,*,Auto" ColumnDefinitions="*,*,*,*,*,*" RowSpacing="5" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='0'}">
+                <Grid x:Name="FirstStepView" Grid.Row="0" Grid.Column="0" RowDefinitions="*,*,*,*,*,*,*,*,*,*,Auto" ColumnDefinitions="*,*,*,*,*,*" RowSpacing="5" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='0'}">
 
                     <!-- Company name -->
                     <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
@@ -102,8 +102,24 @@
                         </Frame>
                     </StackLayout>
 
-                    <!-- Region -->
+                    <!-- Country -->
                     <StackLayout Grid.Row="4" Grid.ColumnSpan="6" Orientation="Horizontal">
+                        <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
+                            <Image Source="country.svg" HeightRequest="40" WidthRequest="40" />
+                        </Frame>
+                        <Frame HeightRequest="45" Margin="-15,0,0,0" Padding="0" HasShadow="True" BorderColor="White" HorizontalOptions="FillAndExpand">
+                            <ccProj:CountryCustomPicker x:Name="CountryPicker" Title="{translate:TranslateManager RegisterCompanyView_ChooseCountry}"
+                                                       TitleColor="LightGray"
+                                                       ToolTipProperties.Text="{translate:TranslateManager RegisterCompanyView_ChooseCountry}"
+                                                       FilterGroup="1" IsMandatory="True"
+                                                       Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
+                                                       ItemDisplayBinding="{Binding Name}"
+                                                       ErrorTextUnChoosed="{translate:TranslateManager Controls_Picker_MustBeChoosed}"/>
+                        </Frame>
+                    </StackLayout>
+                    
+                    <!-- Region -->
+                    <StackLayout Grid.Row="5" Grid.ColumnSpan="6" Orientation="Horizontal">
                         <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="region.svg" HeightRequest="40" WidthRequest="40" />
                         </Frame>
@@ -114,13 +130,12 @@
                                                        FilterGroup="1" IsMandatory="True"
                                                        Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
                                                        ItemDisplayBinding="{Binding Name}"
-                                                       SelectedIndexChanged="RegionPicker_SelectedIndexChanged"
                                                        ErrorTextUnChoosed="{translate:TranslateManager Controls_Picker_MustBeChoosed}"/>
                         </Frame>
                     </StackLayout>
 
                     <!-- District -->
-                    <StackLayout Grid.Row="5" Grid.ColumnSpan="6" Orientation="Horizontal">
+                    <StackLayout Grid.Row="6" Grid.ColumnSpan="6" Orientation="Horizontal">
                         <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="district.svg" HeightRequest="40" WidthRequest="40" />
                         </Frame>
@@ -131,13 +146,12 @@
                                                          FilterGroup="1" IsMandatory="True"
                                                          Margin="20,0,0,0" TextColor="Black" VerticalOptions="Center"
                                                          ItemDisplayBinding="{Binding Name}"
-                                                         SelectedIndexChanged="District_SelectedIndexChanged"
                                                          ErrorTextUnChoosed="{translate:TranslateManager Controls_Picker_MustBeChoosed}"/>
                         </Frame>
                     </StackLayout>
 
                     <!-- City -->
-                    <StackLayout Grid.Row="6" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                    <StackLayout Grid.Row="7" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
                         <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="city.svg" HeightRequest="20" WidthRequest="20" />
                         </Frame>
@@ -153,7 +167,7 @@
                     </StackLayout>
 
                     <!-- Postal code -->
-                    <StackLayout Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    <StackLayout Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                         <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="postal_code.svg" HeightRequest="20" WidthRequest="20" />
                         </Frame>
@@ -166,7 +180,7 @@
                     </StackLayout>
 
                     <!-- Address -->
-                    <StackLayout Grid.Row="8" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
+                    <StackLayout Grid.Row="9" Grid.Column="0" Orientation="Horizontal" Grid.ColumnSpan="6">
                         <Frame ZIndex="0" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                             <Image Source="address.svg" HeightRequest="20" WidthRequest="20" />
                         </Frame>
@@ -178,31 +192,28 @@
                         </Frame>
                     </StackLayout>
 
-                    <Button Grid.Row="9" Grid.Column="5" Grid.ColumnSpan="2" MaximumHeightRequest="50" x:Name="BtnNext" 
+                    <Button Grid.Row="10" Grid.Column="5" Grid.ColumnSpan="2" MaximumHeightRequest="50" x:Name="BtnNext" 
                         CornerRadius="20"
-                        Text="{translate:TranslateManager RegisterCompanyView_NextView}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
+                        Text="{translate:TranslateManager Controls_Btn_Next}" Clicked="BtnNext_Clicked" HorizontalOptions="Center"/>
                 </Grid>
 
                 <Grid x:Name="SecondStepView" RowDefinitions="0.75*, Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='1'}">
 
                     <ScrollView x:Name="ScrollViewSecondStepView" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" VerticalOptions="FillAndExpand">
                         <VerticalStackLayout Spacing="10">
-                            <Label Text="Vyberte si kategorie" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Header"/>
+                            <Label x:Name="LblChooseCategories" Text="{translate:TranslateManager RegisterCompanyView_LblChooseCategories}" HorizontalOptions="Center" FontAttributes="Bold" FontSize="Header"/>
                             <ccProj:ServiceCategoryList x:Name="ServiceCategoryList" />
                         </VerticalStackLayout>
                     </ScrollView>
 
-                    <Button x:Name="BtnPrev2" Grid.Row="1" Grid.Column="0" Text="Prev" HorizontalOptions="Start" CornerRadius="20" Clicked="BtnPrev_Clicked"/>
-                    <Button x:Name="BtnRegister2" Grid.Row="1" Grid.Column="1" Text="Prev" HorizontalOptions="Center" Clicked="BtnRegister_Clicked"
-                        CornerRadius="20"
-                        IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}"/>
-                    <Button x:Name="BtnNext2" Grid.Row="1" Grid.Column="2" Text="Next" HorizontalOptions="End" CornerRadius="20" Clicked="BtnNext_Clicked"/>
+                    <Button x:Name="BtnPrev2" Grid.Row="1" Grid.Column="0" Text="{translate:TranslateManager Controls_Btn_Back}" HorizontalOptions="Start" CornerRadius="20" Clicked="BtnPrev_Clicked"/>
+                    <Button x:Name="BtnNext2" Grid.Row="1" Grid.Column="2" Text="{translate:TranslateManager Controls_Btn_Next}" HorizontalOptions="End" CornerRadius="20" Clicked="BtnNext_Clicked"/>
 
                 </Grid>
 
                 <Grid x:Name="ThirdStepView" RowDefinitions="*,Auto,0.5*,Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='2'}">
                     <Frame  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="FillAndExpand">
-                        <Editor x:Name="EditorCompanyDescription" Placeholder="Enter your company descriptionhere" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
+                        <Editor x:Name="EditorCompanyDescription" Placeholder="{translate:TranslateManager RegisterCompanyView_EditorPlaceHolder}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
                     </Frame>
 
                     <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Text="{translate:TranslateManager RegisterCompanyView_Image}" 
@@ -218,16 +229,15 @@
                         <Button x:Name="BtnChooseImage" Text="{translate:TranslateManager RegisterCompanyView_ChooseImage}" Clicked="BtnChooseImage_Clicked" />
                     </VerticalStackLayout>
 
-                    <Button x:Name="BtnPrev3" Grid.Row="3" Grid.Column="0" Text="Prev" HorizontalOptions="Start" CornerRadius="20" Clicked="BtnPrev_Clicked"/>
-                    <Button x:Name="BtnNext3" Grid.Row="3" Grid.Column="2" Text="Next" HorizontalOptions="End" CornerRadius="20" Clicked="BtnNext_Clicked"/>
+                    <Button x:Name="BtnPrev3" Grid.Row="3" Grid.Column="0" Text="{translate:TranslateManager Controls_Btn_Back}" HorizontalOptions="Start" CornerRadius="20" Clicked="BtnPrev_Clicked"/>
+                    <Button x:Name="BtnNext3" Grid.Row="3" Grid.Column="2" Text="{translate:TranslateManager Controls_Btn_Next}" HorizontalOptions="End" CornerRadius="20" Clicked="BtnNext_Clicked"/>
                 </Grid>
 
-                <Grid x:Name="FourthStepView" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='3'}">
+                <Grid x:Name="FourthStepView" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,*,*" RowSpacing="10" IsVisible="{Binding ViewIndex, Converter={StaticResource StepVisibilityConverter}, ConverterParameter='3'}">
 
-                    <Label Grid.Row="0" Grid.ColumnSpan="3" x:Name="LblFourthStep" Text="Zadajte alternatívne prihlasovacie údaje" LineBreakMode="WordWrap" FontSize="Header" HorizontalOptions="Center"/>
-                    <Label Grid.Row="1" Grid.ColumnSpan="3" x:Name="LblNotMandatoryData" Text="Zadávanie údajov nie je povinné, naďalej môžte využívať #provider pre prihlasovanie" LineBreakMode="WordWrap" FontSize="Small" HorizontalOptions="Center"/>
+                    <Label Grid.Row="0" Grid.ColumnSpan="3" x:Name="LblFourthStep" LineBreakMode="WordWrap" FontSize="Header" HorizontalOptions="Center"/>
 
-                    <VerticalStackLayout Grid.Row="2" Grid.ColumnSpan="3" VerticalOptions="Center" Spacing="50">
+                    <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="3" VerticalOptions="Center" Spacing="50">
                         <StackLayout Orientation="Horizontal">
                             <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="56" WidthRequest="56" CornerRadius="28" HorizontalOptions="Fill">
                                 <Image Source="user_login.png" HeightRequest="20" WidthRequest="20" />
@@ -278,11 +288,11 @@
                         </StackLayout>
                     </VerticalStackLayout>
 
-                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" RowDefinitions="*" ColumnDefinitions="*,*,*">
-                        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnPrev4" Text="Späť" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="End" Clicked="BtnPrev_Clicked" />
+                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" RowDefinitions="*" ColumnDefinitions="*,*,*">
+                        <Button Grid.Row="0" Grid.Column="0" x:Name="BtnPrev4" Text="{translate:TranslateManager Controls_Btn_Back}" CornerRadius="20" HorizontalOptions="Start" VerticalOptions="End" Clicked="BtnPrev_Clicked" />
                         <VerticalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalOptions="Center" Spacing="10">
-                            <Button  x:Name="BtnRegister4Skip" IsVisible="{Binding OAuthRegistration}" Text="Preskočiť a Registrovať" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
-                            <Button  x:Name="BtnRegister4_1" Text="Registrovať" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
+                            <Button  x:Name="BtnRegister4Skip" IsVisible="{Binding OAuthRegistration}" Text="{translate:TranslateManager RegisterCompanyView_BtnRegister4Skip}" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
+                            <Button  x:Name="BtnRegister4" Text="{translate:TranslateManager RegisterCompanyView_BtnRegister4}" CornerRadius="20" HorizontalOptions="Center" VerticalOptions="End" Clicked="BtnRegister_Clicked" />
                         </VerticalStackLayout>
                     </Grid>
 

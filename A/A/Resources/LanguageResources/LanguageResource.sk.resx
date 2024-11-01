@@ -291,4 +291,31 @@
   <data name="RegisterCompanyView_Password" xml:space="preserve">
     <value>Heslo</value>
   </data>
+  <data name="RegisterCompanyView_LblFourthStepOAuth" xml:space="preserve">
+    <value>Zadajte alternatívne prihlasovacie údaje\nZadávanie údajov nie je povinné, naďalej môžte využívať #provider pre prihlasovanie</value>
+  </data>
+  <data name="RegisterCompanyView_LblFourthStepGeneric" xml:space="preserve">
+    <value>Zadajte registračné údaje</value>
+  </data>
+  <data name="RegisterCompanyView_LblChooseCategories" xml:space="preserve">
+    <value>Vyberte si kategórie</value>
+  </data>
+  <data name="RegisterCompanyView_EditorPlaceHolder" xml:space="preserve">
+    <value>Zadajte popis vašej firmy / živnosti</value>
+  </data>
+  <data name="RegisterCompanyView_BtnRegister4Skip" xml:space="preserve">
+    <value>Preskočiť a Registrovať</value>
+  </data>
+  <data name="RegisterCompanyView_BtnRegister4" xml:space="preserve">
+    <value>Registrovať</value>
+  </data>
+  <data name="Controls_Btn_Back" xml:space="preserve">
+    <value>Späť</value>
+  </data>
+  <data name="Controls_Btn_Next" xml:space="preserve">
+    <value>Ďalej</value>
+  </data>
+  <data name="RegisterCompanyView_ChooseCountry" xml:space="preserve">
+    <value>Vyberte krajinu</value>
+  </data>
 </root>
