@@ -12,6 +12,7 @@ public class Account
 
     public string CommonId { get; set; } = string.Empty;
 
+    // Personal Data of Customer ////////////////////////
     public string Name { get; set; } = string.Empty;
 
     public string MiddleName { get; set; } = string.Empty;
@@ -26,6 +27,9 @@ public class Account
     [Phone]
     public string Phone { get; set; } = string.Empty;
 
+    /////////////////////////////////////////////////////
+
+    // Common data //////////////////////////////////////
     [Required]
     public required bool IsCompanyAccount { get; set; } = false;
 
@@ -40,7 +44,9 @@ public class Account
 
     [ForeignKey(nameof(Company))]
     public int? Company_Id { get; set; }
+    /////////////////////////////////////////////////////
 
+    // Generic Registration Data ////////////////////////
     public string PasswordHashWithSalt { get; set; } = string.Empty;
 
     public string VerificationToken { get; set; } = string.Empty;
@@ -50,4 +56,5 @@ public class Account
     public string PasswordResetToken { get; set; } = string.Empty;
 
     public DateTime? ResetTokenExpires { get; set; }
+    /////////////////////////////////////////////////////
 }

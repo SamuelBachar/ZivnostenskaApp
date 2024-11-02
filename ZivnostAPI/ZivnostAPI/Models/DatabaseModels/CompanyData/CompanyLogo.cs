@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ZivnostAPI.Models.DatabaseModels.CompanyData;
 
-[Table(nameof(CompanyImages))]
-public class CompanyImages
+[Table(nameof(CompanyLogo))]
+public class CompanyLogo
 {
     [Key]
     public int Id { get; set; }
@@ -15,6 +15,4 @@ public class CompanyImages
 
     [Required]
     public string ImageName { get; set; } = string.Empty;
-
-    public string Description { get; set; } = string.Empty;
 }

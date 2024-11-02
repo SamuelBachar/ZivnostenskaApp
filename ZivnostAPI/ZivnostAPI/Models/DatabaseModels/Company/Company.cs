@@ -13,8 +13,11 @@ public class Company
     [Required]
     public required string Name { get; set; } = string.Empty;
 
-    [MaxLength(500)]
+    [MaxLength(2000)]
     public string Description { get; set; } = string.Empty;
+
+    [ForeignKey(nameof(Country))]
+    public required int Country_Id { get; set; }
 
     [ForeignKey(nameof(Region))]
     public required int Region_Id { get; set; }
@@ -25,14 +28,14 @@ public class Company
     [ForeignKey(nameof(City))]
     public int? City_Id { get; set; }
 
-    public string Street { get; set; } = string.Empty;
+    public string Address { get; set; } = string.Empty;
 
     public string PostalCode { get; set; } = string.Empty;
 
-    public int? ICO { get; set; }
-    public int? DIC { get; set; }
+    public string CIN { get; set; } = string.Empty;
+    public int? DIC { get; set; } // Remove ???
 
-    public string PhoneNumber { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
 
     [EmailAddress]
     public string Email { get; set; } = string.Empty;

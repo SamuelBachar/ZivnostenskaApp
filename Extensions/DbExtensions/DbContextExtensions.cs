@@ -11,7 +11,7 @@ namespace ExtensionsLibrary.DbExtensions;
 
 public static class DbContextExtensions
 {
-    public static async Task<DbActionResponse> SaveChangesWithCheckAsync(this DbContext dbContext)
+    public static async Task<DbActionResponse> ExtSaveChangesAsync(this DbContext dbContext)
     {
         var result = new DbActionResponse();
 

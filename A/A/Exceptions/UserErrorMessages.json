@@ -31,6 +31,7 @@
 
     // Register Generic
     "UAE_521": "Neuspešná registrácia.\r\nChyba:",
+    "UAE_522": "Neuspešná registrácia. Počas nastavovania konta vznikla chyba.\r\nChyba:",
 
     // OAuth
     // Login-Register
@@ -42,6 +43,10 @@
     "UAE_715": "Chybná odpoveď pri dopyte uživateľských dát pomocou poskytovateľa",
     "UAE_716": "Chyba počas získavania tokenu pre Apple účet",
     "UAE_717": "Chyba počas obnovenia tokenu pre Apple účet",
+
+    // Register Company
+    "UAE_750": "Počas registrácie živnosti / firmy nastala neočakavaná chyba\r\nChyba:",
+    "UAE_751": "Nie je možné registrovať živnosť / firmu pomocou nepotvrdeného emailu.\r\nNa Váš emailový účet bol znovu odoslaný email pre potvrďenie registrácie.",
 
     // API Generic Common
     "UAE_900": "Nepodarilo sa aktualizovať údaje v databáze"
@@ -88,6 +93,10 @@
     "UAE_716": "Chyba počas získavania tokenu pre Apple účet",
     "UAE_717": "Chyba počas obnovenia tokenu pre Apple účet",
 
+    // Register Company
+    "UAE_750": "Počas registrácie živnosti / firmy nastala neočakavaná chyba\r\nChyba:",
+    "UAE_751": "Nie je možné registrovať živnosť / firmu pomocou nepotvrdeného emailu.\r\nNa Váš emailový účet bol znovu odoslaný email pre potvrďenie registrácie.",
+
     // API Generic Common
     "UAE_900": "Nepodarilo sa aktualizovať údaje v databáze"
   },
@@ -132,6 +141,10 @@
     "UAE_716": "Chyba při získávání tokenu pro Apple účet",
     "UAE_717": "Chyba při obnovení tokenu pro účet Apple",
 
+    // Register Company
+    "UAE_750": "Během registrace živnosti / firmy došlo k neočekávané chybě\r\nChyba:",
+    "UAE_751": "Není možné registrovat živnost / firmu pomocí nepotvrzeného emailu.\r\nNa váš emailový účet byl znovu odeslán email pro potvrzení registrace.",
+
     // API Generic Common
     "UAE_900": "Nepodařilo se aktualizovat údaje v databázi"
   },
@@ -174,6 +187,10 @@
     "UAE_715": "Fehlerhafte Antwort bei der Abfrage von Benutzerdaten durch den Anbieter",
     "UAE_716": "Fehler beim Abrufen des Tokens für das Apple-Konto",
     "UAE_717": "Fehler beim Aktualisieren des Tokens für das Apple-Konto",
+
+    // Register Company
+    "UAE_750": "Beim Registrieren des Unternehmens ist ein unerwarteter Fehler aufgetreten\r\nFehler:",
+    "UAE_751": "Es ist nicht möglich, ein Unternehmen mit einer nicht bestätigten E-Mail-Adresse zu registrieren.\r\nEine Bestätigungs-E-Mail wurde erneut an Ihr E-Mail-Konto gesendet.",
 
     // API Generic Common
     "UAE_900": "Datenbankaktualisierung der Daten ist fehlgeschlagen"
@@ -218,6 +235,10 @@
     "UAE_715": "Invalid response when querying user data through the provider",
     "UAE_716": "Error while retrieving the token for the Apple account",
     "UAE_717": "Error while refreshing token for Apple account",
+
+    // Register Company
+    "UAE_750": "An unexpected error occurred during company registration\r\nError:",
+    "UAE_751": "It is not possible to register a business/company using an unverified email.\r\nAn email to confirm registration has been resent to your email account.",
 
     // API Generic Common
     "UAE_900": "Failed to update data in the database"

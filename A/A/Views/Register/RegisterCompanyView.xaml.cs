@@ -25,6 +25,17 @@ namespace A.Views
     public partial class RegisterCompanyView : BasePage
     {
         bool _genericRegistration = false;
+
+        public bool GenericRegistration
+        {
+            get => _genericRegistration;
+            set
+            {
+                _genericRegistration = value;
+                OnPropertyChanged(nameof(GenericRegistration));
+            }
+        }
+
         bool _oAuthRegistration = false;
 
         public bool OAuthRegistration
@@ -92,7 +103,7 @@ namespace A.Views
             _provider = _registerCompanyViewModel.Provider;
 
             OAuthRegistration = _oAuthRegistration;
-            _genericRegistration = !_oAuthRegistration;
+            GenericRegistration = !_oAuthRegistration;
 
             this.lblTitleViewStep.Text = "1/4";
 
@@ -240,25 +251,25 @@ namespace A.Views
                 {
                     RegistrationCompanyRequest regCompData = new RegistrationCompanyRequest
                     {
-                        Id = App.UserData.UserIdentityData.Id,
+                        Id = App.UserData.UserIdentityData.Id != -1 ? App.UserData.UserIdentityData.Id : null,
                         CompanyName = this.EntryCompany.Text,
                         CIN = this.EntryCIN.Text,
                         Address = this.EntryAddress.Text,
                         PostalCode = this.EntryPostalCode.Text,
-                        CompanyDescription = this.EditorCompanyDescription.Text,
+                        Description = this.EditorCompanyDescription.Text,
 
                         // required
                         Email = this.EntryEmail.Text,
                         Phone = this.EntryPhone.Text,
-                        DistrictCompany = (DistrictDTO)this.DistrictPicker.SelectedItem,
-                        RegionCompany = (RegionDTO)this.DistrictPicker.SelectedItem,
+                        District = (DistrictDTO)this.DistrictPicker.SelectedItem,
+                        Region = (RegionDTO)this.DistrictPicker.SelectedItem,
                         City = (CityDTO)this.CityEntryPicker.SelectedItem,
                         Country = (CountryDTO)this.CountryPicker.SelectedItem,
                         ListCategories = this.ServiceCategoryList.GetChosenCategories()
                     };
 
 
-                    if (string.IsNullOrEmpty(this.EntryEmailRegister.Text) && string.IsNullOrEmpty(this.EntryPassword.Text))
+                    if (!string.IsNullOrEmpty(this.EntryEmailRegister.Text) && !string.IsNullOrEmpty(this.EntryPassword.Text))
                     {
                         RegisterGenericCredentials regGenericData = new RegisterGenericCredentials
                         {
@@ -275,6 +286,8 @@ namespace A.Views
                         regCompData.IsRegisteredByOAuth = true;
                     }
 
+                    regCompData.IsRegisteredByGenericMethod = _genericRegistration;
+
                     using MultipartFormDataContent content = new MultipartFormDataContent();
 
                     content.Add(new StringContent(regCompData.Id.ToString()), nameof(RegistrationCompanyRequest.Id));
@@ -284,33 +297,26 @@ namespace A.Views
                     content.Add(new StringContent(regCompData.Email), nameof(RegistrationCompanyRequest.Email));
                     content.Add(new StringContent(regCompData.Address), nameof(RegistrationCompanyRequest.Address));
                     content.Add(new StringContent(regCompData.PostalCode), nameof(RegistrationCompanyRequest.PostalCode));
-                    content.Add(new StringContent(regCompData.CompanyDescription), nameof(RegistrationCompanyRequest.CompanyDescription));
+                    content.Add(new StringContent(regCompData.Description), nameof(RegistrationCompanyRequest.Description));
                     content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.Country)), nameof(RegistrationCompanyRequest.Country));
                     content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.City)), nameof(RegistrationCompanyRequest.City));
-                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegionCompany)), nameof(RegistrationCompanyRequest.RegionCompany));
-                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.DistrictCompany)), nameof(RegistrationCompanyRequest.DistrictCompany));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.Region)), nameof(RegistrationCompanyRequest.Region));
+                    content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.District)), nameof(RegistrationCompanyRequest.District));
                     content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.ListCategories)), nameof(RegistrationCompanyRequest.ListCategories));
                     content.Add(new StringContent(JsonConvert.SerializeObject(regCompData.RegGenericData)), nameof(RegistrationCompanyRequest.RegGenericData));
                     content.Add(new StringContent(regCompData.IsRegisteredByOAuth ? "true" : "false"), nameof(RegistrationCompanyRequest.IsRegisteredByOAuth));
+                    content.Add(new StringContent(regCompData.IsRegisteredByGenericMethod ? "true" : "false"), nameof(RegistrationCompanyRequest.IsRegisteredByGenericMethod));
 
-                    // Add the image
+                    // Add the image to MediaType Header of HTTP POST
                     if (_imageData != null && _imageData.ImageStream != null)
                     {
                         _imageData.ImageStream.Position = 0;
 
                         var streamContent = new StreamContent(_imageData.ImageStream);
+                        streamContent.Headers.ContentType = new MediaTypeHeaderValue(GetImageFormat(_imageData.FileName));
 
-                        using var memoryStream = new MemoryStream();
-                        await streamContent.CopyToAsync(memoryStream);
-                        regCompData.Image = memoryStream.ToArray();
-
-                        var imageContent = new ByteArrayContent(regCompData.Image);
-                        imageContent.Headers.ContentType = new MediaTypeHeaderValue(GetImageFormat(_imageData.FileName));
-
-                        content.Add(imageContent, "Image", $"{_imageData.FileName}");
+                        content.Add(streamContent, "Image", $"{_imageData.FileName}");
                     }
-
-
                 }
             }
             catch (Exception ex)

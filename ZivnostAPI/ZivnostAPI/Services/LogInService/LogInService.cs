@@ -357,7 +357,7 @@ public class LogInService : ILogInService
                 _dataContext.Account.Add(account);
             }
 
-            DbActionResponse dbResponse = await _dataContext.SaveChangesWithCheckAsync();
+            DbActionResponse dbResponse = await _dataContext.ExtSaveChangesAsync();
 
             if (dbResponse.IsSucces)
             {

@@ -20,11 +20,10 @@ public class RegistrationCompanyRequest
 
     public required CountryDTO Country { get; set; }
     public required CityDTO City { get; set; }
-    public required RegionDTO RegionCompany { get; set; }
-    public required DistrictDTO DistrictCompany { get; set; }
-    public byte[]? Image { get; set; }
+    public required RegionDTO Region { get; set; }
+    public required DistrictDTO District { get; set; }
 
-    public string CompanyDescription { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
     public required List<CategoryDTO> ListCategories { get; set; }
 
@@ -32,4 +31,5 @@ public class RegistrationCompanyRequest
     public RegisterGenericCredentials? RegGenericData { get; set; }
 
     public bool IsRegisteredByOAuth { get; set; }
+    public bool IsRegisteredByGenericMethod { get; set; }
 }

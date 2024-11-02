@@ -43,15 +43,15 @@ public class CompanyService : ICompanyService
         if (company != null)
         {
             company.Name = reqCompany.Name;
-            company.ICO = reqCompany.ICO;
+            company.CIN = reqCompany.CIN;
             company.DIC = reqCompany.DIC;
             company.Description = reqCompany.Description;
 
             company.Email = reqCompany.Email;
-            company.PhoneNumber = reqCompany.PhoneNumber;
+            company.Phone = reqCompany.Phone;
 
             company.City_Id = reqCompany.City_Id;
-            company.Street = reqCompany.Street;
+            company.Address = reqCompany.Address;
             company.PostalCode = reqCompany.PostalCode;
 
             company.Subscribed = reqCompany.Subscribed;

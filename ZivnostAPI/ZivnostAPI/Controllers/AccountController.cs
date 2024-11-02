@@ -50,9 +50,7 @@ namespace ZivnostAPI.Controllers
                         account.IsHybridAccount = true;
                     }
 
-                    _dbContext.Entry(account).CurrentValues.SetValues(account);
-
-                    DbActionResponse dbResult = await _dbContext.SaveChangesWithCheckAsync();
+                    DbActionResponse dbResult = await _dbContext.ExtSaveChangesAsync();
                     
                     if (!dbResult.IsSucces)
                     {
